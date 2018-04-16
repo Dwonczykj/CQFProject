@@ -296,11 +296,12 @@ def return_barchart(categories,dataDic,name="",xlabel="",ylabel=""):
     fig.canvas.set_window_title(name)
 
     pos =  np.arange(len(categories))
-    rects = ax1.bar(pos, [dataDic[k][0] for k in categories],
-                     align='center',
-                     height=0.5, color=colorPicker(0),
-                     tick_label=categories)
-    ax1.set_title(student.name)
+    barLengths = list([dataDic[k][0] for k in categories])
+    #rects = ax1.bar(pos, height=[0.5]*len(barLengths), width=barLengths, align='center')#,
+    #                #color=colorPicker(0), 
+    #                #tick_label=categories
+    #                #)
+    #ax1.set_title(name)
 
     bar_width = 0.35
 
@@ -308,13 +309,15 @@ def return_barchart(categories,dataDic,name="",xlabel="",ylabel=""):
     error_config = {'ecolor': '0.3'}
 
     #use barh below for horizontal bars.
-    noOfRects = len(dataDic[list(dataDic.keys())[0]][0])
+    noOfRects = len(dataDic[list(dataDic.keys())[0]][:])
     rects = dict()
     for i in range(0,noOfRects):
-        rects[i] = ax1.bar(pos, [dataDic[k][i] for k in categories], bar_width,
-                    alpha=opacity, color=colorPicker(i),
-                    #yerr=std_men, error_kw=error_config,
-                    label="%d to default" % (i+1))
+        barLengths = list([dataDic[k][i] for k in categories])
+        rects[i] = ax1.bar(pos, height=barLengths,
+                          width=[bar_width]*len(barLengths), color=colorPicker(i),   
+                           alpha=opacity,
+                           #yerr=std_men, error_kw=error_config,
+                           label="%d to default" % (i+1))
 
     ax1.set_xlabel(xlabel)
     ax1.set_ylabel(ylabel)

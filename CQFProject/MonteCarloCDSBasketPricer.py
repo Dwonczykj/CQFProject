@@ -21,8 +21,8 @@ def SimulateCDSBasketDefaultsAndValueLegsT(TimeAtStart,CorP,NumbGen,M,HistCredit
     UniformityDic = dict()
     for i in range(2,4):
         UniformityDic["T Copula %d" % (i+1)] = UT[i,:]
-    plot_histogram_array(UniformityDic,"Simulated Ui T Copula")
-    plot_codependence_scatters(UniformityDic,"Simulated Ui T Copula")
+    #!plot_histogram_array(UniformityDic,"Simulated Ui T Copula")
+    #!plot_codependence_scatters(UniformityDic,"Simulated Ui T Copula")
     M_Min = 50
     Tolerance = 0.000001
     CompLegRunningAv = np.zeros(shape=(M,5))
@@ -41,10 +41,10 @@ def SimulateCDSBasketDefaultsAndValueLegsT(TimeAtStart,CorP,NumbGen,M,HistCredit
             sup = max(supRunningVarsCompLeg,supRunningVarsPremLeg)
             if(sup < Tolerance):
                 break
-    return_lineChart(np.arange(0,M),CompLegRunningAv.transpose(),"Compensation Leg Running Average (Student's T Copula)",xlabel="Iteration",ylabel="Running Average", legend=["1st to Default","2nd to Default","3rd to Default","4th to Default","5th to Default"])
-    return_lineChart(np.arange(0,M),PremLegRunningAv.transpose(),"Premium Leg Running Average (Student's T Copula)",xlabel="Iteration",ylabel="Running Average", legend=["1st to Default","2nd to Default","3rd to Default","4th to Default","5th to Default"])
-    return_lineChart(np.arange(0,len(runningVarCompLeg[0])),runningVarCompLeg,"Running Variance of Compensation Leg (Student's T Copula)",legend=["1st to Default","2nd to Default","3rd to Default","4th to Default","5th to Default"])
-    return_lineChart(np.arange(0,len(runningVarCompLeg[0])),runningVarPremLeg,"Running Variance of Premium Leg (Student's T Copula)",legend=["1st to Default","2nd to Default","3rd to Default","4th to Default","5th to Default"])
+    #!return_lineChart(np.arange(0,M),CompLegRunningAv.transpose(),"Compensation Leg Running Average (Student's T Copula)",xlabel="Iteration",ylabel="Running Average", legend=["1st to Default","2nd to Default","3rd to Default","4th to Default","5th to Default"])
+    #!return_lineChart(np.arange(0,M),PremLegRunningAv.transpose(),"Premium Leg Running Average (Student's T Copula)",xlabel="Iteration",ylabel="Running Average", legend=["1st to Default","2nd to Default","3rd to Default","4th to Default","5th to Default"])
+    #!return_lineChart(np.arange(0,len(runningVarCompLeg[0])),runningVarCompLeg,"Running Variance of Compensation Leg (Student's T Copula)",legend=["1st to Default","2nd to Default","3rd to Default","4th to Default","5th to Default"])
+    #!return_lineChart(np.arange(0,len(runningVarCompLeg[0])),runningVarPremLeg,"Running Variance of Premium Leg (Student's T Copula)",legend=["1st to Default","2nd to Default","3rd to Default","4th to Default","5th to Default"])
     tEnd = time.time()
     print("Took %.10f seconds to simulate %d iterations of T copulae and calculate legs from them." % (tEnd - TimeAtStart,M))
 
@@ -59,8 +59,8 @@ def SimulateCDSBasketDefaultsAndValueLegsGauss(TimeAtStart,CorP,NumbGen,M,HistCr
     UniformityDic = dict()
     for i in range(0,2):
         UniformityDic["Gaussian Copula %d" % (i+1)] = UNorm[i,:]
-    plot_histogram_array(UniformityDic,"Simulated Ui Gaussian Copula")
-    plot_codependence_scatters(UniformityDic,"Simulated Ui Gaussian Copula")
+    #!plot_histogram_array(UniformityDic,"Simulated Ui Gaussian Copula")
+    #!plot_codependence_scatters(UniformityDic,"Simulated Ui Gaussian Copula")
     M_Min = 50
     Tolerance = 0.000001
     CompLegRunningAv = np.zeros(shape=(M,5))
@@ -79,10 +79,10 @@ def SimulateCDSBasketDefaultsAndValueLegsGauss(TimeAtStart,CorP,NumbGen,M,HistCr
             sup = max(supRunningVarsCompLeg,supRunningVarsPremLeg)
             if(sup < Tolerance):
                 break
-    return_lineChart(np.arange(0,M),CompLegRunningAv.transpose(),"Compensation Leg Running Average (Gaussian Copula)",xlabel="Iteration",ylabel="Running Average", legend=["1st to Default","2nd to Default","3rd to Default","4th to Default","5th to Default"])
-    return_lineChart(np.arange(0,M),PremLegRunningAv.transpose(),"Premium Leg Running Average (Gaussian Copula)",xlabel="Iteration",ylabel="Running Average", legend=["1st to Default","2nd to Default","3rd to Default","4th to Default","5th to Default"])
-    return_lineChart(np.arange(0,len(runningVarCompLeg[0])),runningVarCompLeg,"Running Variance of Compensation Leg (Gaussian Copula)",legend=["1st to Default","2nd to Default","3rd to Default","4th to Default","5th to Default"])
-    return_lineChart(np.arange(0,len(runningVarCompLeg[0])),runningVarPremLeg,"Running Variance of Premium Leg (Gaussian Copula)",legend=["1st to Default","2nd to Default","3rd to Default","4th to Default","5th to Default"])
+    #!return_lineChart(np.arange(0,M),CompLegRunningAv.transpose(),"Compensation Leg Running Average (Gaussian Copula)",xlabel="Iteration",ylabel="Running Average", legend=["1st to Default","2nd to Default","3rd to Default","4th to Default","5th to Default"])
+    #!return_lineChart(np.arange(0,M),PremLegRunningAv.transpose(),"Premium Leg Running Average (Gaussian Copula)",xlabel="Iteration",ylabel="Running Average", legend=["1st to Default","2nd to Default","3rd to Default","4th to Default","5th to Default"])
+    #!return_lineChart(np.arange(0,len(runningVarCompLeg[0])),runningVarCompLeg,"Running Variance of Compensation Leg (Gaussian Copula)",legend=["1st to Default","2nd to Default","3rd to Default","4th to Default","5th to Default"])
+    #!return_lineChart(np.arange(0,len(runningVarCompLeg[0])),runningVarPremLeg,"Running Variance of Premium Leg (Gaussian Copula)",legend=["1st to Default","2nd to Default","3rd to Default","4th to Default","5th to Default"])
     tEnd = time.time()
     print("Took %.10f seconds to simulate %d iterations of Gaussian copulae and calculate legs from them." % (tEnd - TimeAtStart,M))
 
@@ -121,7 +121,7 @@ def CalculateFairSpreadFromLegs(CompensationLegSumsForEachRefName,PremiumLegSums
     for i in range(0,5):
         FairSpreads[i] = CompAv[i+1] / PremAv[i+1]
 
-    return_lineChart(range(1,6),[FairSpreads], "Fair spread for Kth to default (%s Copula)" % CopulaClass, xlabel="Kth to default")
+    #!return_lineChart(range(1,6),[FairSpreads], "Fair spread for Kth to default (%s Copula)" % CopulaClass, xlabel="Kth to default")
 
     t9 = time.time()
     print("Took %.10f seconds to print running statistics and calculate fair spreads from legs for %s Copula." % (t9 - t8,CopulaClass))
@@ -135,6 +135,6 @@ def FullMCFairSpreadValuation(startTime,LogRtnCorP,RankCorP,NumbGen,M,HistCredit
 
 
     GaussFairSpread,t9 = CalculateFairSpreadFromLegs(GaussLegs[0],GaussLegs[1],M,GaussLegs[2],"Gauss")
-    TFairSpread,t10 = CalculateFairSpreadFromLegs(TLegs[0],TLegs[1],M,TLegs[2],"T")
+    TFairSpread,t10 = CalculateFairSpreadFromLegs(TLegs[0],TLegs[1],M,t9,"T")
 
     return GaussFairSpread, TFairSpread, t10
