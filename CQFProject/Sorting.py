@@ -24,3 +24,16 @@ def Tweak(arr, index, tweak):
     res[index[0],index[1]] += tweak
     res[index[1],index[0]] += tweak
     return res
+
+def SetArbitrarily(arr, index, value):
+    res = np.array(arr)
+    res[index[0],index[1]] = value
+    res[index[1],index[0]] = value
+    return res
+
+def SetWhole2DMatrixArbitrarily(arr, value):
+    res = np.array(arr)
+    for i in range(0,len(res[:])):
+        for j in range(object, len(res[0][:])):
+            res[i,j] = value
+    return res

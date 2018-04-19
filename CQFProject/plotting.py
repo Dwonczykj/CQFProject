@@ -3,6 +3,7 @@ import matplotlib.lines as mlines
 from matplotlib.ticker import MaxNLocator
 import numpy as np
 import math
+import pandas as pd
 from CumulativeAverager import CumAverage
 from scipy.interpolate import interp1d
 from scipy import interpolate
@@ -29,7 +30,7 @@ def plot_DefaultProbs(x,y,name,legendArray):
 def showAllPlots():
     plt.show()
 
-def plot_codependence_scatters(dataDic,xlabel):
+def plot_codependence_scatters(dataDic,xlabel,ylabel=""):
     keys = list(dataDic.keys())
     ln = len(keys)
     nPlt = math.factorial(ln-1)
@@ -54,10 +55,10 @@ def plot_codependence_scatters(dataDic,xlabel):
         for j2 in range(j1+1,ln):
             key1 = keys[j1]
             key2 = keys[j2]
-            return_scatter(dataDic[key1],dataDic[key2],"%s vs %s" % (key1,key2),j+1,numCols,numRows,xlabel)
+            return_scatter(dataDic[key1],dataDic[key2],"%s vs %s" % (key1,key2),j+1,numCols,numRows,xlabel,ylabel) if ylabel != "" else return_scatter(dataDic[key1],dataDic[key2],"%s vs %s" % (key1,key2),j+1,numCols,numRows,xlabel)
             j += 1
 
-def return_scatter(xdata,ydata,name,numberPlot=1,noOfPlotsW=1, noOfPlotsH=1,xlabel = ""):
+def return_scatter(xdata,ydata,name,numberPlot=1,noOfPlotsW=1, noOfPlotsH=1,xlabel = "", ylabel="frequency/probability"):
     ''' Plots a scatter plot showing any co-dependency between 2 variables. '''
     if numberPlot==1:
         fig = plt.figure(figsize=(10, 6))
@@ -66,7 +67,7 @@ def return_scatter(xdata,ydata,name,numberPlot=1,noOfPlotsW=1, noOfPlotsH=1,xlab
     plt.subplot(noOfPlotsW,noOfPlotsH,numberPlot)
     x = np.linspace(min(xdata), max(xdata), 100)
     plt.xlabel(xlabel)
-    plt.ylabel('frequency/probability')
+    plt.ylabel(ylabel)
     plt.title(name[:70] + '\n' + name[70:])
     plt.grid(True)
     plt.scatter(x=xdata,y=ydata)
@@ -256,7 +257,7 @@ def FittedValuesLinear(x,y,ReturnCubicFitted=True,name="",numberOfPointsToReturn
     tck = interpolate.splrep(x, y, s=0)
     f_cubic = interp1d(x, y, kind='cubic')   
     f_lin = interp1d(x, y)
-    xLin = np.linspace(min(x),max(x),endpoint=True,num=numberOfPointsToReturn)
+    xLin = np.linspace(np.min(x),max(x),endpoint=True,num=numberOfPointsToReturn)
     yLin = interpolate.splev(xLin,tck,der=0)
     plt.plot(x, y, 'o', xLin, f_lin(xLin), '-', xLin, yLin, '--')
     plt.legend(['data', 'linear', 'cubic'], loc='best')
@@ -267,7 +268,7 @@ def FittedValuesLinear(x,y,ReturnCubicFitted=True,name="",numberOfPointsToReturn
     else:
         return f_lin(xLin)
 
-def return_lineChart(x,arrLines,name,numberPlot=1,noOfPlotsW=1, noOfPlotsH=1,xlabel = "",ylabel="",legend=[]):
+def return_lineChart(x,arrLines,name,numberPlot=1,noOfPlotsW=1, noOfPlotsH=1,xlabel = "",ylabel="",legend=[], xticks=[], yticks=[]):
     ''' Plots all lines on the same chart against x.'''
     if numberPlot==1:
         fig = plt.figure(figsize=(10, 6))
@@ -280,16 +281,42 @@ def return_lineChart(x,arrLines,name,numberPlot=1,noOfPlotsW=1, noOfPlotsH=1,xla
         plt.plot(x, y, linewidth=2)
     plt.xlabel(xlabel)
     plt.ylabel(ylabel)
+    if(len(xticks)>0):
+        plt.xticks(xticks)
+    if(len(yticks)>0):
+        plt.yticks(yticks)
     plt.title(name[:70] + '\n' + name[70:])
     if len(legend) > 0:
         plt.legend(legend,loc='best')
     plt.grid(True)
 
+
+def return_lineChart_dates(x,arrLines,name,numberPlot=1,noOfPlotsW=1, noOfPlotsH=1,xlabel = "",ylabel="",legend=[], yticks=[]):
+    ''' Plots all lines on the same chart against x.'''
+    if numberPlot==1:
+        fig = plt.figure(figsize=(10, 6))
+        fig.canvas.set_window_title(name)
+        fig.canvas.figure.set_label(name)
+    plt.subplot(noOfPlotsW,noOfPlotsH,numberPlot)
+    xLin = np.linspace(pd.Timestamp(x[0]).value, pd.Timestamp(x[-1]).value, 100)
+    #y = dN(x, np.mean(x), np.std(x))
+    for y in arrLines:
+        plt.plot(x, y, linewidth=2)
+    plt.xlabel(xlabel)
+    plt.ylabel(ylabel)
+    if(len(yticks)>0):
+        plt.yticks(yticks)
+    plt.title(name[:70] + '\n' + name[70:])
+    if len(legend) > 0:
+        plt.legend(legend,loc='best')
+    plt.grid(True)
+
+
 def colorPicker(i): #https://matplotlib.org/users/colors.html
     colors = ["aqua","green","magenta","navy","red","salmon","sienna","yellow","olive","orange","chartreuse","coral","crimson","cyan","black","brown","darkgreen","fuchsia","gold","grey","khaki","lavender","pink","purple"]
     return colors[(i % len(colors))]
 
-def return_barchart(categories,dataDic,name="",xlabel="",ylabel=""):
+def return_barchart_old(categories,dataDic,name="",xlabel="",ylabel=""):
     #  create the figure
     fig, ax1 = plt.subplots(figsize=(9, 7))
     fig.subplots_adjust(left=0.115, right=0.88)
@@ -311,17 +338,18 @@ def return_barchart(categories,dataDic,name="",xlabel="",ylabel=""):
     #use barh below for horizontal bars.
     noOfRects = len(dataDic[list(dataDic.keys())[0]][:])
     rects = dict()
+    colors = ["aqua","green","magenta","navy","red"]
     for i in range(0,noOfRects):
-        barLengths = list([dataDic[k][i] for k in categories])
+        barLengths = list([dataDic[k][i] for k in categories]).sort(reverse=True)
+        color = colorPicker(i*5)
         rects[i] = ax1.bar(pos, height=barLengths,
-                          width=[bar_width]*len(barLengths), color=colorPicker(i),   
-                           alpha=opacity,
+                          width=[bar_width]*len(barLengths), color=colors[i],   
+                           alpha=opacity,label="%d to default" % (i+1))
                            #yerr=std_men, error_kw=error_config,
-                           label="%d to default" % (i+1))
-
+                           
     ax1.set_xlabel(xlabel)
     ax1.set_ylabel(ylabel)
-    ax1.set_title(name)
+    ax1.set_title(name[:70] + '\n' + name[70:])
     ax1.set_xticks(pos + bar_width / 2)
     ax1.set_xticklabels(list(dataDic.keys()))
     ax1.legend()
@@ -368,3 +396,49 @@ def return_barchart(categories,dataDic,name="",xlabel="",ylabel=""):
             #'cohort_label': cohort_label
             }
     #https://matplotlib.org/gallery/statistics/barchart_demo.html
+
+def return_barchart(categories,dataDic,name="",xlabel="",ylabel="", ScalingAmount=1.0):
+
+    fig = plt.figure(figsize=(10, 6))
+    fig.subplots_adjust(left=0.115, right=0.88)
+    fig.canvas.set_window_title(name)
+    fig.canvas.figure.set_label(name)
+
+    columns = tuple(categories.values)
+    rows = ['%d to default' % (x+1) for x in np.arange(len(dataDic[list(dataDic.keys())[0]][:]))] 
+
+    data = list([dataDic[k][:] for k in categories])
+
+    # Get some pastel shades for the colors
+    colors = plt.cm.BuPu(np.linspace(0, 0.5, len(rows)))
+    n_rows = len(data)
+
+    index = np.arange(len(columns)) + 0.3
+    bar_width = 0.4
+
+    # Initialize the vertical-offset for the stacked bar chart.
+    y_offset = np.zeros(len(columns))
+
+    # Plot bars and create text labels for the table
+    cell_text = []
+    for row in range(n_rows):
+        plt.bar(index, data[row], bar_width, bottom=y_offset, color=colors[row])
+        y_offset = y_offset + data[row]
+        cell_text.append(['%1.10f' % (x/ScalingAmount) for x in y_offset])
+
+    # Add a table at the bottom of the axes
+    the_table = plt.table(cellText=cell_text,
+                          rowLabels=rows,
+                          rowColours=colors,
+                          colLabels=columns,
+                          loc='bottom')
+
+    # Adjust layout to make room for the table:
+    plt.subplots_adjust(left=0.2, bottom=0.2)
+
+    plt.ylabel(ylabel)
+    #plt.yticks(values * value_increment, ['%d' % val for val in values])
+    plt.xticks([])
+    plt.title(name[:70] + '\n' + name[70:])
+
+    #https://matplotlib.org/gallery/misc/table_demo.html#sphx-glr-gallery-misc-table-demo-py

@@ -22,7 +22,7 @@ def SimulateCDSBasketDefaultsAndValueLegsT(TimeAtStart,CorP,NumbGen,M,HistCredit
     for i in range(2,4):
         UniformityDic["T Copula %d" % (i+1)] = UT[i,:]
     #!plot_histogram_array(UniformityDic,"Simulated Ui T Copula")
-    #!plot_codependence_scatters(UniformityDic,"Simulated Ui T Copula")
+    plot_codependence_scatters(UniformityDic,"Simulated Ui T Copula", "Simulated Uj T Copula")
     M_Min = 50
     Tolerance = 0.000001
     CompLegRunningAv = np.zeros(shape=(M,5))
@@ -60,7 +60,7 @@ def SimulateCDSBasketDefaultsAndValueLegsGauss(TimeAtStart,CorP,NumbGen,M,HistCr
     for i in range(0,2):
         UniformityDic["Gaussian Copula %d" % (i+1)] = UNorm[i,:]
     #!plot_histogram_array(UniformityDic,"Simulated Ui Gaussian Copula")
-    #!plot_codependence_scatters(UniformityDic,"Simulated Ui Gaussian Copula")
+    #!plot_codependence_scatters(UniformityDic,"Simulated Ui Gaussian Copula","Simulated Uj Gaussian Copula")
     M_Min = 50
     Tolerance = 0.000001
     CompLegRunningAv = np.zeros(shape=(M,5))
