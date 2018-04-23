@@ -12,28 +12,6 @@ def measure(n):
     m2 = np.random.normal(scale=0.5, size=n)
     return m1+m2, m1-m2
 
-def test1():
-    m1, m2 = measure(2000)
-    xmin = m1.min()
-    xmax = m1.max()
-    ymin = m2.min()
-    ymax = m2.max()
-
-    X, Y = np.mgrid[xmin:xmax:100j, ymin:ymax:100j]
-    positions = np.vstack([X.ravel(), Y.ravel()])
-    values = np.vstack([m1, m2])
-    kernel = stats.gaussian_kde(values)
-    Z = np.reshape(kernel(positions).T, X.shape)
-
-
-    fig, ax = plt.subplots()
-    ax.imshow(np.rot90(Z), cmap=plt.cm.gist_earth_r,
-              extent=[xmin, xmax, ymin, ymax])
-    ax.plot(m1, m2, 'k.', markersize=2)
-    ax.set_xlim([xmin, xmax])
-    ax.set_ylim([ymin, ymax])
-    plt.show()
-
 def kde_statsmodels_u(x, x_grid, bandwidth=0.2, **kwargs):
     """Univariate Kernel Density Estimation with Statsmodels"""
     kde = KDEUnivariate(x)
@@ -108,7 +86,7 @@ def GenerateExceedances():
     c=0.1
     rv = genpareto(c)
     x = np.linspace(min(exceedances), max(exceedances),100)
-    fits = genpareto.fit(exceedances,c)
+    fits = genpareto.fit(exceedances)
     plt.hist(np.array(exceedances), bins=3, normed=True)
     y =  rv.pdf(x)#dN(x, np.mean(data), np.std(data))
     plt.title("Generalised Pareto on Normal Exceedances")
@@ -117,10 +95,3 @@ def GenerateExceedances():
     plt.show()
             
     return exceedances
-
-def testGP():
-    c=0.1
-    x = np.linspace(genpareto.ppf(0.01, c),
-              genpareto.ppf(0.99, c), 100)
-    ax.plot(x, genpareto.pdf(x, c),
-         'r-', lw=5, alpha=0.6, label='genpareto pdf')
