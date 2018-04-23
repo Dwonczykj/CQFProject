@@ -167,6 +167,67 @@ def dExp(x, rate):
     expL = lambda x: 0 if x < 0 else rate * np.exp(-1 * rate * x)
     return np.fromiter(map(expL,x),dtype=np.float)
 
+def QQPlot(rvs,name):
+    ''' QQ plot to check normaility of random variables.
+    Parameters
+    ==========
+    rvs : float[]
+        rvs to be tested for normality
+    '''
+    measurements = np.random.normal(loc = 20, scale = 5, size=100)
+    fig = plt.figure(figsize=(10, 6))
+    fig.canvas.set_window_title(name)
+    fig.canvas.figure.set_label(name)
+    plt.title(name[:70] + '\n' + name[70:])
+    plt.grid(True)
+    stats.probplot(measurements, dist="norm", plot=plt)
+
+#def dGeneralisedPareto(x, k=0, sigma=1, theta=0):
+#    ''' Probability density function of an Generalised Pareto random variable x.
+#    Parameters
+#    ==========
+#    k : float
+#        shape of Generalised Pareto distn
+#        defaults to 0
+#    ==========
+#    sigma : float
+#        scale of Generalised Pareto distn
+#        defaults to 1
+#    ==========
+#    theta : float
+#        threshold location parameter of Generalised Pareto distn
+#        defaults to 0
+#    =======
+#    pdf : float
+#        value of probability density function
+#    '''
+
+def cdfGEV(x, k=0, sigma=1, theta=0):
+    ''' Cumulative density function for family of Generalised Extreme Value distribution.
+    Parameters
+    ==========
+    k : float
+        shape of Generalised Pareto distn
+        defaults to 0
+    ==========
+    sigma : float
+        scale of Generalised Pareto distn
+        defaults to 1
+    ==========
+    theta : float
+        threshold location parameter of Generalised Pareto distn
+        defaults to 0
+    =======
+    pdf : float
+        value of probability density function
+    '''
+    cd = 0
+    if not k == 0:
+        cd = math.exp(-1 * math.pow(1 + (k*(x-theta))/(sigma), (-1)/(k) ) )
+    else:
+        cd = math.exp(-1 * math.exp( (-1*(x-theta))/(sigma) ) )
+    return cd
+
 def dExpForPiecewiselambda(rates, tenors):
     ''' Probability density function of an Exponential random variable x using piecewise constant lambda to display varying rates.
     Parameters

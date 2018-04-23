@@ -16,6 +16,7 @@ from Sorting import *
 from LowDiscrepancyNumberGenerators import SobolNumbers
 from Logger import convertToLaTeX, printf
 from MonteCarloCDSBasketPricer import CalculateFairSpreadFromLegs, SimulateCDSBasketDefaultsAndValueLegsGauss, SimulateCDSBasketDefaultsAndValueLegsT, FullMCFairSpreadValuation
+from ProbabilityIntegralTransform import *
 #from SimulateLegs import SimulateLegPricesFromCorrelationNormal, SimulateLegPricesFromCorrelationT, UnifFromGaussCopula, UnifFromTCopula
 #from RunningMoments import RunningAverage, RunningVariance
 #from sklearn.grid_search import GridSearchCV
@@ -32,6 +33,8 @@ from MonteCarloCDSBasketPricer import CalculateFairSpreadFromLegs, SimulateCDSBa
 #ax.hist(x, 30, fc='gray', histtype='stepfilled', alpha=0.3, normed=True)
 #ax.legend(loc='upper left')
 #ax.set_xlim(-4.5, 3.5);
+
+GenerateExceedances()
 
 cwd = os.getcwd()
 Datafp = cwd + '/FinalProjData.xlsx'
@@ -104,13 +107,13 @@ for i in range(1,6):
     #TransformedHistDataLengthDic[IndKey] = len(TransformedHistDataDic[IndKey])
     #HistDefaults[IndKey] = pd.Series(HistCreditSpreads[IndKey].values).apply(Bootstrap5yrDP)
     
-return_lineChart_dates(HistCreditSpreads['Date'].values,[
-    list(HistCreditSpreads[HistCreditSpreads.columns[1]]),
-    list(HistCreditSpreads[HistCreditSpreads.columns[2]]), 
-    list(HistCreditSpreads[HistCreditSpreads.columns[3]]), 
-    list(HistCreditSpreads[HistCreditSpreads.columns[4]]), 
-    list(HistCreditSpreads[HistCreditSpreads.columns[5]])
-    ],name="Historical Credit Spreads Data", xlabel="Historical Date", ylabel="Spread", legend=list(HistCreditSpreads.columns[1:]))
+#!return_lineChart_dates(HistCreditSpreads['Date'].values,[
+#    list(HistCreditSpreads[HistCreditSpreads.columns[1]]),
+#    list(HistCreditSpreads[HistCreditSpreads.columns[2]]), 
+#    list(HistCreditSpreads[HistCreditSpreads.columns[3]]), 
+#    list(HistCreditSpreads[HistCreditSpreads.columns[4]]), 
+#    list(HistCreditSpreads[HistCreditSpreads.columns[5]])
+#    ],name="Historical Credit Spreads Data", xlabel="Historical Date", ylabel="Spread", legend=list(HistCreditSpreads.columns[1:]))
     
 t4 = time.time()
 print("Took %.10f seconds to grab Historical Spreads and Transform the data by its Empirical CDF." % (t4 - t3))  

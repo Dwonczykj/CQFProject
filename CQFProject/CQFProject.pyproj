@@ -36,7 +36,7 @@
     </Compile>
     <Compile Include="NumericalIntegration.py" />
     <Compile Include="plotting.py" />
-    <Compile Include="PseudoRandomNumberGenerators.py">
+    <Compile Include="ProbabilityIntegralTransform.py">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Returns.py">
