@@ -5,6 +5,7 @@ from scipy.stats.distributions import norm
 from statsmodels.nonparametric.kde import KDEUnivariate
 from statsmodels.nonparametric.kernel_density import KDEMultivariate
 from scipy.stats import genpareto
+from Returns import mean, sd
 
 def measure(n):
     "Measurement model, return two coupled measurements."
@@ -107,9 +108,46 @@ def GenerateEVTKernelSmoothing():
     exceedances = list()
     u = 2
     for rvs in c1:
-        if rvs > u:
-            exceedances.append(rvs - u)
+        if abs(rvs) > u:
+            exceedances.append(abs(rvs) - u)
     
     fits = genpareto.fit(exceedances)
-
+    plt.hist(np.array(c1), bins=15, normed=True)
     plt.title("Generalised Pareto on Normal Exceedances")
+
+    plt.plot(x, HybridNormalGPDCDF(x,u,mean(c1),sd(c1),fits[0],loc=fits[1],scale=fits[2]), linewidth=2)
+    plt.plot(x, HybridNormalGPDPDF(x,u,mean(c1),sd(c1),fits[0],loc=fits[1],scale=fits[2]), linewidth=2)
+    plt.legend(["Guess","Fitted_CDF","Fitted_PDF"],loc='best')
+
+    plt.show()
+
+def HybridNormalGPDCDF(xs, u, mu, sigma, shape, loc, scale):
+    out = list()
+    l = (mu - abs(u - mu))
+    h = (mu + abs(u - mu))
+    print('u = %.10f,l = %.10f,h = %.10f'%(u,l,h))
+    for x in xs:
+        if x < l:
+            nrm = norm.cdf(l,mu,sigma)
+            out.append(nrm*(1-genpareto.cdf(l - x, shape, loc=loc, scale=scale)))
+        elif x > (mu + abs(u - mu)):
+            nrm = norm.cdf(h,mu,sigma)
+            out.append((1 - nrm)*genpareto.cdf(x - h, shape, loc=loc, scale=scale) + nrm)
+        else:
+            out.append(norm.cdf(x,mu,sigma))
+    return out
+
+def HybridNormalGPDPDF(xs, u, mu, sigma, shape, loc, scale):
+    out = list()
+    for x in xs:
+        if x < (mu - abs(u - mu)):
+            nrm_p = norm.pdf((mu - abs(u - mu)),mu,sigma)
+            nrm_c = norm.cdf((mu - abs(u - mu)),mu,sigma)
+            out.append((nrm_p*(1-genpareto.cdf((mu - abs(u - mu)) - x,shape, loc=loc, scale=scale))) + (nrm_c*(1-genpareto.pdf((mu - abs(u - mu)) - x,shape, loc=loc, scale=scale))))
+        elif x > (mu + abs(u - mu)):
+            nrm_c = norm.cdf((mu + abs(u - mu)),mu,sigma)
+            nrm_p = norm.pdf((mu + abs(u - mu)),mu,sigma)
+            out.append(((1 - nrm_p)*genpareto.cdf(x-(mu + abs(u - mu)), shape, loc=loc, scale=scale) + (1 - nrm_c)*genpareto.pdf(x-(mu + abs(u - mu)), shape, loc=loc, scale=scale) + nrm_p))
+        else:
+            out.append(norm.pdf(x,mu,sigma))
+    return out
