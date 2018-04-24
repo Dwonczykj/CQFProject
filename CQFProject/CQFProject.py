@@ -33,8 +33,8 @@ from ProbabilityIntegralTransform import *
 #ax.hist(x, 30, fc='gray', histtype='stepfilled', alpha=0.3, normed=True)
 #ax.legend(loc='upper left')
 #ax.set_xlim(-4.5, 3.5);
-
 GenerateExceedances()
+GenerateEVTKernelSmoothing()
 
 cwd = os.getcwd()
 Datafp = cwd + '/FinalProjData.xlsx'

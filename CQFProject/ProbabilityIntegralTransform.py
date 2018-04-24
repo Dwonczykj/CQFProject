@@ -82,16 +82,34 @@ def GenerateExceedances():
     exceedances = list()
     for rvs in c1:
         if rvs > 2:
-            exceedances.append(rvs)
+            exceedances.append(rvs - 2)
     c=0.1
     rv = genpareto(c)
     x = np.linspace(min(exceedances), max(exceedances),100)
     fits = genpareto.fit(exceedances)
-    plt.hist(np.array(exceedances), bins=3, normed=True)
+    frozen_rv_fitted = genpareto(fits)
+    plt.hist(np.array(exceedances), bins=10, normed=True)
     y =  rv.pdf(x)#dN(x, np.mean(data), np.std(data))
     plt.title("Generalised Pareto on Normal Exceedances")
     plt.plot(x, y, linewidth=2)
-
+    plt.plot(x, genpareto.pdf(x,fits[0],loc=fits[1],scale=fits[2]), linewidth=2)
+    plt.legend(["Guess","Fitted"],loc='best')
     plt.show()
             
     return exceedances
+
+def GenerateEVTKernelSmoothing():
+    nobs = 300
+    c1 = np.random.standard_t(3,size=(nobs))
+    
+    x = np.linspace(min(c1), max(c1),100)
+
+    exceedances = list()
+    u = 2
+    for rvs in c1:
+        if rvs > u:
+            exceedances.append(rvs - u)
+    
+    fits = genpareto.fit(exceedances)
+
+    plt.title("Generalised Pareto on Normal Exceedances")
