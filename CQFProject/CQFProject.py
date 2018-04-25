@@ -107,7 +107,7 @@ for i in range(1,6):
     #! For spearman, we rank the data using the Empirical CDF and then look at the correlation of the ranks.
     
     EmpFnForHistSpread[IndKey] = Empirical_StepWise_CDF(quickSort(DifferencesDic[IndKey].values))
-    SemiParamametric[IndKey] = SemiParametricCDFFit(list(HistDataDic[IndKey]['Spreads']),np.percentile(HistDataDic[IndKey]['Spreads'],95))
+    SemiParamametric[IndKey] = SemiParametricCDFFit(list(HistDataDic[IndKey]['Spreads']),np.percentile(HistDataDic[IndKey]['Spreads'],95),EmpFnForHistSpread[IndKey])
     TransformedHistDataDic[IndKey] = pd.Series(DifferencesDic[IndKey].values).apply(EmpFnForHistSpread[IndKey])#TODO: Add extreme value theory for tails of ECDF by replacing EmpFin with Kernel Smoothed function.
     CanonicallyTransformedHistDataDic[IndKey] = HistDataDic[IndKey]['Spreads'].apply(TransformedHistDataDic[IndKey]['%.10f'%(np.percentile(HistDataDic[IndKey]['Spreads'],95))][0]) #todo compare to empcdf in plot
     #TransformedHistDataLengthDic[IndKey] = len(TransformedHistDataDic[IndKey])
