@@ -6,6 +6,7 @@ from statsmodels.nonparametric.kde import KDEUnivariate
 from statsmodels.nonparametric.kernel_density import KDEMultivariate
 from scipy.stats import genpareto
 from Returns import mean, sd
+from bisect import bisect_left
 
 def measure(n):
     "Measurement model, return two coupled measurements."
@@ -13,13 +14,67 @@ def measure(n):
     m2 = np.random.normal(scale=0.5, size=n)
     return m1+m2, m1-m2
 
+def takeClosest(myList, myNumber):
+    """
+    Assumes myList is sorted. Returns closest value to myNumber.
+
+    If two numbers are equally close, return the smallest number.
+    """
+    pos = bisect_left(myList, myNumber)
+    if pos == 0:
+        return myList[0]
+    if pos == len(myList):
+        return myList[-1]
+    before = myList[pos - 1]
+    after = myList[pos]
+    if after - myNumber < myNumber - before:
+       return after
+    else:
+       return before
+
+def takeIndexOfClosest(myList, myNumber):
+    """
+    Assumes myList is sorted. Returns closest index of value to myNumber.
+
+    If two numbers are equally close, return the smallest number.
+    """
+    pos = bisect_left(myList, myNumber)
+    if pos == 0:
+        return myList[0]
+    if pos == len(myList):
+        return myList[-1]
+    before = myList[pos - 1]
+    after = myList[pos]
+    if after - myNumber < myNumber - before:
+       return after
+    else:
+       return before
+
 def kde_statsmodels_u(x, x_grid, bandwidth=0.2, **kwargs):
     """Univariate Kernel Density Estimation with Statsmodels"""
     kde = KDEUnivariate(x)
     kde.fit(bw=bandwidth, **kwargs)
     return kde.evaluate(x_grid)
 
-def kde_statsmodels_m(x, x_grid, bandwidth=0.2, **kwargs):
+def kde_statsmodels_m_pdf(x, x_grid, bandwidth=0.2, **kwargs):
+    """Multivariate Kernel Density Estimation with Statsmodels"""
+    #kde = KDEMultivariate(x, bw=bandwidth * np.ones_like(x),
+    #                      var_type='c', **kwargs)
+    #! bw = "cv_ml", "cv_ls", "normal_reference", np.array([0.23])    
+    pdf = kde_statsmodels_m_pdf_output(x, x_grid, bandwidth, **kwargs)
+    x_grid_sorted = sorted(x_grid)
+    def sub(x):
+        def f(t):
+            ind = int(takeIndexOfClosest(x_grid_sorted,t))
+            if pdf[ind] <= t:
+                return ((pdf[ind+1] - pdf[ind])/(x_grid_sorted[ind + 1] - x_grid_sorted[ind]))*(t - x_grid_sorted[ind]) if ind < len(pdf) else 0
+            else:
+                return ((pdf[ind] - pdf[ind-1])/(x_grid_sorted[ind] - x_grid_sorted[ind-1]))*(t-x_grid_sorted[ind-1]) if ind > 0 else 0
+        m = np.fromiter(map(f,list(x)),dtype=np.float)
+        return m[0] if len(m) == 1 else m
+    return sub
+
+def kde_statsmodels_m_pdf_output(x, x_grid, bandwidth=0.2, **kwargs):
     """Multivariate Kernel Density Estimation with Statsmodels"""
     #kde = KDEMultivariate(x, bw=bandwidth * np.ones_like(x),
     #                      var_type='c', **kwargs)
@@ -27,26 +82,57 @@ def kde_statsmodels_m(x, x_grid, bandwidth=0.2, **kwargs):
     kde = KDEMultivariate(data=x,
         var_type='c', bw="cv_ml")
     print(kde.bw)
-    return kde.pdf(x_grid)
+    x_grid_sorted = sorted(x_grid)
+    pdf = kde.pdf(x_grid_sorted)
+    return pdf
+
+def kde_statsmodels_m_cdf(x, x_grid, bandwidth=0.2, **kwargs):
+    """Multivariate Kernel Cumulative Density Estimation with Statsmodels"""
+    #kde = KDEMultivariate(x, bw=bandwidth * np.ones_like(x),
+    #                      var_type='c', **kwargs)
+    #! bw = "cv_ml", "cv_ls", "normal_reference", np.array([0.23])
+    cdf = kde_statsmodels_m_cdf_output(x, x_grid, bandwidth, **kwargs)
+    x_grid_sorted = sorted(x_grid)
+    def sub(x):
+        def f(t):
+            ind = int(takeIndexOfClosest(x_grid_sorted,t))
+            if cdf[ind] <= t:
+                return ((cdf[ind+1] - cdf[ind])/(x_grid_sorted[ind + 1] - x_grid_sorted[ind]))*(t - x_grid_sorted[ind]) if ind < len(cdf) else 0
+            else:
+                return ((cdf[ind] - cdf[ind-1])/(x_grid_sorted[ind] - x_grid_sorted[ind-1]))*(t-x_grid_sorted[ind-1]) if ind > 0 else 0
+        m = np.fromiter(map(f,list(x)),dtype=np.float)
+        return m[0] if len(m) == 1 else m
+    return sub
+
+def kde_statsmodels_m_cdf_output(x, x_grid, bandwidth=0.2, **kwargs):
+    """Multivariate Kernel Cumulative Density Estimation with Statsmodels"""
+    #kde = KDEMultivariate(x, bw=bandwidth * np.ones_like(x),
+    #                      var_type='c', **kwargs)
+    #! bw = "cv_ml", "cv_ls", "normal_reference", np.array([0.23])
+    kde = KDEMultivariate(data=x,
+        var_type='c', bw="cv_ml")
+    print(kde.bw)
+    x_grid_sorted = sorted(x_grid)
+    cdf = kde.cdf(x_grid_sorted)
+    return cdf
 
 def test():
     # The grid we'll use for plotting
     x_grid = np.linspace(-4.5, 3.5, 1000)
 
-    # Draw points from a bimodal distribution in 1D
+    # Draw points from a bimodal distribution in 1D to fit a Kernel Smoother
     np.random.seed(0)
     x = np.concatenate([norm(-1, 1.).rvs(400),
                         norm(1, 0.3).rvs(100)]).reshape((500,1))
     
-    #x = np.random.normal(-1,1.,size=(400,1))
-
+    #Compare Kernel Smoother to the follwoing curve
     pdf_true = (0.8 * norm(-1, 1).pdf(x_grid) +
                 0.2 * norm(1, 0.3).pdf(x_grid))
 
-    fig, ax = plt.subplots(1, 3, sharey=True,
+    fig, ax = plt.subplots(1, 4, sharey=True,
                        figsize=(13, 3))
     fig.subplots_adjust(wspace=0)
-    plt.subplot(1,3,1)
+    plt.subplot(1,4,1)
 
     pdf = kde_statsmodels_u(x, x_grid, bandwidth=0.2)
     plt.plot(x_grid, pdf, color='blue', alpha=0.5, lw=3)
@@ -54,16 +140,24 @@ def test():
     plt.title("StatsModel-U")
     plt.xlim(-4.5, 3.5)
 
-    plt.subplot(1,3,2)
-    #x_grid = np.linspace(-0.5, 0.5, 1000)
-    pdf = kde_statsmodels_m(x, x_grid, bandwidth=0.2)
+    plt.subplot(1,4,2)
+    pdf = kde_statsmodels_m_pdf_output(x,x_grid, bandwidth=0.2)
     plt.plot(x_grid, pdf, color='blue', alpha=0.5, lw=3)
     plt.fill(x_grid, pdf_true, ec='gray', fc='gray', alpha=0.4)
     plt.title("StatsModel-M")
     plt.xlim(-4.5, 3.5)
 
-    plt.subplot(1,3,3)
+    cdf_true = (0.8 * norm(-1, 1).cdf(x_grid) +
+                0.2 * norm(1, 0.3).cdf(x_grid))
+    cdf = kde_statsmodels_m_cdf_output(x, x_grid, bandwidth=0.2)
+    plt.subplot(1,4,3)
+    plt.plot(x_grid, cdf, color='red', alpha=0.5, lw=3)
+    plt.plot(x_grid, norm(-1,0.5).cdf(x_grid), color='green', alpha=0.5, lw=3)
+    plt.fill(x_grid, cdf_true, ec='gray', fc='gray', alpha=0.4)
+    plt.title("StatsModel-M_CDF")
+    plt.xlim(-4.5, 3.5)
 
+    plt.subplot(1,4,4)
     nobs = 300
     np.random.seed(1234)  # Seed random generator
     c1 = np.random.normal(size=(nobs,1))
@@ -76,6 +170,8 @@ def test():
     plt.title("StatsModel-M")
     plt.xlim(-4.5, 3.5)
     plt.show()
+
+
 
 def GenerateExceedances():
     nobs = 300
@@ -128,27 +224,48 @@ def GenerateEVTKernelSmoothing():
     
     x = np.linspace(min(c1), max(c1),1000)
 
-    exceedances = list()
-    us = [norm.ppf(0.9),norm.ppf(0.95),norm.ppf(0.99)]
-    fig, ax = plt.subplots(1, len(us), sharey=True,
-                           figsize=(7, 7))
+    
+    us = [norm.ppf(0.975)]
+    fig, ax = plt.subplots(2, len(us), sharey=True,
+                           figsize=(7, 7*len(us)))
     fig.subplots_adjust(wspace=0)
-    plt.hist(np.array(c1), bins=15, normed=True)
-    plt.title("Generalised Pareto on Normal Exceedances")
-    plt.legend(["Fitted_HybridCDF", "Fitted_NormalCDF", "Fitted_PDF", "Fitted_Normal_CDF", "Student_T Hist"],loc='best')
     i = 1
     for u in us:
+        exceedances = list()
+        internals = list()
         for rvs in c1:
             if abs(rvs) > u:
                 exceedances.append(abs(rvs) - u)
+            else:
+                internals.append(rvs)
     
         fits = genpareto.fit(exceedances)
-        plt.subplot(1,len(us),i)
+        internals = np.array(internals).reshape((len(internals),1))
+        #c1s = np.array(c1).reshape((len(c1),1))
+        #cdf_smoother = kde_statsmodels_m_cdf(internals,x,bandwidth=0.2)
+        #pdf_smoother = kde_statsmodels_m_pdf(internals,x,bandwidth=0.2)
+        plt.subplot(2,len(us),i)
         plt.plot(x, HybridNormalGPDCDF(x,u,mean(c1),sd(c1),fits[0],loc=fits[1],scale=fits[2]), linewidth=2)
         plt.plot(x, norm.cdf(x,mean(c1),sd(c1)), linewidth=2)
         plt.plot(x, HybridNormalGPDPDF(x,u,mean(c1),sd(c1),fits[0],loc=fits[1],scale=fits[2]), linewidth=2)
         plt.plot(x, norm.pdf(x,mean(c1),sd(c1)), linewidth=2)
-        i += 1
+        plt.hist(np.array(c1), bins=15, normed=True)
+        plt.title("Generalised Pareto on Normal Exceedances")
+        plt.legend(["Fitted_HybridCDF", "Fitted_NormalCDF", "Fitted_HybridPDF", "Fitted_Normal_CDF", "Student_T Hist"],loc='best')
+
+        plt.subplot(2,len(us),i+1)
+        r1,r2,r3,r4 = HybridSemiParametricGPDCDF(x,u,c1,fits[0],loc=fits[1],scale=fits[2])
+        plt.plot(r1, r2, linewidth=2)
+        plt.plot(r3, r4, linewidth=2)
+        plt.plot(r1, norm.cdf(r1,mean(c1),sd(c1)), linewidth=2)
+        r1,r2,r3,r4 = HybridSemiParametricGPDPDF(x,u,c1,fits[0],loc=fits[1],scale=fits[2])
+        plt.plot(r1, r2, linewidth=2)
+        plt.plot(r3, r4, linewidth=2)
+        plt.plot(r1, norm.pdf(r1,mean(c1),sd(c1)), linewidth=2)
+        plt.hist(np.array(c1), bins=15, normed=True)
+        plt.title("Generalised Pareto on Normal Exceedances")
+        plt.legend(["Fitted_HybridCDF", "CDF_Smoother", "Fitted_NormalCDF", "Fitted_HybridPDF", "PDF_Smoother", "Fitted_Normal_CDF", "Student_T Hist"],loc='best')
+        i += 2
 
     plt.show()
 
@@ -181,3 +298,46 @@ def HybridNormalGPDPDF(xs, u, mu, sigma, shape, loc, scale):
         else:
             out.append(norm.pdf(x,mu,sigma))
     return out
+
+def HybridSemiParametricGPDCDF(xs, u, ydata, shape, loc, scale):
+    out = list()
+    mu = mean(ydata)
+    l = (mu - abs(u - mu))
+    h = (mu + abs(u - mu))
+    print('u = %.10f,l = %.10f,h = %.10f'%(u,l,h))
+    srtdxs = sorted(list(xs)+[l,h])
+    cdf_smoother = kde_statsmodels_m_cdf_output(ydata,srtdxs,bandwidth=0.2)
+    d = dict(zip(srtdxs,cdf_smoother))
+    
+    for x in xs:
+        if x < l:
+            nrm = d[l]
+            out.append(nrm*(1-genpareto.cdf(l - x, shape, loc=loc, scale=scale)))
+        elif x >= h:
+            nrm = d[h]
+            out.append((1 - nrm)*genpareto.cdf(x - h, shape, loc=loc, scale=scale) + nrm)
+        else:
+            out.append(d[x])
+    return xs,out,srtdxs,cdf_smoother
+
+def HybridSemiParametricGPDPDF(xs, u, ydata, shape, loc, scale):
+    out = list()
+    mu = mean(ydata)
+    l = (mu - abs(u - mu))
+    h = (mu + abs(u - mu))
+    print('u = %.10f,l = %.10f,h = %.10f'%(u,l,h))
+    srtdxs = sorted(list(xs)+[l,h])
+    cdf_smoother = kde_statsmodels_m_cdf_output(ydata,srtdxs,bandwidth=0.2)
+    d_cdf = dict(zip(srtdxs,cdf_smoother))
+    pdf_smoother = kde_statsmodels_m_pdf_output(ydata,srtdxs,bandwidth=0.2)
+    d_pdf = dict(zip(srtdxs,pdf_smoother))
+    for x in xs:
+        if x < l:
+            out.append(d_cdf[l]*genpareto.pdf(l-x,shape, loc=loc, scale=scale))
+        elif x >= h:
+            out.append((1 - d_cdf[h])*genpareto.pdf(x-h, shape, loc=loc, scale=scale))
+        else:
+            out.append(d_pdf[x])
+    return xs,out,srtdxs,pdf_smoother
+
+#def NonParametricKernelSmoother():
