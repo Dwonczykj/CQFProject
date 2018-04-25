@@ -268,6 +268,61 @@ def GenerateEVTKernelSmoothing():
         i += 2
 
     plt.show()
+    return 0
+
+def SemiParametricCDFFit(c1,u):
+    x = np.linspace(min(c1), max(c1),1000)
+
+    
+    us = list([u])
+    fig, ax = plt.subplots(2, len(us), sharey=True,
+                           figsize=(7, 7*len(us)))
+    fig.subplots_adjust(wspace=0)
+    result = dict()
+    i = 1
+    for u in us:
+        exceedances = list()
+        internals = list()
+        for rvs in c1:
+            if abs(rvs) > u:
+                exceedances.append(abs(rvs) - u)
+            else:
+                internals.append(rvs)
+    
+        fits = genpareto.fit(exceedances)
+        internals = np.array(internals).reshape((len(internals),1))
+        #c1s = np.array(c1).reshape((len(c1),1))
+        #cdf_smoother = kde_statsmodels_m_cdf(internals,x,bandwidth=0.2)
+        #pdf_smoother = kde_statsmodels_m_pdf(internals,x,bandwidth=0.2)
+        plt.subplot(2,len(us),i)
+        plt.plot(x, HybridNormalGPDCDF(x,u,mean(c1),sd(c1),fits[0],loc=fits[1],scale=fits[2]), linewidth=2)
+        plt.plot(x, norm.cdf(x,mean(c1),sd(c1)), linewidth=2)
+        plt.plot(x, HybridNormalGPDPDF(x,u,mean(c1),sd(c1),fits[0],loc=fits[1],scale=fits[2]), linewidth=2)
+        plt.plot(x, norm.pdf(x,mean(c1),sd(c1)), linewidth=2)
+        plt.hist(np.array(c1), bins=15, normed=True)
+        plt.title("Generalised Pareto on Normal Exceedances")
+        plt.legend(["Fitted_HybridCDF", "Fitted_NormalCDF", "Fitted_HybridPDF", "Fitted_Normal_CDF", "Student_T Hist"],loc='best')
+
+        plt.subplot(2,len(us),i+1)
+        r1,r2c,r3,r4 = HybridSemiParametricGPDCDF(x,u,c1,fits[0],loc=fits[1],scale=fits[2])
+        plt.plot(r1, r2c, linewidth=2)
+        plt.plot(r3, r4, linewidth=2)
+        plt.plot(r1, norm.cdf(r1,mean(c1),sd(c1)), linewidth=2)
+        r1,r2p,r3,r4 = HybridSemiParametricGPDPDF(x,u,c1,fits[0],loc=fits[1],scale=fits[2])
+        plt.plot(r1, r2p, linewidth=2)
+        plt.plot(r3, r4, linewidth=2)
+        plt.plot(r1, norm.pdf(r1,mean(c1),sd(c1)), linewidth=2)
+        plt.hist(np.array(c1), bins=15, normed=True)
+        plt.title("Generalised Pareto on Normal Exceedances")
+        plt.legend(["Fitted_HybridCDF", "CDF_Smoother", "Fitted_NormalCDF", "Fitted_HybridPDF", "PDF_Smoother", "Fitted_Normal_CDF", "Student_T Hist"],loc='best')
+        result['%.10f'%(u)] = (r2c,r2p)
+        i += 2
+
+    plt.show()
+
+    return result
+
+
 
 def HybridNormalGPDCDF(xs, u, mu, sigma, shape, loc, scale):
     out = list()
@@ -300,6 +355,7 @@ def HybridNormalGPDPDF(xs, u, mu, sigma, shape, loc, scale):
     return out
 
 def HybridSemiParametricGPDCDF(xs, u, ydata, shape, loc, scale):
+    print("Starting Canonical Maximum Likelihood")
     out = list()
     mu = mean(ydata)
     l = (mu - abs(u - mu))

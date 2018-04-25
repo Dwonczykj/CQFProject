@@ -33,9 +33,8 @@ from ProbabilityIntegralTransform import *
 #ax.hist(x, 30, fc='gray', histtype='stepfilled', alpha=0.3, normed=True)
 #ax.legend(loc='upper left')
 #ax.set_xlim(-4.5, 3.5);
-test()
-#displayGPDPDF()
-GenerateEVTKernelSmoothing()
+#test()
+#GenerateEVTKernelSmoothing()
 
 cwd = os.getcwd()
 Datafp = cwd + '/FinalProjData.xlsx'
@@ -85,7 +84,9 @@ print("Took %.10f seconds to Grab Discount Factors." % (t3 - t2))
 #calc log returns from historical data and then calc corrs on it.
 HistDataDic = dict()
 TransformedHistDataDic = dict()
+CanonicallyTransformedHistDataDic = dict()
 EmpFnForHistSpread = dict()
+SemiParamametric = dict()
 LogReturnsDic = dict()
 HistDefaults = dict()
 DifferencesDic = dict()
@@ -95,6 +96,9 @@ def Bootstrap5yrDP(spread):
 for i in range(1,6):
     IndKey = HistCreditSpreads.columns[i]
     HistDataDic[IndKey] = pd.DataFrame({ 'Spreads': HistCreditSpreads[IndKey].values}, dtype=np.float, index = HistCreditSpreads['Date'].values)
+    #todo: Measure the autocorrelation of the non touched returns to give an argument for the need for standardised residuals.
+    #From http://uk.mathworks.com/help/econ/examples/using-extreme-value-theory-and-copulas-to-evaluate-market-risk.html#d119e9608:
+    #"Comparing the ACFs of the standardized residuals to the corresponding ACFs of the raw returns reveals that the standardized residuals are now approximately i.i.d., thereby far more amenable to subsequent tail estimation."
     LogReturnsDic[IndKey] = LogReturns(HistDataDic[IndKey]['Spreads'],lag=5,jump=5,averageJumpPeriod=True)
     DifferencesDic[IndKey] = AbsoluteDifferences(HistDataDic[IndKey]['Spreads'],jump=5,averageJumpPeriod=True)
     #ResidualsLogReturnsDic[IndKey] = StandardisedResiduals(LogReturnsDic[IndKey])
@@ -102,9 +106,10 @@ for i in range(1,6):
     #!Then for pearson, we look at the correlation of the raw data
     #! For spearman, we rank the data using the Empirical CDF and then look at the correlation of the ranks.
     
-    EmpFnForHistSpread[IndKey] = Empirical_StepWise_CDF(quickSort(DifferencesDic[IndKey].values)) #TODO: Add extreme value theory for tails of ECDF
-    TransformedHistDataDic[IndKey] = pd.Series(DifferencesDic[IndKey].values).apply(EmpFnForHistSpread[IndKey])
-
+    EmpFnForHistSpread[IndKey] = Empirical_StepWise_CDF(quickSort(DifferencesDic[IndKey].values))
+    SemiParamametric[IndKey] = SemiParametricCDFFit(list(HistDataDic[IndKey]['Spreads']),np.percentile(HistDataDic[IndKey]['Spreads'],95))
+    TransformedHistDataDic[IndKey] = pd.Series(DifferencesDic[IndKey].values).apply(EmpFnForHistSpread[IndKey])#TODO: Add extreme value theory for tails of ECDF by replacing EmpFin with Kernel Smoothed function.
+    CanonicallyTransformedHistDataDic[IndKey] = HistDataDic[IndKey]['Spreads'].apply(TransformedHistDataDic[IndKey]['%.10f'%(np.percentile(HistDataDic[IndKey]['Spreads'],95))][0]) #todo compare to empcdf in plot
     #TransformedHistDataLengthDic[IndKey] = len(TransformedHistDataDic[IndKey])
     #HistDefaults[IndKey] = pd.Series(HistCreditSpreads[IndKey].values).apply(Bootstrap5yrDP)
     
