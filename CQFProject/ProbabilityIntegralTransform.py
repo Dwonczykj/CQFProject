@@ -95,29 +95,60 @@ def GenerateExceedances():
     plt.plot(x, y, linewidth=2)
     plt.plot(x, genpareto.pdf(x,fits[0],loc=fits[1],scale=fits[2]), linewidth=2)
     plt.legend(["Guess","Fitted"],loc='best')
-    plt.show()
+    
             
     return exceedances
 
+def displayGPDPDF():
+    c=0.1
+    x = np.linspace(genpareto.ppf(0.01, c),
+                genpareto.ppf(0.99, c), 100)
+
+    fig, ax = plt.subplots(1, 2, sharey=True,
+                       figsize=(7, 7))
+    fig.subplots_adjust(wspace=0)
+    plt.subplot(1,2,1)
+
+    plt.plot(x, genpareto.pdf(x, c),
+       'r-', lw=5, alpha=0.6, label='genpareto pdf')
+
+    
+
+    plt.subplot(1,2,2)
+    x = np.linspace(-genpareto.ppf(0.99, c),-genpareto.ppf(0.01, c),100)
+    plt.plot(x, genpareto.pdf(-x, c),
+       'r-', lw=5, alpha=0.6, label='genpareto pdf')
+
+    plt.show()
+
+
 def GenerateEVTKernelSmoothing():
-    nobs = 300
+    nobs = 3000
     c1 = np.random.standard_t(3,size=(nobs))
     
-    x = np.linspace(min(c1), max(c1),100)
+    x = np.linspace(min(c1), max(c1),1000)
 
     exceedances = list()
-    u = 2
-    for rvs in c1:
-        if abs(rvs) > u:
-            exceedances.append(abs(rvs) - u)
-    
-    fits = genpareto.fit(exceedances)
+    us = [norm.ppf(0.9),norm.ppf(0.95),norm.ppf(0.99)]
+    fig, ax = plt.subplots(1, len(us), sharey=True,
+                           figsize=(7, 7))
+    fig.subplots_adjust(wspace=0)
     plt.hist(np.array(c1), bins=15, normed=True)
     plt.title("Generalised Pareto on Normal Exceedances")
-
-    plt.plot(x, HybridNormalGPDCDF(x,u,mean(c1),sd(c1),fits[0],loc=fits[1],scale=fits[2]), linewidth=2)
-    plt.plot(x, HybridNormalGPDPDF(x,u,mean(c1),sd(c1),fits[0],loc=fits[1],scale=fits[2]), linewidth=2)
-    plt.legend(["Guess","Fitted_CDF","Fitted_PDF"],loc='best')
+    plt.legend(["Fitted_HybridCDF", "Fitted_NormalCDF", "Fitted_PDF", "Fitted_Normal_CDF", "Student_T Hist"],loc='best')
+    i = 1
+    for u in us:
+        for rvs in c1:
+            if abs(rvs) > u:
+                exceedances.append(abs(rvs) - u)
+    
+        fits = genpareto.fit(exceedances)
+        plt.subplot(1,len(us),i)
+        plt.plot(x, HybridNormalGPDCDF(x,u,mean(c1),sd(c1),fits[0],loc=fits[1],scale=fits[2]), linewidth=2)
+        plt.plot(x, norm.cdf(x,mean(c1),sd(c1)), linewidth=2)
+        plt.plot(x, HybridNormalGPDPDF(x,u,mean(c1),sd(c1),fits[0],loc=fits[1],scale=fits[2]), linewidth=2)
+        plt.plot(x, norm.pdf(x,mean(c1),sd(c1)), linewidth=2)
+        i += 1
 
     plt.show()
 
@@ -130,7 +161,7 @@ def HybridNormalGPDCDF(xs, u, mu, sigma, shape, loc, scale):
         if x < l:
             nrm = norm.cdf(l,mu,sigma)
             out.append(nrm*(1-genpareto.cdf(l - x, shape, loc=loc, scale=scale)))
-        elif x > (mu + abs(u - mu)):
+        elif x >= h:
             nrm = norm.cdf(h,mu,sigma)
             out.append((1 - nrm)*genpareto.cdf(x - h, shape, loc=loc, scale=scale) + nrm)
         else:
@@ -139,15 +170,14 @@ def HybridNormalGPDCDF(xs, u, mu, sigma, shape, loc, scale):
 
 def HybridNormalGPDPDF(xs, u, mu, sigma, shape, loc, scale):
     out = list()
+    l = (mu - abs(u - mu))
+    h = (mu + abs(u - mu))
+    print('u = %.10f,l = %.10f,h = %.10f'%(u,l,h))
     for x in xs:
-        if x < (mu - abs(u - mu)):
-            nrm_p = norm.pdf((mu - abs(u - mu)),mu,sigma)
-            nrm_c = norm.cdf((mu - abs(u - mu)),mu,sigma)
-            out.append((nrm_p*(1-genpareto.cdf((mu - abs(u - mu)) - x,shape, loc=loc, scale=scale))) + (nrm_c*(1-genpareto.pdf((mu - abs(u - mu)) - x,shape, loc=loc, scale=scale))))
-        elif x > (mu + abs(u - mu)):
-            nrm_c = norm.cdf((mu + abs(u - mu)),mu,sigma)
-            nrm_p = norm.pdf((mu + abs(u - mu)),mu,sigma)
-            out.append(((1 - nrm_p)*genpareto.cdf(x-(mu + abs(u - mu)), shape, loc=loc, scale=scale) + (1 - nrm_c)*genpareto.pdf(x-(mu + abs(u - mu)), shape, loc=loc, scale=scale) + nrm_p))
+        if x < l:
+            out.append(norm.cdf(l,mu,sigma)*genpareto.pdf(l-x,shape, loc=loc, scale=scale))
+        elif x >= h:
+            out.append((1 - norm.cdf(h,mu,sigma))*genpareto.pdf(x-h, shape, loc=loc, scale=scale))
         else:
             out.append(norm.pdf(x,mu,sigma))
     return out
