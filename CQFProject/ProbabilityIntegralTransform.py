@@ -1,12 +1,14 @@
 from scipy import stats
 import matplotlib.pyplot as plt
 import numpy as np
+import pandas as pd
 from scipy.stats.distributions import norm
 from statsmodels.nonparametric.kde import KDEUnivariate
 from statsmodels.nonparametric.kernel_density import KDEMultivariate
 from scipy.stats import genpareto
 from Returns import mean, sd
 from bisect import bisect_left
+from EmpiricalFunctions import *
 
 def measure(n):
     "Measurement model, return two coupled measurements."
@@ -270,7 +272,7 @@ def GenerateEVTKernelSmoothing():
     plt.show()
     return 0
 
-def SemiParametricCDFFit(c1,u,empcdf_domain,empcdf_comparison):
+def SemiParametricCDFFit(c1,u):
     x = np.linspace(min(c1), max(c1),1000)
 
     
@@ -305,8 +307,9 @@ def SemiParametricCDFFit(c1,u,empcdf_domain,empcdf_comparison):
 
         plt.subplot(2,len(us),i+1)
         r1,r2c,r3,r4 = HybridSemiParametricGPDCDF(x,u,c1,fits[0],loc=fits[1],scale=fits[2])
+        emp = pd.Series(r1).apply(Empirical_StepWise_CDF(sorted(c1)))
         plt.plot(r1, r2c, linewidth=2)
-        plt.plot(empcdf_domain,empcdf_comparison, linewidth=2)
+        plt.plot(r1, emp, linewidth=2)
         plt.plot(r3, r4, linewidth=2)
         plt.plot(r1, norm.cdf(r1,mean(c1),sd(c1)), linewidth=2)
         r1,r2p,r3,r4 = HybridSemiParametricGPDPDF(x,u,c1,fits[0],loc=fits[1],scale=fits[2])
@@ -318,8 +321,6 @@ def SemiParametricCDFFit(c1,u,empcdf_domain,empcdf_comparison):
         plt.legend(["Fitted_HybridCDF", "ECDF Comparison", "CDF_Smoother", "Fitted_NormalCDF", "Fitted_HybridPDF", "PDF_Smoother", "Fitted_Normal_CDF", "Student_T Hist"],loc='best')
         result['%.10f'%(u)] = (r2c,r2p)
         i += 2
-
-    plt.show()
 
     return result
 
