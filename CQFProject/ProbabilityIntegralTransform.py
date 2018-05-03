@@ -273,6 +273,7 @@ def GenerateEVTKernelSmoothing():
     return 0
 
 def SemiParametricCDFFit(c1,u):
+    'https://mglerner.github.io/posts/histograms-and-kernel-density-estimation-kde-2.html?p=28'
     x = np.linspace(min(c1), max(c1),1000)
 
     
