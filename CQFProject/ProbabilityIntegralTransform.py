@@ -272,15 +272,25 @@ def GenerateEVTKernelSmoothing():
     plt.show()
     return 0
 
-def SemiParametricCDFFit(c1,u):
+def SemiParametricCDFFit(c1,u,plotvsc1=False,name="Semi-Parametric Fit",xlabel="",ylabel=""):
+    '''
+    Calculates a SemiParametric fit to the data in c1.
+    Uses a gaussian kernal estimation within the centre of the distribution of c1 which is decided by the threshold u.
+    Uses a Generalised Pareto distribution to fit both tails outside of the threshold governed by u.
+    Returns a tuple containing the the range (y points) of the (SemiPara-CDF,SemiPara-PDF); 
+    if (plotvsc1 = False) => the y points depend on 1000 equally spaced points between min(c1) and max(c1).
+    if (plotvsc1 = True) => the y points depend on the points in c1 and maintain the order of c1 in the outputted array. i.e. F_n(c1) where F_n is the semiparametric fitted function.
+    '''
     'https://mglerner.github.io/posts/histograms-and-kernel-density-estimation-kde-2.html?p=28'
-    x = np.linspace(min(c1), max(c1),1000)
+    x = np.linspace(min(c1), max(c1),1000) if plotvsc1 == False else c1
 
     
     us = list([u])
-    fig, ax = plt.subplots(2, len(us), sharey=True,
+    fig, ax = plt.subplots(3, len(us), sharey=True,
                            figsize=(7, 7*len(us)))
     fig.subplots_adjust(wspace=0)
+    fig.canvas.set_window_title(name)
+    fig.canvas.figure.set_label(name)
     result = dict()
     i = 1
     for u in us:
@@ -297,37 +307,61 @@ def SemiParametricCDFFit(c1,u):
         #c1s = np.array(c1).reshape((len(c1),1))
         #cdf_smoother = kde_statsmodels_m_cdf(internals,x,bandwidth=0.2)
         #pdf_smoother = kde_statsmodels_m_pdf(internals,x,bandwidth=0.2)
-        plt.subplot(2,len(us),i)
+        plt.subplot(3,len(us),i)
         plt.plot(x, HybridNormalGPDCDF(x,u,mean(c1),sd(c1),fits[0],loc=fits[1],scale=fits[2]), linewidth=2)
         plt.plot(x, norm.cdf(x,mean(c1),sd(c1)), linewidth=2)
         plt.plot(x, HybridNormalGPDPDF(x,u,mean(c1),sd(c1),fits[0],loc=fits[1],scale=fits[2]), linewidth=2)
         plt.plot(x, norm.pdf(x,mean(c1),sd(c1)), linewidth=2)
         plt.hist(np.array(c1), bins=15, normed=True)
-        plt.title("Generalised Pareto on Normal Exceedances")
-        plt.legend(["Fitted_HybridCDF", "Fitted_NormalCDF", "Fitted_HybridPDF", "Fitted_Normal_CDF", "Student_T Hist"],loc='best')
+        plt.xlabel(xlabel)
+        plt.ylabel(ylabel)
+        plt.title("Generalised Pareto Tails on Gaussian Fitted Center")
+        plt.legend(["Fitted_HybridCDF", "Fitted_Normal_CDF", "Fitted_HybridPDF", "Fitted_Normal_PDF", "Data Histogram"],loc='best')
 
-        plt.subplot(2,len(us),i+1)
+        plt.subplot(3,len(us),i+1)
         r1,r2c,r3,r4 = HybridSemiParametricGPDCDF(x,u,c1,fits[0],loc=fits[1],scale=fits[2])
         emp = pd.Series(r1).apply(Empirical_StepWise_CDF(sorted(c1)))
         plt.plot(r1, r2c, linewidth=2)
         plt.plot(r1, emp, linewidth=2)
         plt.plot(r3, r4, linewidth=2)
-        plt.plot(r1, norm.cdf(r1,mean(c1),sd(c1)), linewidth=2)
+        #plt.plot(r1, norm.cdf(r1,mean(c1),sd(c1)), linewidth=2)
+        plt.xlabel(xlabel)
+        plt.ylabel(ylabel)
+        plt.title("Semi Parametric CDF")
+        #plt.legend(["Fitted_HybridCDF", "ECDF Comparison", "CDF_Smoother", "Fitted_NormalCDF", "Fitted_HybridPDF", "PDF_Smoother", "Fitted_Normal_PDF", "Student_T Hist"],loc='best')
+        plt.legend(["Fitted_HybridCDF", "ECDF Comparison", "CDF_Smoother"],loc='best')
+
+        plt.subplot(3,len(us),i+2)
         r1,r2p,r3,r4 = HybridSemiParametricGPDPDF(x,u,c1,fits[0],loc=fits[1],scale=fits[2])
         plt.plot(r1, r2p, linewidth=2)
         plt.plot(r3, r4, linewidth=2)
-        plt.plot(r1, norm.pdf(r1,mean(c1),sd(c1)), linewidth=2)
+        #plt.plot(r1, norm.pdf(r1,mean(c1),sd(c1)), linewidth=2)
         plt.hist(np.array(c1), bins=15, normed=True)
-        plt.title("Generalised Pareto on Normal Exceedances")
-        plt.legend(["Fitted_HybridCDF", "ECDF Comparison", "CDF_Smoother", "Fitted_NormalCDF", "Fitted_HybridPDF", "PDF_Smoother", "Fitted_Normal_CDF", "Student_T Hist"],loc='best')
+        plt.xlabel(xlabel)
+        plt.ylabel(ylabel)
+        plt.title("Semi Parametric PDF")
+        plt.legend(["Fitted_HybridPDF", "PDF_Smoother", "Data Histogram"],loc='best')
+
         result['%.10f'%(u)] = (r2c,r2p)
-        i += 2
+        i += 3
 
     return result
 
 
 
 def HybridNormalGPDCDF(xs, u, mu, sigma, shape, loc, scale):
+    '''
+    Params: 
+        xs: unsorted list of datat to fit semi-parametric CDF to.
+        u: threshold to move from Gaussian CDF Fit in center to GPD tail fitting.
+        mu:  mean of the data.
+        sigma: standard deviation of the data.
+        shape: gpd least squares estimated shape parameter.
+        loc: gpd least squares estimated location parameter.
+        scale: gpd least squares estimated scale parameter.
+    Returns:
+        an array that would result from xs.apply(semiparametric_fittedfunction) or F_n(xs) where F_n is the CDF fit.
+    '''
     out = list()
     l = (mu - abs(u - mu))
     h = (mu + abs(u - mu))
@@ -344,6 +378,18 @@ def HybridNormalGPDCDF(xs, u, mu, sigma, shape, loc, scale):
     return out
 
 def HybridNormalGPDPDF(xs, u, mu, sigma, shape, loc, scale):
+    '''
+    Params: 
+        xs: unsorted list of datat to fit semi-parametric PDF to.
+        u: threshold to move from Gaussian PDF Fit in center to GPD tail fitting.
+        mu:  mean of the data.
+        sigma: standard deviation of the data.
+        shape: gpd least squares estimated shape parameter.
+        loc: gpd least squares estimated location parameter.
+        scale: gpd least squares estimated scale parameter.
+    Returns:
+        an array that would result from xs.apply(semiparametric_fittedfunction) or F_n(xs) where F_n is the PDF fit.
+    '''
     out = list()
     l = (mu - abs(u - mu))
     h = (mu + abs(u - mu))
@@ -358,6 +404,18 @@ def HybridNormalGPDPDF(xs, u, mu, sigma, shape, loc, scale):
     return out
 
 def HybridSemiParametricGPDCDF(xs, u, ydata, shape, loc, scale):
+    '''
+    Params: 
+        xs: unsorted list of datat to fit semi-parametric CDF to.
+        u: threshold to move from Gaussian Kernel estimation to GPD tail fitting.
+        mu:  mean of the data.
+        sigma: standard deviation of the data.
+        shape: gpd least squares estimated shape parameter.
+        loc: gpd least squares estimated location parameter.
+        scale: gpd least squares estimated scale parameter.
+    Returns:
+        an array that would result from xs.apply(semiparametric_fittedfunction) or F_n(xs) where F_n is the CDF fit.
+    '''
     print("Starting Canonical Maximum Likelihood")
     out = list()
     mu = mean(ydata)
@@ -380,6 +438,18 @@ def HybridSemiParametricGPDCDF(xs, u, ydata, shape, loc, scale):
     return xs,out,srtdxs,cdf_smoother
 
 def HybridSemiParametricGPDPDF(xs, u, ydata, shape, loc, scale):
+    '''
+    Params: 
+        xs: unsorted list of datat to fit semi-parametric PDF to.
+        u: threshold to move from Gaussian Kernel estimation to GPD tail fitting.
+        mu:  mean of the data.
+        sigma: standard deviation of the data.
+        shape: gpd least squares estimated shape parameter.
+        loc: gpd least squares estimated location parameter.
+        scale: gpd least squares estimated scale parameter.
+    Returns:
+        an array that would result from xs.apply(semiparametric_fittedfunction) or F_n(xs) where F_n is the PDF fit.
+    '''
     out = list()
     mu = mean(ydata)
     l = (mu - abs(u - mu))
