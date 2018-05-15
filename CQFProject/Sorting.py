@@ -34,6 +34,6 @@ def SetArbitrarily(arr, index, value):
 def SetWhole2DMatrixArbitrarily(arr, value):
     res = np.array(arr)
     for i in range(0,len(res[:])):
-        for j in range(object, len(res[0][:])):
+        for j in range(0, len(res[0][:])):
             res[i,j] = value
     return res

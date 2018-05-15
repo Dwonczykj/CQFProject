@@ -1,4 +1,7 @@
 import io
+import os
+import time
+import plotting
 
 def printf(str):
     logfile = open("Cqflog1.txt", 'a')
@@ -7,7 +10,7 @@ def printf(str):
     logfile.write('\n-------------------------------\n')
     logfile.close()
 
-def convertToLaTeX(df, alignment="c", horAlignment="l"):
+def convertToLaTeX(df,name="" , alignment="c", horAlignment="l"):
     """
     Convert a pandas dataframe to a LaTeX tabular.
     Prints labels in bold, does not use math mode
@@ -28,5 +31,26 @@ def convertToLaTeX(df, alignment="c", horAlignment="l"):
                      % (ind, " & ".join([str(val) for val in df.ix[ind]])))
     #Write footer
     output.write("\\hline\n\end{tabular}\n\end{center}")
+
+    SubmissionFilePath= plotting.SubmissionFilePath #os.path.join('C:\\', 'Users', 'Joe.Dwonczyk', 'Documents', 'CQF', 'CVASection', 'Submission') + "\\CDSBasketProj\\" + time.strftime("%Y%m%d-%H%M%S") + "\\"
+    if not os.path.exists(SubmissionFilePath):
+        os.makedirs(SubmissionFilePath)
+    
+    SubmissionFilePath += (name.replace(" ","_").replace(".",",") if not name == "" else "latextable")
+    if not os.path.exists(SubmissionFilePath+".txt"):
+        SubmissionFilePath += ".txt"
+        file = open(SubmissionFilePath,"w")
+        file.write(output.getvalue())
+                
+    else:
+        j = 1
+        tname = SubmissionFilePath
+        while os.path.exists(tname+".txt"):
+            tname = name + "_%d"%(j)
+            j +=1
+        SubmissionFilePath = tname + ".txt"
+        file = open(SubmissionFilePath,"w")
+        file.write(output.getvalue())
+    file.close()
     return output.getvalue()
 

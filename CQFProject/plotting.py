@@ -7,8 +7,36 @@ import pandas as pd
 from CumulativeAverager import CumAverage
 from scipy.interpolate import interp1d
 from scipy import interpolate
+import os
+import time
+
+SubmissionFilePath= os.path.join('C:\\', 'Users', 'Joe.Dwonczyk', 'Documents', 'CQF', 'CVASection', 'Submission') + "\\CDSBasketProj\\" + time.strftime("%Y%m%d-%H%M%S") + "\\"
+if not os.path.exists(SubmissionFilePath):
+    os.makedirs(SubmissionFilePath)
+
+def pyplot_memcheck():
+    fignums = plt.get_fignums()
+    if len(fignums) > 10:
+        save_all_figs()
+
+def save_all_figs():
+    fignums=plt.get_fignums()
+    for i in fignums:
+            fig = plt.figure(i)
+            name = SubmissionFilePath + fig.canvas.get_window_title().replace(" ","_").replace(".",",")
+            if not os.path.exists(name+".png"):
+                plt.savefig(name)
+            else:
+                j = 1
+                tname = name
+                while os.path.exists(tname+".png"):
+                    tname = name + "_%d"%(j)
+                    j +=1
+                plt.savefig(tname)
+            plt.close(i)
 
 def plot_DefaultProbs(x,y,name,legendArray):
+    pyplot_memcheck()
     fig = plt.figure(figsize=(7.5, 4.5))
     fig.canvas.set_window_title(name)
     fig.canvas.figure.set_label(name)
@@ -31,6 +59,7 @@ def showAllPlots():
     plt.show()
 
 def plot_codependence_scatters(dataDic,xlabel,ylabel=""):
+    pyplot_memcheck()
     keys = list(dataDic.keys())
     ln = len(keys)
     nPlt = math.factorial(ln-1)
@@ -58,8 +87,9 @@ def plot_codependence_scatters(dataDic,xlabel,ylabel=""):
             return_scatter(dataDic[key1],dataDic[key2],"%s vs %s" % (key1,key2),j+1,numCols,numRows,xlabel,ylabel) if ylabel != "" else return_scatter(dataDic[key1],dataDic[key2],"%s vs %s" % (key1,key2),j+1,numCols,numRows,xlabel)
             j += 1
 
-def return_scatter(xdata,ydata,name,numberPlot=1,noOfPlotsW=1, noOfPlotsH=1,xlabel = "", ylabel="frequency/probability"):
+def return_scatter(xdata,ydata,name,numberPlot=1,noOfPlotsW=1, noOfPlotsH=1,xlabel = "", ylabel="frequency/probability",legend=[], xticks=[], yticks=[]):
     ''' Plots a scatter plot showing any co-dependency between 2 variables. '''
+    pyplot_memcheck()
     if numberPlot==1:
         fig = plt.figure(figsize=(10, 6))
         fig.canvas.set_window_title(name)
@@ -68,11 +98,40 @@ def return_scatter(xdata,ydata,name,numberPlot=1,noOfPlotsW=1, noOfPlotsH=1,xlab
     x = np.linspace(min(xdata), max(xdata), 100)
     plt.xlabel(xlabel)
     plt.ylabel(ylabel)
+    if(len(xticks)>0):
+        plt.xticks(xticks)
+    if(len(yticks)>0):
+        plt.yticks(yticks)
     plt.title(name[:70] + '\n' + name[70:])
+    if len(legend) > 0:
+        plt.legend(legend,loc='best')
     plt.grid(True)
     plt.scatter(x=xdata,y=ydata)
 
+def return_scatter_multdependencies(xdata,arrydata,name,numberPlot=1,noOfPlotsW=1, noOfPlotsH=1,xlabel = "", ylabel="frequency/probability",legend=[], xticks=[], yticks=[]):
+    ''' Plots a scatter plot showing any co-dependency between 2 variables. '''
+    pyplot_memcheck()
+    if numberPlot==1:
+        fig = plt.figure(figsize=(10, 6))
+        fig.canvas.set_window_title(name)
+        fig.canvas.figure.set_label(name)
+    plt.subplot(noOfPlotsW,noOfPlotsH,numberPlot)
+    x = np.linspace(min(xdata), max(xdata), 100)
+    plt.xlabel(xlabel)
+    plt.ylabel(ylabel)
+    if(len(xticks)>0):
+        plt.xticks(xticks)
+    if(len(yticks)>0):
+        plt.yticks(yticks)
+    plt.title(name[:70] + '\n' + name[70:])
+    if len(legend) > 0:
+        plt.legend(legend,loc='best')
+    plt.grid(True)
+    for y in arrydata:
+        plt.scatter(x=xdata,y=y)
+
 def Plot_Converging_Averages(ArrOfArrays,baseName):
+    pyplot_memcheck()
     ln = len(ArrOfArrays[0])
     #keep on dividing by 2 with no remainder until it is not possible:
     i = 0
@@ -91,6 +150,7 @@ def Plot_Converging_Averages(ArrOfArrays,baseName):
 
 def Plot_Converging_Average(data,name,numberPlot=1,noOfPlotsW=1, noOfPlotsH=1):
     ''' Plots a line plot showing the convergence against iterations of the average. '''
+    pyplot_memcheck()
     if numberPlot==1:
         fig = plt.figure(figsize=(10, 6))
         fig.canvas.set_window_title(name)
@@ -107,6 +167,7 @@ def Plot_Converging_Average(data,name,numberPlot=1,noOfPlotsW=1, noOfPlotsH=1):
 
 def return_Densitys(datatable,name,legendArray,noOfLines):
     ''' Plots Normal PDFs on an array of returns. '''
+    pyplot_memcheck()
     fig = plt.figure(figsize=(7.5, 4.5))
     fig.canvas.set_window_title(name)
     fig.canvas.figure.set_label(name)
@@ -174,6 +235,7 @@ def QQPlot(rvs,name):
     rvs : float[]
         rvs to be tested for normality
     '''
+    pyplot_memcheck()
     measurements = np.random.normal(loc = 20, scale = 5, size=100)
     fig = plt.figure(figsize=(10, 6))
     fig.canvas.set_window_title(name)
@@ -264,6 +326,7 @@ def dExpForPiecewiselambda(rates, tenors):
 # histogram of annualized daily log returns
 def return_histogram(data,name,numberPlot=1,noOfPlotsW=1, noOfPlotsH=1,xlabel = "", length = 1, f = None):
     ''' Plots a histogram of the returns. '''
+    pyplot_memcheck()
     if f == None:
         fig = plt.figure(figsize=(10, 6))
         fig.canvas.set_window_title(name)
@@ -310,27 +373,59 @@ def plot_histogram_array(dataDic,xlabel):
         key = keys[j]
         f = return_histogram(dataDic[key],key,j+1,numCols,numRows,xlabel, ln, f)
 
-def FittedValuesLinear(x,y,ReturnCubicFitted=True,name="",numberOfPointsToReturn=50):
+def SuitableRegressionFit(x,y,name="",numberOfAdditionalPointsToReturn=100,startingPower=0):
+    #Use AIC to estimate best power to use as this is a PREDICTIVE MODEL for volaty functions that will be used to simulate future volatilites.
+    first_Power = startingPower
+    k = 1
+    f_test, xL = FittedValuesLinear(x,y,"Regression",first_Power,name,numberOfAdditionalPointsToReturn)
+    min_AIC = AIC(y, f_test(x),k)
+    j = first_Power
+    for i in range(first_Power+1,11):
+        try_f_test, xLin = FittedValuesLinear(x,y,"Regression",i,name,numberOfAdditionalPointsToReturn)
+        try_AIC = AIC(y, try_f_test(x),k)
+        if(try_AIC < min_AIC):
+            f_test = try_f_test
+            min_AIC = try_AIC
+            j = i
+            xL = xLin
+    return f_test, j, xL
+
+def FittedValuesLinear(x,y,IsInterpolationOrRegression="Interpolation",PowerOfRegression=3,name="",numberOfAdditionalPointsToReturn=100):
+    pyplot_memcheck()
     fig = plt.figure(figsize=(10, 6))
     fig.canvas.set_window_title(name)
     fig.canvas.figure.set_label(name)
     x = np.array(x,dtype=np.float)
     tck = interpolate.splrep(x, y, s=0)
-    f_cubic = interp1d(x, y, kind='cubic')   
-    f_lin = interp1d(x, y)
-    xLin = np.linspace(np.min(x),max(x),endpoint=True,num=numberOfPointsToReturn)
-    yLin = interpolate.splev(xLin,tck,der=0)
-    plt.plot(x, y, 'o', xLin, f_lin(xLin), '-', xLin, yLin, '--')
-    plt.legend(['data', 'linear', 'cubic'], loc='best')
+    def poly(p):
+        coef = np.polyfit(x,y,p)
+        def f(xs):
+            g = xs if hasattr(xs,"__iter__") else np.array([xs])
+            return np.fromiter(map(lambda xp: sum([c*(xz**ij) for c,xz,ij in zip(coef,np.full(len(coef),xp),np.arange(len(coef)-1,-1,-1))]),g),dtype=np.float)
+        return f
+    f_cubic = interp1d(x, y, kind='cubic') if IsInterpolationOrRegression == "Interpolation" else poly(3)
+    f_cust = poly(PowerOfRegression)
+    f_lin = interp1d(x, y) if IsInterpolationOrRegression == "Interpolation" else poly(1)
+    xLin = np.linspace(min(x),max(x),endpoint=True,num=numberOfAdditionalPointsToReturn)
+    xLin = np.array(sorted(np.append(xLin,x))) #if IsInterpolationOrRegression == "Interpolation" else x
+    def f_spline_zerothderivative(xs):
+        return interpolate.splev(xs,tck,der=0)
+    yLin = f_spline_zerothderivative(xLin)
+    plt.plot(x, y, 'o', xLin, f_lin(xLin), ':', xLin, f_cubic(xLin), '--', xLin, yLin, '-.', xLin, f_cust(xLin), '-')
+    plt.legend(['data', 'linear', 'cubic', 'spline', 'P(%d) regression'%(PowerOfRegression)], loc='best')
     plt.title(name[:70] + '\n' + name[70:])
     plt.grid(True)
-    if ReturnCubicFitted:
-        return f_cubic
+    if IsInterpolationOrRegression=="Interpolation":
+        if PowerOfRegression>3:
+            return f_spline_zerothderivative, xLin
+        else:
+            return f_cubic, xLin if PowerOfRegression == 3 else f_lin, xLin
     else:
-        return f_lin(xLin)
+        return f_cust, xLin
 
 def return_lineChart(x,arrLines,name,numberPlot=1,noOfPlotsW=1, noOfPlotsH=1,xlabel = "",ylabel="",legend=[], xticks=[], yticks=[]):
     ''' Plots all lines on the same chart against x.'''
+    pyplot_memcheck()
     if numberPlot==1:
         fig = plt.figure(figsize=(10, 6))
         fig.canvas.set_window_title(name)
@@ -354,6 +449,7 @@ def return_lineChart(x,arrLines,name,numberPlot=1,noOfPlotsW=1, noOfPlotsH=1,xla
 
 def return_lineChart_dates(x,arrLines,name,numberPlot=1,noOfPlotsW=1, noOfPlotsH=1,xlabel = "",ylabel="",legend=[], yticks=[]):
     ''' Plots all lines on the same chart against x.'''
+    pyplot_memcheck()
     if numberPlot==1:
         fig = plt.figure(figsize=(10, 6))
         fig.canvas.set_window_title(name)
@@ -379,6 +475,7 @@ def colorPicker(i): #https://matplotlib.org/users/colors.html
 
 def return_barchart_old(categories,dataDic,name="",xlabel="",ylabel=""):
     #  create the figure
+    pyplot_memcheck()
     fig, ax1 = plt.subplots(figsize=(9, 7))
     fig.subplots_adjust(left=0.115, right=0.88)
     fig.canvas.set_window_title(name)
@@ -460,6 +557,7 @@ def return_barchart_old(categories,dataDic,name="",xlabel="",ylabel=""):
 
 def return_barchart(categories,dataDic,name="",xlabel="",ylabel="", ScalingAmount=1.0):
 
+    pyplot_memcheck()
     fig = plt.figure(figsize=(10, 6))
     fig.subplots_adjust(left=0.115, right=0.88)
     fig.canvas.set_window_title(name)

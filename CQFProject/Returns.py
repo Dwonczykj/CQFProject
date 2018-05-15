@@ -143,8 +143,8 @@ def PCA(Cov,noOfDesiredFactors = 0):
     m = Cov.shape[0]
     # use 'eigh' rather than 'eig' since R is symmetric, 
     # the performance gain is substantial
-    hey = LA.eigh(Cov)
-    he3 = np.linalg.eig(Cov)
+    #hey = LA.eigh(Cov)
+    #he3 = np.linalg.eig(Cov)
     M = Cov
     n = M.shape[0]
     tolerance= math.pow(10,-20)
@@ -247,16 +247,39 @@ def CorP(df:dict):
     return CorMat
 
 
-def CholeskyDecomp(Sigma: np.matrix):
+def CholeskyDecomp(Sigma: np.matrix, RevertToSpectralIfError=True):
     A = np.zeros(Sigma.shape)
     if A.shape[0] != A.shape[1]:
-        print("Correlation Matrix passed to Cholesky distn is not square.")
+        print("Correlation Matrix passed to Cholesky decomp is not square.")
     for i in range(0,A.shape[0]):
         for j in range(0,A.shape[1]):
             if j == i:
-                A[i,i] = math.sqrt(Sigma[i,i] - sum(pow(A[i,0:(i)], 2)))
+                dummy = Sigma[i,i] - sum(pow(A[i,0:(i)], 2))
+                if dummy < 0 and RevertToSpectralIfError: 
+                    return SpectralDecomp(Sigma)
+                else:
+                    A[i,i] = math.sqrt(dummy)
             elif j < i:
                 A[j,i] = 0
             else:
-                A[j,i] = (1/A[i,i]) * (Sigma[i,j] - sum(map(lambda x, y: x * y, A[i,0:(i)], A[j,0:(i)])))
+                if A[i,i] == 0:
+                    return SpectralDecomp(Sigma)
+                else:
+                    A[j,i] = (1/A[i,i]) * (Sigma[i,j] - sum(map(lambda x, y: x * y, A[i,0:(i)], A[j,0:(i)])))
     return A
+
+def SpectralDecomp(Sigma: np.matrix, ForcePositiveSemiDefiniteness=True):
+    A = np.zeros(Sigma.shape)
+    if A.shape[0] != A.shape[1]:
+        print("Correlation Matrix passed to Spectral decomp is not square.")
+
+    L,U,Rsq,id = PCA(Sigma)
+    #convert all L values to positive
+    Lprime = np.fromiter(map(lambda x:math.sqrt(max(x,0)),L),dtype=np.float) if ForcePositiveSemiDefiniteness else np.fromiter(map(lambda x:math.sqrt(x),L),dtype=np.float)
+    A = np.matmul(U, np.diag(Lprime))
+    return A
+
+def AIC(y,y_pred,k):
+    resid = np.fromiter(map(operator.sub,y,y_pred))
+    sse=sum(resid**2)
+    return 2*k - 2*math.log(sse)
