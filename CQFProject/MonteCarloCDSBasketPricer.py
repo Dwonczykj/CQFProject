@@ -1,6 +1,6 @@
 import math
 import numpy as np
-
+from LowDiscrepancyNumberGenerators import SobolNumbers
 import time
 
 #from HazardRates import *
@@ -12,11 +12,13 @@ from SimulateLegs import SimulateLegPricesFromCorrelationNormal, SimulateLegPric
 from RunningMoments import RunningAverage, RunningVarianceOfRunningAverage
 #!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!MONTE CARLO SIMULATION!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
-def SimulateCDSBasketDefaultsAndValueLegsT(TimeAtStart,CorP,NumbGen,M,HistCreditSpreads,TransformedHistDataDic,TenorCreditSpreads,InvPWCDF,DiscountFactorCurve,ImpHazdRts,DataTenorDic,CDSPaymentTenors,CDSBasketMaturity,SpreadArr=[],R=0.4):
+def SimulateCDSBasketDefaultsAndValueLegsT(TimeAtStart,CorP,M,HistCreditSpreads,TransformedHistDataDic,TenorCreditSpreads,InvPWCDF,DiscountFactorCurve,ImpHazdRts,DataTenorDic,CDSPaymentTenors,CDSBasketMaturity,SpreadArr=[],R=0.4):
     if len(SpreadArr) == 0:
         SpreadArr = np.ones(shape=(5))
     CompensationLegSumsForEachRefNameT = np.zeros(shape=(M,5),dtype=np.float)
     PremiumLegSumsForEachRefNameT = np.zeros(shape=(M,5),dtype=np.float)
+    NumbGen = SobolNumbers()
+    NumbGen.initialise(LogRtnCorP.shape[0])
     UT = UnifFromTCopula(CorP,NumbGen,len(TransformedHistDataDic[HistCreditSpreads.columns[1]]) - 1,M)
     UniformityDic = dict()
     for i in range(2,4):
@@ -50,11 +52,13 @@ def SimulateCDSBasketDefaultsAndValueLegsT(TimeAtStart,CorP,NumbGen,M,HistCredit
 
     return CompensationLegSumsForEachRefNameT,PremiumLegSumsForEachRefNameT,tEnd
 
-def SimulateCDSBasketDefaultsAndValueLegsGauss(TimeAtStart,CorP,NumbGen,M,HistCreditSpreads,TenorCreditSpreads,InvPWCDF,DiscountFactorCurve,ImpHazdRts,DataTenorDic,CDSPaymentTenors,CDSBasketMaturity,SpreadArr=[],R=0.4):
+def SimulateCDSBasketDefaultsAndValueLegsGauss(TimeAtStart,CorP,M,HistCreditSpreads,TenorCreditSpreads,InvPWCDF,DiscountFactorCurve,ImpHazdRts,DataTenorDic,CDSPaymentTenors,CDSBasketMaturity,SpreadArr=[],R=0.4):
     if len(SpreadArr) == 0:
         SpreadArr = np.ones(shape=(5))
     CompensationLegSumsForEachRefNameGauss = np.zeros(shape=(M,5),dtype=np.float)
     PremiumLegSumsForEachRefNameGauss = np.zeros(shape=(M,5),dtype=np.float)
+    NumbGen = SobolNumbers()
+    NumbGen.initialise(LogRtnCorP.shape[0])
     UNorm = UnifFromGaussCopula(CorP,NumbGen,M)
     UniformityDic = dict()
     for i in range(0,2):
@@ -128,10 +132,10 @@ def CalculateFairSpreadFromLegs(CompensationLegSumsForEachRefName,PremiumLegSums
 
     return FairSpreads, t9
 
-def FullMCFairSpreadValuation(startTime,LogRtnCorP,RankCorP,NumbGen,M,HistCreditSpreads,TransformedHistDataDic,TenorCreditSpreads,InvPWCDF,DiscountFactorCurve,ImpHazdRts,DataTenorDic,CDSPaymentTenors,CDSBasketMaturity,TFairSpread=[],GaussFairSpread=[],R=0.4):
+def FullMCFairSpreadValuation(startTime,LogRtnCorP,RankCorP,M,HistCreditSpreads,TransformedHistDataDic,TenorCreditSpreads,InvPWCDF,DiscountFactorCurve,ImpHazdRts,DataTenorDic,CDSPaymentTenors,CDSBasketMaturity,TFairSpread=[],GaussFairSpread=[],R=0.4):
 
-    TLegs = SimulateCDSBasketDefaultsAndValueLegsT(startTime,RankCorP,NumbGen,M,HistCreditSpreads,TransformedHistDataDic,TenorCreditSpreads,InvPWCDF,DiscountFactorCurve,ImpHazdRts,DataTenorDic,CDSPaymentTenors,CDSBasketMaturity,TFairSpread,R)
-    GaussLegs = SimulateCDSBasketDefaultsAndValueLegsGauss(TLegs[2],LogRtnCorP,NumbGen,M,HistCreditSpreads,TenorCreditSpreads,InvPWCDF,DiscountFactorCurve,ImpHazdRts,DataTenorDic,CDSPaymentTenors,CDSBasketMaturity,GaussFairSpread,R)
+    TLegs = SimulateCDSBasketDefaultsAndValueLegsT(startTime,RankCorP,M,HistCreditSpreads,TransformedHistDataDic,TenorCreditSpreads,InvPWCDF,DiscountFactorCurve,ImpHazdRts,DataTenorDic,CDSPaymentTenors,CDSBasketMaturity,TFairSpread,R)
+    GaussLegs = SimulateCDSBasketDefaultsAndValueLegsGauss(TLegs[2],LogRtnCorP,M,HistCreditSpreads,TenorCreditSpreads,InvPWCDF,DiscountFactorCurve,ImpHazdRts,DataTenorDic,CDSPaymentTenors,CDSBasketMaturity,GaussFairSpread,R)
 
 
     GaussFairSpread,t9 = CalculateFairSpreadFromLegs(GaussLegs[0],GaussLegs[1],M,GaussLegs[2],"Gauss")
