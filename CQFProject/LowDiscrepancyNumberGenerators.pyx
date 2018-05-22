@@ -63,7 +63,7 @@ cdef class SobolNumbers:
     cdef int initDirectionals(self):
         cdef int j,k,l
         cdef int i,ipp
-        cdef np.ndarray[DTYPE_t,ndim=2] iU = np.zeros(shape=(self.b+1,self.MAXDIM),dtype=DTYPE)
+        #cdef np.ndarray[DTYPE_t,ndim=2] iU = np.zeros(shape=(self.b+1,self.MAXDIM),dtype=DTYPE)
         self.ix = np.asarray([0] + list(np.zeros(self.MAXDIM,dtype=DTYPE)),dtype=DTYPE)
         if self.initV[1] != 1: 
             return -1

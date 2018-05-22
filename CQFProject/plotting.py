@@ -7,6 +7,7 @@ import pandas as pd
 from CumulativeAverager import CumAverage
 from scipy.interpolate import interp1d
 from scipy import interpolate
+from Returns import AIC, mean, sd
 import os
 import time
 
@@ -16,7 +17,7 @@ if not os.path.exists(SubmissionFilePath):
 
 def pyplot_memcheck():
     fignums = plt.get_fignums()
-    if len(fignums) > 10:
+    if len(fignums) > 19:
         save_all_figs()
 
 def save_all_figs():
@@ -65,15 +66,15 @@ def plot_codependence_scatters(dataDic,xlabel,ylabel=""):
     nPlt = int((ln * (ln - 1))/2)
     n = nPlt
     #keep on dividing by 2 with no remainder until it is not possible:
-    i = 0
+    i = 1
     if not( n % 2 == 0) and n > 2:
         n -= 1
     if n > 1:
-        while n % 2 == 0 and n > 1:
+        while (n % 2 == 0 and n > 1) or n > 5:
             i += 1
-            n >>= 1
-    else:
-        i = 1 
+            if not n % 2 == 0:
+                n -= 1
+            n >>= 1   
     
     numCols = int(nPlt / i)
     if nPlt % i > 0:
@@ -94,7 +95,7 @@ def return_scatter(xdata,ydata,name,numberPlot=1,noOfPlotsW=1, noOfPlotsH=1,xlab
         fig = plt.figure(figsize=(10, 6))
         fig.canvas.set_window_title(name)
         fig.canvas.figure.set_label(name)
-    plt.subplot(noOfPlotsW,noOfPlotsH,numberPlot)
+    plt.subplot(noOfPlotsH,noOfPlotsW,numberPlot)
     x = np.linspace(min(xdata), max(xdata), 100)
     plt.xlabel(xlabel)
     plt.ylabel(ylabel)
@@ -324,54 +325,72 @@ def dExpForPiecewiselambda(rates, tenors):
     return y
 
 # histogram of annualized daily log returns
-def return_histogram(data,name,numberPlot=1,noOfPlotsW=1, noOfPlotsH=1,xlabel = "", length = 1, f = None):
+def return_histogram(data,name,numberPlot=1,noOfPlotsW=1, noOfPlotsH=1,xlabel = "", length = 1, f = None, displayMiddlePercentile=100, figSize = (10,6)):
     ''' Plots a histogram of the returns. '''
     pyplot_memcheck()
     if f == None:
-        fig = plt.figure(figsize=(10, 6))
+        fig = plt.figure(figsize=figSize)
         fig.canvas.set_window_title(name)
         fig.canvas.figure.set_label(name)
     else:
         fig = f
 
     plt.subplot(noOfPlotsW,noOfPlotsH,numberPlot)
-    x = np.linspace(min(data), max(data), 100)
+    c = int((100 - min(max(0,displayMiddlePercentile),100))/2)
+    x = np.linspace(np.percentile(data,c), np.percentile(data,100-c), 100)
     plt.hist(np.array(data), bins=50, normed=True)
+    lw = 0.5 if length > 8 else 2.0
     y = dN(x, np.mean(data), np.std(data))
-    plt.plot(x, y, linewidth=2)
-    if min(data) >= 0:
+    plt.plot(x, y, linewidth=lw)
+    if min(data) >= 0 and not np.mean(data) == 0:
         w = dExp(x, 1 / np.mean(data))
-        plt.plot(x, w, linewidth=2)
+        plt.plot(x, w, linewidth=lw)
     
     plt.xlabel(xlabel)
     plt.ylabel('Frequency')
     plt.title(name[:70] + '\n' + name[70:])
     plt.grid(True)
-    if numberPlot==length:
-        #fig.tight_layout()
-        fig.subplots_adjust(hspace=1.0,
-                    wspace=0.20)
+    #if numberPlot==length:
+    #    #fig.tight_layout()
+    #    fig.subplots_adjust(hspace=1.0,
+    #                wspace=0.20)
     return fig
 
-def plot_histogram_array(dataDic,xlabel):
+def plot_histogram_array(dataDic,xlabel, displayMiddlePercentile=100, outPercentiles=[1, 5, 10, 25, 75, 90, 95, 99]):
+    '''
+    Pass a dictionary will plot a histogram for the data on each key.
+    displayMiddlePercentile allows user to plot middle percent of the distribution only and ignore the tails.
+    outPercentiles define the sample percentile values to return for each dataset in the dataDic.
+    Returns a dict of {[key]: (mean, sd, dict(percentile, value))}
+    '''
     keys = list(dataDic.keys())
-    ln = len(keys)
-    #keep on dividing by 2 with no remainder until it is not possible:
-    i = 0
-    if not( ln % 2 == 0) and ln > 2:
-        ln -= 1
-    while ln % 2 == 0 and ln > 1:
-        i += 1
-        ln >>= 1
-    ln = len(keys)
-    numCols = int(ln / i)
-    if ln % i > 0:
+    nPlt = len(keys)
+    n = nPlt
+    i = 1
+    if not( n % 2 == 0) and n > 2:
+        n -= 1
+    if n > 1:
+        while (n % 2 == 0 and n > 1) or n > 5:
+            i += 1
+            if not n % 2 == 0:
+                n -= 1
+            n >>= 1   
+    
+    numCols = int(nPlt / i)
+    if nPlt % i > 0:
         numCols += 1
     numRows = i
     f = None
-    for j in range(0,ln):
+    figSize=(8 if numCols <= 3 else 16,14 if numRows > 3 else 6)
+    result = dict()
+    for j in range(0,nPlt):
         key = keys[j]
-        f = return_histogram(dataDic[key],key,j+1,numCols,numRows,xlabel, ln, f)
+        f = return_histogram(dataDic[key],key,j+1,numCols,numRows,xlabel, nPlt, f, displayMiddlePercentile, figSize)
+        result[key] = (mean(dataDic[key]), sd(dataDic[key]), np.fromiter(map(lambda p: np.percentile(dataDic[key],p),outPercentiles),dtype=np.float))
+    plt.tight_layout()
+    plt.subplots_adjust(hspace=1.0,wspace=0.2)
+    return result
+
 
 def SuitableRegressionFit(x,y,name="",numberOfAdditionalPointsToReturn=100,startingPower=0):
     #Use AIC to estimate best power to use as this is a PREDICTIVE MODEL for volaty functions that will be used to simulate future volatilites.

@@ -18,7 +18,7 @@ def SimulateCDSBasketDefaultsAndValueLegsT(TimeAtStart,CorP,M,HistCreditSpreads,
     CompensationLegSumsForEachRefNameT = np.zeros(shape=(M,5),dtype=np.float)
     PremiumLegSumsForEachRefNameT = np.zeros(shape=(M,5),dtype=np.float)
     NumbGen = SobolNumbers()
-    NumbGen.initialise(LogRtnCorP.shape[0])
+    NumbGen.initialise(CorP.shape[0])
     UT = UnifFromTCopula(CorP,NumbGen,len(TransformedHistDataDic[HistCreditSpreads.columns[1]]) - 1,M)
     UniformityDic = dict()
     for i in range(2,4):
@@ -58,7 +58,7 @@ def SimulateCDSBasketDefaultsAndValueLegsGauss(TimeAtStart,CorP,M,HistCreditSpre
     CompensationLegSumsForEachRefNameGauss = np.zeros(shape=(M,5),dtype=np.float)
     PremiumLegSumsForEachRefNameGauss = np.zeros(shape=(M,5),dtype=np.float)
     NumbGen = SobolNumbers()
-    NumbGen.initialise(LogRtnCorP.shape[0])
+    NumbGen.initialise(CorP.shape[0])
     UNorm = UnifFromGaussCopula(CorP,NumbGen,M)
     UniformityDic = dict()
     for i in range(0,2):

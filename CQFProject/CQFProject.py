@@ -398,7 +398,7 @@ return_scatter_multdependencies(np.arange(1,6,1,dtype=np.int),np.array([TFairSpr
 #todo For Credit Tweaks MEASURE the affect on EACH of the kth to default basket cds. ie (change in credit spread <Tweak>)/(change in fair spread of the KTH to default basket only.) -> Use different tweak amounts
 
 #TODO FIT THE FUCKING TAILS WITH A GENERALISED PARETO DISTRIBUTION
-print("Enter any key to finish.")
+print("Enter any key to finish. (Debug Point)")
 
 save_all_figs()
 userIn = input()

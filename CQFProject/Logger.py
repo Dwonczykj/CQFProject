@@ -10,7 +10,7 @@ def printf(str):
     logfile.write('\n-------------------------------\n')
     logfile.close()
 
-def convertToLaTeX(df,name="" , alignment="c", horAlignment="l"):
+def convertToLaTeX(df,name="", alignment="c", horAlignment="l", topLeftCellText=""):
     """
     Convert a pandas dataframe to a LaTeX tabular.
     Prints labels in bold, does not use math mode
@@ -23,7 +23,7 @@ def convertToLaTeX(df,name="" , alignment="c", horAlignment="l"):
     #Write header
     output.write("\\begin{center}\n \\begin{tabular}{%s}\n\hline\n" % newColFormat)
     columnLabels = ["\\textbf{%s}" % label for label in df.columns]
-    output.write("& %s\\\\\\hhline{|%s}\n" % (" & ".join(columnLabels),"=|"*(numColumns + 1)))
+    output.write("\textbf{{0}} ".format(topLeftCellText)+"& %s\\\\\\hhline{|%s}\n" % (" & ".join(columnLabels),"=|"*(numColumns + 1)))
     #Write data lines
     for i in range(numRows):
         ind = df.index[i]
@@ -52,5 +52,6 @@ def convertToLaTeX(df,name="" , alignment="c", horAlignment="l"):
         file = open(SubmissionFilePath,"w")
         file.write(output.getvalue())
     file.close()
+
     return output.getvalue()
 
