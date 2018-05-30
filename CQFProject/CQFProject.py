@@ -89,6 +89,7 @@ DataTenorDic = dict()
 ImpProbDic = dict()
 ImpHazdRts = dict()
 InvPWCDF = dict()
+PWCDF = dict()
 hazardLines = [[] for i in range(0,5)]
 hazardLegend = ["" for i in range(0,5)]
 for i in range(0,5*5,5):
@@ -100,7 +101,7 @@ for i in range(0,5*5,5):
     ImpHazdRts[IndKey] = GetHazardsFromP(BootstrappedSurvProbs,Tenors)
     hazardLegend[int(i/5)] = IndKey
     hazardLines[int(i/5)] = [0] + ImpHazdRts[IndKey]
-    InvPWCDF[IndKey] = ApproxPWCDFDicFromHazardRates(ImpHazdRts[IndKey],0.01)
+    InvPWCDF[IndKey], PWCDF[IndKey] = ApproxPWCDFDicFromHazardRates(ImpHazdRts[IndKey],0.01)
 t2 = time.time()
 return_lineChart(np.arange(0,6,1,dtype=np.int),np.array(hazardLines),"Hazard Rates",xlabel="Time/years",ylabel="Hazard Rate", legend=hazardLegend)
 print("Took %.10f seconds to Grab Tenor Data and Init Inverse Empirical CDF functions." % (t2 - t1))
@@ -304,6 +305,7 @@ def TweakCDSSpreads(TweakIndKey,TweakAmountInBps):
     TweakedImpProbDic = dict()
     TweakedImpHazdRts = dict()
     TweakedInvPWCDF = dict()
+    TweakedPWCDF = dict()
     for i in range(0,5*5,5):
         IndKey = TenorCreditSpreads['Ticker'][i]
         TweakedDataTenorDic[IndKey] = TenorCreditSpreads['DataSR'][i:(i+5)] / 1000
@@ -314,7 +316,7 @@ def TweakCDSSpreads(TweakIndKey,TweakAmountInBps):
         Tenors = TweakedImpProbDic[IndKey].index
         BootstrappedSurvProbs = TweakedImpProbDic[IndKey]['ImpliedPrSurv']
         TweakedImpHazdRts[IndKey] = GetHazardsFromP(BootstrappedSurvProbs,Tenors)
-        TweakedInvPWCDF[IndKey] = ApproxPWCDFDicFromHazardRates(TweakedImpHazdRts[IndKey],0.01)
+        TweakedInvPWCDF[IndKey], TweakedPWCDF[IndKey] = ApproxPWCDFDicFromHazardRates(TweakedImpHazdRts[IndKey],0.01)
     return TweakedDataTenorDic, TweakedImpProbDic, TweakedImpHazdRts, TweakedInvPWCDF
 
 GaussFairSpreadTweakCDS = np.zeros(shape=(5,5),dtype=np.float)

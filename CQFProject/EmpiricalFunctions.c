@@ -4125,7 +4125,7 @@ static PyObject *__pyx_pf_18EmpiricalFunctions_4ApproxPWCDFDicFromHazardRates(CY
   /* "EmpiricalFunctions.pyx":67
  *     #    return fn(u,res.keys())
  *     #return InnerFn
- *     return FindClosestKeyInDicAndReturnValueAlgorithm(res)             # <<<<<<<<<<<<<<
+ *     return FindClosestKeyInDicAndReturnValueAlgorithm(res), P             # <<<<<<<<<<<<<<
  * 
  * 
  */
@@ -4175,8 +4175,16 @@ static PyObject *__pyx_pf_18EmpiricalFunctions_4ApproxPWCDFDicFromHazardRates(CY
     }
   }
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-  __pyx_r = __pyx_t_1;
+  __pyx_t_2 = PyTuple_New(2); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 67, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_2);
+  __Pyx_GIVEREF(__pyx_t_1);
+  PyTuple_SET_ITEM(__pyx_t_2, 0, __pyx_t_1);
+  __Pyx_INCREF(__pyx_v_P);
+  __Pyx_GIVEREF(__pyx_v_P);
+  PyTuple_SET_ITEM(__pyx_t_2, 1, __pyx_v_P);
   __pyx_t_1 = 0;
+  __pyx_r = __pyx_t_2;
+  __pyx_t_2 = 0;
   goto __pyx_L0;
 
   /* "EmpiricalFunctions.pyx":35

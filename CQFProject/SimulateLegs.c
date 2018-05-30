@@ -1728,6 +1728,7 @@ static const char __pyx_k_FairSpreads[] = "FairSpreads";
 static const char __pyx_k_HazardRates[] = "HazardRates";
 static const char __pyx_k_ImportError[] = "ImportError";
 static const char __pyx_k_IndKey_Hist[] = "IndKey_Hist";
+static const char __pyx_k_defaultTime[] = "defaultTime";
 static const char __pyx_k_i_TenorData[] = "i_TenorData";
 static const char __pyx_k_DataTenorDic[] = "DataTenorDic";
 static const char __pyx_k_IndKey_Tenor[] = "IndKey_Tenor";
@@ -1755,6 +1756,7 @@ static const char __pyx_k_CreateCDSPVLegsForExactDefault[] = "CreateCDSPVLegsFor
 static const char __pyx_k_numpy_core_multiarray_failed_to[] = "numpy.core.multiarray failed to import";
 static const char __pyx_k_unknown_dtype_code_in_numpy_pxd[] = "unknown dtype code in numpy.pxd (%d)";
 static const char __pyx_k_Format_string_allocated_too_shor[] = "Format string allocated too short, see comment in numpy.pxd";
+static const char __pyx_k_InitialNoDefaults_PeriodLengthYr[] = "InitialNoDefaults_PeriodLengthYrs";
 static const char __pyx_k_Non_native_byte_order_not_suppor[] = "Non-native byte order not supported";
 static const char __pyx_k_SimulateLegPricesFromCorrelation[] = "SimulateLegPricesFromCorrelationNormal";
 static const char __pyx_k_ndarray_is_not_Fortran_contiguou[] = "ndarray is not Fortran contiguous";
@@ -1783,6 +1785,7 @@ static PyObject *__pyx_n_s_ImpHazdRts;
 static PyObject *__pyx_n_s_ImportError;
 static PyObject *__pyx_n_s_IndKey_Hist;
 static PyObject *__pyx_n_s_IndKey_Tenor;
+static PyObject *__pyx_n_s_InitialNoDefaults_PeriodLengthYr;
 static PyObject *__pyx_n_s_InvPWCDF;
 static PyObject *__pyx_n_s_LogRtnCorP;
 static PyObject *__pyx_n_s_MultVarGaussianCopula;
@@ -1809,6 +1812,7 @@ static PyObject *__pyx_n_s_U_correlatedT;
 static PyObject *__pyx_n_s_ValueError;
 static PyObject *__pyx_n_s_cline_in_traceback;
 static PyObject *__pyx_n_s_columns;
+static PyObject *__pyx_n_s_defaultTime;
 static PyObject *__pyx_n_s_float;
 static PyObject *__pyx_n_s_i;
 static PyObject *__pyx_n_s_i_HistData;
@@ -1836,11 +1840,12 @@ static PyObject *__pyx_kp_u_unknown_dtype_code_in_numpy_pxd;
 static PyObject *__pyx_n_s_zeros;
 static PyObject *__pyx_pf_12SimulateLegs_UnifFromGaussCopula(CYTHON_UNUSED PyObject *__pyx_self, PyArrayObject *__pyx_v_LogRtnCorP, struct __pyx_obj_30LowDiscrepancyNumberGenerators_SobolNumbers *__pyx_v_NumbGen, int __pyx_v_noIterations); /* proto */
 static PyObject *__pyx_pf_12SimulateLegs_2UnifFromTCopula(CYTHON_UNUSED PyObject *__pyx_self, PyArrayObject *__pyx_v_RankCorP, struct __pyx_obj_30LowDiscrepancyNumberGenerators_SobolNumbers *__pyx_v_NumbGen, int __pyx_v_SeriesLength, int __pyx_v_noIterations); /* proto */
-static PyObject *__pyx_pf_12SimulateLegs_4SimulateLegPricesFromCorrelationNormal(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_HistCreditSpreads, PyObject *__pyx_v_TenorCreditSpreads, PyObject *__pyx_v_TenorCDSPayments, PyObject *__pyx_v_InvPWCDF, PyObject *__pyx_v_DiscountFactors, PyObject *__pyx_v_ImpHazdRts, CYTHON_UNUSED PyObject *__pyx_v_DataTenorDic, PyObject *__pyx_v_U_correlatedNorm, CYTHON_UNUSED PyObject *__pyx_v_CDSMaturity, PyObject *__pyx_v_FairSpreads, PyObject *__pyx_v_R); /* proto */
-static PyObject *__pyx_pf_12SimulateLegs_6SimulateLegPricesFromCorrelationT(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_HistCreditSpreads, PyObject *__pyx_v_TenorCreditSpreads, PyObject *__pyx_v_TenorCDSPayments, PyObject *__pyx_v_InvPWCDF, PyObject *__pyx_v_DiscountFactors, PyObject *__pyx_v_ImpHazdRts, CYTHON_UNUSED PyObject *__pyx_v_DataTenorDic, PyObject *__pyx_v_U_correlatedT, CYTHON_UNUSED PyObject *__pyx_v_CDSMaturity, PyObject *__pyx_v_FairSpreads, PyObject *__pyx_v_R); /* proto */
+static PyObject *__pyx_pf_12SimulateLegs_4SimulateLegPricesFromCorrelationNormal(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_HistCreditSpreads, PyObject *__pyx_v_TenorCreditSpreads, PyObject *__pyx_v_TenorCDSPayments, PyObject *__pyx_v_InvPWCDF, PyObject *__pyx_v_DiscountFactors, PyObject *__pyx_v_ImpHazdRts, CYTHON_UNUSED PyObject *__pyx_v_DataTenorDic, PyObject *__pyx_v_U_correlatedNorm, CYTHON_UNUSED PyObject *__pyx_v_CDSMaturity, PyObject *__pyx_v_FairSpreads, PyObject *__pyx_v_R, PyObject *__pyx_v_InitialNoDefaults_PeriodLengthYrs); /* proto */
+static PyObject *__pyx_pf_12SimulateLegs_6SimulateLegPricesFromCorrelationT(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_HistCreditSpreads, PyObject *__pyx_v_TenorCreditSpreads, PyObject *__pyx_v_TenorCDSPayments, PyObject *__pyx_v_InvPWCDF, PyObject *__pyx_v_DiscountFactors, PyObject *__pyx_v_ImpHazdRts, CYTHON_UNUSED PyObject *__pyx_v_DataTenorDic, PyObject *__pyx_v_U_correlatedT, CYTHON_UNUSED PyObject *__pyx_v_CDSMaturity, PyObject *__pyx_v_FairSpreads, PyObject *__pyx_v_R, PyObject *__pyx_v_InitialNoDefaults_PeriodLengthYrs); /* proto */
 static int __pyx_pf_5numpy_7ndarray___getbuffer__(PyArrayObject *__pyx_v_self, Py_buffer *__pyx_v_info, int __pyx_v_flags); /* proto */
 static void __pyx_pf_5numpy_7ndarray_2__releasebuffer__(PyArrayObject *__pyx_v_self, Py_buffer *__pyx_v_info); /* proto */
 static __Pyx_CachedCFunction __pyx_umethod_PyDict_Type_items = {0, &__pyx_n_s_items, 0, 0, 0};
+static PyObject *__pyx_float_0_0;
 static PyObject *__pyx_float_0_4;
 static PyObject *__pyx_int_1;
 static PyObject *__pyx_tuple_;
@@ -2404,7 +2409,7 @@ static PyArrayObject *__pyx_f_12SimulateLegs_UnifFromTCopula(PyArrayObject *__py
  *             u[j,i] = x[j]
  *     return u             # <<<<<<<<<<<<<<
  * 
- * def SimulateLegPricesFromCorrelationNormal(HistCreditSpreads,TenorCreditSpreads,TenorCDSPayments,InvPWCDF,DiscountFactors,ImpHazdRts,DataTenorDic,U_correlatedNorm,CDSMaturity,FairSpreads,R=0.4):
+ * def SimulateLegPricesFromCorrelationNormal(HistCreditSpreads,TenorCreditSpreads,TenorCDSPayments,InvPWCDF,DiscountFactors,ImpHazdRts,DataTenorDic,U_correlatedNorm,CDSMaturity,FairSpreads,R=0.4,InitialNoDefaults_PeriodLengthYrs=0.0):
  */
   __Pyx_XDECREF(((PyObject *)__pyx_r));
   __Pyx_INCREF(((PyObject *)__pyx_v_u));
@@ -2560,7 +2565,7 @@ static PyObject *__pyx_pf_12SimulateLegs_2UnifFromTCopula(CYTHON_UNUSED PyObject
 /* "SimulateLegs.pyx":27
  *     return u
  * 
- * def SimulateLegPricesFromCorrelationNormal(HistCreditSpreads,TenorCreditSpreads,TenorCDSPayments,InvPWCDF,DiscountFactors,ImpHazdRts,DataTenorDic,U_correlatedNorm,CDSMaturity,FairSpreads,R=0.4):             # <<<<<<<<<<<<<<
+ * def SimulateLegPricesFromCorrelationNormal(HistCreditSpreads,TenorCreditSpreads,TenorCDSPayments,InvPWCDF,DiscountFactors,ImpHazdRts,DataTenorDic,U_correlatedNorm,CDSMaturity,FairSpreads,R=0.4,InitialNoDefaults_PeriodLengthYrs=0.0):             # <<<<<<<<<<<<<<
  *     cdef int i,i_TenorData,i_HistData
  *     ExactDefaultTimesGauss = dict()
  */
@@ -2580,17 +2585,21 @@ static PyObject *__pyx_pw_12SimulateLegs_5SimulateLegPricesFromCorrelationNormal
   CYTHON_UNUSED PyObject *__pyx_v_CDSMaturity = 0;
   PyObject *__pyx_v_FairSpreads = 0;
   PyObject *__pyx_v_R = 0;
+  PyObject *__pyx_v_InitialNoDefaults_PeriodLengthYrs = 0;
   PyObject *__pyx_r = 0;
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("SimulateLegPricesFromCorrelationNormal (wrapper)", 0);
   {
-    static PyObject **__pyx_pyargnames[] = {&__pyx_n_s_HistCreditSpreads,&__pyx_n_s_TenorCreditSpreads,&__pyx_n_s_TenorCDSPayments,&__pyx_n_s_InvPWCDF,&__pyx_n_s_DiscountFactors,&__pyx_n_s_ImpHazdRts,&__pyx_n_s_DataTenorDic,&__pyx_n_s_U_correlatedNorm,&__pyx_n_s_CDSMaturity,&__pyx_n_s_FairSpreads,&__pyx_n_s_R,0};
-    PyObject* values[11] = {0,0,0,0,0,0,0,0,0,0,0};
+    static PyObject **__pyx_pyargnames[] = {&__pyx_n_s_HistCreditSpreads,&__pyx_n_s_TenorCreditSpreads,&__pyx_n_s_TenorCDSPayments,&__pyx_n_s_InvPWCDF,&__pyx_n_s_DiscountFactors,&__pyx_n_s_ImpHazdRts,&__pyx_n_s_DataTenorDic,&__pyx_n_s_U_correlatedNorm,&__pyx_n_s_CDSMaturity,&__pyx_n_s_FairSpreads,&__pyx_n_s_R,&__pyx_n_s_InitialNoDefaults_PeriodLengthYr,0};
+    PyObject* values[12] = {0,0,0,0,0,0,0,0,0,0,0,0};
     values[10] = ((PyObject *)__pyx_float_0_4);
+    values[11] = ((PyObject *)__pyx_float_0_0);
     if (unlikely(__pyx_kwds)) {
       Py_ssize_t kw_args;
       const Py_ssize_t pos_args = PyTuple_GET_SIZE(__pyx_args);
       switch (pos_args) {
+        case 12: values[11] = PyTuple_GET_ITEM(__pyx_args, 11);
+        CYTHON_FALLTHROUGH;
         case 11: values[10] = PyTuple_GET_ITEM(__pyx_args, 10);
         CYTHON_FALLTHROUGH;
         case 10: values[9] = PyTuple_GET_ITEM(__pyx_args, 9);
@@ -2625,55 +2634,55 @@ static PyObject *__pyx_pw_12SimulateLegs_5SimulateLegPricesFromCorrelationNormal
         case  1:
         if (likely((values[1] = PyDict_GetItem(__pyx_kwds, __pyx_n_s_TenorCreditSpreads)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("SimulateLegPricesFromCorrelationNormal", 0, 10, 11, 1); __PYX_ERR(0, 27, __pyx_L3_error)
+          __Pyx_RaiseArgtupleInvalid("SimulateLegPricesFromCorrelationNormal", 0, 10, 12, 1); __PYX_ERR(0, 27, __pyx_L3_error)
         }
         CYTHON_FALLTHROUGH;
         case  2:
         if (likely((values[2] = PyDict_GetItem(__pyx_kwds, __pyx_n_s_TenorCDSPayments)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("SimulateLegPricesFromCorrelationNormal", 0, 10, 11, 2); __PYX_ERR(0, 27, __pyx_L3_error)
+          __Pyx_RaiseArgtupleInvalid("SimulateLegPricesFromCorrelationNormal", 0, 10, 12, 2); __PYX_ERR(0, 27, __pyx_L3_error)
         }
         CYTHON_FALLTHROUGH;
         case  3:
         if (likely((values[3] = PyDict_GetItem(__pyx_kwds, __pyx_n_s_InvPWCDF)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("SimulateLegPricesFromCorrelationNormal", 0, 10, 11, 3); __PYX_ERR(0, 27, __pyx_L3_error)
+          __Pyx_RaiseArgtupleInvalid("SimulateLegPricesFromCorrelationNormal", 0, 10, 12, 3); __PYX_ERR(0, 27, __pyx_L3_error)
         }
         CYTHON_FALLTHROUGH;
         case  4:
         if (likely((values[4] = PyDict_GetItem(__pyx_kwds, __pyx_n_s_DiscountFactors)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("SimulateLegPricesFromCorrelationNormal", 0, 10, 11, 4); __PYX_ERR(0, 27, __pyx_L3_error)
+          __Pyx_RaiseArgtupleInvalid("SimulateLegPricesFromCorrelationNormal", 0, 10, 12, 4); __PYX_ERR(0, 27, __pyx_L3_error)
         }
         CYTHON_FALLTHROUGH;
         case  5:
         if (likely((values[5] = PyDict_GetItem(__pyx_kwds, __pyx_n_s_ImpHazdRts)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("SimulateLegPricesFromCorrelationNormal", 0, 10, 11, 5); __PYX_ERR(0, 27, __pyx_L3_error)
+          __Pyx_RaiseArgtupleInvalid("SimulateLegPricesFromCorrelationNormal", 0, 10, 12, 5); __PYX_ERR(0, 27, __pyx_L3_error)
         }
         CYTHON_FALLTHROUGH;
         case  6:
         if (likely((values[6] = PyDict_GetItem(__pyx_kwds, __pyx_n_s_DataTenorDic)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("SimulateLegPricesFromCorrelationNormal", 0, 10, 11, 6); __PYX_ERR(0, 27, __pyx_L3_error)
+          __Pyx_RaiseArgtupleInvalid("SimulateLegPricesFromCorrelationNormal", 0, 10, 12, 6); __PYX_ERR(0, 27, __pyx_L3_error)
         }
         CYTHON_FALLTHROUGH;
         case  7:
         if (likely((values[7] = PyDict_GetItem(__pyx_kwds, __pyx_n_s_U_correlatedNorm)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("SimulateLegPricesFromCorrelationNormal", 0, 10, 11, 7); __PYX_ERR(0, 27, __pyx_L3_error)
+          __Pyx_RaiseArgtupleInvalid("SimulateLegPricesFromCorrelationNormal", 0, 10, 12, 7); __PYX_ERR(0, 27, __pyx_L3_error)
         }
         CYTHON_FALLTHROUGH;
         case  8:
         if (likely((values[8] = PyDict_GetItem(__pyx_kwds, __pyx_n_s_CDSMaturity)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("SimulateLegPricesFromCorrelationNormal", 0, 10, 11, 8); __PYX_ERR(0, 27, __pyx_L3_error)
+          __Pyx_RaiseArgtupleInvalid("SimulateLegPricesFromCorrelationNormal", 0, 10, 12, 8); __PYX_ERR(0, 27, __pyx_L3_error)
         }
         CYTHON_FALLTHROUGH;
         case  9:
         if (likely((values[9] = PyDict_GetItem(__pyx_kwds, __pyx_n_s_FairSpreads)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("SimulateLegPricesFromCorrelationNormal", 0, 10, 11, 9); __PYX_ERR(0, 27, __pyx_L3_error)
+          __Pyx_RaiseArgtupleInvalid("SimulateLegPricesFromCorrelationNormal", 0, 10, 12, 9); __PYX_ERR(0, 27, __pyx_L3_error)
         }
         CYTHON_FALLTHROUGH;
         case 10:
@@ -2681,12 +2690,20 @@ static PyObject *__pyx_pw_12SimulateLegs_5SimulateLegPricesFromCorrelationNormal
           PyObject* value = PyDict_GetItem(__pyx_kwds, __pyx_n_s_R);
           if (value) { values[10] = value; kw_args--; }
         }
+        CYTHON_FALLTHROUGH;
+        case 11:
+        if (kw_args > 0) {
+          PyObject* value = PyDict_GetItem(__pyx_kwds, __pyx_n_s_InitialNoDefaults_PeriodLengthYr);
+          if (value) { values[11] = value; kw_args--; }
+        }
       }
       if (unlikely(kw_args > 0)) {
         if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "SimulateLegPricesFromCorrelationNormal") < 0)) __PYX_ERR(0, 27, __pyx_L3_error)
       }
     } else {
       switch (PyTuple_GET_SIZE(__pyx_args)) {
+        case 12: values[11] = PyTuple_GET_ITEM(__pyx_args, 11);
+        CYTHON_FALLTHROUGH;
         case 11: values[10] = PyTuple_GET_ITEM(__pyx_args, 10);
         CYTHON_FALLTHROUGH;
         case 10: values[9] = PyTuple_GET_ITEM(__pyx_args, 9);
@@ -2714,23 +2731,24 @@ static PyObject *__pyx_pw_12SimulateLegs_5SimulateLegPricesFromCorrelationNormal
     __pyx_v_CDSMaturity = values[8];
     __pyx_v_FairSpreads = values[9];
     __pyx_v_R = values[10];
+    __pyx_v_InitialNoDefaults_PeriodLengthYrs = values[11];
   }
   goto __pyx_L4_argument_unpacking_done;
   __pyx_L5_argtuple_error:;
-  __Pyx_RaiseArgtupleInvalid("SimulateLegPricesFromCorrelationNormal", 0, 10, 11, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 27, __pyx_L3_error)
+  __Pyx_RaiseArgtupleInvalid("SimulateLegPricesFromCorrelationNormal", 0, 10, 12, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 27, __pyx_L3_error)
   __pyx_L3_error:;
   __Pyx_AddTraceback("SimulateLegs.SimulateLegPricesFromCorrelationNormal", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __Pyx_RefNannyFinishContext();
   return NULL;
   __pyx_L4_argument_unpacking_done:;
-  __pyx_r = __pyx_pf_12SimulateLegs_4SimulateLegPricesFromCorrelationNormal(__pyx_self, __pyx_v_HistCreditSpreads, __pyx_v_TenorCreditSpreads, __pyx_v_TenorCDSPayments, __pyx_v_InvPWCDF, __pyx_v_DiscountFactors, __pyx_v_ImpHazdRts, __pyx_v_DataTenorDic, __pyx_v_U_correlatedNorm, __pyx_v_CDSMaturity, __pyx_v_FairSpreads, __pyx_v_R);
+  __pyx_r = __pyx_pf_12SimulateLegs_4SimulateLegPricesFromCorrelationNormal(__pyx_self, __pyx_v_HistCreditSpreads, __pyx_v_TenorCreditSpreads, __pyx_v_TenorCDSPayments, __pyx_v_InvPWCDF, __pyx_v_DiscountFactors, __pyx_v_ImpHazdRts, __pyx_v_DataTenorDic, __pyx_v_U_correlatedNorm, __pyx_v_CDSMaturity, __pyx_v_FairSpreads, __pyx_v_R, __pyx_v_InitialNoDefaults_PeriodLengthYrs);
 
   /* function exit code */
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-static PyObject *__pyx_pf_12SimulateLegs_4SimulateLegPricesFromCorrelationNormal(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_HistCreditSpreads, PyObject *__pyx_v_TenorCreditSpreads, PyObject *__pyx_v_TenorCDSPayments, PyObject *__pyx_v_InvPWCDF, PyObject *__pyx_v_DiscountFactors, PyObject *__pyx_v_ImpHazdRts, CYTHON_UNUSED PyObject *__pyx_v_DataTenorDic, PyObject *__pyx_v_U_correlatedNorm, CYTHON_UNUSED PyObject *__pyx_v_CDSMaturity, PyObject *__pyx_v_FairSpreads, PyObject *__pyx_v_R) {
+static PyObject *__pyx_pf_12SimulateLegs_4SimulateLegPricesFromCorrelationNormal(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_HistCreditSpreads, PyObject *__pyx_v_TenorCreditSpreads, PyObject *__pyx_v_TenorCDSPayments, PyObject *__pyx_v_InvPWCDF, PyObject *__pyx_v_DiscountFactors, PyObject *__pyx_v_ImpHazdRts, CYTHON_UNUSED PyObject *__pyx_v_DataTenorDic, PyObject *__pyx_v_U_correlatedNorm, CYTHON_UNUSED PyObject *__pyx_v_CDSMaturity, PyObject *__pyx_v_FairSpreads, PyObject *__pyx_v_R, PyObject *__pyx_v_InitialNoDefaults_PeriodLengthYrs) {
   int __pyx_v_i;
   int __pyx_v_i_TenorData;
   int __pyx_v_i_HistData;
@@ -2739,6 +2757,7 @@ static PyObject *__pyx_pf_12SimulateLegs_4SimulateLegPricesFromCorrelationNormal
   PyObject *__pyx_v_CDSLegsSumN = NULL;
   CYTHON_UNUSED PyObject *__pyx_v_IndKey_Hist = NULL;
   PyObject *__pyx_v_IndKey_Tenor = NULL;
+  PyObject *__pyx_v_defaultTime = NULL;
   PyObject *__pyx_v_OrderedExactDefaultTimesGauss = NULL;
   PyObject *__pyx_r = NULL;
   __Pyx_RefNannyDeclarations
@@ -2755,7 +2774,7 @@ static PyObject *__pyx_pf_12SimulateLegs_4SimulateLegPricesFromCorrelationNormal
   __Pyx_RefNannySetupContext("SimulateLegPricesFromCorrelationNormal", 0);
 
   /* "SimulateLegs.pyx":29
- * def SimulateLegPricesFromCorrelationNormal(HistCreditSpreads,TenorCreditSpreads,TenorCDSPayments,InvPWCDF,DiscountFactors,ImpHazdRts,DataTenorDic,U_correlatedNorm,CDSMaturity,FairSpreads,R=0.4):
+ * def SimulateLegPricesFromCorrelationNormal(HistCreditSpreads,TenorCreditSpreads,TenorCDSPayments,InvPWCDF,DiscountFactors,ImpHazdRts,DataTenorDic,U_correlatedNorm,CDSMaturity,FairSpreads,R=0.4,InitialNoDefaults_PeriodLengthYrs=0.0):
  *     cdef int i,i_TenorData,i_HistData
  *     ExactDefaultTimesGauss = dict()             # <<<<<<<<<<<<<<
  *     CDSLegsN = dict()
@@ -2823,7 +2842,7 @@ static PyObject *__pyx_pf_12SimulateLegs_4SimulateLegPricesFromCorrelationNormal
  *         i_HistData = i + 1
  *         IndKey_Hist = HistCreditSpreads.columns[i_HistData]             # <<<<<<<<<<<<<<
  *         IndKey_Tenor = TenorCreditSpreads['Ticker'][i_TenorData]
- *         ExactDefaultTimesGauss[IndKey_Tenor] = InvPWCDF[IndKey_Tenor](U_correlatedNorm[i])
+ *         defaultTime = InvPWCDF[IndKey_Tenor](U_correlatedNorm[i])
  */
     __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_v_HistCreditSpreads, __pyx_n_s_columns); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 36, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
@@ -2837,8 +2856,8 @@ static PyObject *__pyx_pf_12SimulateLegs_4SimulateLegPricesFromCorrelationNormal
  *         i_HistData = i + 1
  *         IndKey_Hist = HistCreditSpreads.columns[i_HistData]
  *         IndKey_Tenor = TenorCreditSpreads['Ticker'][i_TenorData]             # <<<<<<<<<<<<<<
- *         ExactDefaultTimesGauss[IndKey_Tenor] = InvPWCDF[IndKey_Tenor](U_correlatedNorm[i])
- * 
+ *         defaultTime = InvPWCDF[IndKey_Tenor](U_correlatedNorm[i])
+ *         ExactDefaultTimesGauss[IndKey_Tenor] = defaultTime + InitialNoDefaults_PeriodLengthYrs
  */
     __pyx_t_3 = PyObject_GetItem(__pyx_v_TenorCreditSpreads, __pyx_n_s_Ticker); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 37, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_3);
@@ -2851,9 +2870,9 @@ static PyObject *__pyx_pf_12SimulateLegs_4SimulateLegPricesFromCorrelationNormal
     /* "SimulateLegs.pyx":38
  *         IndKey_Hist = HistCreditSpreads.columns[i_HistData]
  *         IndKey_Tenor = TenorCreditSpreads['Ticker'][i_TenorData]
- *         ExactDefaultTimesGauss[IndKey_Tenor] = InvPWCDF[IndKey_Tenor](U_correlatedNorm[i])             # <<<<<<<<<<<<<<
+ *         defaultTime = InvPWCDF[IndKey_Tenor](U_correlatedNorm[i])             # <<<<<<<<<<<<<<
+ *         ExactDefaultTimesGauss[IndKey_Tenor] = defaultTime + InitialNoDefaults_PeriodLengthYrs
  * 
- *     OrderedExactDefaultTimesGauss = sorted(ExactDefaultTimesGauss.items(), key=operator.itemgetter(1)) #quickSort(list(ExactDefaultTimesGauss.values()))
  */
     __pyx_t_3 = PyObject_GetItem(__pyx_v_InvPWCDF, __pyx_v_IndKey_Tenor); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 38, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_3);
@@ -2905,44 +2924,56 @@ static PyObject *__pyx_pf_12SimulateLegs_4SimulateLegPricesFromCorrelationNormal
       }
     }
     __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-    if (unlikely(PyDict_SetItem(__pyx_v_ExactDefaultTimesGauss, __pyx_v_IndKey_Tenor, __pyx_t_1) < 0)) __PYX_ERR(0, 38, __pyx_L1_error)
+    __Pyx_XDECREF_SET(__pyx_v_defaultTime, __pyx_t_1);
+    __pyx_t_1 = 0;
+
+    /* "SimulateLegs.pyx":39
+ *         IndKey_Tenor = TenorCreditSpreads['Ticker'][i_TenorData]
+ *         defaultTime = InvPWCDF[IndKey_Tenor](U_correlatedNorm[i])
+ *         ExactDefaultTimesGauss[IndKey_Tenor] = defaultTime + InitialNoDefaults_PeriodLengthYrs             # <<<<<<<<<<<<<<
+ * 
+ *     OrderedExactDefaultTimesGauss = sorted(ExactDefaultTimesGauss.items(), key=operator.itemgetter(1)) #quickSort(list(ExactDefaultTimesGauss.values()))
+ */
+    __pyx_t_1 = PyNumber_Add(__pyx_v_defaultTime, __pyx_v_InitialNoDefaults_PeriodLengthYrs); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 39, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_1);
+    if (unlikely(PyDict_SetItem(__pyx_v_ExactDefaultTimesGauss, __pyx_v_IndKey_Tenor, __pyx_t_1) < 0)) __PYX_ERR(0, 39, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   }
 
-  /* "SimulateLegs.pyx":40
- *         ExactDefaultTimesGauss[IndKey_Tenor] = InvPWCDF[IndKey_Tenor](U_correlatedNorm[i])
+  /* "SimulateLegs.pyx":41
+ *         ExactDefaultTimesGauss[IndKey_Tenor] = defaultTime + InitialNoDefaults_PeriodLengthYrs
  * 
  *     OrderedExactDefaultTimesGauss = sorted(ExactDefaultTimesGauss.items(), key=operator.itemgetter(1)) #quickSort(list(ExactDefaultTimesGauss.values()))             # <<<<<<<<<<<<<<
  *     for i in range(0,5):
  *         IndKey_Tenor = OrderedExactDefaultTimesGauss[i][0]
  */
-  __pyx_t_1 = __Pyx_PyDict_Items(__pyx_v_ExactDefaultTimesGauss); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 40, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyDict_Items(__pyx_v_ExactDefaultTimesGauss); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 41, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_3 = PyTuple_New(1); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 40, __pyx_L1_error)
+  __pyx_t_3 = PyTuple_New(1); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 41, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
   __Pyx_GIVEREF(__pyx_t_1);
   PyTuple_SET_ITEM(__pyx_t_3, 0, __pyx_t_1);
   __pyx_t_1 = 0;
-  __pyx_t_1 = __Pyx_PyDict_NewPresized(1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 40, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyDict_NewPresized(1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 41, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_6 = __Pyx_GetModuleGlobalName(__pyx_n_s_operator); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 40, __pyx_L1_error)
+  __pyx_t_6 = __Pyx_GetModuleGlobalName(__pyx_n_s_operator); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 41, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_6);
-  __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_t_6, __pyx_n_s_itemgetter); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 40, __pyx_L1_error)
+  __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_t_6, __pyx_n_s_itemgetter); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 41, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
   __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
-  __pyx_t_6 = __Pyx_PyObject_Call(__pyx_t_4, __pyx_tuple_, NULL); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 40, __pyx_L1_error)
+  __pyx_t_6 = __Pyx_PyObject_Call(__pyx_t_4, __pyx_tuple_, NULL); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 41, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_6);
   __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-  if (PyDict_SetItem(__pyx_t_1, __pyx_n_s_key, __pyx_t_6) < 0) __PYX_ERR(0, 40, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_t_1, __pyx_n_s_key, __pyx_t_6) < 0) __PYX_ERR(0, 41, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
-  __pyx_t_6 = __Pyx_PyObject_Call(__pyx_builtin_sorted, __pyx_t_3, __pyx_t_1); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 40, __pyx_L1_error)
+  __pyx_t_6 = __Pyx_PyObject_Call(__pyx_builtin_sorted, __pyx_t_3, __pyx_t_1); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 41, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_6);
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   __pyx_v_OrderedExactDefaultTimesGauss = __pyx_t_6;
   __pyx_t_6 = 0;
 
-  /* "SimulateLegs.pyx":41
+  /* "SimulateLegs.pyx":42
  * 
  *     OrderedExactDefaultTimesGauss = sorted(ExactDefaultTimesGauss.items(), key=operator.itemgetter(1)) #quickSort(list(ExactDefaultTimesGauss.values()))
  *     for i in range(0,5):             # <<<<<<<<<<<<<<
@@ -2952,40 +2983,40 @@ static PyObject *__pyx_pf_12SimulateLegs_4SimulateLegPricesFromCorrelationNormal
   for (__pyx_t_2 = 0; __pyx_t_2 < 5; __pyx_t_2+=1) {
     __pyx_v_i = __pyx_t_2;
 
-    /* "SimulateLegs.pyx":42
+    /* "SimulateLegs.pyx":43
  *     OrderedExactDefaultTimesGauss = sorted(ExactDefaultTimesGauss.items(), key=operator.itemgetter(1)) #quickSort(list(ExactDefaultTimesGauss.values()))
  *     for i in range(0,5):
  *         IndKey_Tenor = OrderedExactDefaultTimesGauss[i][0]             # <<<<<<<<<<<<<<
  *         CDSLegsN[i+1] = CreateCDSPVLegsForExactDefault(OrderedExactDefaultTimesGauss[i][1],TenorCDSPayments,ImpHazdRts[IndKey_Tenor],DiscountFactors["Sonia"],FairSpreads[i],R)
  *         #todo: how can we use this spread unless we already know a SIMULATED defualt time which then gives us the order of defaults and hence which of the kth to default spreads to use.
  */
-    __pyx_t_6 = __Pyx_GetItemInt(__pyx_v_OrderedExactDefaultTimesGauss, __pyx_v_i, int, 1, __Pyx_PyInt_From_int, 0, 1, 1); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 42, __pyx_L1_error)
+    __pyx_t_6 = __Pyx_GetItemInt(__pyx_v_OrderedExactDefaultTimesGauss, __pyx_v_i, int, 1, __Pyx_PyInt_From_int, 0, 1, 1); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 43, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_6);
-    __pyx_t_1 = __Pyx_GetItemInt(__pyx_t_6, 0, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 42, __pyx_L1_error)
+    __pyx_t_1 = __Pyx_GetItemInt(__pyx_t_6, 0, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 43, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
     __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
     __Pyx_XDECREF_SET(__pyx_v_IndKey_Tenor, __pyx_t_1);
     __pyx_t_1 = 0;
 
-    /* "SimulateLegs.pyx":43
+    /* "SimulateLegs.pyx":44
  *     for i in range(0,5):
  *         IndKey_Tenor = OrderedExactDefaultTimesGauss[i][0]
  *         CDSLegsN[i+1] = CreateCDSPVLegsForExactDefault(OrderedExactDefaultTimesGauss[i][1],TenorCDSPayments,ImpHazdRts[IndKey_Tenor],DiscountFactors["Sonia"],FairSpreads[i],R)             # <<<<<<<<<<<<<<
  *         #todo: how can we use this spread unless we already know a SIMULATED defualt time which then gives us the order of defaults and hence which of the kth to default spreads to use.
  *         # CDSLegsN[i+1] = CreateCDSPVLegsForExactDefault(OrderedExactDefaultTimesGauss[i][1],TenorCDSPayments,ImpHazdRts[IndKey_Tenor],DiscountFactors["Sonia"],DataTenorDic[IndKey_Tenor][CDSMaturity-1],0.4) #Use quoted credit spread instead
  */
-    __pyx_t_6 = __Pyx_GetModuleGlobalName(__pyx_n_s_CreateCDSPVLegsForExactDefault); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 43, __pyx_L1_error)
+    __pyx_t_6 = __Pyx_GetModuleGlobalName(__pyx_n_s_CreateCDSPVLegsForExactDefault); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 44, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_6);
-    __pyx_t_3 = __Pyx_GetItemInt(__pyx_v_OrderedExactDefaultTimesGauss, __pyx_v_i, int, 1, __Pyx_PyInt_From_int, 0, 1, 1); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 43, __pyx_L1_error)
+    __pyx_t_3 = __Pyx_GetItemInt(__pyx_v_OrderedExactDefaultTimesGauss, __pyx_v_i, int, 1, __Pyx_PyInt_From_int, 0, 1, 1); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 44, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_3);
-    __pyx_t_4 = __Pyx_GetItemInt(__pyx_t_3, 1, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 43, __pyx_L1_error)
+    __pyx_t_4 = __Pyx_GetItemInt(__pyx_t_3, 1, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 44, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_4);
     __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-    __pyx_t_3 = PyObject_GetItem(__pyx_v_ImpHazdRts, __pyx_v_IndKey_Tenor); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 43, __pyx_L1_error)
+    __pyx_t_3 = PyObject_GetItem(__pyx_v_ImpHazdRts, __pyx_v_IndKey_Tenor); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 44, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_3);
-    __pyx_t_5 = PyObject_GetItem(__pyx_v_DiscountFactors, __pyx_n_s_Sonia); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 43, __pyx_L1_error)
+    __pyx_t_5 = PyObject_GetItem(__pyx_v_DiscountFactors, __pyx_n_s_Sonia); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 44, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_5);
-    __pyx_t_7 = __Pyx_GetItemInt(__pyx_v_FairSpreads, __pyx_v_i, int, 1, __Pyx_PyInt_From_int, 0, 1, 1); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 43, __pyx_L1_error)
+    __pyx_t_7 = __Pyx_GetItemInt(__pyx_v_FairSpreads, __pyx_v_i, int, 1, __Pyx_PyInt_From_int, 0, 1, 1); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 44, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_7);
     __pyx_t_8 = NULL;
     __pyx_t_9 = 0;
@@ -3002,7 +3033,7 @@ static PyObject *__pyx_pf_12SimulateLegs_4SimulateLegPricesFromCorrelationNormal
     #if CYTHON_FAST_PYCALL
     if (PyFunction_Check(__pyx_t_6)) {
       PyObject *__pyx_temp[7] = {__pyx_t_8, __pyx_t_4, __pyx_v_TenorCDSPayments, __pyx_t_3, __pyx_t_5, __pyx_t_7, __pyx_v_R};
-      __pyx_t_1 = __Pyx_PyFunction_FastCall(__pyx_t_6, __pyx_temp+1-__pyx_t_9, 6+__pyx_t_9); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 43, __pyx_L1_error)
+      __pyx_t_1 = __Pyx_PyFunction_FastCall(__pyx_t_6, __pyx_temp+1-__pyx_t_9, 6+__pyx_t_9); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 44, __pyx_L1_error)
       __Pyx_XDECREF(__pyx_t_8); __pyx_t_8 = 0;
       __Pyx_GOTREF(__pyx_t_1);
       __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
@@ -3014,7 +3045,7 @@ static PyObject *__pyx_pf_12SimulateLegs_4SimulateLegPricesFromCorrelationNormal
     #if CYTHON_FAST_PYCCALL
     if (__Pyx_PyFastCFunction_Check(__pyx_t_6)) {
       PyObject *__pyx_temp[7] = {__pyx_t_8, __pyx_t_4, __pyx_v_TenorCDSPayments, __pyx_t_3, __pyx_t_5, __pyx_t_7, __pyx_v_R};
-      __pyx_t_1 = __Pyx_PyCFunction_FastCall(__pyx_t_6, __pyx_temp+1-__pyx_t_9, 6+__pyx_t_9); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 43, __pyx_L1_error)
+      __pyx_t_1 = __Pyx_PyCFunction_FastCall(__pyx_t_6, __pyx_temp+1-__pyx_t_9, 6+__pyx_t_9); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 44, __pyx_L1_error)
       __Pyx_XDECREF(__pyx_t_8); __pyx_t_8 = 0;
       __Pyx_GOTREF(__pyx_t_1);
       __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
@@ -3024,7 +3055,7 @@ static PyObject *__pyx_pf_12SimulateLegs_4SimulateLegPricesFromCorrelationNormal
     } else
     #endif
     {
-      __pyx_t_10 = PyTuple_New(6+__pyx_t_9); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 43, __pyx_L1_error)
+      __pyx_t_10 = PyTuple_New(6+__pyx_t_9); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 44, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_10);
       if (__pyx_t_8) {
         __Pyx_GIVEREF(__pyx_t_8); PyTuple_SET_ITEM(__pyx_t_10, 0, __pyx_t_8); __pyx_t_8 = NULL;
@@ -3047,57 +3078,57 @@ static PyObject *__pyx_pf_12SimulateLegs_4SimulateLegPricesFromCorrelationNormal
       __pyx_t_3 = 0;
       __pyx_t_5 = 0;
       __pyx_t_7 = 0;
-      __pyx_t_1 = __Pyx_PyObject_Call(__pyx_t_6, __pyx_t_10, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 43, __pyx_L1_error)
+      __pyx_t_1 = __Pyx_PyObject_Call(__pyx_t_6, __pyx_t_10, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 44, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_1);
       __Pyx_DECREF(__pyx_t_10); __pyx_t_10 = 0;
     }
     __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
-    __pyx_t_6 = __Pyx_PyInt_From_long((__pyx_v_i + 1)); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 43, __pyx_L1_error)
+    __pyx_t_6 = __Pyx_PyInt_From_long((__pyx_v_i + 1)); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 44, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_6);
-    if (unlikely(PyDict_SetItem(__pyx_v_CDSLegsN, __pyx_t_6, __pyx_t_1) < 0)) __PYX_ERR(0, 43, __pyx_L1_error)
+    if (unlikely(PyDict_SetItem(__pyx_v_CDSLegsN, __pyx_t_6, __pyx_t_1) < 0)) __PYX_ERR(0, 44, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-    /* "SimulateLegs.pyx":46
+    /* "SimulateLegs.pyx":47
  *         #todo: how can we use this spread unless we already know a SIMULATED defualt time which then gives us the order of defaults and hence which of the kth to default spreads to use.
  *         # CDSLegsN[i+1] = CreateCDSPVLegsForExactDefault(OrderedExactDefaultTimesGauss[i][1],TenorCDSPayments,ImpHazdRts[IndKey_Tenor],DiscountFactors["Sonia"],DataTenorDic[IndKey_Tenor][CDSMaturity-1],0.4) #Use quoted credit spread instead
  *         CDSLegsSumN[i+1] = [sum(CDSLegsN[i+1]["CompensationLeg"]), sum(CDSLegsN[i+1]["PremiumLeg"])]             # <<<<<<<<<<<<<<
  *     return CDSLegsSumN
  * 
  */
-    __pyx_t_1 = __Pyx_PyInt_From_long((__pyx_v_i + 1)); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 46, __pyx_L1_error)
+    __pyx_t_1 = __Pyx_PyInt_From_long((__pyx_v_i + 1)); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 47, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
-    __pyx_t_6 = __Pyx_PyDict_GetItem(__pyx_v_CDSLegsN, __pyx_t_1); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 46, __pyx_L1_error)
+    __pyx_t_6 = __Pyx_PyDict_GetItem(__pyx_v_CDSLegsN, __pyx_t_1); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 47, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_6);
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-    __pyx_t_1 = PyObject_GetItem(__pyx_t_6, __pyx_n_s_CompensationLeg); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 46, __pyx_L1_error)
+    __pyx_t_1 = PyObject_GetItem(__pyx_t_6, __pyx_n_s_CompensationLeg); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 47, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
     __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
-    __pyx_t_6 = PyTuple_New(1); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 46, __pyx_L1_error)
+    __pyx_t_6 = PyTuple_New(1); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 47, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_6);
     __Pyx_GIVEREF(__pyx_t_1);
     PyTuple_SET_ITEM(__pyx_t_6, 0, __pyx_t_1);
     __pyx_t_1 = 0;
-    __pyx_t_1 = __Pyx_PyObject_Call(__pyx_builtin_sum, __pyx_t_6, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 46, __pyx_L1_error)
+    __pyx_t_1 = __Pyx_PyObject_Call(__pyx_builtin_sum, __pyx_t_6, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 47, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
     __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
-    __pyx_t_6 = __Pyx_PyInt_From_long((__pyx_v_i + 1)); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 46, __pyx_L1_error)
+    __pyx_t_6 = __Pyx_PyInt_From_long((__pyx_v_i + 1)); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 47, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_6);
-    __pyx_t_10 = __Pyx_PyDict_GetItem(__pyx_v_CDSLegsN, __pyx_t_6); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 46, __pyx_L1_error)
+    __pyx_t_10 = __Pyx_PyDict_GetItem(__pyx_v_CDSLegsN, __pyx_t_6); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 47, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_10);
     __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
-    __pyx_t_6 = PyObject_GetItem(__pyx_t_10, __pyx_n_s_PremiumLeg); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 46, __pyx_L1_error)
+    __pyx_t_6 = PyObject_GetItem(__pyx_t_10, __pyx_n_s_PremiumLeg); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 47, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_6);
     __Pyx_DECREF(__pyx_t_10); __pyx_t_10 = 0;
-    __pyx_t_10 = PyTuple_New(1); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 46, __pyx_L1_error)
+    __pyx_t_10 = PyTuple_New(1); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 47, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_10);
     __Pyx_GIVEREF(__pyx_t_6);
     PyTuple_SET_ITEM(__pyx_t_10, 0, __pyx_t_6);
     __pyx_t_6 = 0;
-    __pyx_t_6 = __Pyx_PyObject_Call(__pyx_builtin_sum, __pyx_t_10, NULL); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 46, __pyx_L1_error)
+    __pyx_t_6 = __Pyx_PyObject_Call(__pyx_builtin_sum, __pyx_t_10, NULL); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 47, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_6);
     __Pyx_DECREF(__pyx_t_10); __pyx_t_10 = 0;
-    __pyx_t_10 = PyList_New(2); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 46, __pyx_L1_error)
+    __pyx_t_10 = PyList_New(2); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 47, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_10);
     __Pyx_GIVEREF(__pyx_t_1);
     PyList_SET_ITEM(__pyx_t_10, 0, __pyx_t_1);
@@ -3105,19 +3136,19 @@ static PyObject *__pyx_pf_12SimulateLegs_4SimulateLegPricesFromCorrelationNormal
     PyList_SET_ITEM(__pyx_t_10, 1, __pyx_t_6);
     __pyx_t_1 = 0;
     __pyx_t_6 = 0;
-    __pyx_t_6 = __Pyx_PyInt_From_long((__pyx_v_i + 1)); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 46, __pyx_L1_error)
+    __pyx_t_6 = __Pyx_PyInt_From_long((__pyx_v_i + 1)); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 47, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_6);
-    if (unlikely(PyDict_SetItem(__pyx_v_CDSLegsSumN, __pyx_t_6, __pyx_t_10) < 0)) __PYX_ERR(0, 46, __pyx_L1_error)
+    if (unlikely(PyDict_SetItem(__pyx_v_CDSLegsSumN, __pyx_t_6, __pyx_t_10) < 0)) __PYX_ERR(0, 47, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
     __Pyx_DECREF(__pyx_t_10); __pyx_t_10 = 0;
   }
 
-  /* "SimulateLegs.pyx":47
+  /* "SimulateLegs.pyx":48
  *         # CDSLegsN[i+1] = CreateCDSPVLegsForExactDefault(OrderedExactDefaultTimesGauss[i][1],TenorCDSPayments,ImpHazdRts[IndKey_Tenor],DiscountFactors["Sonia"],DataTenorDic[IndKey_Tenor][CDSMaturity-1],0.4) #Use quoted credit spread instead
  *         CDSLegsSumN[i+1] = [sum(CDSLegsN[i+1]["CompensationLeg"]), sum(CDSLegsN[i+1]["PremiumLeg"])]
  *     return CDSLegsSumN             # <<<<<<<<<<<<<<
  * 
- * def SimulateLegPricesFromCorrelationT(HistCreditSpreads,TenorCreditSpreads,TenorCDSPayments,InvPWCDF,DiscountFactors,ImpHazdRts,DataTenorDic,U_correlatedT,CDSMaturity,FairSpreads,R=0.4):
+ * def SimulateLegPricesFromCorrelationT(HistCreditSpreads,TenorCreditSpreads,TenorCDSPayments,InvPWCDF,DiscountFactors,ImpHazdRts,DataTenorDic,U_correlatedT,CDSMaturity,FairSpreads,R=0.4,InitialNoDefaults_PeriodLengthYrs=0.0):
  */
   __Pyx_XDECREF(__pyx_r);
   __Pyx_INCREF(__pyx_v_CDSLegsSumN);
@@ -3127,7 +3158,7 @@ static PyObject *__pyx_pf_12SimulateLegs_4SimulateLegPricesFromCorrelationNormal
   /* "SimulateLegs.pyx":27
  *     return u
  * 
- * def SimulateLegPricesFromCorrelationNormal(HistCreditSpreads,TenorCreditSpreads,TenorCDSPayments,InvPWCDF,DiscountFactors,ImpHazdRts,DataTenorDic,U_correlatedNorm,CDSMaturity,FairSpreads,R=0.4):             # <<<<<<<<<<<<<<
+ * def SimulateLegPricesFromCorrelationNormal(HistCreditSpreads,TenorCreditSpreads,TenorCDSPayments,InvPWCDF,DiscountFactors,ImpHazdRts,DataTenorDic,U_correlatedNorm,CDSMaturity,FairSpreads,R=0.4,InitialNoDefaults_PeriodLengthYrs=0.0):             # <<<<<<<<<<<<<<
  *     cdef int i,i_TenorData,i_HistData
  *     ExactDefaultTimesGauss = dict()
  */
@@ -3150,16 +3181,17 @@ static PyObject *__pyx_pf_12SimulateLegs_4SimulateLegPricesFromCorrelationNormal
   __Pyx_XDECREF(__pyx_v_CDSLegsSumN);
   __Pyx_XDECREF(__pyx_v_IndKey_Hist);
   __Pyx_XDECREF(__pyx_v_IndKey_Tenor);
+  __Pyx_XDECREF(__pyx_v_defaultTime);
   __Pyx_XDECREF(__pyx_v_OrderedExactDefaultTimesGauss);
   __Pyx_XGIVEREF(__pyx_r);
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-/* "SimulateLegs.pyx":49
+/* "SimulateLegs.pyx":50
  *     return CDSLegsSumN
  * 
- * def SimulateLegPricesFromCorrelationT(HistCreditSpreads,TenorCreditSpreads,TenorCDSPayments,InvPWCDF,DiscountFactors,ImpHazdRts,DataTenorDic,U_correlatedT,CDSMaturity,FairSpreads,R=0.4):             # <<<<<<<<<<<<<<
+ * def SimulateLegPricesFromCorrelationT(HistCreditSpreads,TenorCreditSpreads,TenorCDSPayments,InvPWCDF,DiscountFactors,ImpHazdRts,DataTenorDic,U_correlatedT,CDSMaturity,FairSpreads,R=0.4,InitialNoDefaults_PeriodLengthYrs=0.0):             # <<<<<<<<<<<<<<
  *     cdef int i,i_TenorData,i_HistData
  *     ExactDefaultTimesT = dict()
  */
@@ -3179,17 +3211,21 @@ static PyObject *__pyx_pw_12SimulateLegs_7SimulateLegPricesFromCorrelationT(PyOb
   CYTHON_UNUSED PyObject *__pyx_v_CDSMaturity = 0;
   PyObject *__pyx_v_FairSpreads = 0;
   PyObject *__pyx_v_R = 0;
+  PyObject *__pyx_v_InitialNoDefaults_PeriodLengthYrs = 0;
   PyObject *__pyx_r = 0;
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("SimulateLegPricesFromCorrelationT (wrapper)", 0);
   {
-    static PyObject **__pyx_pyargnames[] = {&__pyx_n_s_HistCreditSpreads,&__pyx_n_s_TenorCreditSpreads,&__pyx_n_s_TenorCDSPayments,&__pyx_n_s_InvPWCDF,&__pyx_n_s_DiscountFactors,&__pyx_n_s_ImpHazdRts,&__pyx_n_s_DataTenorDic,&__pyx_n_s_U_correlatedT,&__pyx_n_s_CDSMaturity,&__pyx_n_s_FairSpreads,&__pyx_n_s_R,0};
-    PyObject* values[11] = {0,0,0,0,0,0,0,0,0,0,0};
+    static PyObject **__pyx_pyargnames[] = {&__pyx_n_s_HistCreditSpreads,&__pyx_n_s_TenorCreditSpreads,&__pyx_n_s_TenorCDSPayments,&__pyx_n_s_InvPWCDF,&__pyx_n_s_DiscountFactors,&__pyx_n_s_ImpHazdRts,&__pyx_n_s_DataTenorDic,&__pyx_n_s_U_correlatedT,&__pyx_n_s_CDSMaturity,&__pyx_n_s_FairSpreads,&__pyx_n_s_R,&__pyx_n_s_InitialNoDefaults_PeriodLengthYr,0};
+    PyObject* values[12] = {0,0,0,0,0,0,0,0,0,0,0,0};
     values[10] = ((PyObject *)__pyx_float_0_4);
+    values[11] = ((PyObject *)__pyx_float_0_0);
     if (unlikely(__pyx_kwds)) {
       Py_ssize_t kw_args;
       const Py_ssize_t pos_args = PyTuple_GET_SIZE(__pyx_args);
       switch (pos_args) {
+        case 12: values[11] = PyTuple_GET_ITEM(__pyx_args, 11);
+        CYTHON_FALLTHROUGH;
         case 11: values[10] = PyTuple_GET_ITEM(__pyx_args, 10);
         CYTHON_FALLTHROUGH;
         case 10: values[9] = PyTuple_GET_ITEM(__pyx_args, 9);
@@ -3224,55 +3260,55 @@ static PyObject *__pyx_pw_12SimulateLegs_7SimulateLegPricesFromCorrelationT(PyOb
         case  1:
         if (likely((values[1] = PyDict_GetItem(__pyx_kwds, __pyx_n_s_TenorCreditSpreads)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("SimulateLegPricesFromCorrelationT", 0, 10, 11, 1); __PYX_ERR(0, 49, __pyx_L3_error)
+          __Pyx_RaiseArgtupleInvalid("SimulateLegPricesFromCorrelationT", 0, 10, 12, 1); __PYX_ERR(0, 50, __pyx_L3_error)
         }
         CYTHON_FALLTHROUGH;
         case  2:
         if (likely((values[2] = PyDict_GetItem(__pyx_kwds, __pyx_n_s_TenorCDSPayments)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("SimulateLegPricesFromCorrelationT", 0, 10, 11, 2); __PYX_ERR(0, 49, __pyx_L3_error)
+          __Pyx_RaiseArgtupleInvalid("SimulateLegPricesFromCorrelationT", 0, 10, 12, 2); __PYX_ERR(0, 50, __pyx_L3_error)
         }
         CYTHON_FALLTHROUGH;
         case  3:
         if (likely((values[3] = PyDict_GetItem(__pyx_kwds, __pyx_n_s_InvPWCDF)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("SimulateLegPricesFromCorrelationT", 0, 10, 11, 3); __PYX_ERR(0, 49, __pyx_L3_error)
+          __Pyx_RaiseArgtupleInvalid("SimulateLegPricesFromCorrelationT", 0, 10, 12, 3); __PYX_ERR(0, 50, __pyx_L3_error)
         }
         CYTHON_FALLTHROUGH;
         case  4:
         if (likely((values[4] = PyDict_GetItem(__pyx_kwds, __pyx_n_s_DiscountFactors)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("SimulateLegPricesFromCorrelationT", 0, 10, 11, 4); __PYX_ERR(0, 49, __pyx_L3_error)
+          __Pyx_RaiseArgtupleInvalid("SimulateLegPricesFromCorrelationT", 0, 10, 12, 4); __PYX_ERR(0, 50, __pyx_L3_error)
         }
         CYTHON_FALLTHROUGH;
         case  5:
         if (likely((values[5] = PyDict_GetItem(__pyx_kwds, __pyx_n_s_ImpHazdRts)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("SimulateLegPricesFromCorrelationT", 0, 10, 11, 5); __PYX_ERR(0, 49, __pyx_L3_error)
+          __Pyx_RaiseArgtupleInvalid("SimulateLegPricesFromCorrelationT", 0, 10, 12, 5); __PYX_ERR(0, 50, __pyx_L3_error)
         }
         CYTHON_FALLTHROUGH;
         case  6:
         if (likely((values[6] = PyDict_GetItem(__pyx_kwds, __pyx_n_s_DataTenorDic)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("SimulateLegPricesFromCorrelationT", 0, 10, 11, 6); __PYX_ERR(0, 49, __pyx_L3_error)
+          __Pyx_RaiseArgtupleInvalid("SimulateLegPricesFromCorrelationT", 0, 10, 12, 6); __PYX_ERR(0, 50, __pyx_L3_error)
         }
         CYTHON_FALLTHROUGH;
         case  7:
         if (likely((values[7] = PyDict_GetItem(__pyx_kwds, __pyx_n_s_U_correlatedT)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("SimulateLegPricesFromCorrelationT", 0, 10, 11, 7); __PYX_ERR(0, 49, __pyx_L3_error)
+          __Pyx_RaiseArgtupleInvalid("SimulateLegPricesFromCorrelationT", 0, 10, 12, 7); __PYX_ERR(0, 50, __pyx_L3_error)
         }
         CYTHON_FALLTHROUGH;
         case  8:
         if (likely((values[8] = PyDict_GetItem(__pyx_kwds, __pyx_n_s_CDSMaturity)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("SimulateLegPricesFromCorrelationT", 0, 10, 11, 8); __PYX_ERR(0, 49, __pyx_L3_error)
+          __Pyx_RaiseArgtupleInvalid("SimulateLegPricesFromCorrelationT", 0, 10, 12, 8); __PYX_ERR(0, 50, __pyx_L3_error)
         }
         CYTHON_FALLTHROUGH;
         case  9:
         if (likely((values[9] = PyDict_GetItem(__pyx_kwds, __pyx_n_s_FairSpreads)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("SimulateLegPricesFromCorrelationT", 0, 10, 11, 9); __PYX_ERR(0, 49, __pyx_L3_error)
+          __Pyx_RaiseArgtupleInvalid("SimulateLegPricesFromCorrelationT", 0, 10, 12, 9); __PYX_ERR(0, 50, __pyx_L3_error)
         }
         CYTHON_FALLTHROUGH;
         case 10:
@@ -3280,12 +3316,20 @@ static PyObject *__pyx_pw_12SimulateLegs_7SimulateLegPricesFromCorrelationT(PyOb
           PyObject* value = PyDict_GetItem(__pyx_kwds, __pyx_n_s_R);
           if (value) { values[10] = value; kw_args--; }
         }
+        CYTHON_FALLTHROUGH;
+        case 11:
+        if (kw_args > 0) {
+          PyObject* value = PyDict_GetItem(__pyx_kwds, __pyx_n_s_InitialNoDefaults_PeriodLengthYr);
+          if (value) { values[11] = value; kw_args--; }
+        }
       }
       if (unlikely(kw_args > 0)) {
-        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "SimulateLegPricesFromCorrelationT") < 0)) __PYX_ERR(0, 49, __pyx_L3_error)
+        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "SimulateLegPricesFromCorrelationT") < 0)) __PYX_ERR(0, 50, __pyx_L3_error)
       }
     } else {
       switch (PyTuple_GET_SIZE(__pyx_args)) {
+        case 12: values[11] = PyTuple_GET_ITEM(__pyx_args, 11);
+        CYTHON_FALLTHROUGH;
         case 11: values[10] = PyTuple_GET_ITEM(__pyx_args, 10);
         CYTHON_FALLTHROUGH;
         case 10: values[9] = PyTuple_GET_ITEM(__pyx_args, 9);
@@ -3313,23 +3357,24 @@ static PyObject *__pyx_pw_12SimulateLegs_7SimulateLegPricesFromCorrelationT(PyOb
     __pyx_v_CDSMaturity = values[8];
     __pyx_v_FairSpreads = values[9];
     __pyx_v_R = values[10];
+    __pyx_v_InitialNoDefaults_PeriodLengthYrs = values[11];
   }
   goto __pyx_L4_argument_unpacking_done;
   __pyx_L5_argtuple_error:;
-  __Pyx_RaiseArgtupleInvalid("SimulateLegPricesFromCorrelationT", 0, 10, 11, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 49, __pyx_L3_error)
+  __Pyx_RaiseArgtupleInvalid("SimulateLegPricesFromCorrelationT", 0, 10, 12, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 50, __pyx_L3_error)
   __pyx_L3_error:;
   __Pyx_AddTraceback("SimulateLegs.SimulateLegPricesFromCorrelationT", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __Pyx_RefNannyFinishContext();
   return NULL;
   __pyx_L4_argument_unpacking_done:;
-  __pyx_r = __pyx_pf_12SimulateLegs_6SimulateLegPricesFromCorrelationT(__pyx_self, __pyx_v_HistCreditSpreads, __pyx_v_TenorCreditSpreads, __pyx_v_TenorCDSPayments, __pyx_v_InvPWCDF, __pyx_v_DiscountFactors, __pyx_v_ImpHazdRts, __pyx_v_DataTenorDic, __pyx_v_U_correlatedT, __pyx_v_CDSMaturity, __pyx_v_FairSpreads, __pyx_v_R);
+  __pyx_r = __pyx_pf_12SimulateLegs_6SimulateLegPricesFromCorrelationT(__pyx_self, __pyx_v_HistCreditSpreads, __pyx_v_TenorCreditSpreads, __pyx_v_TenorCDSPayments, __pyx_v_InvPWCDF, __pyx_v_DiscountFactors, __pyx_v_ImpHazdRts, __pyx_v_DataTenorDic, __pyx_v_U_correlatedT, __pyx_v_CDSMaturity, __pyx_v_FairSpreads, __pyx_v_R, __pyx_v_InitialNoDefaults_PeriodLengthYrs);
 
   /* function exit code */
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-static PyObject *__pyx_pf_12SimulateLegs_6SimulateLegPricesFromCorrelationT(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_HistCreditSpreads, PyObject *__pyx_v_TenorCreditSpreads, PyObject *__pyx_v_TenorCDSPayments, PyObject *__pyx_v_InvPWCDF, PyObject *__pyx_v_DiscountFactors, PyObject *__pyx_v_ImpHazdRts, CYTHON_UNUSED PyObject *__pyx_v_DataTenorDic, PyObject *__pyx_v_U_correlatedT, CYTHON_UNUSED PyObject *__pyx_v_CDSMaturity, PyObject *__pyx_v_FairSpreads, PyObject *__pyx_v_R) {
+static PyObject *__pyx_pf_12SimulateLegs_6SimulateLegPricesFromCorrelationT(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_HistCreditSpreads, PyObject *__pyx_v_TenorCreditSpreads, PyObject *__pyx_v_TenorCDSPayments, PyObject *__pyx_v_InvPWCDF, PyObject *__pyx_v_DiscountFactors, PyObject *__pyx_v_ImpHazdRts, CYTHON_UNUSED PyObject *__pyx_v_DataTenorDic, PyObject *__pyx_v_U_correlatedT, CYTHON_UNUSED PyObject *__pyx_v_CDSMaturity, PyObject *__pyx_v_FairSpreads, PyObject *__pyx_v_R, PyObject *__pyx_v_InitialNoDefaults_PeriodLengthYrs) {
   int __pyx_v_i;
   int __pyx_v_i_TenorData;
   int __pyx_v_i_HistData;
@@ -3353,43 +3398,43 @@ static PyObject *__pyx_pf_12SimulateLegs_6SimulateLegPricesFromCorrelationT(CYTH
   PyObject *__pyx_t_10 = NULL;
   __Pyx_RefNannySetupContext("SimulateLegPricesFromCorrelationT", 0);
 
-  /* "SimulateLegs.pyx":51
- * def SimulateLegPricesFromCorrelationT(HistCreditSpreads,TenorCreditSpreads,TenorCDSPayments,InvPWCDF,DiscountFactors,ImpHazdRts,DataTenorDic,U_correlatedT,CDSMaturity,FairSpreads,R=0.4):
+  /* "SimulateLegs.pyx":52
+ * def SimulateLegPricesFromCorrelationT(HistCreditSpreads,TenorCreditSpreads,TenorCDSPayments,InvPWCDF,DiscountFactors,ImpHazdRts,DataTenorDic,U_correlatedT,CDSMaturity,FairSpreads,R=0.4,InitialNoDefaults_PeriodLengthYrs=0.0):
  *     cdef int i,i_TenorData,i_HistData
  *     ExactDefaultTimesT = dict()             # <<<<<<<<<<<<<<
  *     CDSLegsT = dict()
  *     CDSLegsSumT = dict()
  */
-  __pyx_t_1 = __Pyx_PyDict_NewPresized(0); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 51, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyDict_NewPresized(0); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 52, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_v_ExactDefaultTimesT = ((PyObject*)__pyx_t_1);
   __pyx_t_1 = 0;
 
-  /* "SimulateLegs.pyx":52
+  /* "SimulateLegs.pyx":53
  *     cdef int i,i_TenorData,i_HistData
  *     ExactDefaultTimesT = dict()
  *     CDSLegsT = dict()             # <<<<<<<<<<<<<<
  *     CDSLegsSumT = dict()
  * 
  */
-  __pyx_t_1 = __Pyx_PyDict_NewPresized(0); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 52, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyDict_NewPresized(0); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 53, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_v_CDSLegsT = ((PyObject*)__pyx_t_1);
   __pyx_t_1 = 0;
 
-  /* "SimulateLegs.pyx":53
+  /* "SimulateLegs.pyx":54
  *     ExactDefaultTimesT = dict()
  *     CDSLegsT = dict()
  *     CDSLegsSumT = dict()             # <<<<<<<<<<<<<<
  * 
  *     for i in range(0,5):
  */
-  __pyx_t_1 = __Pyx_PyDict_NewPresized(0); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 53, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyDict_NewPresized(0); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 54, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_v_CDSLegsSumT = ((PyObject*)__pyx_t_1);
   __pyx_t_1 = 0;
 
-  /* "SimulateLegs.pyx":55
+  /* "SimulateLegs.pyx":56
  *     CDSLegsSumT = dict()
  * 
  *     for i in range(0,5):             # <<<<<<<<<<<<<<
@@ -3399,7 +3444,7 @@ static PyObject *__pyx_pf_12SimulateLegs_6SimulateLegPricesFromCorrelationT(CYTH
   for (__pyx_t_2 = 0; __pyx_t_2 < 5; __pyx_t_2+=1) {
     __pyx_v_i = __pyx_t_2;
 
-    /* "SimulateLegs.pyx":56
+    /* "SimulateLegs.pyx":57
  * 
  *     for i in range(0,5):
  *         i_TenorData = 5*i             # <<<<<<<<<<<<<<
@@ -3408,7 +3453,7 @@ static PyObject *__pyx_pf_12SimulateLegs_6SimulateLegPricesFromCorrelationT(CYTH
  */
     __pyx_v_i_TenorData = (5 * __pyx_v_i);
 
-    /* "SimulateLegs.pyx":57
+    /* "SimulateLegs.pyx":58
  *     for i in range(0,5):
  *         i_TenorData = 5*i
  *         i_HistData = i + 1             # <<<<<<<<<<<<<<
@@ -3417,46 +3462,46 @@ static PyObject *__pyx_pf_12SimulateLegs_6SimulateLegPricesFromCorrelationT(CYTH
  */
     __pyx_v_i_HistData = (__pyx_v_i + 1);
 
-    /* "SimulateLegs.pyx":58
+    /* "SimulateLegs.pyx":59
  *         i_TenorData = 5*i
  *         i_HistData = i + 1
  *         IndKey_Hist = HistCreditSpreads.columns[i_HistData]             # <<<<<<<<<<<<<<
  *         IndKey_Tenor = TenorCreditSpreads['Ticker'][i_TenorData]
- *         ExactDefaultTimesT[IndKey_Tenor] = InvPWCDF[IndKey_Tenor](U_correlatedT[i])
+ *         ExactDefaultTimesT[IndKey_Tenor] = InvPWCDF[IndKey_Tenor](U_correlatedT[i]) + InitialNoDefaults_PeriodLengthYrs
  */
-    __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_v_HistCreditSpreads, __pyx_n_s_columns); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 58, __pyx_L1_error)
+    __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_v_HistCreditSpreads, __pyx_n_s_columns); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 59, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
-    __pyx_t_3 = __Pyx_GetItemInt(__pyx_t_1, __pyx_v_i_HistData, int, 1, __Pyx_PyInt_From_int, 0, 1, 1); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 58, __pyx_L1_error)
+    __pyx_t_3 = __Pyx_GetItemInt(__pyx_t_1, __pyx_v_i_HistData, int, 1, __Pyx_PyInt_From_int, 0, 1, 1); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 59, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_3);
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
     __Pyx_XDECREF_SET(__pyx_v_IndKey_Hist, __pyx_t_3);
     __pyx_t_3 = 0;
 
-    /* "SimulateLegs.pyx":59
+    /* "SimulateLegs.pyx":60
  *         i_HistData = i + 1
  *         IndKey_Hist = HistCreditSpreads.columns[i_HistData]
  *         IndKey_Tenor = TenorCreditSpreads['Ticker'][i_TenorData]             # <<<<<<<<<<<<<<
- *         ExactDefaultTimesT[IndKey_Tenor] = InvPWCDF[IndKey_Tenor](U_correlatedT[i])
+ *         ExactDefaultTimesT[IndKey_Tenor] = InvPWCDF[IndKey_Tenor](U_correlatedT[i]) + InitialNoDefaults_PeriodLengthYrs
  *     OrderedExactDefaultTimesT= sorted(ExactDefaultTimesT.items(), key=operator.itemgetter(1))
  */
-    __pyx_t_3 = PyObject_GetItem(__pyx_v_TenorCreditSpreads, __pyx_n_s_Ticker); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 59, __pyx_L1_error)
+    __pyx_t_3 = PyObject_GetItem(__pyx_v_TenorCreditSpreads, __pyx_n_s_Ticker); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 60, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_3);
-    __pyx_t_1 = __Pyx_GetItemInt(__pyx_t_3, __pyx_v_i_TenorData, int, 1, __Pyx_PyInt_From_int, 0, 1, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 59, __pyx_L1_error)
+    __pyx_t_1 = __Pyx_GetItemInt(__pyx_t_3, __pyx_v_i_TenorData, int, 1, __Pyx_PyInt_From_int, 0, 1, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 60, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
     __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
     __Pyx_XDECREF_SET(__pyx_v_IndKey_Tenor, __pyx_t_1);
     __pyx_t_1 = 0;
 
-    /* "SimulateLegs.pyx":60
+    /* "SimulateLegs.pyx":61
  *         IndKey_Hist = HistCreditSpreads.columns[i_HistData]
  *         IndKey_Tenor = TenorCreditSpreads['Ticker'][i_TenorData]
- *         ExactDefaultTimesT[IndKey_Tenor] = InvPWCDF[IndKey_Tenor](U_correlatedT[i])             # <<<<<<<<<<<<<<
+ *         ExactDefaultTimesT[IndKey_Tenor] = InvPWCDF[IndKey_Tenor](U_correlatedT[i]) + InitialNoDefaults_PeriodLengthYrs             # <<<<<<<<<<<<<<
  *     OrderedExactDefaultTimesT= sorted(ExactDefaultTimesT.items(), key=operator.itemgetter(1))
  *     for i in range(0,5):
  */
-    __pyx_t_3 = PyObject_GetItem(__pyx_v_InvPWCDF, __pyx_v_IndKey_Tenor); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 60, __pyx_L1_error)
+    __pyx_t_3 = PyObject_GetItem(__pyx_v_InvPWCDF, __pyx_v_IndKey_Tenor); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 61, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_3);
-    __pyx_t_4 = __Pyx_GetItemInt(__pyx_v_U_correlatedT, __pyx_v_i, int, 1, __Pyx_PyInt_From_int, 0, 1, 1); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 60, __pyx_L1_error)
+    __pyx_t_4 = __Pyx_GetItemInt(__pyx_v_U_correlatedT, __pyx_v_i, int, 1, __Pyx_PyInt_From_int, 0, 1, 1); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 61, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_4);
     __pyx_t_5 = NULL;
     if (CYTHON_UNPACK_METHODS && unlikely(PyMethod_Check(__pyx_t_3))) {
@@ -3469,14 +3514,14 @@ static PyObject *__pyx_pf_12SimulateLegs_6SimulateLegPricesFromCorrelationT(CYTH
       }
     }
     if (!__pyx_t_5) {
-      __pyx_t_1 = __Pyx_PyObject_CallOneArg(__pyx_t_3, __pyx_t_4); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 60, __pyx_L1_error)
+      __pyx_t_1 = __Pyx_PyObject_CallOneArg(__pyx_t_3, __pyx_t_4); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 61, __pyx_L1_error)
       __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
       __Pyx_GOTREF(__pyx_t_1);
     } else {
       #if CYTHON_FAST_PYCALL
       if (PyFunction_Check(__pyx_t_3)) {
         PyObject *__pyx_temp[2] = {__pyx_t_5, __pyx_t_4};
-        __pyx_t_1 = __Pyx_PyFunction_FastCall(__pyx_t_3, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 60, __pyx_L1_error)
+        __pyx_t_1 = __Pyx_PyFunction_FastCall(__pyx_t_3, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 61, __pyx_L1_error)
         __Pyx_XDECREF(__pyx_t_5); __pyx_t_5 = 0;
         __Pyx_GOTREF(__pyx_t_1);
         __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
@@ -3485,64 +3530,67 @@ static PyObject *__pyx_pf_12SimulateLegs_6SimulateLegPricesFromCorrelationT(CYTH
       #if CYTHON_FAST_PYCCALL
       if (__Pyx_PyFastCFunction_Check(__pyx_t_3)) {
         PyObject *__pyx_temp[2] = {__pyx_t_5, __pyx_t_4};
-        __pyx_t_1 = __Pyx_PyCFunction_FastCall(__pyx_t_3, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 60, __pyx_L1_error)
+        __pyx_t_1 = __Pyx_PyCFunction_FastCall(__pyx_t_3, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 61, __pyx_L1_error)
         __Pyx_XDECREF(__pyx_t_5); __pyx_t_5 = 0;
         __Pyx_GOTREF(__pyx_t_1);
         __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
       } else
       #endif
       {
-        __pyx_t_6 = PyTuple_New(1+1); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 60, __pyx_L1_error)
+        __pyx_t_6 = PyTuple_New(1+1); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 61, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_6);
         __Pyx_GIVEREF(__pyx_t_5); PyTuple_SET_ITEM(__pyx_t_6, 0, __pyx_t_5); __pyx_t_5 = NULL;
         __Pyx_GIVEREF(__pyx_t_4);
         PyTuple_SET_ITEM(__pyx_t_6, 0+1, __pyx_t_4);
         __pyx_t_4 = 0;
-        __pyx_t_1 = __Pyx_PyObject_Call(__pyx_t_3, __pyx_t_6, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 60, __pyx_L1_error)
+        __pyx_t_1 = __Pyx_PyObject_Call(__pyx_t_3, __pyx_t_6, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 61, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_1);
         __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
       }
     }
     __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-    if (unlikely(PyDict_SetItem(__pyx_v_ExactDefaultTimesT, __pyx_v_IndKey_Tenor, __pyx_t_1) < 0)) __PYX_ERR(0, 60, __pyx_L1_error)
+    __pyx_t_3 = PyNumber_Add(__pyx_t_1, __pyx_v_InitialNoDefaults_PeriodLengthYrs); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 61, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_3);
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+    if (unlikely(PyDict_SetItem(__pyx_v_ExactDefaultTimesT, __pyx_v_IndKey_Tenor, __pyx_t_3) < 0)) __PYX_ERR(0, 61, __pyx_L1_error)
+    __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
   }
 
-  /* "SimulateLegs.pyx":61
+  /* "SimulateLegs.pyx":62
  *         IndKey_Tenor = TenorCreditSpreads['Ticker'][i_TenorData]
- *         ExactDefaultTimesT[IndKey_Tenor] = InvPWCDF[IndKey_Tenor](U_correlatedT[i])
+ *         ExactDefaultTimesT[IndKey_Tenor] = InvPWCDF[IndKey_Tenor](U_correlatedT[i]) + InitialNoDefaults_PeriodLengthYrs
  *     OrderedExactDefaultTimesT= sorted(ExactDefaultTimesT.items(), key=operator.itemgetter(1))             # <<<<<<<<<<<<<<
  *     for i in range(0,5):
  *         IndKey_Tenor = OrderedExactDefaultTimesT[i][0]
  */
-  __pyx_t_1 = __Pyx_PyDict_Items(__pyx_v_ExactDefaultTimesT); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 61, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_3 = PyTuple_New(1); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 61, __pyx_L1_error)
+  __pyx_t_3 = __Pyx_PyDict_Items(__pyx_v_ExactDefaultTimesT); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 62, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
-  __Pyx_GIVEREF(__pyx_t_1);
-  PyTuple_SET_ITEM(__pyx_t_3, 0, __pyx_t_1);
-  __pyx_t_1 = 0;
-  __pyx_t_1 = __Pyx_PyDict_NewPresized(1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 61, __pyx_L1_error)
+  __pyx_t_1 = PyTuple_New(1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 62, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_6 = __Pyx_GetModuleGlobalName(__pyx_n_s_operator); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 61, __pyx_L1_error)
+  __Pyx_GIVEREF(__pyx_t_3);
+  PyTuple_SET_ITEM(__pyx_t_1, 0, __pyx_t_3);
+  __pyx_t_3 = 0;
+  __pyx_t_3 = __Pyx_PyDict_NewPresized(1); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 62, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_3);
+  __pyx_t_6 = __Pyx_GetModuleGlobalName(__pyx_n_s_operator); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 62, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_6);
-  __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_t_6, __pyx_n_s_itemgetter); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 61, __pyx_L1_error)
+  __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_t_6, __pyx_n_s_itemgetter); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 62, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
   __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
-  __pyx_t_6 = __Pyx_PyObject_Call(__pyx_t_4, __pyx_tuple__2, NULL); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 61, __pyx_L1_error)
+  __pyx_t_6 = __Pyx_PyObject_Call(__pyx_t_4, __pyx_tuple__2, NULL); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 62, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_6);
   __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-  if (PyDict_SetItem(__pyx_t_1, __pyx_n_s_key, __pyx_t_6) < 0) __PYX_ERR(0, 61, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_t_3, __pyx_n_s_key, __pyx_t_6) < 0) __PYX_ERR(0, 62, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
-  __pyx_t_6 = __Pyx_PyObject_Call(__pyx_builtin_sorted, __pyx_t_3, __pyx_t_1); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 61, __pyx_L1_error)
+  __pyx_t_6 = __Pyx_PyObject_Call(__pyx_builtin_sorted, __pyx_t_1, __pyx_t_3); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 62, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_6);
-  __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+  __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
   __pyx_v_OrderedExactDefaultTimesT = __pyx_t_6;
   __pyx_t_6 = 0;
 
-  /* "SimulateLegs.pyx":62
- *         ExactDefaultTimesT[IndKey_Tenor] = InvPWCDF[IndKey_Tenor](U_correlatedT[i])
+  /* "SimulateLegs.pyx":63
+ *         ExactDefaultTimesT[IndKey_Tenor] = InvPWCDF[IndKey_Tenor](U_correlatedT[i]) + InitialNoDefaults_PeriodLengthYrs
  *     OrderedExactDefaultTimesT= sorted(ExactDefaultTimesT.items(), key=operator.itemgetter(1))
  *     for i in range(0,5):             # <<<<<<<<<<<<<<
  *         IndKey_Tenor = OrderedExactDefaultTimesT[i][0]
@@ -3551,40 +3599,40 @@ static PyObject *__pyx_pf_12SimulateLegs_6SimulateLegPricesFromCorrelationT(CYTH
   for (__pyx_t_2 = 0; __pyx_t_2 < 5; __pyx_t_2+=1) {
     __pyx_v_i = __pyx_t_2;
 
-    /* "SimulateLegs.pyx":63
+    /* "SimulateLegs.pyx":64
  *     OrderedExactDefaultTimesT= sorted(ExactDefaultTimesT.items(), key=operator.itemgetter(1))
  *     for i in range(0,5):
  *         IndKey_Tenor = OrderedExactDefaultTimesT[i][0]             # <<<<<<<<<<<<<<
  *         CDSLegsT[i+1] = CreateCDSPVLegsForExactDefault(OrderedExactDefaultTimesT[i][1],TenorCDSPayments,ImpHazdRts[IndKey_Tenor],DiscountFactors["Sonia"],FairSpreads[i],R)
  *         # CDSLegsT[i+1] = CreateCDSPVLegsForExactDefault(OrderedExactDefaultTimesT[i][1],TenorCDSPayments,ImpHazdRts[IndKey_Tenor],DiscountFactors["Sonia"],DataTenorDic[IndKey_Tenor][CDSMaturity-1],0.4) #Use quoted credit spread instead
  */
-    __pyx_t_6 = __Pyx_GetItemInt(__pyx_v_OrderedExactDefaultTimesT, __pyx_v_i, int, 1, __Pyx_PyInt_From_int, 0, 1, 1); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 63, __pyx_L1_error)
+    __pyx_t_6 = __Pyx_GetItemInt(__pyx_v_OrderedExactDefaultTimesT, __pyx_v_i, int, 1, __Pyx_PyInt_From_int, 0, 1, 1); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 64, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_6);
-    __pyx_t_1 = __Pyx_GetItemInt(__pyx_t_6, 0, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 63, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_1);
+    __pyx_t_3 = __Pyx_GetItemInt(__pyx_t_6, 0, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 64, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_3);
     __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
-    __Pyx_XDECREF_SET(__pyx_v_IndKey_Tenor, __pyx_t_1);
-    __pyx_t_1 = 0;
+    __Pyx_XDECREF_SET(__pyx_v_IndKey_Tenor, __pyx_t_3);
+    __pyx_t_3 = 0;
 
-    /* "SimulateLegs.pyx":64
+    /* "SimulateLegs.pyx":65
  *     for i in range(0,5):
  *         IndKey_Tenor = OrderedExactDefaultTimesT[i][0]
  *         CDSLegsT[i+1] = CreateCDSPVLegsForExactDefault(OrderedExactDefaultTimesT[i][1],TenorCDSPayments,ImpHazdRts[IndKey_Tenor],DiscountFactors["Sonia"],FairSpreads[i],R)             # <<<<<<<<<<<<<<
  *         # CDSLegsT[i+1] = CreateCDSPVLegsForExactDefault(OrderedExactDefaultTimesT[i][1],TenorCDSPayments,ImpHazdRts[IndKey_Tenor],DiscountFactors["Sonia"],DataTenorDic[IndKey_Tenor][CDSMaturity-1],0.4) #Use quoted credit spread instead
  *         CDSLegsSumT[i+1] = [sum(CDSLegsT[i+1]["CompensationLeg"]), sum(CDSLegsT[i+1]["PremiumLeg"])]
  */
-    __pyx_t_6 = __Pyx_GetModuleGlobalName(__pyx_n_s_CreateCDSPVLegsForExactDefault); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 64, __pyx_L1_error)
+    __pyx_t_6 = __Pyx_GetModuleGlobalName(__pyx_n_s_CreateCDSPVLegsForExactDefault); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 65, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_6);
-    __pyx_t_3 = __Pyx_GetItemInt(__pyx_v_OrderedExactDefaultTimesT, __pyx_v_i, int, 1, __Pyx_PyInt_From_int, 0, 1, 1); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 64, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_3);
-    __pyx_t_4 = __Pyx_GetItemInt(__pyx_t_3, 1, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 64, __pyx_L1_error)
+    __pyx_t_1 = __Pyx_GetItemInt(__pyx_v_OrderedExactDefaultTimesT, __pyx_v_i, int, 1, __Pyx_PyInt_From_int, 0, 1, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 65, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_1);
+    __pyx_t_4 = __Pyx_GetItemInt(__pyx_t_1, 1, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 65, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_4);
-    __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-    __pyx_t_3 = PyObject_GetItem(__pyx_v_ImpHazdRts, __pyx_v_IndKey_Tenor); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 64, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_3);
-    __pyx_t_5 = PyObject_GetItem(__pyx_v_DiscountFactors, __pyx_n_s_Sonia); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 64, __pyx_L1_error)
+    __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+    __pyx_t_1 = PyObject_GetItem(__pyx_v_ImpHazdRts, __pyx_v_IndKey_Tenor); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 65, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_1);
+    __pyx_t_5 = PyObject_GetItem(__pyx_v_DiscountFactors, __pyx_n_s_Sonia); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 65, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_5);
-    __pyx_t_7 = __Pyx_GetItemInt(__pyx_v_FairSpreads, __pyx_v_i, int, 1, __Pyx_PyInt_From_int, 0, 1, 1); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 64, __pyx_L1_error)
+    __pyx_t_7 = __Pyx_GetItemInt(__pyx_v_FairSpreads, __pyx_v_i, int, 1, __Pyx_PyInt_From_int, 0, 1, 1); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 65, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_7);
     __pyx_t_8 = NULL;
     __pyx_t_9 = 0;
@@ -3600,30 +3648,30 @@ static PyObject *__pyx_pf_12SimulateLegs_6SimulateLegPricesFromCorrelationT(CYTH
     }
     #if CYTHON_FAST_PYCALL
     if (PyFunction_Check(__pyx_t_6)) {
-      PyObject *__pyx_temp[7] = {__pyx_t_8, __pyx_t_4, __pyx_v_TenorCDSPayments, __pyx_t_3, __pyx_t_5, __pyx_t_7, __pyx_v_R};
-      __pyx_t_1 = __Pyx_PyFunction_FastCall(__pyx_t_6, __pyx_temp+1-__pyx_t_9, 6+__pyx_t_9); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 64, __pyx_L1_error)
+      PyObject *__pyx_temp[7] = {__pyx_t_8, __pyx_t_4, __pyx_v_TenorCDSPayments, __pyx_t_1, __pyx_t_5, __pyx_t_7, __pyx_v_R};
+      __pyx_t_3 = __Pyx_PyFunction_FastCall(__pyx_t_6, __pyx_temp+1-__pyx_t_9, 6+__pyx_t_9); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 65, __pyx_L1_error)
       __Pyx_XDECREF(__pyx_t_8); __pyx_t_8 = 0;
-      __Pyx_GOTREF(__pyx_t_1);
+      __Pyx_GOTREF(__pyx_t_3);
       __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-      __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
+      __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
       __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
       __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
     } else
     #endif
     #if CYTHON_FAST_PYCCALL
     if (__Pyx_PyFastCFunction_Check(__pyx_t_6)) {
-      PyObject *__pyx_temp[7] = {__pyx_t_8, __pyx_t_4, __pyx_v_TenorCDSPayments, __pyx_t_3, __pyx_t_5, __pyx_t_7, __pyx_v_R};
-      __pyx_t_1 = __Pyx_PyCFunction_FastCall(__pyx_t_6, __pyx_temp+1-__pyx_t_9, 6+__pyx_t_9); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 64, __pyx_L1_error)
+      PyObject *__pyx_temp[7] = {__pyx_t_8, __pyx_t_4, __pyx_v_TenorCDSPayments, __pyx_t_1, __pyx_t_5, __pyx_t_7, __pyx_v_R};
+      __pyx_t_3 = __Pyx_PyCFunction_FastCall(__pyx_t_6, __pyx_temp+1-__pyx_t_9, 6+__pyx_t_9); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 65, __pyx_L1_error)
       __Pyx_XDECREF(__pyx_t_8); __pyx_t_8 = 0;
-      __Pyx_GOTREF(__pyx_t_1);
+      __Pyx_GOTREF(__pyx_t_3);
       __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-      __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
+      __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
       __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
       __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
     } else
     #endif
     {
-      __pyx_t_10 = PyTuple_New(6+__pyx_t_9); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 64, __pyx_L1_error)
+      __pyx_t_10 = PyTuple_New(6+__pyx_t_9); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 65, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_10);
       if (__pyx_t_8) {
         __Pyx_GIVEREF(__pyx_t_8); PyTuple_SET_ITEM(__pyx_t_10, 0, __pyx_t_8); __pyx_t_8 = NULL;
@@ -3633,8 +3681,8 @@ static PyObject *__pyx_pf_12SimulateLegs_6SimulateLegPricesFromCorrelationT(CYTH
       __Pyx_INCREF(__pyx_v_TenorCDSPayments);
       __Pyx_GIVEREF(__pyx_v_TenorCDSPayments);
       PyTuple_SET_ITEM(__pyx_t_10, 1+__pyx_t_9, __pyx_v_TenorCDSPayments);
-      __Pyx_GIVEREF(__pyx_t_3);
-      PyTuple_SET_ITEM(__pyx_t_10, 2+__pyx_t_9, __pyx_t_3);
+      __Pyx_GIVEREF(__pyx_t_1);
+      PyTuple_SET_ITEM(__pyx_t_10, 2+__pyx_t_9, __pyx_t_1);
       __Pyx_GIVEREF(__pyx_t_5);
       PyTuple_SET_ITEM(__pyx_t_10, 3+__pyx_t_9, __pyx_t_5);
       __Pyx_GIVEREF(__pyx_t_7);
@@ -3643,74 +3691,74 @@ static PyObject *__pyx_pf_12SimulateLegs_6SimulateLegPricesFromCorrelationT(CYTH
       __Pyx_GIVEREF(__pyx_v_R);
       PyTuple_SET_ITEM(__pyx_t_10, 5+__pyx_t_9, __pyx_v_R);
       __pyx_t_4 = 0;
-      __pyx_t_3 = 0;
+      __pyx_t_1 = 0;
       __pyx_t_5 = 0;
       __pyx_t_7 = 0;
-      __pyx_t_1 = __Pyx_PyObject_Call(__pyx_t_6, __pyx_t_10, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 64, __pyx_L1_error)
-      __Pyx_GOTREF(__pyx_t_1);
+      __pyx_t_3 = __Pyx_PyObject_Call(__pyx_t_6, __pyx_t_10, NULL); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 65, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_3);
       __Pyx_DECREF(__pyx_t_10); __pyx_t_10 = 0;
     }
     __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
-    __pyx_t_6 = __Pyx_PyInt_From_long((__pyx_v_i + 1)); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 64, __pyx_L1_error)
+    __pyx_t_6 = __Pyx_PyInt_From_long((__pyx_v_i + 1)); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 65, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_6);
-    if (unlikely(PyDict_SetItem(__pyx_v_CDSLegsT, __pyx_t_6, __pyx_t_1) < 0)) __PYX_ERR(0, 64, __pyx_L1_error)
+    if (unlikely(PyDict_SetItem(__pyx_v_CDSLegsT, __pyx_t_6, __pyx_t_3) < 0)) __PYX_ERR(0, 65, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
-    __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+    __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
 
-    /* "SimulateLegs.pyx":66
+    /* "SimulateLegs.pyx":67
  *         CDSLegsT[i+1] = CreateCDSPVLegsForExactDefault(OrderedExactDefaultTimesT[i][1],TenorCDSPayments,ImpHazdRts[IndKey_Tenor],DiscountFactors["Sonia"],FairSpreads[i],R)
  *         # CDSLegsT[i+1] = CreateCDSPVLegsForExactDefault(OrderedExactDefaultTimesT[i][1],TenorCDSPayments,ImpHazdRts[IndKey_Tenor],DiscountFactors["Sonia"],DataTenorDic[IndKey_Tenor][CDSMaturity-1],0.4) #Use quoted credit spread instead
  *         CDSLegsSumT[i+1] = [sum(CDSLegsT[i+1]["CompensationLeg"]), sum(CDSLegsT[i+1]["PremiumLeg"])]             # <<<<<<<<<<<<<<
  *     return CDSLegsSumT
  */
-    __pyx_t_1 = __Pyx_PyInt_From_long((__pyx_v_i + 1)); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 66, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_1);
-    __pyx_t_6 = __Pyx_PyDict_GetItem(__pyx_v_CDSLegsT, __pyx_t_1); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 66, __pyx_L1_error)
+    __pyx_t_3 = __Pyx_PyInt_From_long((__pyx_v_i + 1)); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 67, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_3);
+    __pyx_t_6 = __Pyx_PyDict_GetItem(__pyx_v_CDSLegsT, __pyx_t_3); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 67, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_6);
-    __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-    __pyx_t_1 = PyObject_GetItem(__pyx_t_6, __pyx_n_s_CompensationLeg); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 66, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_1);
+    __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
+    __pyx_t_3 = PyObject_GetItem(__pyx_t_6, __pyx_n_s_CompensationLeg); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 67, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_3);
     __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
-    __pyx_t_6 = PyTuple_New(1); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 66, __pyx_L1_error)
+    __pyx_t_6 = PyTuple_New(1); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 67, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_6);
-    __Pyx_GIVEREF(__pyx_t_1);
-    PyTuple_SET_ITEM(__pyx_t_6, 0, __pyx_t_1);
-    __pyx_t_1 = 0;
-    __pyx_t_1 = __Pyx_PyObject_Call(__pyx_builtin_sum, __pyx_t_6, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 66, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_1);
+    __Pyx_GIVEREF(__pyx_t_3);
+    PyTuple_SET_ITEM(__pyx_t_6, 0, __pyx_t_3);
+    __pyx_t_3 = 0;
+    __pyx_t_3 = __Pyx_PyObject_Call(__pyx_builtin_sum, __pyx_t_6, NULL); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 67, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_3);
     __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
-    __pyx_t_6 = __Pyx_PyInt_From_long((__pyx_v_i + 1)); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 66, __pyx_L1_error)
+    __pyx_t_6 = __Pyx_PyInt_From_long((__pyx_v_i + 1)); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 67, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_6);
-    __pyx_t_10 = __Pyx_PyDict_GetItem(__pyx_v_CDSLegsT, __pyx_t_6); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 66, __pyx_L1_error)
+    __pyx_t_10 = __Pyx_PyDict_GetItem(__pyx_v_CDSLegsT, __pyx_t_6); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 67, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_10);
     __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
-    __pyx_t_6 = PyObject_GetItem(__pyx_t_10, __pyx_n_s_PremiumLeg); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 66, __pyx_L1_error)
+    __pyx_t_6 = PyObject_GetItem(__pyx_t_10, __pyx_n_s_PremiumLeg); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 67, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_6);
     __Pyx_DECREF(__pyx_t_10); __pyx_t_10 = 0;
-    __pyx_t_10 = PyTuple_New(1); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 66, __pyx_L1_error)
+    __pyx_t_10 = PyTuple_New(1); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 67, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_10);
     __Pyx_GIVEREF(__pyx_t_6);
     PyTuple_SET_ITEM(__pyx_t_10, 0, __pyx_t_6);
     __pyx_t_6 = 0;
-    __pyx_t_6 = __Pyx_PyObject_Call(__pyx_builtin_sum, __pyx_t_10, NULL); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 66, __pyx_L1_error)
+    __pyx_t_6 = __Pyx_PyObject_Call(__pyx_builtin_sum, __pyx_t_10, NULL); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 67, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_6);
     __Pyx_DECREF(__pyx_t_10); __pyx_t_10 = 0;
-    __pyx_t_10 = PyList_New(2); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 66, __pyx_L1_error)
+    __pyx_t_10 = PyList_New(2); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 67, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_10);
-    __Pyx_GIVEREF(__pyx_t_1);
-    PyList_SET_ITEM(__pyx_t_10, 0, __pyx_t_1);
+    __Pyx_GIVEREF(__pyx_t_3);
+    PyList_SET_ITEM(__pyx_t_10, 0, __pyx_t_3);
     __Pyx_GIVEREF(__pyx_t_6);
     PyList_SET_ITEM(__pyx_t_10, 1, __pyx_t_6);
-    __pyx_t_1 = 0;
+    __pyx_t_3 = 0;
     __pyx_t_6 = 0;
-    __pyx_t_6 = __Pyx_PyInt_From_long((__pyx_v_i + 1)); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 66, __pyx_L1_error)
+    __pyx_t_6 = __Pyx_PyInt_From_long((__pyx_v_i + 1)); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 67, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_6);
-    if (unlikely(PyDict_SetItem(__pyx_v_CDSLegsSumT, __pyx_t_6, __pyx_t_10) < 0)) __PYX_ERR(0, 66, __pyx_L1_error)
+    if (unlikely(PyDict_SetItem(__pyx_v_CDSLegsSumT, __pyx_t_6, __pyx_t_10) < 0)) __PYX_ERR(0, 67, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
     __Pyx_DECREF(__pyx_t_10); __pyx_t_10 = 0;
   }
 
-  /* "SimulateLegs.pyx":67
+  /* "SimulateLegs.pyx":68
  *         # CDSLegsT[i+1] = CreateCDSPVLegsForExactDefault(OrderedExactDefaultTimesT[i][1],TenorCDSPayments,ImpHazdRts[IndKey_Tenor],DiscountFactors["Sonia"],DataTenorDic[IndKey_Tenor][CDSMaturity-1],0.4) #Use quoted credit spread instead
  *         CDSLegsSumT[i+1] = [sum(CDSLegsT[i+1]["CompensationLeg"]), sum(CDSLegsT[i+1]["PremiumLeg"])]
  *     return CDSLegsSumT             # <<<<<<<<<<<<<<
@@ -3720,10 +3768,10 @@ static PyObject *__pyx_pf_12SimulateLegs_6SimulateLegPricesFromCorrelationT(CYTH
   __pyx_r = __pyx_v_CDSLegsSumT;
   goto __pyx_L0;
 
-  /* "SimulateLegs.pyx":49
+  /* "SimulateLegs.pyx":50
  *     return CDSLegsSumN
  * 
- * def SimulateLegPricesFromCorrelationT(HistCreditSpreads,TenorCreditSpreads,TenorCDSPayments,InvPWCDF,DiscountFactors,ImpHazdRts,DataTenorDic,U_correlatedT,CDSMaturity,FairSpreads,R=0.4):             # <<<<<<<<<<<<<<
+ * def SimulateLegPricesFromCorrelationT(HistCreditSpreads,TenorCreditSpreads,TenorCDSPayments,InvPWCDF,DiscountFactors,ImpHazdRts,DataTenorDic,U_correlatedT,CDSMaturity,FairSpreads,R=0.4,InitialNoDefaults_PeriodLengthYrs=0.0):             # <<<<<<<<<<<<<<
  *     cdef int i,i_TenorData,i_HistData
  *     ExactDefaultTimesT = dict()
  */
@@ -6395,6 +6443,7 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {&__pyx_n_s_ImportError, __pyx_k_ImportError, sizeof(__pyx_k_ImportError), 0, 0, 1, 1},
   {&__pyx_n_s_IndKey_Hist, __pyx_k_IndKey_Hist, sizeof(__pyx_k_IndKey_Hist), 0, 0, 1, 1},
   {&__pyx_n_s_IndKey_Tenor, __pyx_k_IndKey_Tenor, sizeof(__pyx_k_IndKey_Tenor), 0, 0, 1, 1},
+  {&__pyx_n_s_InitialNoDefaults_PeriodLengthYr, __pyx_k_InitialNoDefaults_PeriodLengthYr, sizeof(__pyx_k_InitialNoDefaults_PeriodLengthYr), 0, 0, 1, 1},
   {&__pyx_n_s_InvPWCDF, __pyx_k_InvPWCDF, sizeof(__pyx_k_InvPWCDF), 0, 0, 1, 1},
   {&__pyx_n_s_LogRtnCorP, __pyx_k_LogRtnCorP, sizeof(__pyx_k_LogRtnCorP), 0, 0, 1, 1},
   {&__pyx_n_s_MultVarGaussianCopula, __pyx_k_MultVarGaussianCopula, sizeof(__pyx_k_MultVarGaussianCopula), 0, 0, 1, 1},
@@ -6421,6 +6470,7 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {&__pyx_n_s_ValueError, __pyx_k_ValueError, sizeof(__pyx_k_ValueError), 0, 0, 1, 1},
   {&__pyx_n_s_cline_in_traceback, __pyx_k_cline_in_traceback, sizeof(__pyx_k_cline_in_traceback), 0, 0, 1, 1},
   {&__pyx_n_s_columns, __pyx_k_columns, sizeof(__pyx_k_columns), 0, 0, 1, 1},
+  {&__pyx_n_s_defaultTime, __pyx_k_defaultTime, sizeof(__pyx_k_defaultTime), 0, 0, 1, 1},
   {&__pyx_n_s_float, __pyx_k_float, sizeof(__pyx_k_float), 0, 0, 1, 1},
   {&__pyx_n_s_i, __pyx_k_i, sizeof(__pyx_k_i), 0, 0, 1, 1},
   {&__pyx_n_s_i_HistData, __pyx_k_i_HistData, sizeof(__pyx_k_i_HistData), 0, 0, 1, 1},
@@ -6450,8 +6500,8 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
 };
 static int __Pyx_InitCachedBuiltins(void) {
   __pyx_builtin_range = __Pyx_GetBuiltinName(__pyx_n_s_range); if (!__pyx_builtin_range) __PYX_ERR(0, 12, __pyx_L1_error)
-  __pyx_builtin_sorted = __Pyx_GetBuiltinName(__pyx_n_s_sorted); if (!__pyx_builtin_sorted) __PYX_ERR(0, 40, __pyx_L1_error)
-  __pyx_builtin_sum = __Pyx_GetBuiltinName(__pyx_n_s_sum); if (!__pyx_builtin_sum) __PYX_ERR(0, 46, __pyx_L1_error)
+  __pyx_builtin_sorted = __Pyx_GetBuiltinName(__pyx_n_s_sorted); if (!__pyx_builtin_sorted) __PYX_ERR(0, 41, __pyx_L1_error)
+  __pyx_builtin_sum = __Pyx_GetBuiltinName(__pyx_n_s_sum); if (!__pyx_builtin_sum) __PYX_ERR(0, 47, __pyx_L1_error)
   __pyx_builtin_ValueError = __Pyx_GetBuiltinName(__pyx_n_s_ValueError); if (!__pyx_builtin_ValueError) __PYX_ERR(1, 235, __pyx_L1_error)
   __pyx_builtin_RuntimeError = __Pyx_GetBuiltinName(__pyx_n_s_RuntimeError); if (!__pyx_builtin_RuntimeError) __PYX_ERR(1, 823, __pyx_L1_error)
   __pyx_builtin_ImportError = __Pyx_GetBuiltinName(__pyx_n_s_ImportError); if (!__pyx_builtin_ImportError) __PYX_ERR(1, 1013, __pyx_L1_error)
@@ -6464,25 +6514,25 @@ static int __Pyx_InitCachedConstants(void) {
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("__Pyx_InitCachedConstants", 0);
 
-  /* "SimulateLegs.pyx":40
- *         ExactDefaultTimesGauss[IndKey_Tenor] = InvPWCDF[IndKey_Tenor](U_correlatedNorm[i])
+  /* "SimulateLegs.pyx":41
+ *         ExactDefaultTimesGauss[IndKey_Tenor] = defaultTime + InitialNoDefaults_PeriodLengthYrs
  * 
  *     OrderedExactDefaultTimesGauss = sorted(ExactDefaultTimesGauss.items(), key=operator.itemgetter(1)) #quickSort(list(ExactDefaultTimesGauss.values()))             # <<<<<<<<<<<<<<
  *     for i in range(0,5):
  *         IndKey_Tenor = OrderedExactDefaultTimesGauss[i][0]
  */
-  __pyx_tuple_ = PyTuple_Pack(1, __pyx_int_1); if (unlikely(!__pyx_tuple_)) __PYX_ERR(0, 40, __pyx_L1_error)
+  __pyx_tuple_ = PyTuple_Pack(1, __pyx_int_1); if (unlikely(!__pyx_tuple_)) __PYX_ERR(0, 41, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple_);
   __Pyx_GIVEREF(__pyx_tuple_);
 
-  /* "SimulateLegs.pyx":61
+  /* "SimulateLegs.pyx":62
  *         IndKey_Tenor = TenorCreditSpreads['Ticker'][i_TenorData]
- *         ExactDefaultTimesT[IndKey_Tenor] = InvPWCDF[IndKey_Tenor](U_correlatedT[i])
+ *         ExactDefaultTimesT[IndKey_Tenor] = InvPWCDF[IndKey_Tenor](U_correlatedT[i]) + InitialNoDefaults_PeriodLengthYrs
  *     OrderedExactDefaultTimesT= sorted(ExactDefaultTimesT.items(), key=operator.itemgetter(1))             # <<<<<<<<<<<<<<
  *     for i in range(0,5):
  *         IndKey_Tenor = OrderedExactDefaultTimesT[i][0]
  */
-  __pyx_tuple__2 = PyTuple_Pack(1, __pyx_int_1); if (unlikely(!__pyx_tuple__2)) __PYX_ERR(0, 61, __pyx_L1_error)
+  __pyx_tuple__2 = PyTuple_Pack(1, __pyx_int_1); if (unlikely(!__pyx_tuple__2)) __PYX_ERR(0, 62, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__2);
   __Pyx_GIVEREF(__pyx_tuple__2);
 
@@ -6586,26 +6636,26 @@ static int __Pyx_InitCachedConstants(void) {
   /* "SimulateLegs.pyx":27
  *     return u
  * 
- * def SimulateLegPricesFromCorrelationNormal(HistCreditSpreads,TenorCreditSpreads,TenorCDSPayments,InvPWCDF,DiscountFactors,ImpHazdRts,DataTenorDic,U_correlatedNorm,CDSMaturity,FairSpreads,R=0.4):             # <<<<<<<<<<<<<<
+ * def SimulateLegPricesFromCorrelationNormal(HistCreditSpreads,TenorCreditSpreads,TenorCDSPayments,InvPWCDF,DiscountFactors,ImpHazdRts,DataTenorDic,U_correlatedNorm,CDSMaturity,FairSpreads,R=0.4,InitialNoDefaults_PeriodLengthYrs=0.0):             # <<<<<<<<<<<<<<
  *     cdef int i,i_TenorData,i_HistData
  *     ExactDefaultTimesGauss = dict()
  */
-  __pyx_tuple__12 = PyTuple_Pack(20, __pyx_n_s_HistCreditSpreads, __pyx_n_s_TenorCreditSpreads, __pyx_n_s_TenorCDSPayments, __pyx_n_s_InvPWCDF, __pyx_n_s_DiscountFactors, __pyx_n_s_ImpHazdRts, __pyx_n_s_DataTenorDic, __pyx_n_s_U_correlatedNorm, __pyx_n_s_CDSMaturity, __pyx_n_s_FairSpreads, __pyx_n_s_R, __pyx_n_s_i, __pyx_n_s_i_TenorData, __pyx_n_s_i_HistData, __pyx_n_s_ExactDefaultTimesGauss, __pyx_n_s_CDSLegsN, __pyx_n_s_CDSLegsSumN, __pyx_n_s_IndKey_Hist, __pyx_n_s_IndKey_Tenor, __pyx_n_s_OrderedExactDefaultTimesGauss); if (unlikely(!__pyx_tuple__12)) __PYX_ERR(0, 27, __pyx_L1_error)
+  __pyx_tuple__12 = PyTuple_Pack(22, __pyx_n_s_HistCreditSpreads, __pyx_n_s_TenorCreditSpreads, __pyx_n_s_TenorCDSPayments, __pyx_n_s_InvPWCDF, __pyx_n_s_DiscountFactors, __pyx_n_s_ImpHazdRts, __pyx_n_s_DataTenorDic, __pyx_n_s_U_correlatedNorm, __pyx_n_s_CDSMaturity, __pyx_n_s_FairSpreads, __pyx_n_s_R, __pyx_n_s_InitialNoDefaults_PeriodLengthYr, __pyx_n_s_i, __pyx_n_s_i_TenorData, __pyx_n_s_i_HistData, __pyx_n_s_ExactDefaultTimesGauss, __pyx_n_s_CDSLegsN, __pyx_n_s_CDSLegsSumN, __pyx_n_s_IndKey_Hist, __pyx_n_s_IndKey_Tenor, __pyx_n_s_defaultTime, __pyx_n_s_OrderedExactDefaultTimesGauss); if (unlikely(!__pyx_tuple__12)) __PYX_ERR(0, 27, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__12);
   __Pyx_GIVEREF(__pyx_tuple__12);
-  __pyx_codeobj__13 = (PyObject*)__Pyx_PyCode_New(11, 0, 20, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__12, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_SimulateLegs_pyx, __pyx_n_s_SimulateLegPricesFromCorrelation, 27, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__13)) __PYX_ERR(0, 27, __pyx_L1_error)
+  __pyx_codeobj__13 = (PyObject*)__Pyx_PyCode_New(12, 0, 22, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__12, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_SimulateLegs_pyx, __pyx_n_s_SimulateLegPricesFromCorrelation, 27, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__13)) __PYX_ERR(0, 27, __pyx_L1_error)
 
-  /* "SimulateLegs.pyx":49
+  /* "SimulateLegs.pyx":50
  *     return CDSLegsSumN
  * 
- * def SimulateLegPricesFromCorrelationT(HistCreditSpreads,TenorCreditSpreads,TenorCDSPayments,InvPWCDF,DiscountFactors,ImpHazdRts,DataTenorDic,U_correlatedT,CDSMaturity,FairSpreads,R=0.4):             # <<<<<<<<<<<<<<
+ * def SimulateLegPricesFromCorrelationT(HistCreditSpreads,TenorCreditSpreads,TenorCDSPayments,InvPWCDF,DiscountFactors,ImpHazdRts,DataTenorDic,U_correlatedT,CDSMaturity,FairSpreads,R=0.4,InitialNoDefaults_PeriodLengthYrs=0.0):             # <<<<<<<<<<<<<<
  *     cdef int i,i_TenorData,i_HistData
  *     ExactDefaultTimesT = dict()
  */
-  __pyx_tuple__14 = PyTuple_Pack(20, __pyx_n_s_HistCreditSpreads, __pyx_n_s_TenorCreditSpreads, __pyx_n_s_TenorCDSPayments, __pyx_n_s_InvPWCDF, __pyx_n_s_DiscountFactors, __pyx_n_s_ImpHazdRts, __pyx_n_s_DataTenorDic, __pyx_n_s_U_correlatedT, __pyx_n_s_CDSMaturity, __pyx_n_s_FairSpreads, __pyx_n_s_R, __pyx_n_s_i, __pyx_n_s_i_TenorData, __pyx_n_s_i_HistData, __pyx_n_s_ExactDefaultTimesT, __pyx_n_s_CDSLegsT, __pyx_n_s_CDSLegsSumT, __pyx_n_s_IndKey_Hist, __pyx_n_s_IndKey_Tenor, __pyx_n_s_OrderedExactDefaultTimesT); if (unlikely(!__pyx_tuple__14)) __PYX_ERR(0, 49, __pyx_L1_error)
+  __pyx_tuple__14 = PyTuple_Pack(21, __pyx_n_s_HistCreditSpreads, __pyx_n_s_TenorCreditSpreads, __pyx_n_s_TenorCDSPayments, __pyx_n_s_InvPWCDF, __pyx_n_s_DiscountFactors, __pyx_n_s_ImpHazdRts, __pyx_n_s_DataTenorDic, __pyx_n_s_U_correlatedT, __pyx_n_s_CDSMaturity, __pyx_n_s_FairSpreads, __pyx_n_s_R, __pyx_n_s_InitialNoDefaults_PeriodLengthYr, __pyx_n_s_i, __pyx_n_s_i_TenorData, __pyx_n_s_i_HistData, __pyx_n_s_ExactDefaultTimesT, __pyx_n_s_CDSLegsT, __pyx_n_s_CDSLegsSumT, __pyx_n_s_IndKey_Hist, __pyx_n_s_IndKey_Tenor, __pyx_n_s_OrderedExactDefaultTimesT); if (unlikely(!__pyx_tuple__14)) __PYX_ERR(0, 50, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__14);
   __Pyx_GIVEREF(__pyx_tuple__14);
-  __pyx_codeobj__15 = (PyObject*)__Pyx_PyCode_New(11, 0, 20, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__14, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_SimulateLegs_pyx, __pyx_n_s_SimulateLegPricesFromCorrelation_2, 49, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__15)) __PYX_ERR(0, 49, __pyx_L1_error)
+  __pyx_codeobj__15 = (PyObject*)__Pyx_PyCode_New(12, 0, 21, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__14, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_SimulateLegs_pyx, __pyx_n_s_SimulateLegPricesFromCorrelation_2, 50, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__15)) __PYX_ERR(0, 50, __pyx_L1_error)
   __Pyx_RefNannyFinishContext();
   return 0;
   __pyx_L1_error:;
@@ -6616,6 +6666,7 @@ static int __Pyx_InitCachedConstants(void) {
 static int __Pyx_InitGlobals(void) {
   __pyx_umethod_PyDict_Type_items.type = (PyObject*)&PyDict_Type;
   if (__Pyx_InitStrings(__pyx_string_tab) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
+  __pyx_float_0_0 = PyFloat_FromDouble(0.0); if (unlikely(!__pyx_float_0_0)) __PYX_ERR(0, 1, __pyx_L1_error)
   __pyx_float_0_4 = PyFloat_FromDouble(0.4); if (unlikely(!__pyx_float_0_4)) __PYX_ERR(0, 1, __pyx_L1_error)
   __pyx_int_1 = PyInt_FromLong(1); if (unlikely(!__pyx_int_1)) __PYX_ERR(0, 1, __pyx_L1_error)
   return 0;
@@ -6873,7 +6924,7 @@ static int __pyx_pymod_exec_SimulateLegs(PyObject *__pyx_pyinit_module)
   /* "SimulateLegs.pyx":27
  *     return u
  * 
- * def SimulateLegPricesFromCorrelationNormal(HistCreditSpreads,TenorCreditSpreads,TenorCDSPayments,InvPWCDF,DiscountFactors,ImpHazdRts,DataTenorDic,U_correlatedNorm,CDSMaturity,FairSpreads,R=0.4):             # <<<<<<<<<<<<<<
+ * def SimulateLegPricesFromCorrelationNormal(HistCreditSpreads,TenorCreditSpreads,TenorCDSPayments,InvPWCDF,DiscountFactors,ImpHazdRts,DataTenorDic,U_correlatedNorm,CDSMaturity,FairSpreads,R=0.4,InitialNoDefaults_PeriodLengthYrs=0.0):             # <<<<<<<<<<<<<<
  *     cdef int i,i_TenorData,i_HistData
  *     ExactDefaultTimesGauss = dict()
  */
@@ -6882,16 +6933,16 @@ static int __pyx_pymod_exec_SimulateLegs(PyObject *__pyx_pyinit_module)
   if (PyDict_SetItem(__pyx_d, __pyx_n_s_SimulateLegPricesFromCorrelation, __pyx_t_2) < 0) __PYX_ERR(0, 27, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
-  /* "SimulateLegs.pyx":49
+  /* "SimulateLegs.pyx":50
  *     return CDSLegsSumN
  * 
- * def SimulateLegPricesFromCorrelationT(HistCreditSpreads,TenorCreditSpreads,TenorCDSPayments,InvPWCDF,DiscountFactors,ImpHazdRts,DataTenorDic,U_correlatedT,CDSMaturity,FairSpreads,R=0.4):             # <<<<<<<<<<<<<<
+ * def SimulateLegPricesFromCorrelationT(HistCreditSpreads,TenorCreditSpreads,TenorCDSPayments,InvPWCDF,DiscountFactors,ImpHazdRts,DataTenorDic,U_correlatedT,CDSMaturity,FairSpreads,R=0.4,InitialNoDefaults_PeriodLengthYrs=0.0):             # <<<<<<<<<<<<<<
  *     cdef int i,i_TenorData,i_HistData
  *     ExactDefaultTimesT = dict()
  */
-  __pyx_t_2 = PyCFunction_NewEx(&__pyx_mdef_12SimulateLegs_7SimulateLegPricesFromCorrelationT, NULL, __pyx_n_s_SimulateLegs); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 49, __pyx_L1_error)
+  __pyx_t_2 = PyCFunction_NewEx(&__pyx_mdef_12SimulateLegs_7SimulateLegPricesFromCorrelationT, NULL, __pyx_n_s_SimulateLegs); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 50, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  if (PyDict_SetItem(__pyx_d, __pyx_n_s_SimulateLegPricesFromCorrelation_2, __pyx_t_2) < 0) __PYX_ERR(0, 49, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_d, __pyx_n_s_SimulateLegPricesFromCorrelation_2, __pyx_t_2) < 0) __PYX_ERR(0, 50, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
   /* "SimulateLegs.pyx":1

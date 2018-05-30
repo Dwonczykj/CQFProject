@@ -64,7 +64,7 @@ def ApproxPWCDFDicFromHazardRates(l,step = 0.01):
     #            return res[U[i]]
     #    return fn(u,res.keys())
     #return InnerFn
-    return FindClosestKeyInDicAndReturnValueAlgorithm(res)
+    return FindClosestKeyInDicAndReturnValueAlgorithm(res), P
 
 
 

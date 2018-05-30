@@ -30,7 +30,7 @@ def SimulateCDSBasketDefaultsAndValueLegsT(TimeAtStart,CorP,M,HistCreditSpreads,
     CompLegRunningAv = np.zeros(shape=(M,5))
     PremLegRunningAv = np.zeros(shape=(M,5))
     for m in range(1,M+1):
-        TLegsSum = SimulateLegPricesFromCorrelationT(HistCreditSpreads,TenorCreditSpreads,CDSPaymentTenors,InvPWCDF,DiscountFactorCurve,ImpHazdRts,DataTenorDic,UT[:,m-1],int(CDSBasketMaturity),SpreadArr,R)
+        TLegsSum = SimulateLegPricesFromCorrelationT(HistCreditSpreads,TenorCreditSpreads,CDSPaymentTenors,InvPWCDF,DiscountFactorCurve,ImpHazdRts,DataTenorDic,UT[:,m-1],int(CDSBasketMaturity),SpreadArr,R,0.25)
         CompensationLegSumsForEachRefNameT[m-1] = [TLegsSum[1][0],TLegsSum[2][0],TLegsSum[3][0],TLegsSum[4][0],TLegsSum[5][0]]
         PremiumLegSumsForEachRefNameT[m-1] = [TLegsSum[1][1],TLegsSum[2][1],TLegsSum[3][1],TLegsSum[4][1],TLegsSum[5][1]]
         CompLegRunningAv[m-1,:] = ((CompLegRunningAv[m-2,:] * (m-1)) + CompensationLegSumsForEachRefNameT[m-1]) / (m)
@@ -70,7 +70,7 @@ def SimulateCDSBasketDefaultsAndValueLegsGauss(TimeAtStart,CorP,M,HistCreditSpre
     CompLegRunningAv = np.zeros(shape=(M,5))
     PremLegRunningAv = np.zeros(shape=(M,5))
     for m in range(1,M):
-        GaussLegsSum = SimulateLegPricesFromCorrelationNormal(HistCreditSpreads,TenorCreditSpreads,CDSPaymentTenors,InvPWCDF,DiscountFactorCurve,ImpHazdRts,DataTenorDic,UNorm[:,m-1],int(CDSBasketMaturity),SpreadArr,R)
+        GaussLegsSum = SimulateLegPricesFromCorrelationNormal(HistCreditSpreads,TenorCreditSpreads,CDSPaymentTenors,InvPWCDF,DiscountFactorCurve,ImpHazdRts,DataTenorDic,UNorm[:,m-1],int(CDSBasketMaturity),SpreadArr,R,0.25)
         CompensationLegSumsForEachRefNameGauss[m-1] = [GaussLegsSum[1][0],GaussLegsSum[2][0],GaussLegsSum[3][0],GaussLegsSum[4][0],GaussLegsSum[5][0]]
         PremiumLegSumsForEachRefNameGauss[m-1] = [GaussLegsSum[1][1],GaussLegsSum[2][1],GaussLegsSum[3][1],GaussLegsSum[4][1],GaussLegsSum[5][1]]
         CompLegRunningAv[m-1,:] = ((CompLegRunningAv[m-2,:] * (m-1)) + CompensationLegSumsForEachRefNameGauss[m-1]) / (m)

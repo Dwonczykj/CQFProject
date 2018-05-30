@@ -24,7 +24,7 @@ cpdef np.ndarray UnifFromTCopula(np.ndarray RankCorP, SobolNumbers NumbGen, int 
             u[j,i] = x[j]
     return u
 
-def SimulateLegPricesFromCorrelationNormal(HistCreditSpreads,TenorCreditSpreads,TenorCDSPayments,InvPWCDF,DiscountFactors,ImpHazdRts,DataTenorDic,U_correlatedNorm,CDSMaturity,FairSpreads,R=0.4):
+def SimulateLegPricesFromCorrelationNormal(HistCreditSpreads,TenorCreditSpreads,TenorCDSPayments,InvPWCDF,DiscountFactors,ImpHazdRts,DataTenorDic,U_correlatedNorm,CDSMaturity,FairSpreads,R=0.4,InitialNoDefaults_PeriodLengthYrs=0.0):
     cdef int i,i_TenorData,i_HistData
     ExactDefaultTimesGauss = dict()
     CDSLegsN = dict()
@@ -35,7 +35,8 @@ def SimulateLegPricesFromCorrelationNormal(HistCreditSpreads,TenorCreditSpreads,
         i_HistData = i + 1
         IndKey_Hist = HistCreditSpreads.columns[i_HistData]
         IndKey_Tenor = TenorCreditSpreads['Ticker'][i_TenorData]
-        ExactDefaultTimesGauss[IndKey_Tenor] = InvPWCDF[IndKey_Tenor](U_correlatedNorm[i])
+        defaultTime = InvPWCDF[IndKey_Tenor](U_correlatedNorm[i])
+        ExactDefaultTimesGauss[IndKey_Tenor] = defaultTime + InitialNoDefaults_PeriodLengthYrs
     
     OrderedExactDefaultTimesGauss = sorted(ExactDefaultTimesGauss.items(), key=operator.itemgetter(1)) #quickSort(list(ExactDefaultTimesGauss.values()))
     for i in range(0,5):
@@ -46,7 +47,7 @@ def SimulateLegPricesFromCorrelationNormal(HistCreditSpreads,TenorCreditSpreads,
         CDSLegsSumN[i+1] = [sum(CDSLegsN[i+1]["CompensationLeg"]), sum(CDSLegsN[i+1]["PremiumLeg"])]
     return CDSLegsSumN
 
-def SimulateLegPricesFromCorrelationT(HistCreditSpreads,TenorCreditSpreads,TenorCDSPayments,InvPWCDF,DiscountFactors,ImpHazdRts,DataTenorDic,U_correlatedT,CDSMaturity,FairSpreads,R=0.4):
+def SimulateLegPricesFromCorrelationT(HistCreditSpreads,TenorCreditSpreads,TenorCDSPayments,InvPWCDF,DiscountFactors,ImpHazdRts,DataTenorDic,U_correlatedT,CDSMaturity,FairSpreads,R=0.4,InitialNoDefaults_PeriodLengthYrs=0.0):
     cdef int i,i_TenorData,i_HistData
     ExactDefaultTimesT = dict()
     CDSLegsT = dict()
@@ -57,7 +58,7 @@ def SimulateLegPricesFromCorrelationT(HistCreditSpreads,TenorCreditSpreads,Tenor
         i_HistData = i + 1
         IndKey_Hist = HistCreditSpreads.columns[i_HistData]
         IndKey_Tenor = TenorCreditSpreads['Ticker'][i_TenorData]
-        ExactDefaultTimesT[IndKey_Tenor] = InvPWCDF[IndKey_Tenor](U_correlatedT[i])
+        ExactDefaultTimesT[IndKey_Tenor] = InvPWCDF[IndKey_Tenor](U_correlatedT[i]) + InitialNoDefaults_PeriodLengthYrs
     OrderedExactDefaultTimesT= sorted(ExactDefaultTimesT.items(), key=operator.itemgetter(1))
     for i in range(0,5):
         IndKey_Tenor = OrderedExactDefaultTimesT[i][0]
