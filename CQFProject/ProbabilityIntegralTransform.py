@@ -83,7 +83,7 @@ def kde_statsmodels_m_pdf_output(x, x_grid, bandwidth=0.2, **kwargs):
     #! bw = "cv_ml", "cv_ls", "normal_reference", np.array([0.23])
     kde = KDEMultivariate(data=x,
         var_type='c', bw="cv_ml")
-    print(kde.bw)
+    #print(kde.bw)
     x_grid_sorted = sorted(x_grid)
     pdf = kde.pdf(x_grid_sorted)
     return pdf
@@ -113,7 +113,7 @@ def kde_statsmodels_m_cdf_output(x, x_grid, bandwidth=0.2, **kwargs):
     #! bw = "cv_ml", "cv_ls", "normal_reference", np.array([0.23])
     kde = KDEMultivariate(data=x,
         var_type='c', bw="cv_ml")
-    print(kde.bw)
+    #print(kde.bw)
     x_grid_sorted = sorted(x_grid)
     cdf = kde.cdf(x_grid_sorted)
     return cdf
@@ -369,7 +369,7 @@ def HybridNormalGPDCDF(xs, u, mu, sigma, shape, loc, scale):
     out = list()
     l = (mu - abs(u - mu))
     h = (mu + abs(u - mu))
-    print('u = %.10f,l = %.10f,h = %.10f'%(u,l,h))
+    #print('u = %.10f,l = %.10f,h = %.10f'%(u,l,h))
     for x in xs:
         if x < l:
             nrm = norm.cdf(l,mu,sigma)
@@ -397,7 +397,7 @@ def HybridNormalGPDPDF(xs, u, mu, sigma, shape, loc, scale):
     out = list()
     l = (mu - abs(u - mu))
     h = (mu + abs(u - mu))
-    print('u = %.10f,l = %.10f,h = %.10f'%(u,l,h))
+    #print('u = %.10f,l = %.10f,h = %.10f'%(u,l,h))
     for x in xs:
         if x < l:
             out.append(norm.cdf(l,mu,sigma)*genpareto.pdf(l-x,shape, loc=loc, scale=scale))
@@ -420,12 +420,12 @@ def HybridSemiParametricGPDCDF(xs, u, ydata, shape, loc, scale):
     Returns:
         an array that would result from xs.apply(semiparametric_fittedfunction) or F_n(xs) where F_n is the CDF fit.
     '''
-    print("Starting Canonical Maximum Likelihood")
+    #print("Starting Canonical Maximum Likelihood")
     out = list()
     mu = mean(ydata)
     l = (mu - abs(u - mu))
     h = (mu + abs(u - mu))
-    print('u = %.10f,l = %.10f,h = %.10f'%(u,l,h))
+    #print('u = %.10f,l = %.10f,h = %.10f'%(u,l,h))
     srtdxs = sorted(list(xs)+[l,h])
     cdf_smoother = kde_statsmodels_m_cdf_output(ydata,srtdxs,bandwidth=0.2)
     d = dict(zip(srtdxs,cdf_smoother))
@@ -458,7 +458,7 @@ def HybridSemiParametricGPDPDF(xs, u, ydata, shape, loc, scale):
     mu = mean(ydata)
     l = (mu - abs(u - mu))
     h = (mu + abs(u - mu))
-    print('u = %.10f,l = %.10f,h = %.10f'%(u,l,h))
+    #print('u = %.10f,l = %.10f,h = %.10f'%(u,l,h))
     srtdxs = sorted(list(xs)+[l,h])
     cdf_smoother = kde_statsmodels_m_cdf_output(ydata,srtdxs,bandwidth=0.2)
     d_cdf = dict(zip(srtdxs,cdf_smoother))

@@ -59,7 +59,7 @@ def plot_DefaultProbs(x,y,name,legendArray):
 def showAllPlots():
     plt.show()
 
-def plot_codependence_scatters(dataDic,xlabel,ylabel=""):
+def plot_codependence_scatters(dataDic,xlabel,ylabel="",name=""):
     pyplot_memcheck()
     keys = list(dataDic.keys())
     ln = len(keys)
@@ -85,7 +85,7 @@ def plot_codependence_scatters(dataDic,xlabel,ylabel=""):
         for j2 in range(j1+1,ln):
             key1 = keys[j1]
             key2 = keys[j2]
-            return_scatter(dataDic[key1],dataDic[key2],"%s vs %s" % (key1,key2),j+1,numCols,numRows,xlabel.replace("%","%s"%(key1)) if "%" in xlabel else xlabel,ylabel.replace("%","%s"%(key2)) if "%" in ylabel else ylabel) if ylabel != "" else return_scatter(dataDic[key1],dataDic[key2],"%s vs %s" % (key1,key2),j+1,numCols,numRows,xlabel.replace("%","%s"%(key1)) if "%" in xlabel else xlabel)
+            return_scatter(dataDic[key1],dataDic[key2],name+" "+"%s vs %s" % (key1,key2),j+1,numCols,numRows,xlabel.replace("%","%s"%(key1)) if "%" in xlabel else xlabel,ylabel.replace("%","%s"%(key2)) if "%" in ylabel else ylabel) if ylabel != "" else return_scatter(dataDic[key1],dataDic[key2],"%s vs %s" % (key1,key2),j+1,numCols,numRows,xlabel.replace("%","%s"%(key1)) if "%" in xlabel else xlabel)
             j += 1
 
 def return_scatter(xdata,ydata,name,numberPlot=1,noOfPlotsW=1, noOfPlotsH=1,xlabel = "", ylabel="frequency/probability",legend=[], xticks=[], yticks=[]):
@@ -97,6 +97,7 @@ def return_scatter(xdata,ydata,name,numberPlot=1,noOfPlotsW=1, noOfPlotsH=1,xlab
         fig.canvas.figure.set_label(name)
     plt.subplot(noOfPlotsH,noOfPlotsW,numberPlot)
     x = np.linspace(min(xdata), max(xdata), 100)
+    plt.scatter(x=xdata,y=ydata)
     plt.xlabel(xlabel)
     plt.ylabel(ylabel)
     if(len(xticks)>0):
@@ -107,7 +108,6 @@ def return_scatter(xdata,ydata,name,numberPlot=1,noOfPlotsW=1, noOfPlotsH=1,xlab
     if len(legend) > 0:
         plt.legend(legend,loc='best')
     plt.grid(True)
-    plt.scatter(x=xdata,y=ydata)
 
 def return_scatter_multdependencies(xdata,arrydata,name,numberPlot=1,noOfPlotsW=1, noOfPlotsH=1,xlabel = "", ylabel="frequency/probability",legend=[], xticks=[], yticks=[]):
     ''' Plots a scatter plot showing any co-dependency between 2 variables. '''
@@ -118,6 +118,8 @@ def return_scatter_multdependencies(xdata,arrydata,name,numberPlot=1,noOfPlotsW=
         fig.canvas.figure.set_label(name)
     plt.subplot(noOfPlotsW,noOfPlotsH,numberPlot)
     x = np.linspace(min(xdata), max(xdata), 100)
+    for y in arrydata:
+        plt.scatter(x=xdata,y=y)
     plt.xlabel(xlabel)
     plt.ylabel(ylabel)
     if(len(xticks)>0):
@@ -128,8 +130,6 @@ def return_scatter_multdependencies(xdata,arrydata,name,numberPlot=1,noOfPlotsW=
     if len(legend) > 0:
         plt.legend(legend,loc='best')
     plt.grid(True)
-    for y in arrydata:
-        plt.scatter(x=xdata,y=y)
 
 def Plot_Converging_Averages(ArrOfArrays,baseName):
     pyplot_memcheck()
@@ -356,7 +356,7 @@ def return_histogram(data,name,numberPlot=1,noOfPlotsW=1, noOfPlotsH=1,xlabel = 
     #                wspace=0.20)
     return fig
 
-def plot_histogram_array(dataDic,xlabel, displayMiddlePercentile=100, outPercentiles=[1, 5, 10, 25, 75, 90, 95, 99]):
+def plot_histogram_array(dataDic,xlabel, displayMiddlePercentile=100, outPercentiles=[1, 5, 10, 25, 75, 90, 95, 99],name=""):
     '''
     Pass a dictionary will plot a histogram for the data on each key.
     displayMiddlePercentile allows user to plot middle percent of the distribution only and ignore the tails.
@@ -385,7 +385,7 @@ def plot_histogram_array(dataDic,xlabel, displayMiddlePercentile=100, outPercent
     result = dict()
     for j in range(0,nPlt):
         key = keys[j]
-        f = return_histogram(dataDic[key],key,j+1,numCols,numRows,xlabel, nPlt, f, displayMiddlePercentile, figSize)
+        f = return_histogram(dataDic[key],name+" "+key,j+1,numCols,numRows,xlabel, nPlt, f, displayMiddlePercentile, figSize)
         result[key] = (mean(dataDic[key]), sd(dataDic[key]), np.fromiter(map(lambda p: np.percentile(dataDic[key],p),outPercentiles),dtype=np.float))
     plt.tight_layout()
     plt.subplots_adjust(hspace=1.0,wspace=0.2)

@@ -993,7 +993,7 @@ typedef npy_double __pyx_t_5numpy_double_t;
  */
 typedef npy_longdouble __pyx_t_5numpy_longdouble_t;
 
-/* "LowDiscrepancyNumberGenerators.pxd":7
+/* "LowDiscrepancyNumberGenerators.pxd":6
  * # every type in the numpy module there's a corresponding compile-time
  * # type with a _t-suffix.
  * ctypedef np.int_t DTYPE_t             # <<<<<<<<<<<<<<
@@ -1002,7 +1002,7 @@ typedef npy_longdouble __pyx_t_5numpy_longdouble_t;
  */
 typedef __pyx_t_5numpy_int_t __pyx_t_30LowDiscrepancyNumberGenerators_DTYPE_t;
 
-/* "LowDiscrepancyNumberGenerators.pxd":8
+/* "LowDiscrepancyNumberGenerators.pxd":7
  * # type with a _t-suffix.
  * ctypedef np.int_t DTYPE_t
  * ctypedef np.float_t FDTYPE_t             # <<<<<<<<<<<<<<
@@ -1083,7 +1083,7 @@ typedef npy_clongdouble __pyx_t_5numpy_clongdouble_t;
  */
 typedef npy_cdouble __pyx_t_5numpy_complex_t;
 
-/* "LowDiscrepancyNumberGenerators.pxd":9
+/* "LowDiscrepancyNumberGenerators.pxd":8
  * ctypedef np.int_t DTYPE_t
  * ctypedef np.float_t FDTYPE_t
  * cdef class SobolNumbers:             # <<<<<<<<<<<<<<
@@ -1103,6 +1103,7 @@ struct __pyx_obj_30LowDiscrepancyNumberGenerators_SobolNumbers {
   PyArrayObject *ix;
   PyArrayObject *iV;
   PyArrayObject *initV;
+  PyArrayObject *initVt;
 };
 
 
@@ -1751,9 +1752,11 @@ static const char __pyx_k_FDTYPE[] = "FDTYPE";
 static const char __pyx_k_import[] = "__import__";
 static const char __pyx_k_matmul[] = "matmul";
 static const char __pyx_k_pandas[] = "pandas";
+static const char __pyx_k_random[] = "random";
 static const char __pyx_k_Copulae[] = "Copulae";
 static const char __pyx_k_Returns[] = "Returns";
 static const char __pyx_k_install[] = "install";
+static const char __pyx_k_uniform[] = "uniform";
 static const char __pyx_k_fromiter[] = "fromiter";
 static const char __pyx_k_TypeError[] = "TypeError";
 static const char __pyx_k_pyximport[] = "pyximport";
@@ -1817,6 +1820,7 @@ static PyObject *__pyx_n_s_pd;
 static PyObject *__pyx_n_s_pow;
 static PyObject *__pyx_n_s_pyx_vtable;
 static PyObject *__pyx_n_s_pyximport;
+static PyObject *__pyx_n_s_random;
 static PyObject *__pyx_n_s_range;
 static PyObject *__pyx_n_s_scipy_stats;
 static PyObject *__pyx_n_s_shape;
@@ -1825,6 +1829,7 @@ static PyObject *__pyx_n_s_sum;
 static PyObject *__pyx_n_s_t;
 static PyObject *__pyx_n_s_test;
 static PyObject *__pyx_n_s_transpose;
+static PyObject *__pyx_n_s_uniform;
 static PyObject *__pyx_kp_u_unknown_dtype_code_in_numpy_pxd;
 static PyObject *__pyx_n_s_zeros;
 static PyObject *__pyx_lambda_funcdef_lambda(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_u); /* proto */
@@ -1832,6 +1837,8 @@ static PyObject *__pyx_pf_7Copulae_MultVarGaussianCopula(CYTHON_UNUSED PyObject 
 static PyObject *__pyx_pf_7Copulae_2MultVarTDistnCopula(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_P, int __pyx_v_df, struct __pyx_obj_30LowDiscrepancyNumberGenerators_SobolNumbers *__pyx_v_LowDiscNumbers); /* proto */
 static int __pyx_pf_5numpy_7ndarray___getbuffer__(PyArrayObject *__pyx_v_self, Py_buffer *__pyx_v_info, int __pyx_v_flags); /* proto */
 static void __pyx_pf_5numpy_7ndarray_2__releasebuffer__(PyArrayObject *__pyx_v_self, Py_buffer *__pyx_v_info); /* proto */
+static PyObject *__pyx_int_0;
+static PyObject *__pyx_int_1;
 static PyObject *__pyx_int_2;
 static PyObject *__pyx_tuple_;
 static PyObject *__pyx_tuple__2;
@@ -1842,6 +1849,7 @@ static PyObject *__pyx_tuple__6;
 static PyObject *__pyx_tuple__7;
 static PyObject *__pyx_tuple__8;
 static PyObject *__pyx_tuple__9;
+static PyObject *__pyx_tuple__10;
 
 /* "Copulae.pyx":24
  *     cdef np.ndarray[FDTYPE_t,ndim=1] CorrlelatedX
@@ -2616,7 +2624,6 @@ static PyObject *__pyx_pf_7Copulae_MultVarGaussianCopula(CYTHON_UNUSED PyObject 
 static PyObject *__pyx_pw_7Copulae_3MultVarTDistnCopula(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
 static PyArrayObject *__pyx_f_7Copulae_MultVarTDistnCopula(PyObject *__pyx_v_P, int __pyx_v_df, struct __pyx_obj_30LowDiscrepancyNumberGenerators_SobolNumbers *__pyx_v_LowDiscNumbers, CYTHON_UNUSED int __pyx_skip_dispatch) {
   PyArrayObject *__pyx_v_CorrlelatedX = 0;
-  struct __pyx_obj_30LowDiscrepancyNumberGenerators_SobolNumbers *__pyx_v_u = NULL;
   PyArrayObject *__pyx_v_uRand = 0;
   int __pyx_v_i;
   float __pyx_v_epsilon;
@@ -2656,8 +2663,8 @@ static PyArrayObject *__pyx_f_7Copulae_MultVarTDistnCopula(PyObject *__pyx_v_P, 
  * cpdef np.ndarray[FDTYPE_t,ndim=1] MultVarTDistnCopula(P,int df,SobolNumbers LowDiscNumbers):
  *     cdef np.ndarray[FDTYPE_t,ndim=1] CorrlelatedX
  *     CorrlelatedX = SharedCopulaAlgoWork(P,LowDiscNumbers)             # <<<<<<<<<<<<<<
- *     u = SobolNumbers()
- *     u.initialise(1)
+ *     # u = SobolNumbers()
+ *     # u.initialise(1)
  */
   __pyx_t_1 = ((PyObject *)__pyx_f_7Copulae_SharedCopulaAlgoWork(__pyx_v_P, __pyx_v_LowDiscNumbers)); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 37, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
@@ -2681,30 +2688,9 @@ static PyArrayObject *__pyx_f_7Copulae_MultVarTDistnCopula(PyObject *__pyx_v_P, 
   __pyx_v_CorrlelatedX = ((PyArrayObject *)__pyx_t_1);
   __pyx_t_1 = 0;
 
-  /* "Copulae.pyx":38
- *     cdef np.ndarray[FDTYPE_t,ndim=1] CorrlelatedX
- *     CorrlelatedX = SharedCopulaAlgoWork(P,LowDiscNumbers)
- *     u = SobolNumbers()             # <<<<<<<<<<<<<<
- *     u.initialise(1)
- *     cdef np.ndarray uRand= np.zeros(df,dtype=float)
- */
-  __pyx_t_1 = __Pyx_PyObject_Call(((PyObject *)__pyx_ptype_30LowDiscrepancyNumberGenerators_SobolNumbers), __pyx_empty_tuple, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 38, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_1);
-  __pyx_v_u = ((struct __pyx_obj_30LowDiscrepancyNumberGenerators_SobolNumbers *)__pyx_t_1);
-  __pyx_t_1 = 0;
-
-  /* "Copulae.pyx":39
- *     CorrlelatedX = SharedCopulaAlgoWork(P,LowDiscNumbers)
- *     u = SobolNumbers()
- *     u.initialise(1)             # <<<<<<<<<<<<<<
- *     cdef np.ndarray uRand= np.zeros(df,dtype=float)
- *     cdef int i
- */
-  ((struct __pyx_vtabstruct_30LowDiscrepancyNumberGenerators_SobolNumbers *)__pyx_v_u->__pyx_vtab)->initialise(__pyx_v_u, 1, 0);
-
   /* "Copulae.pyx":40
- *     u = SobolNumbers()
- *     u.initialise(1)
+ *     # u = SobolNumbers()
+ *     # u.initialise(1)
  *     cdef np.ndarray uRand= np.zeros(df,dtype=float)             # <<<<<<<<<<<<<<
  *     cdef int i
  *     cdef float epsilon
@@ -2737,7 +2723,7 @@ static PyArrayObject *__pyx_f_7Copulae_MultVarTDistnCopula(PyObject *__pyx_v_P, 
  *     cdef int i
  *     cdef float epsilon
  *     for i in range(0,df):             # <<<<<<<<<<<<<<
- *         uRand[i] = math.pow(u.Generate()[0],2)
+ *         uRand[i] = math.pow(np.random.uniform(0,1,1),2)
  *     epsilon = sum(uRand)
  */
   __pyx_t_2 = __pyx_v_df;
@@ -2747,7 +2733,7 @@ static PyArrayObject *__pyx_f_7Copulae_MultVarTDistnCopula(PyObject *__pyx_v_P, 
     /* "Copulae.pyx":44
  *     cdef float epsilon
  *     for i in range(0,df):
- *         uRand[i] = math.pow(u.Generate()[0],2)             # <<<<<<<<<<<<<<
+ *         uRand[i] = math.pow(np.random.uniform(0,1,1),2)             # <<<<<<<<<<<<<<
  *     epsilon = sum(uRand)
  *     cdef np.ndarray[FDTYPE_t,ndim=1] U = t.cdf(CorrlelatedX/math.sqrt(epsilon/df),df)
  */
@@ -2756,9 +2742,15 @@ static PyArrayObject *__pyx_f_7Copulae_MultVarTDistnCopula(PyObject *__pyx_v_P, 
     __pyx_t_7 = __Pyx_PyObject_GetAttrStr(__pyx_t_1, __pyx_n_s_pow); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 44, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_7);
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-    __pyx_t_1 = ((PyObject *)((struct __pyx_vtabstruct_30LowDiscrepancyNumberGenerators_SobolNumbers *)__pyx_v_u->__pyx_vtab)->Generate(__pyx_v_u, 0)); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 44, __pyx_L1_error)
+    __pyx_t_1 = __Pyx_GetModuleGlobalName(__pyx_n_s_np); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 44, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
-    __pyx_t_6 = __Pyx_GetItemInt(__pyx_t_1, 0, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 44, __pyx_L1_error)
+    __pyx_t_6 = __Pyx_PyObject_GetAttrStr(__pyx_t_1, __pyx_n_s_random); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 44, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_6);
+    __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+    __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_t_6, __pyx_n_s_uniform); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 44, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_1);
+    __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
+    __pyx_t_6 = __Pyx_PyObject_Call(__pyx_t_1, __pyx_tuple_, NULL); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 44, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_6);
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
     __pyx_t_1 = NULL;
@@ -2814,7 +2806,7 @@ static PyArrayObject *__pyx_f_7Copulae_MultVarTDistnCopula(PyObject *__pyx_v_P, 
 
   /* "Copulae.pyx":45
  *     for i in range(0,df):
- *         uRand[i] = math.pow(u.Generate()[0],2)
+ *         uRand[i] = math.pow(np.random.uniform(0,1,1),2)
  *     epsilon = sum(uRand)             # <<<<<<<<<<<<<<
  *     cdef np.ndarray[FDTYPE_t,ndim=1] U = t.cdf(CorrlelatedX/math.sqrt(epsilon/df),df)
  *     return U
@@ -2832,7 +2824,7 @@ static PyArrayObject *__pyx_f_7Copulae_MultVarTDistnCopula(PyObject *__pyx_v_P, 
   __pyx_v_epsilon = __pyx_t_12;
 
   /* "Copulae.pyx":46
- *         uRand[i] = math.pow(u.Generate()[0],2)
+ *         uRand[i] = math.pow(np.random.uniform(0,1,1),2)
  *     epsilon = sum(uRand)
  *     cdef np.ndarray[FDTYPE_t,ndim=1] U = t.cdf(CorrlelatedX/math.sqrt(epsilon/df),df)             # <<<<<<<<<<<<<<
  *     return U
@@ -3009,7 +3001,6 @@ static PyArrayObject *__pyx_f_7Copulae_MultVarTDistnCopula(PyObject *__pyx_v_P, 
   __Pyx_SafeReleaseBuffer(&__pyx_pybuffernd_U.rcbuffer->pybuffer);
   __pyx_L2:;
   __Pyx_XDECREF((PyObject *)__pyx_v_CorrlelatedX);
-  __Pyx_XDECREF((PyObject *)__pyx_v_u);
   __Pyx_XDECREF((PyObject *)__pyx_v_uRand);
   __Pyx_XDECREF((PyObject *)__pyx_v_U);
   __Pyx_XGIVEREF((PyObject *)__pyx_r);
@@ -3286,7 +3277,7 @@ static int __pyx_pf_5numpy_7ndarray___getbuffer__(PyArrayObject *__pyx_v_self, P
  * 
  *             if ((flags & pybuf.PyBUF_F_CONTIGUOUS == pybuf.PyBUF_F_CONTIGUOUS)
  */
-    __pyx_t_3 = __Pyx_PyObject_Call(__pyx_builtin_ValueError, __pyx_tuple_, NULL); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 235, __pyx_L1_error)
+    __pyx_t_3 = __Pyx_PyObject_Call(__pyx_builtin_ValueError, __pyx_tuple__2, NULL); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 235, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_3);
     __Pyx_Raise(__pyx_t_3, 0, 0, 0);
     __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
@@ -3342,7 +3333,7 @@ static int __pyx_pf_5numpy_7ndarray___getbuffer__(PyArrayObject *__pyx_v_self, P
  * 
  *             info.buf = PyArray_DATA(self)
  */
-    __pyx_t_3 = __Pyx_PyObject_Call(__pyx_builtin_ValueError, __pyx_tuple__2, NULL); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 239, __pyx_L1_error)
+    __pyx_t_3 = __Pyx_PyObject_Call(__pyx_builtin_ValueError, __pyx_tuple__3, NULL); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 239, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_3);
     __Pyx_Raise(__pyx_t_3, 0, 0, 0);
     __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
@@ -3651,7 +3642,7 @@ static int __pyx_pf_5numpy_7ndarray___getbuffer__(PyArrayObject *__pyx_v_self, P
  *                 if   t == NPY_BYTE:        f = "b"
  *                 elif t == NPY_UBYTE:       f = "B"
  */
-      __pyx_t_3 = __Pyx_PyObject_Call(__pyx_builtin_ValueError, __pyx_tuple__3, NULL); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 276, __pyx_L1_error)
+      __pyx_t_3 = __Pyx_PyObject_Call(__pyx_builtin_ValueError, __pyx_tuple__4, NULL); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 276, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_3);
       __Pyx_Raise(__pyx_t_3, 0, 0, 0);
       __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
@@ -4540,7 +4531,7 @@ static CYTHON_INLINE char *__pyx_f_5numpy__util_dtypestring(PyArray_Descr *__pyx
  * 
  *         if ((child.byteorder == c'>' and little_endian) or
  */
-      __pyx_t_3 = __Pyx_PyObject_Call(__pyx_builtin_RuntimeError, __pyx_tuple__4, NULL); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 823, __pyx_L1_error)
+      __pyx_t_3 = __Pyx_PyObject_Call(__pyx_builtin_RuntimeError, __pyx_tuple__5, NULL); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 823, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_3);
       __Pyx_Raise(__pyx_t_3, 0, 0, 0);
       __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
@@ -4608,7 +4599,7 @@ static CYTHON_INLINE char *__pyx_f_5numpy__util_dtypestring(PyArray_Descr *__pyx
  *             # One could encode it in the format string and have Cython
  *             # complain instead, BUT: < and > in format strings also imply
  */
-      __pyx_t_3 = __Pyx_PyObject_Call(__pyx_builtin_ValueError, __pyx_tuple__5, NULL); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 827, __pyx_L1_error)
+      __pyx_t_3 = __Pyx_PyObject_Call(__pyx_builtin_ValueError, __pyx_tuple__6, NULL); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 827, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_3);
       __Pyx_Raise(__pyx_t_3, 0, 0, 0);
       __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
@@ -4717,7 +4708,7 @@ static CYTHON_INLINE char *__pyx_f_5numpy__util_dtypestring(PyArray_Descr *__pyx
  * 
  *             # Until ticket #99 is fixed, use integers to avoid warnings
  */
-        __pyx_t_4 = __Pyx_PyObject_Call(__pyx_builtin_RuntimeError, __pyx_tuple__6, NULL); if (unlikely(!__pyx_t_4)) __PYX_ERR(1, 847, __pyx_L1_error)
+        __pyx_t_4 = __Pyx_PyObject_Call(__pyx_builtin_RuntimeError, __pyx_tuple__7, NULL); if (unlikely(!__pyx_t_4)) __PYX_ERR(1, 847, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_4);
         __Pyx_Raise(__pyx_t_4, 0, 0, 0);
         __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
@@ -5397,7 +5388,7 @@ static CYTHON_INLINE int __pyx_f_5numpy_import_array(void) {
  * 
  * cdef inline int import_umath() except -1:
  */
-      __pyx_t_8 = __Pyx_PyObject_Call(__pyx_builtin_ImportError, __pyx_tuple__7, NULL); if (unlikely(!__pyx_t_8)) __PYX_ERR(1, 1013, __pyx_L5_except_error)
+      __pyx_t_8 = __Pyx_PyObject_Call(__pyx_builtin_ImportError, __pyx_tuple__8, NULL); if (unlikely(!__pyx_t_8)) __PYX_ERR(1, 1013, __pyx_L5_except_error)
       __Pyx_GOTREF(__pyx_t_8);
       __Pyx_Raise(__pyx_t_8, 0, 0, 0);
       __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
@@ -5526,7 +5517,7 @@ static CYTHON_INLINE int __pyx_f_5numpy_import_umath(void) {
  * 
  * cdef inline int import_ufunc() except -1:
  */
-      __pyx_t_8 = __Pyx_PyObject_Call(__pyx_builtin_ImportError, __pyx_tuple__8, NULL); if (unlikely(!__pyx_t_8)) __PYX_ERR(1, 1019, __pyx_L5_except_error)
+      __pyx_t_8 = __Pyx_PyObject_Call(__pyx_builtin_ImportError, __pyx_tuple__9, NULL); if (unlikely(!__pyx_t_8)) __PYX_ERR(1, 1019, __pyx_L5_except_error)
       __Pyx_GOTREF(__pyx_t_8);
       __Pyx_Raise(__pyx_t_8, 0, 0, 0);
       __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
@@ -5652,7 +5643,7 @@ static CYTHON_INLINE int __pyx_f_5numpy_import_ufunc(void) {
  *     except Exception:
  *         raise ImportError("numpy.core.umath failed to import")             # <<<<<<<<<<<<<<
  */
-      __pyx_t_8 = __Pyx_PyObject_Call(__pyx_builtin_ImportError, __pyx_tuple__9, NULL); if (unlikely(!__pyx_t_8)) __PYX_ERR(1, 1025, __pyx_L5_except_error)
+      __pyx_t_8 = __Pyx_PyObject_Call(__pyx_builtin_ImportError, __pyx_tuple__10, NULL); if (unlikely(!__pyx_t_8)) __PYX_ERR(1, 1025, __pyx_L5_except_error)
       __Pyx_GOTREF(__pyx_t_8);
       __Pyx_Raise(__pyx_t_8, 0, 0, 0);
       __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
@@ -5778,6 +5769,7 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {&__pyx_n_s_pow, __pyx_k_pow, sizeof(__pyx_k_pow), 0, 0, 1, 1},
   {&__pyx_n_s_pyx_vtable, __pyx_k_pyx_vtable, sizeof(__pyx_k_pyx_vtable), 0, 0, 1, 1},
   {&__pyx_n_s_pyximport, __pyx_k_pyximport, sizeof(__pyx_k_pyximport), 0, 0, 1, 1},
+  {&__pyx_n_s_random, __pyx_k_random, sizeof(__pyx_k_random), 0, 0, 1, 1},
   {&__pyx_n_s_range, __pyx_k_range, sizeof(__pyx_k_range), 0, 0, 1, 1},
   {&__pyx_n_s_scipy_stats, __pyx_k_scipy_stats, sizeof(__pyx_k_scipy_stats), 0, 0, 1, 1},
   {&__pyx_n_s_shape, __pyx_k_shape, sizeof(__pyx_k_shape), 0, 0, 1, 1},
@@ -5786,6 +5778,7 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {&__pyx_n_s_t, __pyx_k_t, sizeof(__pyx_k_t), 0, 0, 1, 1},
   {&__pyx_n_s_test, __pyx_k_test, sizeof(__pyx_k_test), 0, 0, 1, 1},
   {&__pyx_n_s_transpose, __pyx_k_transpose, sizeof(__pyx_k_transpose), 0, 0, 1, 1},
+  {&__pyx_n_s_uniform, __pyx_k_uniform, sizeof(__pyx_k_uniform), 0, 0, 1, 1},
   {&__pyx_kp_u_unknown_dtype_code_in_numpy_pxd, __pyx_k_unknown_dtype_code_in_numpy_pxd, sizeof(__pyx_k_unknown_dtype_code_in_numpy_pxd), 0, 1, 0, 0},
   {&__pyx_n_s_zeros, __pyx_k_zeros, sizeof(__pyx_k_zeros), 0, 0, 1, 1},
   {0, 0, 0, 0, 0, 0, 0}
@@ -5807,6 +5800,17 @@ static int __Pyx_InitCachedConstants(void) {
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("__Pyx_InitCachedConstants", 0);
 
+  /* "Copulae.pyx":44
+ *     cdef float epsilon
+ *     for i in range(0,df):
+ *         uRand[i] = math.pow(np.random.uniform(0,1,1),2)             # <<<<<<<<<<<<<<
+ *     epsilon = sum(uRand)
+ *     cdef np.ndarray[FDTYPE_t,ndim=1] U = t.cdf(CorrlelatedX/math.sqrt(epsilon/df),df)
+ */
+  __pyx_tuple_ = PyTuple_Pack(3, __pyx_int_0, __pyx_int_1, __pyx_int_1); if (unlikely(!__pyx_tuple_)) __PYX_ERR(0, 44, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple_);
+  __Pyx_GIVEREF(__pyx_tuple_);
+
   /* "../../../../../../../Program Files (x86)/Microsoft Visual Studio/Shared/Anaconda3_64/lib/site-packages/Cython/Includes/numpy/__init__.pxd":235
  *             if ((flags & pybuf.PyBUF_C_CONTIGUOUS == pybuf.PyBUF_C_CONTIGUOUS)
  *                 and not PyArray_CHKFLAGS(self, NPY_C_CONTIGUOUS)):
@@ -5814,9 +5818,9 @@ static int __Pyx_InitCachedConstants(void) {
  * 
  *             if ((flags & pybuf.PyBUF_F_CONTIGUOUS == pybuf.PyBUF_F_CONTIGUOUS)
  */
-  __pyx_tuple_ = PyTuple_Pack(1, __pyx_kp_u_ndarray_is_not_C_contiguous); if (unlikely(!__pyx_tuple_)) __PYX_ERR(1, 235, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple_);
-  __Pyx_GIVEREF(__pyx_tuple_);
+  __pyx_tuple__2 = PyTuple_Pack(1, __pyx_kp_u_ndarray_is_not_C_contiguous); if (unlikely(!__pyx_tuple__2)) __PYX_ERR(1, 235, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__2);
+  __Pyx_GIVEREF(__pyx_tuple__2);
 
   /* "../../../../../../../Program Files (x86)/Microsoft Visual Studio/Shared/Anaconda3_64/lib/site-packages/Cython/Includes/numpy/__init__.pxd":239
  *             if ((flags & pybuf.PyBUF_F_CONTIGUOUS == pybuf.PyBUF_F_CONTIGUOUS)
@@ -5825,9 +5829,9 @@ static int __Pyx_InitCachedConstants(void) {
  * 
  *             info.buf = PyArray_DATA(self)
  */
-  __pyx_tuple__2 = PyTuple_Pack(1, __pyx_kp_u_ndarray_is_not_Fortran_contiguou); if (unlikely(!__pyx_tuple__2)) __PYX_ERR(1, 239, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__2);
-  __Pyx_GIVEREF(__pyx_tuple__2);
+  __pyx_tuple__3 = PyTuple_Pack(1, __pyx_kp_u_ndarray_is_not_Fortran_contiguou); if (unlikely(!__pyx_tuple__3)) __PYX_ERR(1, 239, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__3);
+  __Pyx_GIVEREF(__pyx_tuple__3);
 
   /* "../../../../../../../Program Files (x86)/Microsoft Visual Studio/Shared/Anaconda3_64/lib/site-packages/Cython/Includes/numpy/__init__.pxd":276
  *                 if ((descr.byteorder == c'>' and little_endian) or
@@ -5836,9 +5840,9 @@ static int __Pyx_InitCachedConstants(void) {
  *                 if   t == NPY_BYTE:        f = "b"
  *                 elif t == NPY_UBYTE:       f = "B"
  */
-  __pyx_tuple__3 = PyTuple_Pack(1, __pyx_kp_u_Non_native_byte_order_not_suppor); if (unlikely(!__pyx_tuple__3)) __PYX_ERR(1, 276, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__3);
-  __Pyx_GIVEREF(__pyx_tuple__3);
+  __pyx_tuple__4 = PyTuple_Pack(1, __pyx_kp_u_Non_native_byte_order_not_suppor); if (unlikely(!__pyx_tuple__4)) __PYX_ERR(1, 276, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__4);
+  __Pyx_GIVEREF(__pyx_tuple__4);
 
   /* "../../../../../../../Program Files (x86)/Microsoft Visual Studio/Shared/Anaconda3_64/lib/site-packages/Cython/Includes/numpy/__init__.pxd":823
  * 
@@ -5847,9 +5851,9 @@ static int __Pyx_InitCachedConstants(void) {
  * 
  *         if ((child.byteorder == c'>' and little_endian) or
  */
-  __pyx_tuple__4 = PyTuple_Pack(1, __pyx_kp_u_Format_string_allocated_too_shor); if (unlikely(!__pyx_tuple__4)) __PYX_ERR(1, 823, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__4);
-  __Pyx_GIVEREF(__pyx_tuple__4);
+  __pyx_tuple__5 = PyTuple_Pack(1, __pyx_kp_u_Format_string_allocated_too_shor); if (unlikely(!__pyx_tuple__5)) __PYX_ERR(1, 823, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__5);
+  __Pyx_GIVEREF(__pyx_tuple__5);
 
   /* "../../../../../../../Program Files (x86)/Microsoft Visual Studio/Shared/Anaconda3_64/lib/site-packages/Cython/Includes/numpy/__init__.pxd":827
  *         if ((child.byteorder == c'>' and little_endian) or
@@ -5858,9 +5862,9 @@ static int __Pyx_InitCachedConstants(void) {
  *             # One could encode it in the format string and have Cython
  *             # complain instead, BUT: < and > in format strings also imply
  */
-  __pyx_tuple__5 = PyTuple_Pack(1, __pyx_kp_u_Non_native_byte_order_not_suppor); if (unlikely(!__pyx_tuple__5)) __PYX_ERR(1, 827, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__5);
-  __Pyx_GIVEREF(__pyx_tuple__5);
+  __pyx_tuple__6 = PyTuple_Pack(1, __pyx_kp_u_Non_native_byte_order_not_suppor); if (unlikely(!__pyx_tuple__6)) __PYX_ERR(1, 827, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__6);
+  __Pyx_GIVEREF(__pyx_tuple__6);
 
   /* "../../../../../../../Program Files (x86)/Microsoft Visual Studio/Shared/Anaconda3_64/lib/site-packages/Cython/Includes/numpy/__init__.pxd":847
  *             t = child.type_num
@@ -5869,9 +5873,9 @@ static int __Pyx_InitCachedConstants(void) {
  * 
  *             # Until ticket #99 is fixed, use integers to avoid warnings
  */
-  __pyx_tuple__6 = PyTuple_Pack(1, __pyx_kp_u_Format_string_allocated_too_shor_2); if (unlikely(!__pyx_tuple__6)) __PYX_ERR(1, 847, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__6);
-  __Pyx_GIVEREF(__pyx_tuple__6);
+  __pyx_tuple__7 = PyTuple_Pack(1, __pyx_kp_u_Format_string_allocated_too_shor_2); if (unlikely(!__pyx_tuple__7)) __PYX_ERR(1, 847, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__7);
+  __Pyx_GIVEREF(__pyx_tuple__7);
 
   /* "../../../../../../../Program Files (x86)/Microsoft Visual Studio/Shared/Anaconda3_64/lib/site-packages/Cython/Includes/numpy/__init__.pxd":1013
  *         _import_array()
@@ -5880,9 +5884,9 @@ static int __Pyx_InitCachedConstants(void) {
  * 
  * cdef inline int import_umath() except -1:
  */
-  __pyx_tuple__7 = PyTuple_Pack(1, __pyx_kp_s_numpy_core_multiarray_failed_to); if (unlikely(!__pyx_tuple__7)) __PYX_ERR(1, 1013, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__7);
-  __Pyx_GIVEREF(__pyx_tuple__7);
+  __pyx_tuple__8 = PyTuple_Pack(1, __pyx_kp_s_numpy_core_multiarray_failed_to); if (unlikely(!__pyx_tuple__8)) __PYX_ERR(1, 1013, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__8);
+  __Pyx_GIVEREF(__pyx_tuple__8);
 
   /* "../../../../../../../Program Files (x86)/Microsoft Visual Studio/Shared/Anaconda3_64/lib/site-packages/Cython/Includes/numpy/__init__.pxd":1019
  *         _import_umath()
@@ -5891,18 +5895,18 @@ static int __Pyx_InitCachedConstants(void) {
  * 
  * cdef inline int import_ufunc() except -1:
  */
-  __pyx_tuple__8 = PyTuple_Pack(1, __pyx_kp_s_numpy_core_umath_failed_to_impor); if (unlikely(!__pyx_tuple__8)) __PYX_ERR(1, 1019, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__8);
-  __Pyx_GIVEREF(__pyx_tuple__8);
+  __pyx_tuple__9 = PyTuple_Pack(1, __pyx_kp_s_numpy_core_umath_failed_to_impor); if (unlikely(!__pyx_tuple__9)) __PYX_ERR(1, 1019, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__9);
+  __Pyx_GIVEREF(__pyx_tuple__9);
 
   /* "../../../../../../../Program Files (x86)/Microsoft Visual Studio/Shared/Anaconda3_64/lib/site-packages/Cython/Includes/numpy/__init__.pxd":1025
  *         _import_umath()
  *     except Exception:
  *         raise ImportError("numpy.core.umath failed to import")             # <<<<<<<<<<<<<<
  */
-  __pyx_tuple__9 = PyTuple_Pack(1, __pyx_kp_s_numpy_core_umath_failed_to_impor); if (unlikely(!__pyx_tuple__9)) __PYX_ERR(1, 1025, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__9);
-  __Pyx_GIVEREF(__pyx_tuple__9);
+  __pyx_tuple__10 = PyTuple_Pack(1, __pyx_kp_s_numpy_core_umath_failed_to_impor); if (unlikely(!__pyx_tuple__10)) __PYX_ERR(1, 1025, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__10);
+  __Pyx_GIVEREF(__pyx_tuple__10);
   __Pyx_RefNannyFinishContext();
   return 0;
   __pyx_L1_error:;
@@ -5912,6 +5916,8 @@ static int __Pyx_InitCachedConstants(void) {
 
 static int __Pyx_InitGlobals(void) {
   if (__Pyx_InitStrings(__pyx_string_tab) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
+  __pyx_int_0 = PyInt_FromLong(0); if (unlikely(!__pyx_int_0)) __PYX_ERR(0, 1, __pyx_L1_error)
+  __pyx_int_1 = PyInt_FromLong(1); if (unlikely(!__pyx_int_1)) __PYX_ERR(0, 1, __pyx_L1_error)
   __pyx_int_2 = PyInt_FromLong(2); if (unlikely(!__pyx_int_2)) __PYX_ERR(0, 1, __pyx_L1_error)
   return 0;
   __pyx_L1_error:;
@@ -6072,8 +6078,8 @@ static int __pyx_pymod_exec_Copulae(PyObject *__pyx_pyinit_module)
   __pyx_ptype_5numpy_broadcast = __Pyx_ImportType("numpy", "broadcast", sizeof(PyArrayMultiIterObject), 0); if (unlikely(!__pyx_ptype_5numpy_broadcast)) __PYX_ERR(1, 189, __pyx_L1_error)
   __pyx_ptype_5numpy_ndarray = __Pyx_ImportType("numpy", "ndarray", sizeof(PyArrayObject), 0); if (unlikely(!__pyx_ptype_5numpy_ndarray)) __PYX_ERR(1, 198, __pyx_L1_error)
   __pyx_ptype_5numpy_ufunc = __Pyx_ImportType("numpy", "ufunc", sizeof(PyUFuncObject), 0); if (unlikely(!__pyx_ptype_5numpy_ufunc)) __PYX_ERR(1, 885, __pyx_L1_error)
-  __pyx_ptype_30LowDiscrepancyNumberGenerators_SobolNumbers = __Pyx_ImportType("LowDiscrepancyNumberGenerators", "SobolNumbers", sizeof(struct __pyx_obj_30LowDiscrepancyNumberGenerators_SobolNumbers), 1); if (unlikely(!__pyx_ptype_30LowDiscrepancyNumberGenerators_SobolNumbers)) __PYX_ERR(3, 9, __pyx_L1_error)
-  __pyx_vtabptr_30LowDiscrepancyNumberGenerators_SobolNumbers = (struct __pyx_vtabstruct_30LowDiscrepancyNumberGenerators_SobolNumbers*)__Pyx_GetVtable(__pyx_ptype_30LowDiscrepancyNumberGenerators_SobolNumbers->tp_dict); if (unlikely(!__pyx_vtabptr_30LowDiscrepancyNumberGenerators_SobolNumbers)) __PYX_ERR(3, 9, __pyx_L1_error)
+  __pyx_ptype_30LowDiscrepancyNumberGenerators_SobolNumbers = __Pyx_ImportType("LowDiscrepancyNumberGenerators", "SobolNumbers", sizeof(struct __pyx_obj_30LowDiscrepancyNumberGenerators_SobolNumbers), 1); if (unlikely(!__pyx_ptype_30LowDiscrepancyNumberGenerators_SobolNumbers)) __PYX_ERR(3, 8, __pyx_L1_error)
+  __pyx_vtabptr_30LowDiscrepancyNumberGenerators_SobolNumbers = (struct __pyx_vtabstruct_30LowDiscrepancyNumberGenerators_SobolNumbers*)__Pyx_GetVtable(__pyx_ptype_30LowDiscrepancyNumberGenerators_SobolNumbers->tp_dict); if (unlikely(!__pyx_vtabptr_30LowDiscrepancyNumberGenerators_SobolNumbers)) __PYX_ERR(3, 8, __pyx_L1_error)
   /*--- Variable import code ---*/
   /*--- Function import code ---*/
   /*--- Execution code ---*/

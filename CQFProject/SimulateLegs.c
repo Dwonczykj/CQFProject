@@ -993,7 +993,7 @@ typedef npy_double __pyx_t_5numpy_double_t;
  */
 typedef npy_longdouble __pyx_t_5numpy_longdouble_t;
 
-/* "LowDiscrepancyNumberGenerators.pxd":7
+/* "LowDiscrepancyNumberGenerators.pxd":6
  * # every type in the numpy module there's a corresponding compile-time
  * # type with a _t-suffix.
  * ctypedef np.int_t DTYPE_t             # <<<<<<<<<<<<<<
@@ -1002,7 +1002,7 @@ typedef npy_longdouble __pyx_t_5numpy_longdouble_t;
  */
 typedef __pyx_t_5numpy_int_t __pyx_t_30LowDiscrepancyNumberGenerators_DTYPE_t;
 
-/* "LowDiscrepancyNumberGenerators.pxd":8
+/* "LowDiscrepancyNumberGenerators.pxd":7
  * # type with a _t-suffix.
  * ctypedef np.int_t DTYPE_t
  * ctypedef np.float_t FDTYPE_t             # <<<<<<<<<<<<<<
@@ -1083,7 +1083,7 @@ typedef npy_clongdouble __pyx_t_5numpy_clongdouble_t;
  */
 typedef npy_cdouble __pyx_t_5numpy_complex_t;
 
-/* "LowDiscrepancyNumberGenerators.pxd":9
+/* "LowDiscrepancyNumberGenerators.pxd":8
  * ctypedef np.int_t DTYPE_t
  * ctypedef np.float_t FDTYPE_t
  * cdef class SobolNumbers:             # <<<<<<<<<<<<<<
@@ -1103,6 +1103,7 @@ struct __pyx_obj_30LowDiscrepancyNumberGenerators_SobolNumbers {
   PyArrayObject *ix;
   PyArrayObject *iV;
   PyArrayObject *initV;
+  PyArrayObject *initVt;
 };
 
 
@@ -6775,8 +6776,8 @@ static int __pyx_pymod_exec_SimulateLegs(PyObject *__pyx_pyinit_module)
   __pyx_ptype_5numpy_broadcast = __Pyx_ImportType("numpy", "broadcast", sizeof(PyArrayMultiIterObject), 0); if (unlikely(!__pyx_ptype_5numpy_broadcast)) __PYX_ERR(1, 189, __pyx_L1_error)
   __pyx_ptype_5numpy_ndarray = __Pyx_ImportType("numpy", "ndarray", sizeof(PyArrayObject), 0); if (unlikely(!__pyx_ptype_5numpy_ndarray)) __PYX_ERR(1, 198, __pyx_L1_error)
   __pyx_ptype_5numpy_ufunc = __Pyx_ImportType("numpy", "ufunc", sizeof(PyUFuncObject), 0); if (unlikely(!__pyx_ptype_5numpy_ufunc)) __PYX_ERR(1, 885, __pyx_L1_error)
-  __pyx_ptype_30LowDiscrepancyNumberGenerators_SobolNumbers = __Pyx_ImportType("LowDiscrepancyNumberGenerators", "SobolNumbers", sizeof(struct __pyx_obj_30LowDiscrepancyNumberGenerators_SobolNumbers), 1); if (unlikely(!__pyx_ptype_30LowDiscrepancyNumberGenerators_SobolNumbers)) __PYX_ERR(3, 9, __pyx_L1_error)
-  __pyx_vtabptr_30LowDiscrepancyNumberGenerators_SobolNumbers = (struct __pyx_vtabstruct_30LowDiscrepancyNumberGenerators_SobolNumbers*)__Pyx_GetVtable(__pyx_ptype_30LowDiscrepancyNumberGenerators_SobolNumbers->tp_dict); if (unlikely(!__pyx_vtabptr_30LowDiscrepancyNumberGenerators_SobolNumbers)) __PYX_ERR(3, 9, __pyx_L1_error)
+  __pyx_ptype_30LowDiscrepancyNumberGenerators_SobolNumbers = __Pyx_ImportType("LowDiscrepancyNumberGenerators", "SobolNumbers", sizeof(struct __pyx_obj_30LowDiscrepancyNumberGenerators_SobolNumbers), 1); if (unlikely(!__pyx_ptype_30LowDiscrepancyNumberGenerators_SobolNumbers)) __PYX_ERR(3, 8, __pyx_L1_error)
+  __pyx_vtabptr_30LowDiscrepancyNumberGenerators_SobolNumbers = (struct __pyx_vtabstruct_30LowDiscrepancyNumberGenerators_SobolNumbers*)__Pyx_GetVtable(__pyx_ptype_30LowDiscrepancyNumberGenerators_SobolNumbers->tp_dict); if (unlikely(!__pyx_vtabptr_30LowDiscrepancyNumberGenerators_SobolNumbers)) __PYX_ERR(3, 8, __pyx_L1_error)
   /*--- Variable import code ---*/
   /*--- Function import code ---*/
   /*--- Execution code ---*/

@@ -35,13 +35,13 @@ cpdef np.ndarray[FDTYPE_t,ndim=1] MultVarGaussianCopula(P,SobolNumbers LowDiscNu
 cpdef np.ndarray[FDTYPE_t,ndim=1] MultVarTDistnCopula(P,int df,SobolNumbers LowDiscNumbers):
     cdef np.ndarray[FDTYPE_t,ndim=1] CorrlelatedX
     CorrlelatedX = SharedCopulaAlgoWork(P,LowDiscNumbers)
-    u = SobolNumbers()
-    u.initialise(1)
+    # u = SobolNumbers()
+    # u.initialise(1)
     cdef np.ndarray uRand= np.zeros(df,dtype=float)
     cdef int i
     cdef float epsilon
     for i in range(0,df):
-        uRand[i] = math.pow(u.Generate()[0],2)
+        uRand[i] = math.pow(np.random.uniform(0,1,1),2)
     epsilon = sum(uRand)
     cdef np.ndarray[FDTYPE_t,ndim=1] U = t.cdf(CorrlelatedX/math.sqrt(epsilon/df),df)
     return U

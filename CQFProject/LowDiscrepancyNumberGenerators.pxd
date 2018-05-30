@@ -1,6 +1,5 @@
 import numpy as np
 cimport numpy as np
-
 # "ctypedef" assigns a corresponding compile-time type to DTYPE_t. For
 # every type in the numpy module there's a corresponding compile-time
 # type with a _t-suffix.
@@ -17,6 +16,7 @@ cdef class SobolNumbers:
     cdef np.ndarray ix 
     cdef np.ndarray iV
     cdef np.ndarray initV
+    cdef np.ndarray initVt
 
     cpdef int initialise(self,int d)
     cdef int initDirectionals(self)

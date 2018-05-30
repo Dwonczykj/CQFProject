@@ -146,24 +146,31 @@ def CreateCDSPVLegs(InterpolatedDataFrame: pd.DataFrame, Spread, RecvR):
         i += 1
     return res
 
-def CreateCDSPVLegsForExactDefault(DefaultTime, Tenors, Rates, DFs, Spread, RecvR):
+def CreateCDSPVLegsForExactDefault(DefaultTime, PaymntDt, Rates, DFs, Spread, RecvR):
     i = 0
     res = dict()
-    PremiumLeg = np.zeros(shape=(len(Tenors)),dtype=float)
-    CompensationLeg = np.zeros(shape=(len(Tenors)),dtype=float)
+    PremiumLeg = np.zeros(shape=(len(PaymntDt)),dtype=float)
+    CompensationLeg = np.zeros(shape=(len(PaymntDt)),dtype=float)
     #todo: The legs have premium payemnts every 3 months, not once a year
-    while i < (len(Tenors)):
-        indP = 1 if Tenors[i] <= DefaultTime else 0
-        indC = 1 if Tenors[i] > DefaultTime and (i == 0 or (i > 0 and Tenors[i-1] <= DefaultTime )) else 0
-        PL = Spread * (DFs(Tenors[i]) * indP * (Tenors[i] - (Tenors[i-1] if i > 0 else 0)))  #* PrSurv(i,Rates,Tenors)
-        #!Surely only use one spread if its on a basket of 5y CDS, we would only use the 5Y rate.
-        CL = (1 - RecvR) * DFs(Tenors[i]) * indC #* (PrSurv(i-1,Rates,Tenors) - PrSurv(i,Rates,Tenors))
+    dft_occured_last_period = False
+    while i < (len(PaymntDt)):
+        dflt_occured_this_period = DefaultTime < PaymntDt[i]
+        indP = 1 if not dft_occured_last_period else 0
+        PL = Spread * indP * ((DFs(PaymntDt[i]) * (PaymntDt[i] - (PaymntDt[i-1] if i > 0 else 0))) if not dflt_occured_this_period 
+                              else (DFs(DefaultTime) * (DefaultTime - (PaymntDt[i-1] if i > 0 else 0))) )
+        indC = 1 if dflt_occured_this_period and not dft_occured_last_period else 0
+        CL = (1 - RecvR) * DFs(PaymntDt[i]) * indC
+        #indP = 1 if PaymntDt[i] <= DefaultTime else 0
+        #indC = 1 if PaymntDt[i] > DefaultTime and (i == 0 or (i > 0 and PaymntDt[i-1] <= DefaultTime )) else 0
+        #PL = Spread * (DFs(PaymntDt[i]) * indP * (PaymntDt[i] - (PaymntDt[i-1] if i > 0 else 0)))  #* PrSurv(i,Rates,Tenors)
+        #CL = (1 - RecvR) * DFs(PaymntDt[i]) * indC #* (PrSurv(i-1,Rates,Tenors) - PrSurv(i,Rates,Tenors))
         #newFrame = pd.DataFrame({'PremiumLeg': [PL],
         #                         'CompensationLeg': [CL]},index=[InterpolatedDataFrame.index[i]])
         PremiumLeg[i] = PL;
         CompensationLeg[i] = CL;
         #res = pd.concat([res,newFrame])
         i += 1
+        dft_occured_last_period = dflt_occured_this_period
     res["CompensationLeg"] = CompensationLeg
     res["PremiumLeg"] = PremiumLeg
     return res

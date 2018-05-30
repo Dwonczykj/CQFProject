@@ -12,7 +12,7 @@ from SimulateLegs import SimulateLegPricesFromCorrelationNormal, SimulateLegPric
 from RunningMoments import RunningAverage, RunningVarianceOfRunningAverage
 #!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!MONTE CARLO SIMULATION!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
-def SimulateCDSBasketDefaultsAndValueLegsT(TimeAtStart,CorP,M,HistCreditSpreads,TransformedHistDataDic,TenorCreditSpreads,InvPWCDF,DiscountFactorCurve,ImpHazdRts,DataTenorDic,CDSPaymentTenors,CDSBasketMaturity,SpreadArr=[],R=0.4):
+def SimulateCDSBasketDefaultsAndValueLegsT(TimeAtStart,CorP,M,HistCreditSpreads,TransformedHistDataDic,TenorCreditSpreads,InvPWCDF,DiscountFactorCurve,ImpHazdRts,DataTenorDic,CDSPaymentTenors,CDSBasketMaturity,SpreadArr=[],R=0.4,name=""):
     if len(SpreadArr) == 0:
         SpreadArr = np.ones(shape=(5))
     CompensationLegSumsForEachRefNameT = np.zeros(shape=(M,5),dtype=np.float)
@@ -23,8 +23,8 @@ def SimulateCDSBasketDefaultsAndValueLegsT(TimeAtStart,CorP,M,HistCreditSpreads,
     UniformityDic = dict()
     for i in range(2,4):
         UniformityDic["T Copula %d" % (i+1)] = UT[i,:]
-    #!plot_histogram_array(UniformityDic,"Simulated Ui T Copula")
-    plot_codependence_scatters(UniformityDic,"Simulated Ui T Copula", "Simulated Uj T Copula")
+    plot_histogram_array(UniformityDic,"Simulated Ui T Copula",name=name)
+    plot_codependence_scatters(UniformityDic,"Simulated Ui T Copula", "Simulated Uj T Copula",name)
     M_Min = 50
     Tolerance = 0.000001
     CompLegRunningAv = np.zeros(shape=(M,5))
@@ -43,16 +43,16 @@ def SimulateCDSBasketDefaultsAndValueLegsT(TimeAtStart,CorP,M,HistCreditSpreads,
             sup = max(supRunningVarsCompLeg,supRunningVarsPremLeg)
             if(sup < Tolerance):
                 break
-    #!return_lineChart(np.arange(0,M),CompLegRunningAv.transpose(),"Compensation Leg Running Average (Student's T Copula)",xlabel="Iteration",ylabel="Running Average", legend=["1st to Default","2nd to Default","3rd to Default","4th to Default","5th to Default"])
-    #!return_lineChart(np.arange(0,M),PremLegRunningAv.transpose(),"Premium Leg Running Average (Student's T Copula)",xlabel="Iteration",ylabel="Running Average", legend=["1st to Default","2nd to Default","3rd to Default","4th to Default","5th to Default"])
-    #!return_lineChart(np.arange(0,len(runningVarCompLeg[0])),runningVarCompLeg,"Running Variance of Compensation Leg (Student's T Copula)",legend=["1st to Default","2nd to Default","3rd to Default","4th to Default","5th to Default"])
-    #!return_lineChart(np.arange(0,len(runningVarCompLeg[0])),runningVarPremLeg,"Running Variance of Premium Leg (Student's T Copula)",legend=["1st to Default","2nd to Default","3rd to Default","4th to Default","5th to Default"])
+    return_lineChart(np.arange(0,M),CompLegRunningAv.transpose(),name+"_"+"Compensation Leg Running Average (Student's T Copula)",xlabel="Iteration",ylabel="Running Average", legend=["1st to Default","2nd to Default","3rd to Default","4th to Default","5th to Default"])
+    return_lineChart(np.arange(0,M),PremLegRunningAv.transpose(),name+"_"+"Premium Leg Running Average (Student's T Copula)",xlabel="Iteration",ylabel="Running Average", legend=["1st to Default","2nd to Default","3rd to Default","4th to Default","5th to Default"])
+    return_lineChart(np.arange(0,len(runningVarCompLeg[0])),runningVarCompLeg,name+"_"+"Running Variance of Compensation Leg (Student's T Copula)",legend=["1st to Default","2nd to Default","3rd to Default","4th to Default","5th to Default"])
+    return_lineChart(np.arange(0,len(runningVarCompLeg[0])),runningVarPremLeg,name+"_"+"Running Variance of Premium Leg (Student's T Copula)",legend=["1st to Default","2nd to Default","3rd to Default","4th to Default","5th to Default"])
     tEnd = time.time()
     print("Took %.10f seconds to simulate %d iterations of T copulae and calculate legs from them." % (tEnd - TimeAtStart,M))
 
     return CompensationLegSumsForEachRefNameT,PremiumLegSumsForEachRefNameT,tEnd
 
-def SimulateCDSBasketDefaultsAndValueLegsGauss(TimeAtStart,CorP,M,HistCreditSpreads,TenorCreditSpreads,InvPWCDF,DiscountFactorCurve,ImpHazdRts,DataTenorDic,CDSPaymentTenors,CDSBasketMaturity,SpreadArr=[],R=0.4):
+def SimulateCDSBasketDefaultsAndValueLegsGauss(TimeAtStart,CorP,M,HistCreditSpreads,TenorCreditSpreads,InvPWCDF,DiscountFactorCurve,ImpHazdRts,DataTenorDic,CDSPaymentTenors,CDSBasketMaturity,SpreadArr=[],R=0.4,name=""):
     if len(SpreadArr) == 0:
         SpreadArr = np.ones(shape=(5))
     CompensationLegSumsForEachRefNameGauss = np.zeros(shape=(M,5),dtype=np.float)
@@ -63,8 +63,8 @@ def SimulateCDSBasketDefaultsAndValueLegsGauss(TimeAtStart,CorP,M,HistCreditSpre
     UniformityDic = dict()
     for i in range(0,2):
         UniformityDic["Gaussian Copula %d" % (i+1)] = UNorm[i,:]
-    #!plot_histogram_array(UniformityDic,"Simulated Ui Gaussian Copula")
-    #!plot_codependence_scatters(UniformityDic,"Simulated Ui Gaussian Copula","Simulated Uj Gaussian Copula")
+    plot_histogram_array(UniformityDic,"Simulated Ui Gaussian Copula",name=name)
+    plot_codependence_scatters(UniformityDic,"Simulated Ui Gaussian Copula","Simulated Uj Gaussian Copula",name)
     M_Min = 50
     Tolerance = 0.000001
     CompLegRunningAv = np.zeros(shape=(M,5))
@@ -83,10 +83,10 @@ def SimulateCDSBasketDefaultsAndValueLegsGauss(TimeAtStart,CorP,M,HistCreditSpre
             sup = max(supRunningVarsCompLeg,supRunningVarsPremLeg)
             if(sup < Tolerance):
                 break
-    #!return_lineChart(np.arange(0,M),CompLegRunningAv.transpose(),"Compensation Leg Running Average (Gaussian Copula)",xlabel="Iteration",ylabel="Running Average", legend=["1st to Default","2nd to Default","3rd to Default","4th to Default","5th to Default"])
-    #!return_lineChart(np.arange(0,M),PremLegRunningAv.transpose(),"Premium Leg Running Average (Gaussian Copula)",xlabel="Iteration",ylabel="Running Average", legend=["1st to Default","2nd to Default","3rd to Default","4th to Default","5th to Default"])
-    #!return_lineChart(np.arange(0,len(runningVarCompLeg[0])),runningVarCompLeg,"Running Variance of Compensation Leg (Gaussian Copula)",legend=["1st to Default","2nd to Default","3rd to Default","4th to Default","5th to Default"])
-    #!return_lineChart(np.arange(0,len(runningVarCompLeg[0])),runningVarPremLeg,"Running Variance of Premium Leg (Gaussian Copula)",legend=["1st to Default","2nd to Default","3rd to Default","4th to Default","5th to Default"])
+    return_lineChart(np.arange(0,M),CompLegRunningAv.transpose(),name+"_"+"Compensation Leg Running Average (Gaussian Copula)",xlabel="Iteration",ylabel="Running Average", legend=["1st to Default","2nd to Default","3rd to Default","4th to Default","5th to Default"])
+    return_lineChart(np.arange(0,M),PremLegRunningAv.transpose(),name+"_"+"Premium Leg Running Average (Gaussian Copula)",xlabel="Iteration",ylabel="Running Average", legend=["1st to Default","2nd to Default","3rd to Default","4th to Default","5th to Default"])
+    return_lineChart(np.arange(0,len(runningVarCompLeg[0])),runningVarCompLeg,name+"_"+"Running Variance of Compensation Leg (Gaussian Copula)",legend=["1st to Default","2nd to Default","3rd to Default","4th to Default","5th to Default"])
+    return_lineChart(np.arange(0,len(runningVarCompLeg[0])),runningVarPremLeg,name+"_"+"Running Variance of Premium Leg (Gaussian Copula)",legend=["1st to Default","2nd to Default","3rd to Default","4th to Default","5th to Default"])
     tEnd = time.time()
     print("Took %.10f seconds to simulate %d iterations of Gaussian copulae and calculate legs from them." % (tEnd - TimeAtStart,M))
 
@@ -132,10 +132,10 @@ def CalculateFairSpreadFromLegs(CompensationLegSumsForEachRefName,PremiumLegSums
 
     return FairSpreads, t9
 
-def FullMCFairSpreadValuation(startTime,LogRtnCorP,RankCorP,M,HistCreditSpreads,TransformedHistDataDic,TenorCreditSpreads,InvPWCDF,DiscountFactorCurve,ImpHazdRts,DataTenorDic,CDSPaymentTenors,CDSBasketMaturity,TFairSpread=[],GaussFairSpread=[],R=0.4):
+def FullMCFairSpreadValuation(startTime,LogRtnCorP,RankCorP,M,HistCreditSpreads,TransformedHistDataDic,TenorCreditSpreads,InvPWCDF,DiscountFactorCurve,ImpHazdRts,DataTenorDic,CDSPaymentTenors,CDSBasketMaturity,R=0.4,name=""):
 
-    TLegs = SimulateCDSBasketDefaultsAndValueLegsT(startTime,RankCorP,M,HistCreditSpreads,TransformedHistDataDic,TenorCreditSpreads,InvPWCDF,DiscountFactorCurve,ImpHazdRts,DataTenorDic,CDSPaymentTenors,CDSBasketMaturity,TFairSpread,R)
-    GaussLegs = SimulateCDSBasketDefaultsAndValueLegsGauss(TLegs[2],LogRtnCorP,M,HistCreditSpreads,TenorCreditSpreads,InvPWCDF,DiscountFactorCurve,ImpHazdRts,DataTenorDic,CDSPaymentTenors,CDSBasketMaturity,GaussFairSpread,R)
+    TLegs = SimulateCDSBasketDefaultsAndValueLegsT(startTime,RankCorP,M,HistCreditSpreads,TransformedHistDataDic,TenorCreditSpreads,InvPWCDF,DiscountFactorCurve,ImpHazdRts,DataTenorDic,CDSPaymentTenors,CDSBasketMaturity,[],R,name)
+    GaussLegs = SimulateCDSBasketDefaultsAndValueLegsGauss(TLegs[2],LogRtnCorP,M,HistCreditSpreads,TenorCreditSpreads,InvPWCDF,DiscountFactorCurve,ImpHazdRts,DataTenorDic,CDSPaymentTenors,CDSBasketMaturity,[],R,name)
 
 
     GaussFairSpread,t9 = CalculateFairSpreadFromLegs(GaussLegs[0],GaussLegs[1],M,GaussLegs[2],"Gauss")
