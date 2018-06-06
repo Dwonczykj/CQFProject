@@ -12,20 +12,20 @@ from SimulateLegs import SimulateLegPricesFromCorrelationNormal, SimulateLegPric
 from RunningMoments import RunningAverage, RunningVarianceOfRunningAverage
 #!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!MONTE CARLO SIMULATION!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
-def SimulateCDSBasketDefaultsAndValueLegsT(TimeAtStart,CorP,M,HistCreditSpreads,TransformedHistDataDic,TenorCreditSpreads,InvPWCDF,DiscountFactorCurve,ImpHazdRts,DataTenorDic,CDSPaymentTenors,CDSBasketMaturity,SpreadArr=[],R=0.4,name=""):
+def SimulateCDSBasketDefaultsAndValueLegsT(TimeAtStart,CorP,M,HistCreditSpreads,TransformedHistDataDic,T_df,TenorCreditSpreads,InvPWCDF,DiscountFactorCurve,ImpHazdRts,DataTenorDic,CDSPaymentTenors,CDSBasketMaturity,SpreadArr=[],R=0.4,name=""):
     if len(SpreadArr) == 0:
         SpreadArr = np.ones(shape=(5))
     CompensationLegSumsForEachRefNameT = np.zeros(shape=(M,5),dtype=np.float)
     PremiumLegSumsForEachRefNameT = np.zeros(shape=(M,5),dtype=np.float)
     NumbGen = SobolNumbers()
     NumbGen.initialise(CorP.shape[0])
-    UT = UnifFromTCopula(CorP,NumbGen,len(TransformedHistDataDic[HistCreditSpreads.columns[1]]) - 1,M)
+    UT = UnifFromTCopula(CorP,NumbGen,T_df,M)
     UniformityDic = dict()
     for i in range(2,4):
         UniformityDic["T Copula %d" % (i+1)] = UT[i,:]
     plot_histogram_array(UniformityDic,"Simulated Ui T Copula",name=name)
     plot_codependence_scatters(UniformityDic,"Simulated Ui T Copula", "Simulated Uj T Copula",name)
-    M_Min = 50
+    M_Min = 100
     Tolerance = 0.000001
     CompLegRunningAv = np.zeros(shape=(M,5))
     PremLegRunningAv = np.zeros(shape=(M,5))
@@ -42,6 +42,7 @@ def SimulateCDSBasketDefaultsAndValueLegsT(TimeAtStart,CorP,M,HistCreditSpreads,
             supRunningVarsPremLeg = max(runningVarPremLeg.transpose()[runningVarPremLeg.shape[1]-1])
             sup = max(supRunningVarsCompLeg,supRunningVarsPremLeg)
             if(sup < Tolerance):
+                print("Tolerance hit for T")
                 break
     return_lineChart(np.arange(0,M),CompLegRunningAv.transpose(),name+"_"+"Compensation Leg Running Average (Student's T Copula)",xlabel="Iteration",ylabel="Running Average", legend=["1st to Default","2nd to Default","3rd to Default","4th to Default","5th to Default"])
     return_lineChart(np.arange(0,M),PremLegRunningAv.transpose(),name+"_"+"Premium Leg Running Average (Student's T Copula)",xlabel="Iteration",ylabel="Running Average", legend=["1st to Default","2nd to Default","3rd to Default","4th to Default","5th to Default"])
@@ -65,7 +66,7 @@ def SimulateCDSBasketDefaultsAndValueLegsGauss(TimeAtStart,CorP,M,HistCreditSpre
         UniformityDic["Gaussian Copula %d" % (i+1)] = UNorm[i,:]
     plot_histogram_array(UniformityDic,"Simulated Ui Gaussian Copula",name=name)
     plot_codependence_scatters(UniformityDic,"Simulated Ui Gaussian Copula","Simulated Uj Gaussian Copula",name)
-    M_Min = 50
+    M_Min = 100
     Tolerance = 0.000001
     CompLegRunningAv = np.zeros(shape=(M,5))
     PremLegRunningAv = np.zeros(shape=(M,5))
@@ -82,6 +83,7 @@ def SimulateCDSBasketDefaultsAndValueLegsGauss(TimeAtStart,CorP,M,HistCreditSpre
             supRunningVarsPremLeg = max(runningVarPremLeg.transpose()[runningVarPremLeg.shape[1]-1])
             sup = max(supRunningVarsCompLeg,supRunningVarsPremLeg)
             if(sup < Tolerance):
+                print("Tolerance hit for Gaussian")
                 break
     return_lineChart(np.arange(0,M),CompLegRunningAv.transpose(),name+"_"+"Compensation Leg Running Average (Gaussian Copula)",xlabel="Iteration",ylabel="Running Average", legend=["1st to Default","2nd to Default","3rd to Default","4th to Default","5th to Default"])
     return_lineChart(np.arange(0,M),PremLegRunningAv.transpose(),name+"_"+"Premium Leg Running Average (Gaussian Copula)",xlabel="Iteration",ylabel="Running Average", legend=["1st to Default","2nd to Default","3rd to Default","4th to Default","5th to Default"])
@@ -132,9 +134,9 @@ def CalculateFairSpreadFromLegs(CompensationLegSumsForEachRefName,PremiumLegSums
 
     return FairSpreads, t9
 
-def FullMCFairSpreadValuation(startTime,LogRtnCorP,RankCorP,M,HistCreditSpreads,TransformedHistDataDic,TenorCreditSpreads,InvPWCDF,DiscountFactorCurve,ImpHazdRts,DataTenorDic,CDSPaymentTenors,CDSBasketMaturity,R=0.4,name=""):
+def FullMCFairSpreadValuation(startTime,LogRtnCorP,RankCorP,M,HistCreditSpreads,TransformedHistDataDic,T_df,TenorCreditSpreads,InvPWCDF,DiscountFactorCurve,ImpHazdRts,DataTenorDic,CDSPaymentTenors,CDSBasketMaturity,R=0.4,name=""):
 
-    TLegs = SimulateCDSBasketDefaultsAndValueLegsT(startTime,RankCorP,M,HistCreditSpreads,TransformedHistDataDic,TenorCreditSpreads,InvPWCDF,DiscountFactorCurve,ImpHazdRts,DataTenorDic,CDSPaymentTenors,CDSBasketMaturity,[],R,name)
+    TLegs = SimulateCDSBasketDefaultsAndValueLegsT(startTime,RankCorP,M,HistCreditSpreads,TransformedHistDataDic,T_df,TenorCreditSpreads,InvPWCDF,DiscountFactorCurve,ImpHazdRts,DataTenorDic,CDSPaymentTenors,CDSBasketMaturity,[],R,name)
     GaussLegs = SimulateCDSBasketDefaultsAndValueLegsGauss(TLegs[2],LogRtnCorP,M,HistCreditSpreads,TenorCreditSpreads,InvPWCDF,DiscountFactorCurve,ImpHazdRts,DataTenorDic,CDSPaymentTenors,CDSBasketMaturity,[],R,name)
 
 

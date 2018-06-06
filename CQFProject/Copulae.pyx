@@ -32,6 +32,7 @@ cpdef np.ndarray[FDTYPE_t,ndim=1] MultVarGaussianCopula(P,SobolNumbers LowDiscNu
     cdef np.ndarray[FDTYPE_t,ndim=1] U = norm.cdf(CorrlelatedX)
     return U
 
+#http://support.sas.com/documentation/cdl/en/etsug/63939/HTML/default/viewer.htm#etsug_copula_sect016.htm
 cpdef np.ndarray[FDTYPE_t,ndim=1] MultVarTDistnCopula(P,int df,SobolNumbers LowDiscNumbers):
     cdef np.ndarray[FDTYPE_t,ndim=1] CorrlelatedX
     CorrlelatedX = SharedCopulaAlgoWork(P,LowDiscNumbers)
@@ -45,3 +46,11 @@ cpdef np.ndarray[FDTYPE_t,ndim=1] MultVarTDistnCopula(P,int df,SobolNumbers LowD
     epsilon = sum(uRand)
     cdef np.ndarray[FDTYPE_t,ndim=1] U = t.cdf(CorrlelatedX/math.sqrt(epsilon/df),df)
     return U
+
+cpdef FDTYPE_t TCopulaDensity(np.ndarray U, int df):
+    cdef int i
+    cdef np.ndarray[FDTYPE_t,ndim=1] tdistX = np.zeros(shape=(len(U)),dtype=FDTYPE)
+    for i in range(0,len(U)):
+        tdistX[i]=t.ppf(U[i],df)
+    print(tdistX)        
+    return t.cdf(tdistX,df)
