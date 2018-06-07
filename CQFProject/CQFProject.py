@@ -99,6 +99,7 @@ hazardLegend = ["" for i in range(0,5)]
 for i in range(0,5*5,5):
     IndKey = TenorCreditSpreads['Ticker'][i]
     DataTenorDic[IndKey] = list(TenorCreditSpreads['DataSR'][i:(i+5)] / 1000)
+    
     ImpProbDic[IndKey] = BootstrapImpliedProbalities(0.4,DataTenorDic[IndKey],TenorCreditSpreads.index)
     Tenors = ImpProbDic[IndKey].index
     BootstrappedSurvProbs = ImpProbDic[IndKey]['ImpliedPrSurv']
@@ -137,6 +138,7 @@ SemiParamametric = dict()
 LogReturnsDic = dict()
 HistDefaults = dict()
 DifferencesDic = dict()
+AltHistData = dict()
 #ResidualsLogReturnsDic = dict()
 def Bootstrap5yrDP(spread):
     return BootstrapImpliedProbalities(0.4,pd.Series([spread]),5)['ImpliedPrSurv'][1]
@@ -464,17 +466,20 @@ return_scatter_multdependencies(Rrng,TFairSpreadTweakR.transpose(),"Sensitivity 
 #todo of the chosen reference names on the result.
 
 
-def TweakCDSSpreads(TweakIndKey,TweakAmountInBps):
+def TweakCDSSpreads(TweakIndKey,TweakAmountInBps, UseConstantBump=True):
     TweakedDataTenorDic = dict()
     TweakedImpProbDic = dict()
     TweakedImpHazdRts = dict()
     TweakedInvPWCDF = dict()
     TweakedPWCDF = dict()
+    
     for i in range(0,5*5,5):
         IndKey = TenorCreditSpreads['Ticker'][i]
         TweakedDataTenorDic[IndKey] = TenorCreditSpreads['DataSR'][i:(i+5)] / 1000
         if IndKey == TweakIndKey:
-            TweakedDataTenorDic[TweakIndKey] += TweakAmountInBps
+            TweakedDataTenorDic[TweakIndKey][0] += (TweakAmountInBps if UseConstantBump else expon.rvs(scale=TweakAmountInBps))
+            for l in range(1,len(TweakedDataTenorDic[TweakIndKey])):
+                TweakedDataTenorDic[TweakIndKey][l] += (TweakAmountInBps if UseConstantBump else np.min([expon.rvs(scale=TweakAmountInBps),(TweakedDataTenorDic[TweakIndKey][l-1]-TweakedDataTenorDic[TweakIndKey][l])]))
         TweakedDataTenorDic[IndKey] = list(TweakedDataTenorDic[IndKey])
         TweakedImpProbDic[IndKey] = BootstrapImpliedProbalities(0.4,TweakedDataTenorDic[IndKey],TenorCreditSpreads.index)
         Tenors = TweakedImpProbDic[IndKey].index
@@ -483,8 +488,9 @@ def TweakCDSSpreads(TweakIndKey,TweakAmountInBps):
         TweakedInvPWCDF[IndKey], TweakedPWCDF[IndKey] = ApproxPWCDFDicFromHazardRates(TweakedImpHazdRts[IndKey],0.01)
     return TweakedDataTenorDic, TweakedImpProbDic, TweakedImpHazdRts, TweakedInvPWCDF
 
+
 CreditTweaksToCarryOutBps = np.array([-10, -5, 5, 10, 30, 50, 75, 100, 150, 250, 500]) / 10000
-CreditDeltaDic = dict()
+
 GaussFairSpreadTweakCDS = np.zeros(shape=(5,5),dtype=np.float)
 TFairSpreadTweakCDS = np.zeros(shape=(5,5),dtype=np.float)
 DeltaGaussFairSpreadTweakCDS = dict()
@@ -502,6 +508,18 @@ for CreditTenorTweakAmount in CreditTweaksToCarryOutBps:
         DeltaGaussFairSpreadTweakCDS[IndKey]["{0}".format(CreditTenorTweakAmount)] = GaussFairSpreadTweakCDS[int(i/5)] - GaussFairSpread
         DeltaTFairSpreadTweakCDS[IndKey]["{0}".format(CreditTenorTweakAmount)] = TFairSpreadTweakCDS[int(i/5)] - TFairSpread
     CDSRefNamesArr = TenorCreditSpreads['Ticker'][0:25:5]
+
+GaussFairSpreadTweakCDS = np.zeros(shape=(5,5),dtype=np.float)
+TFairSpreadTweakCDS = np.zeros(shape=(5,5),dtype=np.float)
+for i in range(0,5*5,5):
+    IndKey = TenorCreditSpreads['Ticker'][i]
+    TweakedDataTenorDic, TweakedImpProbDic, TweakedImpHazdRts, TweakedInvPWCDF = TweakCDSSpreads(IndKey,0.0002,False)
+print("Alternative Term Structure of Hazard Rates applied.")
+GaussFairSpreadTweakCDS[int(i/5)], TFairSpreadTweakCDS[int(i/5)], t17 = FullMCFairSpreadValuation(time.time(),LogRtnCorP,RankCorP,M,HistCreditSpreads,SemiParamTransformedCDFHistDataDic, vE[0],TenorCreditSpreads,TweakedInvPWCDF,
+                                                                        DiscountFactorCurve,TweakedImpHazdRts,TweakedDataTenorDic,CDSPaymentTenors,CDSBasketMaturity,name="Alternative Term Structure of credit spreads".format(IndKey,CreditTenorTweakAmount))
+DeltaGaussFairSpreadTweakCDS = GaussFairSpreadTweakCDS[int(i/5)] - GaussFairSpread
+DeltaTFairSpreadTweakCDS = TFairSpreadTweakCDS[int(i/5)] - TFairSpread
+
 for RefName in CDSRefNamesArr:
     deltaVBasket = np.transpose(list(DeltaGaussFairSpreadTweakCDS[RefName].values()))
     dBasket = deltaVBasket/CreditTweaksToCarryOutBps
@@ -569,13 +587,10 @@ for RefName in CDSRefNamesArr:
 
 
 
-#todo: tweak hist credit spreads by getting diff array and then h'_2 = h'_1 + diff_1 + eps where eps is exp(l) and h_2 = h_1 + diff_1
+#DONE: tweak hist credit spreads by getting diff array and then h'_2 = h'_1 + diff_1 + eps where eps is exp(l) and h_2 = h_1 + diff_1
 
 
-
-
-#!When tweaking the Cor Matrix, remember to keep the matrix symettric M[i,j] = M[j,i] = C
-#todo Tweak selected points by +- n bps. And then plot n vs Fair Spread...
+#Done Tweak selected points by +- n bps. And then plot n vs Fair Spread...
 #todo Check which of the pairwise correlations the spread is most sensitive to, then change this one over a range of values and plot tweak vs delta fair spread.
 TweakedRankCorP = Tweak(RankCorP,(1,2),np.min([0.1, 1-RankCorP[1,2]]))
 TweakedLogRtnCorP = Tweak(LogRtnCorP,(1,2),np.min([0.1, 1-LogRtnCorP[1,2]]))
@@ -665,6 +680,18 @@ FairSpreadGaussTweakCor,FairSpreadTTweakCor,t15 = FullMCFairSpreadValuation(t14,
                                                                       DiscountFactorCurve,ImpHazdRts,DataTenorDic,CDSPaymentTenors,CDSBasketMaturity,name="Correlation between all reference names set to 0.99")
 return_scatter_multdependencies(np.arange(1,6,1,dtype=np.int),np.array([GaussFairSpread,FairSpreadGaussTweakCor]),"Correlation between all reference names set to 0.99 (Gaussian)",xlabel="K-th to default",ylabel="Fair spread", legend=["Fair Spreads", "Tweaked Fair Spreads"])
 return_scatter_multdependencies(np.arange(1,6,1,dtype=np.int),np.array([TFairSpread,FairSpreadTTweakCor]),"Correlation between all reference names set to 0.99 (Students T)",xlabel="K-th to default",ylabel="Fair spread", legend=["Fair Spreads", "Tweaked Fair Spreads"])
+
+def PercTweakCors(percTweak):
+    TweakedRankCorP = TweakWhole2DMatrixByPercent(RankCorP,percTweak)
+    TweakedLogRtnCorP = TweakWhole2DMatrixByPercent(LogRtnCorP,percTweak)
+    FairSpreadGaussTweakCor,FairSpreadTTweakCor,t15 = FullMCFairSpreadValuation(t14,TweakedLogRtnCorP,TweakedRankCorP,M,HistCreditSpreads,SemiParamTransformedCDFHistDataDic, vE[0],TenorCreditSpreads,InvPWCDF,
+                                                                          DiscountFactorCurve,ImpHazdRts,DataTenorDic,CDSPaymentTenors,CDSBasketMaturity,name="Correlation between all reference names tweaked by {0} percent".format(percTweak*100))
+    return_scatter_multdependencies(np.arange(1,6,1,dtype=np.int),np.array([GaussFairSpread,FairSpreadGaussTweakCor]),"Correlation between all reference names tweaked by {0} percent (Gaussian)".format(percTweak*100),xlabel="K-th to default",ylabel="Fair spread", legend=["Fair Spreads", "Tweaked Fair Spreads"])
+    return_scatter_multdependencies(np.arange(1,6,1,dtype=np.int),np.array([TFairSpread,FairSpreadTTweakCor]),"Correlation between all reference names tweaked by {0} percent (Students T)".format(percTweak*100),xlabel="K-th to default",ylabel="Fair spread", legend=["Fair Spreads", "Tweaked Fair Spreads"])
+
+for ptw in [-0.8,-0.5,-0.25, -0.1, 0.0, 0.1, 0.25, 0.5, 0.8]:
+    PercTweakCors(ptw)
+
 
 print("Enter any key to finish. (Debug Point)")
 

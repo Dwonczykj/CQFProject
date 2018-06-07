@@ -328,6 +328,15 @@ def dExpForPiecewiselambda(rates, tenors):
 def return_histogram(data,name,numberPlot=1,noOfPlotsW=1, noOfPlotsH=1,xlabel = "", length = 1, f = None, displayMiddlePercentile=100, figSize = (10,6)):
     ''' Plots a histogram of the returns. '''
     pyplot_memcheck()
+
+    c = int((100 - min(max(0,displayMiddlePercentile),100))/2)
+    xMin = np.percentile(data,c)
+    xMax = np.percentile(data,100-c)
+    x = np.linspace(xMin, xMax, 100)
+
+    noOfBins = 50
+    bw=(xMax-xMin)/noOfBins
+    name+="_BandWidth_{0}".format(bw)
     if f == None:
         fig = plt.figure(figsize=figSize)
         fig.canvas.set_window_title(name)
@@ -336,9 +345,7 @@ def return_histogram(data,name,numberPlot=1,noOfPlotsW=1, noOfPlotsH=1,xlabel = 
         fig = f
 
     plt.subplot(noOfPlotsW,noOfPlotsH,numberPlot)
-    c = int((100 - min(max(0,displayMiddlePercentile),100))/2)
-    x = np.linspace(np.percentile(data,c), np.percentile(data,100-c), 100)
-    plt.hist(np.array(data), bins=50, normed=True)
+    plt.hist(np.array(data), bins=noOfBins, normed=True)
     lw = 0.5 if length > 8 else 2.0
     y = dN(x, np.mean(data), np.std(data))
     plt.plot(x, y, linewidth=lw)

@@ -86,7 +86,7 @@ def kde_statsmodels_m_pdf_output(x, x_grid, bandwidth=0.2, **kwargs):
     #print(kde.bw)
     x_grid_sorted = sorted(x_grid)
     pdf = kde.pdf(x_grid_sorted)
-    return pdf
+    return pdf, kde.bw
 
 def kde_statsmodels_m_cdf(x, x_grid, bandwidth=0.2, **kwargs):
     """Multivariate Kernel Cumulative Density Estimation with Statsmodels"""
@@ -116,7 +116,7 @@ def kde_statsmodels_m_cdf_output(x, x_grid, bandwidth=0.2, **kwargs):
     #print(kde.bw)
     x_grid_sorted = sorted(x_grid)
     cdf = kde.cdf(x_grid_sorted)
-    return cdf
+    return cdf, kde.bw
 
 def test():
     # The grid we'll use for plotting
@@ -319,7 +319,7 @@ def SemiParametricCDFFit(c1,u,plotvsc1=False,name="Semi-Parametric Fit",xlabel="
         plt.legend(["Fitted_HybridCDF", "Fitted_Normal_CDF", "Fitted_HybridPDF", "Fitted_Normal_PDF", "Data Histogram"],loc='best')
 
         plt.subplot(3,len(us),i+1)
-        r1,r2c,r3,r4 = HybridSemiParametricGPDCDF(x,u,c1,fits[0],loc=fits[1],scale=fits[2])
+        r1,r2c,r3,r4, bwArr = HybridSemiParametricGPDCDF(x,u,c1,fits[0],loc=fits[1],scale=fits[2])
         emp = pd.Series(r1).apply(Empirical_StepWise_CDF(sorted(c1)))
         r1s,r2cs = DualSortByL1(r1,r2c)
         plt.plot(r3, r4, linewidth=2)
@@ -328,12 +328,12 @@ def SemiParametricCDFFit(c1,u,plotvsc1=False,name="Semi-Parametric Fit",xlabel="
         #plt.plot(r1, norm.cdf(r1,mean(c1),sd(c1)), linewidth=2)
         plt.xlabel(xlabel)
         plt.ylabel(ylabel)
-        plt.title("Semi Parametric CDF")
+        plt.title("Semi Parametric CDF with BandWidth {0}".format(bwArr).replace('[ ',"list_").replace(']',"_"))
         #plt.legend(["Fitted_HybridCDF", "ECDF Comparison", "CDF_Smoother", "Fitted_NormalCDF", "Fitted_HybridPDF", "PDF_Smoother", "Fitted_Normal_PDF", "Student_T Hist"],loc='best')
         plt.legend(["Fitted_HybridCDF", "ECDF Comparison", "CDF_Smoother"],loc='best')
 
         plt.subplot(3,len(us),i+2)
-        r1,r2p,r3,r4 = HybridSemiParametricGPDPDF(x,u,c1,fits[0],loc=fits[1],scale=fits[2])
+        r1,r2p,r3,r4, bwArr = HybridSemiParametricGPDPDF(x,u,c1,fits[0],loc=fits[1],scale=fits[2])
         r1s,r2ps = DualSortByL1(r1,r2p)
         plt.plot(r3, r4, linewidth=2)
         plt.plot(r1s, r2ps, linewidth=2)
@@ -341,7 +341,7 @@ def SemiParametricCDFFit(c1,u,plotvsc1=False,name="Semi-Parametric Fit",xlabel="
         plt.hist(np.array(c1), bins=15, normed=True)
         plt.xlabel(xlabel)
         plt.ylabel(ylabel)
-        plt.title("Semi Parametric PDF")
+        plt.title("Semi Parametric PDF with BandWidth {0}".format(bwArr).replace('[ ',"list_").replace(']',"_"))
         plt.legend(["Fitted_HybridPDF", "PDF_Smoother", "Data Histogram"],loc='best')
 
         result['%.10f'%(u)] = (r2c,r2p)
@@ -427,7 +427,8 @@ def HybridSemiParametricGPDCDF(xs, u, ydata, shape, loc, scale):
     h = (mu + abs(u - mu))
     #print('u = %.10f,l = %.10f,h = %.10f'%(u,l,h))
     srtdxs = sorted(list(xs)+[l,h])
-    cdf_smoother = kde_statsmodels_m_cdf_output(ydata,srtdxs,bandwidth=0.2)
+    bandwidth = 0.2
+    cdf_smoother, bandwidth = kde_statsmodels_m_cdf_output(ydata,srtdxs,bandwidth=bandwidth)
     d = dict(zip(srtdxs,cdf_smoother))
     
     for x in xs:
@@ -439,7 +440,7 @@ def HybridSemiParametricGPDCDF(xs, u, ydata, shape, loc, scale):
             out.append((1 - nrm)*genpareto.cdf(x - h, shape, loc=loc, scale=scale) + nrm)
         else:
             out.append(d[x])
-    return xs,out,srtdxs,cdf_smoother
+    return xs,out,srtdxs,cdf_smoother,bandwidth
 
 def HybridSemiParametricGPDPDF(xs, u, ydata, shape, loc, scale):
     '''
@@ -459,10 +460,11 @@ def HybridSemiParametricGPDPDF(xs, u, ydata, shape, loc, scale):
     l = (mu - abs(u - mu))
     h = (mu + abs(u - mu))
     #print('u = %.10f,l = %.10f,h = %.10f'%(u,l,h))
+    bandwidth = 0.2
     srtdxs = sorted(list(xs)+[l,h])
-    cdf_smoother = kde_statsmodels_m_cdf_output(ydata,srtdxs,bandwidth=0.2)
+    cdf_smoother, bandwidth = kde_statsmodels_m_cdf_output(ydata,srtdxs,bandwidth=bandwidth)
     d_cdf = dict(zip(srtdxs,cdf_smoother))
-    pdf_smoother = kde_statsmodels_m_pdf_output(ydata,srtdxs,bandwidth=0.2)
+    pdf_smoother, bandwidth = kde_statsmodels_m_pdf_output(ydata,srtdxs,bandwidth=bandwidth)
     d_pdf = dict(zip(srtdxs,pdf_smoother))
     for x in xs:
         if x < l:
@@ -471,6 +473,6 @@ def HybridSemiParametricGPDPDF(xs, u, ydata, shape, loc, scale):
             out.append((1 - d_cdf[h])*genpareto.pdf(x-h, shape, loc=loc, scale=scale))
         else:
             out.append(d_pdf[x])
-    return xs,out,srtdxs,pdf_smoother
+    return xs,out,srtdxs,pdf_smoother,bandwidth
 
 #def NonParametricKernelSmoother():
