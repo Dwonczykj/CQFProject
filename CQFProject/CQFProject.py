@@ -479,8 +479,9 @@ def TweakCDSSpreads(TweakIndKey,TweakAmountInBps, UseConstantBump=True):
     
     for i in range(0,5*5,5):
         IndKey = TenorCreditSpreads['Ticker'][i]
-        TweakedDataTenorDic[IndKey] = TenorCreditSpreads['DataSR'][i:(i+5)] / 1000
+        TweakedDataTenorDic[IndKey] = np.array(TenorCreditSpreads['DataSR'][i:(i+5)] / 1000)
         if IndKey == TweakIndKey:
+            print(TweakedDataTenorDic[IndKey])
             TweakedDataTenorDic[TweakIndKey][0] += (TweakAmountInBps if UseConstantBump else expon.rvs(scale=TweakAmountInBps))
             for l in range(1,len(TweakedDataTenorDic[TweakIndKey])):
                 TweakedDataTenorDic[TweakIndKey][l] += (TweakAmountInBps if UseConstantBump else np.min([expon.rvs(scale=TweakAmountInBps),(TweakedDataTenorDic[TweakIndKey][l-1]-TweakedDataTenorDic[TweakIndKey][l])]))
@@ -506,12 +507,12 @@ for CreditTenorTweakAmount in CreditTweaksToCarryOutBps:
             DeltaGaussFairSpreadTweakCDS[IndKey] = dict()
             DeltaTFairSpreadTweakCDS[IndKey] = dict()
         TweakedDataTenorDic, TweakedImpProbDic, TweakedImpHazdRts, TweakedInvPWCDF = TweakCDSSpreads(IndKey,CreditTenorTweakAmount)
-        print("Tweaking the credit spreads for %s and rerunning analysis"%(IndKey))
+        print("Tweaking the credit spreads for {0} and rerunning analysis".format(IndKey))
         GaussFairSpreadTweakCDS[int(i/5)], TFairSpreadTweakCDS[int(i/5)], t17 = FullMCFairSpreadValuation(time.time(),LogRtnCorP,RankCorP,M,HistCreditSpreads,SemiParamTransformedCDFHistDataDic, vE[0],TenorCreditSpreads,TweakedInvPWCDF,
                                                                           DiscountFactorCurve,TweakedImpHazdRts,TweakedDataTenorDic,CDSPaymentTenors,CDSBasketMaturity,name="Tweak Spread for {0} by {1}".format(IndKey,CreditTenorTweakAmount))
         DeltaGaussFairSpreadTweakCDS[IndKey]["{0}".format(CreditTenorTweakAmount)] = GaussFairSpreadTweakCDS[int(i/5)] - GaussFairSpread
         DeltaTFairSpreadTweakCDS[IndKey]["{0}".format(CreditTenorTweakAmount)] = TFairSpreadTweakCDS[int(i/5)] - TFairSpread
-    CDSRefNamesArr = TenorCreditSpreads['Ticker'][0:25:5]
+    CDSRefNamesArr = np.array(TenorCreditSpreads['Ticker'][0:25:5])
 
 GaussFairSpreadTweakCDS = np.zeros(shape=(5,5),dtype=np.float)
 TFairSpreadTweakCDS = np.zeros(shape=(5,5),dtype=np.float)
