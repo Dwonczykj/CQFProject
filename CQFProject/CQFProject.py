@@ -99,7 +99,6 @@ hazardLegend = ["" for i in range(0,5)]
 for i in range(0,5*5,5):
     IndKey = TenorCreditSpreads['Ticker'][i]
     DataTenorDic[IndKey] = list(TenorCreditSpreads['DataSR'][i:(i+5)] / 1000)
-    
     ImpProbDic[IndKey] = BootstrapImpliedProbalities(0.4,DataTenorDic[IndKey],TenorCreditSpreads.index)
     Tenors = ImpProbDic[IndKey].index
     BootstrappedSurvProbs = ImpProbDic[IndKey]['ImpliedPrSurv']
@@ -138,6 +137,7 @@ SemiParamametric = dict()
 LogReturnsDic = dict()
 HistDefaults = dict()
 DifferencesDic = dict()
+ConsecDiffsDic = dict()
 AltHistData = dict()
 #ResidualsLogReturnsDic = dict()
 def Bootstrap5yrDP(spread):
@@ -150,17 +150,21 @@ for i in range(1,6):
     #"Comparing the ACFs of the standardized residuals to the corresponding ACFs of the raw returns reveals that the standardized residuals are now approximately i.i.d., thereby far more amenable to subsequent tail estimation."
     LogReturnsDic[IndKey] = LogReturns(HistDataDic[IndKey]['Spreads'],lag=5,jump=5,averageJumpPeriod=True)
     DifferencesDic[IndKey] = AbsoluteDifferences(HistDataDic[IndKey]['Spreads'],jump=5,averageJumpPeriod=True)
-    AltHistData[IndKey] = np.zeros(shape=(len(HistDataDic[IndKey]['Spreads'])))
-    AltHistData[IndKey][0] = HistDataDic[IndKey]['Spreads'][0]
-    for l in range(1,len(HistDataDic[IndKey]['Spreads'])):
-        AltHistData[IndKey][l] = AltHistData[IndKey][l-1]+DifferencesDic[IndKey][l]+expon.rvs(scale=0.0002)    #ResidualsLogReturnsDic[IndKey] = StandardisedResiduals(LogReturnsDic[IndKey])
-    
+    ConsecDiffsDic[IndKey] = AbsoluteDifferences(HistDataDic[IndKey]['Spreads'])
     EmpFnForHistSpread[IndKey] = Empirical_StepWise_CDF(quickSort(DifferencesDic[IndKey].values))
     u_gpdthreashold = np.percentile(HistDataDic[IndKey]['Spreads'],95)
     SemiParamametric[IndKey] = SemiParametricCDFFit(list(HistDataDic[IndKey]['Spreads']),u_gpdthreashold, True, "SemiParametricFit_%s"%(IndKey), "Historical Spreads", "Distribution")
     CanonicalMLETransformedHistDataDic[IndKey] = pd.Series(DifferencesDic[IndKey].values).apply(EmpFnForHistSpread[IndKey])
     SemiParamTransformedCDFHistDataDic[IndKey] =  pd.Series(SemiParamametric[IndKey]['%.10f'%(u_gpdthreashold)][0])
     SemiParamTransformedPDFHistDataDic[IndKey] =  pd.Series(SemiParamametric[IndKey]['%.10f'%(u_gpdthreashold)][1])
+
+for i in range(1,6):
+    IndKey = HistCreditSpreads.columns[i]
+    _forAlthistSpreads = HistDataDic[IndKey]['Spreads']
+    AltHistData[IndKey] = np.zeros(shape=(len(_forAlthistSpreads)))
+    AltHistData[IndKey][0] = _forAlthistSpreads[0]
+    for l in range(1,len(_forAlthistSpreads)):
+        AltHistData[IndKey][l] = AltHistData[IndKey][l-1]+ConsecDiffsDic[IndKey][l-1]+expon.rvs(scale=0.0002)
     
     
 return_lineChart_dates(HistCreditSpreads['Date'].values,[
