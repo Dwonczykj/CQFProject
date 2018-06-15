@@ -1025,7 +1025,7 @@ typedef npy_clongdouble __pyx_t_5numpy_clongdouble_t;
  */
 typedef npy_cdouble __pyx_t_5numpy_complex_t;
 
-/* "EmpiricalFunctions.pyx":16
+/* "EmpiricalFunctions.pyx":17
  *         return i
  * 
  * def Empirical_StepWise_CDF(Ordrdx):             # <<<<<<<<<<<<<<
@@ -1038,7 +1038,7 @@ struct __pyx_obj_18EmpiricalFunctions___pyx_scope_struct__Empirical_StepWise_CDF
 };
 
 
-/* "EmpiricalFunctions.pyx":17
+/* "EmpiricalFunctions.pyx":18
  * 
  * def Empirical_StepWise_CDF(Ordrdx):
  *     def resFn(a):             # <<<<<<<<<<<<<<
@@ -1052,7 +1052,7 @@ struct __pyx_obj_18EmpiricalFunctions___pyx_scope_struct_1_resFn {
 };
 
 
-/* "EmpiricalFunctions.pyx":35
+/* "EmpiricalFunctions.pyx":36
  *     return resFn
  *     #return the EmpiricalCDF function from this function.
  * def ApproxPWCDFDicFromHazardRates(l,step = 0.01):             # <<<<<<<<<<<<<<
@@ -1065,7 +1065,7 @@ struct __pyx_obj_18EmpiricalFunctions___pyx_scope_struct_2_ApproxPWCDFDicFromHaz
 };
 
 
-/* "EmpiricalFunctions.pyx":37
+/* "EmpiricalFunctions.pyx":38
  * def ApproxPWCDFDicFromHazardRates(l,step = 0.01):
  *     cdef float i
  *     def P(T):             # <<<<<<<<<<<<<<
@@ -1081,7 +1081,7 @@ struct __pyx_obj_18EmpiricalFunctions___pyx_scope_struct_3_P {
 };
 
 
-/* "EmpiricalFunctions.pyx":41
+/* "EmpiricalFunctions.pyx":42
  *         keys = np.arange(0,len(ls),1,dtype=DTYPE) #!change this if ever change the time periods from years os cant use the index of the array to count periods unless 1 period = 1 year
  *         s = keys[1] - keys[0]
  *         kT = max(next( (key for key in keys if T >= (key-s) and T <= (key)), max(keys)) - 1,0)             # <<<<<<<<<<<<<<
@@ -1098,8 +1098,8 @@ struct __pyx_obj_18EmpiricalFunctions___pyx_scope_struct_4_genexpr {
 };
 
 
-/* "EmpiricalFunctions.pyx":97
- *         return np.asarray([U[i-1],U[i]])
+/* "EmpiricalFunctions.pyx":105
+ *     return np.fromiter(longlist, np.array(longlist[0]).dtype) # Without intermediate li
  * 
  * def FindClosestKeyInDicAndReturnValueAlgorithm(Res):             # <<<<<<<<<<<<<<
  *     ORes = collections.OrderedDict(sorted(Res.items()))
@@ -1111,7 +1111,7 @@ struct __pyx_obj_18EmpiricalFunctions___pyx_scope_struct_5_FindClosestKeyInDicAn
 };
 
 
-/* "EmpiricalFunctions.pyx":103
+/* "EmpiricalFunctions.pyx":111
  *     return InnerFn
  * 
  * def FindClosestKeyInDicAndReturnKeyBoundsAlgorithm(Res):             # <<<<<<<<<<<<<<
@@ -1494,6 +1494,9 @@ static int __Pyx_GetException(PyObject **type, PyObject **value, PyObject **tb);
 /* Import.proto */
 static PyObject *__Pyx_Import(PyObject *name, PyObject *from_list, int level);
 
+/* ImportFrom.proto */
+static PyObject* __Pyx_ImportFrom(PyObject* module, PyObject* name);
+
 /* CLineInTraceback.proto */
 #ifdef CYTHON_CLINE_IN_TRACEBACK
 #define __Pyx_CLineForTraceback(tstate, c_line)  (((CYTHON_CLINE_IN_TRACEBACK)) ? c_line : 0)
@@ -1819,6 +1822,7 @@ static const char __pyx_k_sum[] = "sum";
 static const char __pyx_k_xpr[] = "xpr";
 static const char __pyx_k_ORes[] = "ORes";
 static const char __pyx_k_args[] = "args";
+static const char __pyx_k_flat[] = "flat";
 static const char __pyx_k_keys[] = "keys";
 static const char __pyx_k_main[] = "__main__";
 static const char __pyx_k_math[] = "math";
@@ -1826,6 +1830,8 @@ static const char __pyx_k_send[] = "send";
 static const char __pyx_k_step[] = "step";
 static const char __pyx_k_test[] = "__test__";
 static const char __pyx_k_DTYPE[] = "DTYPE";
+static const char __pyx_k_array[] = "array";
+static const char __pyx_k_chain[] = "chain";
 static const char __pyx_k_check[] = "check";
 static const char __pyx_k_close[] = "close";
 static const char __pyx_k_dtype[] = "dtype";
@@ -1846,11 +1852,18 @@ static const char __pyx_k_Sorting[] = "Sorting";
 static const char __pyx_k_asarray[] = "asarray";
 static const char __pyx_k_genexpr[] = "genexpr";
 static const char __pyx_k_innerFn[] = "innerFn";
+static const char __pyx_k_reshape[] = "reshape";
+static const char __pyx_k_fromiter[] = "fromiter";
+static const char __pyx_k_longlist[] = "longlist";
+static const char __pyx_k_itertools[] = "itertools";
 static const char __pyx_k_ValueError[] = "ValueError";
 static const char __pyx_k_ImportError[] = "ImportError";
 static const char __pyx_k_OrderedDict[] = "OrderedDict";
 static const char __pyx_k_collections[] = "collections";
 static const char __pyx_k_RuntimeError[] = "RuntimeError";
+static const char __pyx_k_from_iterable[] = "from_iterable";
+static const char __pyx_k_longlist1array[] = "longlist1array";
+static const char __pyx_k_longlist2array[] = "longlist2array";
 static const char __pyx_k_EmpiricalFunctions[] = "EmpiricalFunctions";
 static const char __pyx_k_cline_in_traceback[] = "cline_in_traceback";
 static const char __pyx_k_EmpiricalFunctions_pyx[] = "EmpiricalFunctions.pyx";
@@ -1906,24 +1919,33 @@ static PyObject *__pyx_n_s__20;
 static PyObject *__pyx_n_s_a;
 static PyObject *__pyx_n_s_arange;
 static PyObject *__pyx_n_s_args;
+static PyObject *__pyx_n_s_array;
 static PyObject *__pyx_n_s_asarray;
+static PyObject *__pyx_n_s_chain;
 static PyObject *__pyx_n_s_check;
 static PyObject *__pyx_n_s_cline_in_traceback;
 static PyObject *__pyx_n_s_close;
 static PyObject *__pyx_n_s_collections;
 static PyObject *__pyx_n_s_dtype;
 static PyObject *__pyx_n_s_exp;
+static PyObject *__pyx_n_s_flat;
 static PyObject *__pyx_n_s_float;
+static PyObject *__pyx_n_s_from_iterable;
+static PyObject *__pyx_n_s_fromiter;
 static PyObject *__pyx_n_s_genexpr;
 static PyObject *__pyx_n_s_i;
 static PyObject *__pyx_n_s_import;
 static PyObject *__pyx_n_s_innerFn;
 static PyObject *__pyx_n_s_int;
 static PyObject *__pyx_n_s_items;
+static PyObject *__pyx_n_s_itertools;
 static PyObject *__pyx_n_s_kT;
 static PyObject *__pyx_n_s_keys;
 static PyObject *__pyx_n_s_l;
 static PyObject *__pyx_n_s_lb;
+static PyObject *__pyx_n_s_longlist;
+static PyObject *__pyx_n_s_longlist1array;
+static PyObject *__pyx_n_s_longlist2array;
 static PyObject *__pyx_n_s_ls;
 static PyObject *__pyx_n_s_main;
 static PyObject *__pyx_n_s_math;
@@ -1939,6 +1961,7 @@ static PyObject *__pyx_n_s_p;
 static PyObject *__pyx_n_s_range;
 static PyObject *__pyx_n_s_res;
 static PyObject *__pyx_n_s_resFn;
+static PyObject *__pyx_n_s_reshape;
 static PyObject *__pyx_n_s_s;
 static PyObject *__pyx_n_s_send;
 static PyObject *__pyx_n_s_step;
@@ -1957,10 +1980,12 @@ static PyObject *__pyx_pf_18EmpiricalFunctions_2Empirical_StepWise_CDF(CYTHON_UN
 static PyObject *__pyx_pf_18EmpiricalFunctions_29ApproxPWCDFDicFromHazardRates_1P_genexpr(PyObject *__pyx_self); /* proto */
 static PyObject *__pyx_pf_18EmpiricalFunctions_29ApproxPWCDFDicFromHazardRates_P(PyObject *__pyx_self, PyObject *__pyx_v_T); /* proto */
 static PyObject *__pyx_pf_18EmpiricalFunctions_4ApproxPWCDFDicFromHazardRates(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_l, PyObject *__pyx_v_step); /* proto */
+static PyObject *__pyx_pf_18EmpiricalFunctions_6longlist2array(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_longlist); /* proto */
+static PyObject *__pyx_pf_18EmpiricalFunctions_8longlist1array(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_longlist); /* proto */
 static PyObject *__pyx_pf_18EmpiricalFunctions_42FindClosestKeyInDicAndReturnValueAlgorithm_InnerFn(PyObject *__pyx_self, float __pyx_v_u); /* proto */
-static PyObject *__pyx_pf_18EmpiricalFunctions_6FindClosestKeyInDicAndReturnValueAlgorithm(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_Res); /* proto */
+static PyObject *__pyx_pf_18EmpiricalFunctions_10FindClosestKeyInDicAndReturnValueAlgorithm(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_Res); /* proto */
 static PyObject *__pyx_pf_18EmpiricalFunctions_46FindClosestKeyInDicAndReturnKeyBoundsAlgorithm_FN(PyObject *__pyx_self, PyObject *__pyx_v_u); /* proto */
-static PyObject *__pyx_pf_18EmpiricalFunctions_8FindClosestKeyInDicAndReturnKeyBoundsAlgorithm(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_Res); /* proto */
+static PyObject *__pyx_pf_18EmpiricalFunctions_12FindClosestKeyInDicAndReturnKeyBoundsAlgorithm(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_Res); /* proto */
 static int __pyx_pf_5numpy_7ndarray___getbuffer__(PyArrayObject *__pyx_v_self, Py_buffer *__pyx_v_info, int __pyx_v_flags); /* proto */
 static void __pyx_pf_5numpy_7ndarray_2__releasebuffer__(PyArrayObject *__pyx_v_self, Py_buffer *__pyx_v_info); /* proto */
 static PyObject *__pyx_tp_new_18EmpiricalFunctions___pyx_scope_struct__Empirical_StepWise_CDF(PyTypeObject *t, PyObject *a, PyObject *k); /*proto*/
@@ -1977,6 +2002,7 @@ static PyObject *__pyx_int_0;
 static PyObject *__pyx_int_1;
 static PyObject *__pyx_int_10;
 static PyObject *__pyx_int_100;
+static PyObject *__pyx_int_neg_1;
 static PyObject *__pyx_tuple_;
 static PyObject *__pyx_tuple__3;
 static PyObject *__pyx_tuple__5;
@@ -1996,6 +2022,8 @@ static PyObject *__pyx_tuple__23;
 static PyObject *__pyx_tuple__25;
 static PyObject *__pyx_tuple__27;
 static PyObject *__pyx_tuple__29;
+static PyObject *__pyx_tuple__31;
+static PyObject *__pyx_tuple__33;
 static PyObject *__pyx_codeobj__2;
 static PyObject *__pyx_codeobj__4;
 static PyObject *__pyx_codeobj__6;
@@ -2006,8 +2034,10 @@ static PyObject *__pyx_codeobj__24;
 static PyObject *__pyx_codeobj__26;
 static PyObject *__pyx_codeobj__28;
 static PyObject *__pyx_codeobj__30;
+static PyObject *__pyx_codeobj__32;
+static PyObject *__pyx_codeobj__34;
 
-/* "EmpiricalFunctions.pyx":10
+/* "EmpiricalFunctions.pyx":11
  * FDTYPE = np.float
  * 
  * def check(a, i, step, xpr):             # <<<<<<<<<<<<<<
@@ -2053,23 +2083,23 @@ static PyObject *__pyx_pw_18EmpiricalFunctions_1check(PyObject *__pyx_self, PyOb
         case  1:
         if (likely((values[1] = PyDict_GetItem(__pyx_kwds, __pyx_n_s_i)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("check", 1, 4, 4, 1); __PYX_ERR(0, 10, __pyx_L3_error)
+          __Pyx_RaiseArgtupleInvalid("check", 1, 4, 4, 1); __PYX_ERR(0, 11, __pyx_L3_error)
         }
         CYTHON_FALLTHROUGH;
         case  2:
         if (likely((values[2] = PyDict_GetItem(__pyx_kwds, __pyx_n_s_step)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("check", 1, 4, 4, 2); __PYX_ERR(0, 10, __pyx_L3_error)
+          __Pyx_RaiseArgtupleInvalid("check", 1, 4, 4, 2); __PYX_ERR(0, 11, __pyx_L3_error)
         }
         CYTHON_FALLTHROUGH;
         case  3:
         if (likely((values[3] = PyDict_GetItem(__pyx_kwds, __pyx_n_s_xpr)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("check", 1, 4, 4, 3); __PYX_ERR(0, 10, __pyx_L3_error)
+          __Pyx_RaiseArgtupleInvalid("check", 1, 4, 4, 3); __PYX_ERR(0, 11, __pyx_L3_error)
         }
       }
       if (unlikely(kw_args > 0)) {
-        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "check") < 0)) __PYX_ERR(0, 10, __pyx_L3_error)
+        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "check") < 0)) __PYX_ERR(0, 11, __pyx_L3_error)
       }
     } else if (PyTuple_GET_SIZE(__pyx_args) != 4) {
       goto __pyx_L5_argtuple_error;
@@ -2086,7 +2116,7 @@ static PyObject *__pyx_pw_18EmpiricalFunctions_1check(PyObject *__pyx_self, PyOb
   }
   goto __pyx_L4_argument_unpacking_done;
   __pyx_L5_argtuple_error:;
-  __Pyx_RaiseArgtupleInvalid("check", 1, 4, 4, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 10, __pyx_L3_error)
+  __Pyx_RaiseArgtupleInvalid("check", 1, 4, 4, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 11, __pyx_L3_error)
   __pyx_L3_error:;
   __Pyx_AddTraceback("EmpiricalFunctions.check", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __Pyx_RefNannyFinishContext();
@@ -2113,42 +2143,42 @@ static PyObject *__pyx_pf_18EmpiricalFunctions_check(CYTHON_UNUSED PyObject *__p
   PyObject *__pyx_t_9 = NULL;
   __Pyx_RefNannySetupContext("check", 0);
 
-  /* "EmpiricalFunctions.pyx":11
+  /* "EmpiricalFunctions.pyx":12
  * 
  * def check(a, i, step, xpr):
  *     if len(xpr) > i+step and xpr[i+step] == a:             # <<<<<<<<<<<<<<
  *         return check(a, i+step, step, xpr)
  *     else:
  */
-  __pyx_t_2 = PyObject_Length(__pyx_v_xpr); if (unlikely(__pyx_t_2 == ((Py_ssize_t)-1))) __PYX_ERR(0, 11, __pyx_L1_error)
-  __pyx_t_3 = PyInt_FromSsize_t(__pyx_t_2); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 11, __pyx_L1_error)
+  __pyx_t_2 = PyObject_Length(__pyx_v_xpr); if (unlikely(__pyx_t_2 == ((Py_ssize_t)-1))) __PYX_ERR(0, 12, __pyx_L1_error)
+  __pyx_t_3 = PyInt_FromSsize_t(__pyx_t_2); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 12, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
-  __pyx_t_4 = PyNumber_Add(__pyx_v_i, __pyx_v_step); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 11, __pyx_L1_error)
+  __pyx_t_4 = PyNumber_Add(__pyx_v_i, __pyx_v_step); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 12, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
-  __pyx_t_5 = PyObject_RichCompare(__pyx_t_3, __pyx_t_4, Py_GT); __Pyx_XGOTREF(__pyx_t_5); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 11, __pyx_L1_error)
+  __pyx_t_5 = PyObject_RichCompare(__pyx_t_3, __pyx_t_4, Py_GT); __Pyx_XGOTREF(__pyx_t_5); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 12, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
   __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-  __pyx_t_6 = __Pyx_PyObject_IsTrue(__pyx_t_5); if (unlikely(__pyx_t_6 < 0)) __PYX_ERR(0, 11, __pyx_L1_error)
+  __pyx_t_6 = __Pyx_PyObject_IsTrue(__pyx_t_5); if (unlikely(__pyx_t_6 < 0)) __PYX_ERR(0, 12, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
   if (__pyx_t_6) {
   } else {
     __pyx_t_1 = __pyx_t_6;
     goto __pyx_L4_bool_binop_done;
   }
-  __pyx_t_5 = PyNumber_Add(__pyx_v_i, __pyx_v_step); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 11, __pyx_L1_error)
+  __pyx_t_5 = PyNumber_Add(__pyx_v_i, __pyx_v_step); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 12, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_5);
-  __pyx_t_4 = PyObject_GetItem(__pyx_v_xpr, __pyx_t_5); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 11, __pyx_L1_error)
+  __pyx_t_4 = PyObject_GetItem(__pyx_v_xpr, __pyx_t_5); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 12, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
   __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-  __pyx_t_5 = PyObject_RichCompare(__pyx_t_4, __pyx_v_a, Py_EQ); __Pyx_XGOTREF(__pyx_t_5); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 11, __pyx_L1_error)
+  __pyx_t_5 = PyObject_RichCompare(__pyx_t_4, __pyx_v_a, Py_EQ); __Pyx_XGOTREF(__pyx_t_5); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 12, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-  __pyx_t_6 = __Pyx_PyObject_IsTrue(__pyx_t_5); if (unlikely(__pyx_t_6 < 0)) __PYX_ERR(0, 11, __pyx_L1_error)
+  __pyx_t_6 = __Pyx_PyObject_IsTrue(__pyx_t_5); if (unlikely(__pyx_t_6 < 0)) __PYX_ERR(0, 12, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
   __pyx_t_1 = __pyx_t_6;
   __pyx_L4_bool_binop_done:;
   if (__pyx_t_1) {
 
-    /* "EmpiricalFunctions.pyx":12
+    /* "EmpiricalFunctions.pyx":13
  * def check(a, i, step, xpr):
  *     if len(xpr) > i+step and xpr[i+step] == a:
  *         return check(a, i+step, step, xpr)             # <<<<<<<<<<<<<<
@@ -2156,9 +2186,9 @@ static PyObject *__pyx_pf_18EmpiricalFunctions_check(CYTHON_UNUSED PyObject *__p
  *         return i
  */
     __Pyx_XDECREF(__pyx_r);
-    __pyx_t_4 = __Pyx_GetModuleGlobalName(__pyx_n_s_check); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 12, __pyx_L1_error)
+    __pyx_t_4 = __Pyx_GetModuleGlobalName(__pyx_n_s_check); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 13, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_4);
-    __pyx_t_3 = PyNumber_Add(__pyx_v_i, __pyx_v_step); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 12, __pyx_L1_error)
+    __pyx_t_3 = PyNumber_Add(__pyx_v_i, __pyx_v_step); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 13, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_3);
     __pyx_t_7 = NULL;
     __pyx_t_8 = 0;
@@ -2175,7 +2205,7 @@ static PyObject *__pyx_pf_18EmpiricalFunctions_check(CYTHON_UNUSED PyObject *__p
     #if CYTHON_FAST_PYCALL
     if (PyFunction_Check(__pyx_t_4)) {
       PyObject *__pyx_temp[5] = {__pyx_t_7, __pyx_v_a, __pyx_t_3, __pyx_v_step, __pyx_v_xpr};
-      __pyx_t_5 = __Pyx_PyFunction_FastCall(__pyx_t_4, __pyx_temp+1-__pyx_t_8, 4+__pyx_t_8); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 12, __pyx_L1_error)
+      __pyx_t_5 = __Pyx_PyFunction_FastCall(__pyx_t_4, __pyx_temp+1-__pyx_t_8, 4+__pyx_t_8); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 13, __pyx_L1_error)
       __Pyx_XDECREF(__pyx_t_7); __pyx_t_7 = 0;
       __Pyx_GOTREF(__pyx_t_5);
       __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
@@ -2184,14 +2214,14 @@ static PyObject *__pyx_pf_18EmpiricalFunctions_check(CYTHON_UNUSED PyObject *__p
     #if CYTHON_FAST_PYCCALL
     if (__Pyx_PyFastCFunction_Check(__pyx_t_4)) {
       PyObject *__pyx_temp[5] = {__pyx_t_7, __pyx_v_a, __pyx_t_3, __pyx_v_step, __pyx_v_xpr};
-      __pyx_t_5 = __Pyx_PyCFunction_FastCall(__pyx_t_4, __pyx_temp+1-__pyx_t_8, 4+__pyx_t_8); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 12, __pyx_L1_error)
+      __pyx_t_5 = __Pyx_PyCFunction_FastCall(__pyx_t_4, __pyx_temp+1-__pyx_t_8, 4+__pyx_t_8); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 13, __pyx_L1_error)
       __Pyx_XDECREF(__pyx_t_7); __pyx_t_7 = 0;
       __Pyx_GOTREF(__pyx_t_5);
       __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
     } else
     #endif
     {
-      __pyx_t_9 = PyTuple_New(4+__pyx_t_8); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 12, __pyx_L1_error)
+      __pyx_t_9 = PyTuple_New(4+__pyx_t_8); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 13, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_9);
       if (__pyx_t_7) {
         __Pyx_GIVEREF(__pyx_t_7); PyTuple_SET_ITEM(__pyx_t_9, 0, __pyx_t_7); __pyx_t_7 = NULL;
@@ -2208,7 +2238,7 @@ static PyObject *__pyx_pf_18EmpiricalFunctions_check(CYTHON_UNUSED PyObject *__p
       __Pyx_GIVEREF(__pyx_v_xpr);
       PyTuple_SET_ITEM(__pyx_t_9, 3+__pyx_t_8, __pyx_v_xpr);
       __pyx_t_3 = 0;
-      __pyx_t_5 = __Pyx_PyObject_Call(__pyx_t_4, __pyx_t_9, NULL); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 12, __pyx_L1_error)
+      __pyx_t_5 = __Pyx_PyObject_Call(__pyx_t_4, __pyx_t_9, NULL); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 13, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_5);
       __Pyx_DECREF(__pyx_t_9); __pyx_t_9 = 0;
     }
@@ -2217,7 +2247,7 @@ static PyObject *__pyx_pf_18EmpiricalFunctions_check(CYTHON_UNUSED PyObject *__p
     __pyx_t_5 = 0;
     goto __pyx_L0;
 
-    /* "EmpiricalFunctions.pyx":11
+    /* "EmpiricalFunctions.pyx":12
  * 
  * def check(a, i, step, xpr):
  *     if len(xpr) > i+step and xpr[i+step] == a:             # <<<<<<<<<<<<<<
@@ -2226,7 +2256,7 @@ static PyObject *__pyx_pf_18EmpiricalFunctions_check(CYTHON_UNUSED PyObject *__p
  */
   }
 
-  /* "EmpiricalFunctions.pyx":14
+  /* "EmpiricalFunctions.pyx":15
  *         return check(a, i+step, step, xpr)
  *     else:
  *         return i             # <<<<<<<<<<<<<<
@@ -2240,7 +2270,7 @@ static PyObject *__pyx_pf_18EmpiricalFunctions_check(CYTHON_UNUSED PyObject *__p
     goto __pyx_L0;
   }
 
-  /* "EmpiricalFunctions.pyx":10
+  /* "EmpiricalFunctions.pyx":11
  * FDTYPE = np.float
  * 
  * def check(a, i, step, xpr):             # <<<<<<<<<<<<<<
@@ -2263,7 +2293,7 @@ static PyObject *__pyx_pf_18EmpiricalFunctions_check(CYTHON_UNUSED PyObject *__p
   return __pyx_r;
 }
 
-/* "EmpiricalFunctions.pyx":16
+/* "EmpiricalFunctions.pyx":17
  *         return i
  * 
  * def Empirical_StepWise_CDF(Ordrdx):             # <<<<<<<<<<<<<<
@@ -2285,7 +2315,7 @@ static PyObject *__pyx_pw_18EmpiricalFunctions_3Empirical_StepWise_CDF(PyObject 
   return __pyx_r;
 }
 
-/* "EmpiricalFunctions.pyx":17
+/* "EmpiricalFunctions.pyx":18
  * 
  * def Empirical_StepWise_CDF(Ordrdx):
  *     def resFn(a):             # <<<<<<<<<<<<<<
@@ -2307,7 +2337,7 @@ static PyObject *__pyx_pw_18EmpiricalFunctions_22Empirical_StepWise_CDF_1resFn(P
   return __pyx_r;
 }
 
-/* "EmpiricalFunctions.pyx":22
+/* "EmpiricalFunctions.pyx":23
  *         if a < min(Ordrdx):
  *             return 0.0
  *         def innerFn(a,xpr,lb,ub):             # <<<<<<<<<<<<<<
@@ -2353,23 +2383,23 @@ static PyObject *__pyx_pw_18EmpiricalFunctions_22Empirical_StepWise_CDF_5resFn_1
         case  1:
         if (likely((values[1] = PyDict_GetItem(__pyx_kwds, __pyx_n_s_xpr)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("innerFn", 1, 4, 4, 1); __PYX_ERR(0, 22, __pyx_L3_error)
+          __Pyx_RaiseArgtupleInvalid("innerFn", 1, 4, 4, 1); __PYX_ERR(0, 23, __pyx_L3_error)
         }
         CYTHON_FALLTHROUGH;
         case  2:
         if (likely((values[2] = PyDict_GetItem(__pyx_kwds, __pyx_n_s_lb)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("innerFn", 1, 4, 4, 2); __PYX_ERR(0, 22, __pyx_L3_error)
+          __Pyx_RaiseArgtupleInvalid("innerFn", 1, 4, 4, 2); __PYX_ERR(0, 23, __pyx_L3_error)
         }
         CYTHON_FALLTHROUGH;
         case  3:
         if (likely((values[3] = PyDict_GetItem(__pyx_kwds, __pyx_n_s_ub)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("innerFn", 1, 4, 4, 3); __PYX_ERR(0, 22, __pyx_L3_error)
+          __Pyx_RaiseArgtupleInvalid("innerFn", 1, 4, 4, 3); __PYX_ERR(0, 23, __pyx_L3_error)
         }
       }
       if (unlikely(kw_args > 0)) {
-        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "innerFn") < 0)) __PYX_ERR(0, 22, __pyx_L3_error)
+        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "innerFn") < 0)) __PYX_ERR(0, 23, __pyx_L3_error)
       }
     } else if (PyTuple_GET_SIZE(__pyx_args) != 4) {
       goto __pyx_L5_argtuple_error;
@@ -2386,7 +2416,7 @@ static PyObject *__pyx_pw_18EmpiricalFunctions_22Empirical_StepWise_CDF_5resFn_1
   }
   goto __pyx_L4_argument_unpacking_done;
   __pyx_L5_argtuple_error:;
-  __Pyx_RaiseArgtupleInvalid("innerFn", 1, 4, 4, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 22, __pyx_L3_error)
+  __Pyx_RaiseArgtupleInvalid("innerFn", 1, 4, 4, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 23, __pyx_L3_error)
   __pyx_L3_error:;
   __Pyx_AddTraceback("EmpiricalFunctions.Empirical_StepWise_CDF.resFn.innerFn", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __Pyx_RefNannyFinishContext();
@@ -2418,59 +2448,59 @@ static PyObject *__pyx_pf_18EmpiricalFunctions_22Empirical_StepWise_CDF_5resFn_i
   __pyx_outer_scope = (struct __pyx_obj_18EmpiricalFunctions___pyx_scope_struct_1_resFn *) __Pyx_CyFunction_GetClosure(__pyx_self);
   __pyx_cur_scope = __pyx_outer_scope;
 
-  /* "EmpiricalFunctions.pyx":23
+  /* "EmpiricalFunctions.pyx":24
  *             return 0.0
  *         def innerFn(a,xpr,lb,ub):
  *             i = int((len(xpr) / 2))             # <<<<<<<<<<<<<<
  *             if xpr[i-1] < a and xpr[i] < a:
  *                 return innerFn(a,xpr[i:],lb + i,ub) if i != len(Ordrdx) else 1
  */
-  __pyx_t_1 = PyObject_Length(__pyx_v_xpr); if (unlikely(__pyx_t_1 == ((Py_ssize_t)-1))) __PYX_ERR(0, 23, __pyx_L1_error)
-  __pyx_t_2 = PyInt_FromSsize_t(__Pyx_div_Py_ssize_t(__pyx_t_1, 2)); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 23, __pyx_L1_error)
+  __pyx_t_1 = PyObject_Length(__pyx_v_xpr); if (unlikely(__pyx_t_1 == ((Py_ssize_t)-1))) __PYX_ERR(0, 24, __pyx_L1_error)
+  __pyx_t_2 = PyInt_FromSsize_t(__Pyx_div_Py_ssize_t(__pyx_t_1, 2)); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 24, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  __pyx_t_3 = PyTuple_New(1); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 23, __pyx_L1_error)
+  __pyx_t_3 = PyTuple_New(1); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 24, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
   __Pyx_GIVEREF(__pyx_t_2);
   PyTuple_SET_ITEM(__pyx_t_3, 0, __pyx_t_2);
   __pyx_t_2 = 0;
-  __pyx_t_2 = __Pyx_PyObject_Call(((PyObject *)(&PyInt_Type)), __pyx_t_3, NULL); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 23, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_PyObject_Call(((PyObject *)(&PyInt_Type)), __pyx_t_3, NULL); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 24, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
   __pyx_v_i = __pyx_t_2;
   __pyx_t_2 = 0;
 
-  /* "EmpiricalFunctions.pyx":24
+  /* "EmpiricalFunctions.pyx":25
  *         def innerFn(a,xpr,lb,ub):
  *             i = int((len(xpr) / 2))
  *             if xpr[i-1] < a and xpr[i] < a:             # <<<<<<<<<<<<<<
  *                 return innerFn(a,xpr[i:],lb + i,ub) if i != len(Ordrdx) else 1
  *             elif xpr[i] > a and xpr[i-1] > a:
  */
-  __pyx_t_2 = __Pyx_PyInt_SubtractObjC(__pyx_v_i, __pyx_int_1, 1, 0); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 24, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_PyInt_SubtractObjC(__pyx_v_i, __pyx_int_1, 1, 0); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 25, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  __pyx_t_3 = PyObject_GetItem(__pyx_v_xpr, __pyx_t_2); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 24, __pyx_L1_error)
+  __pyx_t_3 = PyObject_GetItem(__pyx_v_xpr, __pyx_t_2); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 25, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-  __pyx_t_2 = PyObject_RichCompare(__pyx_t_3, __pyx_v_a, Py_LT); __Pyx_XGOTREF(__pyx_t_2); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 24, __pyx_L1_error)
+  __pyx_t_2 = PyObject_RichCompare(__pyx_t_3, __pyx_v_a, Py_LT); __Pyx_XGOTREF(__pyx_t_2); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 25, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-  __pyx_t_5 = __Pyx_PyObject_IsTrue(__pyx_t_2); if (unlikely(__pyx_t_5 < 0)) __PYX_ERR(0, 24, __pyx_L1_error)
+  __pyx_t_5 = __Pyx_PyObject_IsTrue(__pyx_t_2); if (unlikely(__pyx_t_5 < 0)) __PYX_ERR(0, 25, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   if (__pyx_t_5) {
   } else {
     __pyx_t_4 = __pyx_t_5;
     goto __pyx_L4_bool_binop_done;
   }
-  __pyx_t_2 = PyObject_GetItem(__pyx_v_xpr, __pyx_v_i); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 24, __pyx_L1_error)
+  __pyx_t_2 = PyObject_GetItem(__pyx_v_xpr, __pyx_v_i); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 25, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  __pyx_t_3 = PyObject_RichCompare(__pyx_t_2, __pyx_v_a, Py_LT); __Pyx_XGOTREF(__pyx_t_3); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 24, __pyx_L1_error)
+  __pyx_t_3 = PyObject_RichCompare(__pyx_t_2, __pyx_v_a, Py_LT); __Pyx_XGOTREF(__pyx_t_3); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 25, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-  __pyx_t_5 = __Pyx_PyObject_IsTrue(__pyx_t_3); if (unlikely(__pyx_t_5 < 0)) __PYX_ERR(0, 24, __pyx_L1_error)
+  __pyx_t_5 = __Pyx_PyObject_IsTrue(__pyx_t_3); if (unlikely(__pyx_t_5 < 0)) __PYX_ERR(0, 25, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
   __pyx_t_4 = __pyx_t_5;
   __pyx_L4_bool_binop_done:;
   if (__pyx_t_4) {
 
-    /* "EmpiricalFunctions.pyx":25
+    /* "EmpiricalFunctions.pyx":26
  *             i = int((len(xpr) / 2))
  *             if xpr[i-1] < a and xpr[i] < a:
  *                 return innerFn(a,xpr[i:],lb + i,ub) if i != len(Ordrdx) else 1             # <<<<<<<<<<<<<<
@@ -2478,24 +2508,24 @@ static PyObject *__pyx_pf_18EmpiricalFunctions_22Empirical_StepWise_CDF_5resFn_i
  *                 return innerFn(a,xpr[0:i],lb,lb + i-1) if i != 1 else 0
  */
     __Pyx_XDECREF(__pyx_r);
-    if (unlikely(!__pyx_cur_scope->__pyx_outer_scope->__pyx_v_Ordrdx)) { __Pyx_RaiseClosureNameError("Ordrdx"); __PYX_ERR(0, 25, __pyx_L1_error) }
+    if (unlikely(!__pyx_cur_scope->__pyx_outer_scope->__pyx_v_Ordrdx)) { __Pyx_RaiseClosureNameError("Ordrdx"); __PYX_ERR(0, 26, __pyx_L1_error) }
     __pyx_t_2 = __pyx_cur_scope->__pyx_outer_scope->__pyx_v_Ordrdx;
     __Pyx_INCREF(__pyx_t_2);
-    __pyx_t_1 = PyObject_Length(__pyx_t_2); if (unlikely(__pyx_t_1 == ((Py_ssize_t)-1))) __PYX_ERR(0, 25, __pyx_L1_error)
+    __pyx_t_1 = PyObject_Length(__pyx_t_2); if (unlikely(__pyx_t_1 == ((Py_ssize_t)-1))) __PYX_ERR(0, 26, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-    __pyx_t_2 = PyInt_FromSsize_t(__pyx_t_1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 25, __pyx_L1_error)
+    __pyx_t_2 = PyInt_FromSsize_t(__pyx_t_1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 26, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_2);
-    __pyx_t_6 = PyObject_RichCompare(__pyx_v_i, __pyx_t_2, Py_NE); __Pyx_XGOTREF(__pyx_t_6); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 25, __pyx_L1_error)
+    __pyx_t_6 = PyObject_RichCompare(__pyx_v_i, __pyx_t_2, Py_NE); __Pyx_XGOTREF(__pyx_t_6); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 26, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-    __pyx_t_4 = __Pyx_PyObject_IsTrue(__pyx_t_6); if (unlikely(__pyx_t_4 < 0)) __PYX_ERR(0, 25, __pyx_L1_error)
+    __pyx_t_4 = __Pyx_PyObject_IsTrue(__pyx_t_6); if (unlikely(__pyx_t_4 < 0)) __PYX_ERR(0, 26, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
     if (__pyx_t_4) {
-      __pyx_t_6 = __Pyx_PyObject_GetSlice(__pyx_v_xpr, 0, 0, &__pyx_v_i, NULL, NULL, 0, 0, 1); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 25, __pyx_L1_error)
+      __pyx_t_6 = __Pyx_PyObject_GetSlice(__pyx_v_xpr, 0, 0, &__pyx_v_i, NULL, NULL, 0, 0, 1); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 26, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_6);
-      __pyx_t_2 = PyNumber_Add(__pyx_v_lb, __pyx_v_i); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 25, __pyx_L1_error)
+      __pyx_t_2 = PyNumber_Add(__pyx_v_lb, __pyx_v_i); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 26, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_2);
-      if (unlikely(!__pyx_cur_scope->__pyx_v_innerFn)) { __Pyx_RaiseClosureNameError("innerFn"); __PYX_ERR(0, 25, __pyx_L1_error) }
-      __pyx_t_7 = __pyx_pf_18EmpiricalFunctions_22Empirical_StepWise_CDF_5resFn_innerFn(__pyx_cur_scope->__pyx_v_innerFn, __pyx_v_a, __pyx_t_6, __pyx_t_2, __pyx_v_ub); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 25, __pyx_L1_error)
+      if (unlikely(!__pyx_cur_scope->__pyx_v_innerFn)) { __Pyx_RaiseClosureNameError("innerFn"); __PYX_ERR(0, 26, __pyx_L1_error) }
+      __pyx_t_7 = __pyx_pf_18EmpiricalFunctions_22Empirical_StepWise_CDF_5resFn_innerFn(__pyx_cur_scope->__pyx_v_innerFn, __pyx_v_a, __pyx_t_6, __pyx_t_2, __pyx_v_ub); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 26, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_7);
       __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
       __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
@@ -2509,7 +2539,7 @@ static PyObject *__pyx_pf_18EmpiricalFunctions_22Empirical_StepWise_CDF_5resFn_i
     __pyx_t_3 = 0;
     goto __pyx_L0;
 
-    /* "EmpiricalFunctions.pyx":24
+    /* "EmpiricalFunctions.pyx":25
  *         def innerFn(a,xpr,lb,ub):
  *             i = int((len(xpr) / 2))
  *             if xpr[i-1] < a and xpr[i] < a:             # <<<<<<<<<<<<<<
@@ -2518,38 +2548,38 @@ static PyObject *__pyx_pf_18EmpiricalFunctions_22Empirical_StepWise_CDF_5resFn_i
  */
   }
 
-  /* "EmpiricalFunctions.pyx":26
+  /* "EmpiricalFunctions.pyx":27
  *             if xpr[i-1] < a and xpr[i] < a:
  *                 return innerFn(a,xpr[i:],lb + i,ub) if i != len(Ordrdx) else 1
  *             elif xpr[i] > a and xpr[i-1] > a:             # <<<<<<<<<<<<<<
  *                 return innerFn(a,xpr[0:i],lb,lb + i-1) if i != 1 else 0
  *             elif xpr[i-1] == a:
  */
-  __pyx_t_3 = PyObject_GetItem(__pyx_v_xpr, __pyx_v_i); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 26, __pyx_L1_error)
+  __pyx_t_3 = PyObject_GetItem(__pyx_v_xpr, __pyx_v_i); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 27, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
-  __pyx_t_7 = PyObject_RichCompare(__pyx_t_3, __pyx_v_a, Py_GT); __Pyx_XGOTREF(__pyx_t_7); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 26, __pyx_L1_error)
+  __pyx_t_7 = PyObject_RichCompare(__pyx_t_3, __pyx_v_a, Py_GT); __Pyx_XGOTREF(__pyx_t_7); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 27, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-  __pyx_t_5 = __Pyx_PyObject_IsTrue(__pyx_t_7); if (unlikely(__pyx_t_5 < 0)) __PYX_ERR(0, 26, __pyx_L1_error)
+  __pyx_t_5 = __Pyx_PyObject_IsTrue(__pyx_t_7); if (unlikely(__pyx_t_5 < 0)) __PYX_ERR(0, 27, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
   if (__pyx_t_5) {
   } else {
     __pyx_t_4 = __pyx_t_5;
     goto __pyx_L6_bool_binop_done;
   }
-  __pyx_t_7 = __Pyx_PyInt_SubtractObjC(__pyx_v_i, __pyx_int_1, 1, 0); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 26, __pyx_L1_error)
+  __pyx_t_7 = __Pyx_PyInt_SubtractObjC(__pyx_v_i, __pyx_int_1, 1, 0); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 27, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_7);
-  __pyx_t_3 = PyObject_GetItem(__pyx_v_xpr, __pyx_t_7); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 26, __pyx_L1_error)
+  __pyx_t_3 = PyObject_GetItem(__pyx_v_xpr, __pyx_t_7); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 27, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
   __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
-  __pyx_t_7 = PyObject_RichCompare(__pyx_t_3, __pyx_v_a, Py_GT); __Pyx_XGOTREF(__pyx_t_7); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 26, __pyx_L1_error)
+  __pyx_t_7 = PyObject_RichCompare(__pyx_t_3, __pyx_v_a, Py_GT); __Pyx_XGOTREF(__pyx_t_7); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 27, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-  __pyx_t_5 = __Pyx_PyObject_IsTrue(__pyx_t_7); if (unlikely(__pyx_t_5 < 0)) __PYX_ERR(0, 26, __pyx_L1_error)
+  __pyx_t_5 = __Pyx_PyObject_IsTrue(__pyx_t_7); if (unlikely(__pyx_t_5 < 0)) __PYX_ERR(0, 27, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
   __pyx_t_4 = __pyx_t_5;
   __pyx_L6_bool_binop_done:;
   if (__pyx_t_4) {
 
-    /* "EmpiricalFunctions.pyx":27
+    /* "EmpiricalFunctions.pyx":28
  *                 return innerFn(a,xpr[i:],lb + i,ub) if i != len(Ordrdx) else 1
  *             elif xpr[i] > a and xpr[i-1] > a:
  *                 return innerFn(a,xpr[0:i],lb,lb + i-1) if i != 1 else 0             # <<<<<<<<<<<<<<
@@ -2557,19 +2587,19 @@ static PyObject *__pyx_pf_18EmpiricalFunctions_22Empirical_StepWise_CDF_5resFn_i
  *                 return (lb + i) / len(Ordrdx) if xpr[i] > a else (lb + check(a, i, 1, xpr) + 1) / len(Ordrdx)
  */
     __Pyx_XDECREF(__pyx_r);
-    __pyx_t_3 = PyObject_RichCompare(__pyx_v_i, __pyx_int_1, Py_NE); __Pyx_XGOTREF(__pyx_t_3); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 27, __pyx_L1_error)
-    __pyx_t_4 = __Pyx_PyObject_IsTrue(__pyx_t_3); if (unlikely(__pyx_t_4 < 0)) __PYX_ERR(0, 27, __pyx_L1_error)
+    __pyx_t_3 = PyObject_RichCompare(__pyx_v_i, __pyx_int_1, Py_NE); __Pyx_XGOTREF(__pyx_t_3); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 28, __pyx_L1_error)
+    __pyx_t_4 = __Pyx_PyObject_IsTrue(__pyx_t_3); if (unlikely(__pyx_t_4 < 0)) __PYX_ERR(0, 28, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
     if (__pyx_t_4) {
-      __pyx_t_3 = __Pyx_PyObject_GetSlice(__pyx_v_xpr, 0, 0, NULL, &__pyx_v_i, NULL, 1, 0, 1); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 27, __pyx_L1_error)
+      __pyx_t_3 = __Pyx_PyObject_GetSlice(__pyx_v_xpr, 0, 0, NULL, &__pyx_v_i, NULL, 1, 0, 1); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 28, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_3);
-      __pyx_t_2 = PyNumber_Add(__pyx_v_lb, __pyx_v_i); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 27, __pyx_L1_error)
+      __pyx_t_2 = PyNumber_Add(__pyx_v_lb, __pyx_v_i); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 28, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_2);
-      __pyx_t_6 = __Pyx_PyInt_SubtractObjC(__pyx_t_2, __pyx_int_1, 1, 0); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 27, __pyx_L1_error)
+      __pyx_t_6 = __Pyx_PyInt_SubtractObjC(__pyx_t_2, __pyx_int_1, 1, 0); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 28, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_6);
       __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-      if (unlikely(!__pyx_cur_scope->__pyx_v_innerFn)) { __Pyx_RaiseClosureNameError("innerFn"); __PYX_ERR(0, 27, __pyx_L1_error) }
-      __pyx_t_2 = __pyx_pf_18EmpiricalFunctions_22Empirical_StepWise_CDF_5resFn_innerFn(__pyx_cur_scope->__pyx_v_innerFn, __pyx_v_a, __pyx_t_3, __pyx_v_lb, __pyx_t_6); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 27, __pyx_L1_error)
+      if (unlikely(!__pyx_cur_scope->__pyx_v_innerFn)) { __Pyx_RaiseClosureNameError("innerFn"); __PYX_ERR(0, 28, __pyx_L1_error) }
+      __pyx_t_2 = __pyx_pf_18EmpiricalFunctions_22Empirical_StepWise_CDF_5resFn_innerFn(__pyx_cur_scope->__pyx_v_innerFn, __pyx_v_a, __pyx_t_3, __pyx_v_lb, __pyx_t_6); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 28, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_2);
       __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
       __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
@@ -2583,7 +2613,7 @@ static PyObject *__pyx_pf_18EmpiricalFunctions_22Empirical_StepWise_CDF_5resFn_i
     __pyx_t_7 = 0;
     goto __pyx_L0;
 
-    /* "EmpiricalFunctions.pyx":26
+    /* "EmpiricalFunctions.pyx":27
  *             if xpr[i-1] < a and xpr[i] < a:
  *                 return innerFn(a,xpr[i:],lb + i,ub) if i != len(Ordrdx) else 1
  *             elif xpr[i] > a and xpr[i-1] > a:             # <<<<<<<<<<<<<<
@@ -2592,25 +2622,25 @@ static PyObject *__pyx_pf_18EmpiricalFunctions_22Empirical_StepWise_CDF_5resFn_i
  */
   }
 
-  /* "EmpiricalFunctions.pyx":28
+  /* "EmpiricalFunctions.pyx":29
  *             elif xpr[i] > a and xpr[i-1] > a:
  *                 return innerFn(a,xpr[0:i],lb,lb + i-1) if i != 1 else 0
  *             elif xpr[i-1] == a:             # <<<<<<<<<<<<<<
  *                 return (lb + i) / len(Ordrdx) if xpr[i] > a else (lb + check(a, i, 1, xpr) + 1) / len(Ordrdx)
  *             else:
  */
-  __pyx_t_7 = __Pyx_PyInt_SubtractObjC(__pyx_v_i, __pyx_int_1, 1, 0); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 28, __pyx_L1_error)
+  __pyx_t_7 = __Pyx_PyInt_SubtractObjC(__pyx_v_i, __pyx_int_1, 1, 0); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 29, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_7);
-  __pyx_t_2 = PyObject_GetItem(__pyx_v_xpr, __pyx_t_7); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 28, __pyx_L1_error)
+  __pyx_t_2 = PyObject_GetItem(__pyx_v_xpr, __pyx_t_7); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 29, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
-  __pyx_t_7 = PyObject_RichCompare(__pyx_t_2, __pyx_v_a, Py_EQ); __Pyx_XGOTREF(__pyx_t_7); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 28, __pyx_L1_error)
+  __pyx_t_7 = PyObject_RichCompare(__pyx_t_2, __pyx_v_a, Py_EQ); __Pyx_XGOTREF(__pyx_t_7); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 29, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-  __pyx_t_4 = __Pyx_PyObject_IsTrue(__pyx_t_7); if (unlikely(__pyx_t_4 < 0)) __PYX_ERR(0, 28, __pyx_L1_error)
+  __pyx_t_4 = __Pyx_PyObject_IsTrue(__pyx_t_7); if (unlikely(__pyx_t_4 < 0)) __PYX_ERR(0, 29, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
   if (__pyx_t_4) {
 
-    /* "EmpiricalFunctions.pyx":29
+    /* "EmpiricalFunctions.pyx":30
  *                 return innerFn(a,xpr[0:i],lb,lb + i-1) if i != 1 else 0
  *             elif xpr[i-1] == a:
  *                 return (lb + i) / len(Ordrdx) if xpr[i] > a else (lb + check(a, i, 1, xpr) + 1) / len(Ordrdx)             # <<<<<<<<<<<<<<
@@ -2618,30 +2648,30 @@ static PyObject *__pyx_pf_18EmpiricalFunctions_22Empirical_StepWise_CDF_5resFn_i
  *                 return (lb + check(a,i,1,xpr) + 1) / len(Ordrdx)
  */
     __Pyx_XDECREF(__pyx_r);
-    __pyx_t_2 = PyObject_GetItem(__pyx_v_xpr, __pyx_v_i); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 29, __pyx_L1_error)
+    __pyx_t_2 = PyObject_GetItem(__pyx_v_xpr, __pyx_v_i); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 30, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_2);
-    __pyx_t_6 = PyObject_RichCompare(__pyx_t_2, __pyx_v_a, Py_GT); __Pyx_XGOTREF(__pyx_t_6); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 29, __pyx_L1_error)
+    __pyx_t_6 = PyObject_RichCompare(__pyx_t_2, __pyx_v_a, Py_GT); __Pyx_XGOTREF(__pyx_t_6); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 30, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-    __pyx_t_4 = __Pyx_PyObject_IsTrue(__pyx_t_6); if (unlikely(__pyx_t_4 < 0)) __PYX_ERR(0, 29, __pyx_L1_error)
+    __pyx_t_4 = __Pyx_PyObject_IsTrue(__pyx_t_6); if (unlikely(__pyx_t_4 < 0)) __PYX_ERR(0, 30, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
     if (__pyx_t_4) {
-      __pyx_t_6 = PyNumber_Add(__pyx_v_lb, __pyx_v_i); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 29, __pyx_L1_error)
+      __pyx_t_6 = PyNumber_Add(__pyx_v_lb, __pyx_v_i); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 30, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_6);
-      if (unlikely(!__pyx_cur_scope->__pyx_outer_scope->__pyx_v_Ordrdx)) { __Pyx_RaiseClosureNameError("Ordrdx"); __PYX_ERR(0, 29, __pyx_L1_error) }
+      if (unlikely(!__pyx_cur_scope->__pyx_outer_scope->__pyx_v_Ordrdx)) { __Pyx_RaiseClosureNameError("Ordrdx"); __PYX_ERR(0, 30, __pyx_L1_error) }
       __pyx_t_2 = __pyx_cur_scope->__pyx_outer_scope->__pyx_v_Ordrdx;
       __Pyx_INCREF(__pyx_t_2);
-      __pyx_t_1 = PyObject_Length(__pyx_t_2); if (unlikely(__pyx_t_1 == ((Py_ssize_t)-1))) __PYX_ERR(0, 29, __pyx_L1_error)
+      __pyx_t_1 = PyObject_Length(__pyx_t_2); if (unlikely(__pyx_t_1 == ((Py_ssize_t)-1))) __PYX_ERR(0, 30, __pyx_L1_error)
       __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-      __pyx_t_2 = PyInt_FromSsize_t(__pyx_t_1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 29, __pyx_L1_error)
+      __pyx_t_2 = PyInt_FromSsize_t(__pyx_t_1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 30, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_2);
-      __pyx_t_3 = __Pyx_PyNumber_Divide(__pyx_t_6, __pyx_t_2); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 29, __pyx_L1_error)
+      __pyx_t_3 = __Pyx_PyNumber_Divide(__pyx_t_6, __pyx_t_2); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 30, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_3);
       __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
       __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
       __pyx_t_7 = __pyx_t_3;
       __pyx_t_3 = 0;
     } else {
-      __pyx_t_2 = __Pyx_GetModuleGlobalName(__pyx_n_s_check); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 29, __pyx_L1_error)
+      __pyx_t_2 = __Pyx_GetModuleGlobalName(__pyx_n_s_check); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 30, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_2);
       __pyx_t_6 = NULL;
       __pyx_t_8 = 0;
@@ -2658,7 +2688,7 @@ static PyObject *__pyx_pf_18EmpiricalFunctions_22Empirical_StepWise_CDF_5resFn_i
       #if CYTHON_FAST_PYCALL
       if (PyFunction_Check(__pyx_t_2)) {
         PyObject *__pyx_temp[5] = {__pyx_t_6, __pyx_v_a, __pyx_v_i, __pyx_int_1, __pyx_v_xpr};
-        __pyx_t_3 = __Pyx_PyFunction_FastCall(__pyx_t_2, __pyx_temp+1-__pyx_t_8, 4+__pyx_t_8); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 29, __pyx_L1_error)
+        __pyx_t_3 = __Pyx_PyFunction_FastCall(__pyx_t_2, __pyx_temp+1-__pyx_t_8, 4+__pyx_t_8); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 30, __pyx_L1_error)
         __Pyx_XDECREF(__pyx_t_6); __pyx_t_6 = 0;
         __Pyx_GOTREF(__pyx_t_3);
       } else
@@ -2666,13 +2696,13 @@ static PyObject *__pyx_pf_18EmpiricalFunctions_22Empirical_StepWise_CDF_5resFn_i
       #if CYTHON_FAST_PYCCALL
       if (__Pyx_PyFastCFunction_Check(__pyx_t_2)) {
         PyObject *__pyx_temp[5] = {__pyx_t_6, __pyx_v_a, __pyx_v_i, __pyx_int_1, __pyx_v_xpr};
-        __pyx_t_3 = __Pyx_PyCFunction_FastCall(__pyx_t_2, __pyx_temp+1-__pyx_t_8, 4+__pyx_t_8); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 29, __pyx_L1_error)
+        __pyx_t_3 = __Pyx_PyCFunction_FastCall(__pyx_t_2, __pyx_temp+1-__pyx_t_8, 4+__pyx_t_8); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 30, __pyx_L1_error)
         __Pyx_XDECREF(__pyx_t_6); __pyx_t_6 = 0;
         __Pyx_GOTREF(__pyx_t_3);
       } else
       #endif
       {
-        __pyx_t_9 = PyTuple_New(4+__pyx_t_8); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 29, __pyx_L1_error)
+        __pyx_t_9 = PyTuple_New(4+__pyx_t_8); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 30, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_9);
         if (__pyx_t_6) {
           __Pyx_GIVEREF(__pyx_t_6); PyTuple_SET_ITEM(__pyx_t_9, 0, __pyx_t_6); __pyx_t_6 = NULL;
@@ -2689,25 +2719,25 @@ static PyObject *__pyx_pf_18EmpiricalFunctions_22Empirical_StepWise_CDF_5resFn_i
         __Pyx_INCREF(__pyx_v_xpr);
         __Pyx_GIVEREF(__pyx_v_xpr);
         PyTuple_SET_ITEM(__pyx_t_9, 3+__pyx_t_8, __pyx_v_xpr);
-        __pyx_t_3 = __Pyx_PyObject_Call(__pyx_t_2, __pyx_t_9, NULL); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 29, __pyx_L1_error)
+        __pyx_t_3 = __Pyx_PyObject_Call(__pyx_t_2, __pyx_t_9, NULL); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 30, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_3);
         __Pyx_DECREF(__pyx_t_9); __pyx_t_9 = 0;
       }
       __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-      __pyx_t_2 = PyNumber_Add(__pyx_v_lb, __pyx_t_3); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 29, __pyx_L1_error)
+      __pyx_t_2 = PyNumber_Add(__pyx_v_lb, __pyx_t_3); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 30, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_2);
       __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-      __pyx_t_3 = __Pyx_PyInt_AddObjC(__pyx_t_2, __pyx_int_1, 1, 0); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 29, __pyx_L1_error)
+      __pyx_t_3 = __Pyx_PyInt_AddObjC(__pyx_t_2, __pyx_int_1, 1, 0); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 30, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_3);
       __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-      if (unlikely(!__pyx_cur_scope->__pyx_outer_scope->__pyx_v_Ordrdx)) { __Pyx_RaiseClosureNameError("Ordrdx"); __PYX_ERR(0, 29, __pyx_L1_error) }
+      if (unlikely(!__pyx_cur_scope->__pyx_outer_scope->__pyx_v_Ordrdx)) { __Pyx_RaiseClosureNameError("Ordrdx"); __PYX_ERR(0, 30, __pyx_L1_error) }
       __pyx_t_2 = __pyx_cur_scope->__pyx_outer_scope->__pyx_v_Ordrdx;
       __Pyx_INCREF(__pyx_t_2);
-      __pyx_t_1 = PyObject_Length(__pyx_t_2); if (unlikely(__pyx_t_1 == ((Py_ssize_t)-1))) __PYX_ERR(0, 29, __pyx_L1_error)
+      __pyx_t_1 = PyObject_Length(__pyx_t_2); if (unlikely(__pyx_t_1 == ((Py_ssize_t)-1))) __PYX_ERR(0, 30, __pyx_L1_error)
       __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-      __pyx_t_2 = PyInt_FromSsize_t(__pyx_t_1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 29, __pyx_L1_error)
+      __pyx_t_2 = PyInt_FromSsize_t(__pyx_t_1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 30, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_2);
-      __pyx_t_9 = __Pyx_PyNumber_Divide(__pyx_t_3, __pyx_t_2); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 29, __pyx_L1_error)
+      __pyx_t_9 = __Pyx_PyNumber_Divide(__pyx_t_3, __pyx_t_2); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 30, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_9);
       __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
       __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
@@ -2718,7 +2748,7 @@ static PyObject *__pyx_pf_18EmpiricalFunctions_22Empirical_StepWise_CDF_5resFn_i
     __pyx_t_7 = 0;
     goto __pyx_L0;
 
-    /* "EmpiricalFunctions.pyx":28
+    /* "EmpiricalFunctions.pyx":29
  *             elif xpr[i] > a and xpr[i-1] > a:
  *                 return innerFn(a,xpr[0:i],lb,lb + i-1) if i != 1 else 0
  *             elif xpr[i-1] == a:             # <<<<<<<<<<<<<<
@@ -2727,7 +2757,7 @@ static PyObject *__pyx_pf_18EmpiricalFunctions_22Empirical_StepWise_CDF_5resFn_i
  */
   }
 
-  /* "EmpiricalFunctions.pyx":31
+  /* "EmpiricalFunctions.pyx":32
  *                 return (lb + i) / len(Ordrdx) if xpr[i] > a else (lb + check(a, i, 1, xpr) + 1) / len(Ordrdx)
  *             else:
  *                 return (lb + check(a,i,1,xpr) + 1) / len(Ordrdx)             # <<<<<<<<<<<<<<
@@ -2736,7 +2766,7 @@ static PyObject *__pyx_pf_18EmpiricalFunctions_22Empirical_StepWise_CDF_5resFn_i
  */
   /*else*/ {
     __Pyx_XDECREF(__pyx_r);
-    __pyx_t_9 = __Pyx_GetModuleGlobalName(__pyx_n_s_check); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 31, __pyx_L1_error)
+    __pyx_t_9 = __Pyx_GetModuleGlobalName(__pyx_n_s_check); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 32, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_9);
     __pyx_t_2 = NULL;
     __pyx_t_8 = 0;
@@ -2753,7 +2783,7 @@ static PyObject *__pyx_pf_18EmpiricalFunctions_22Empirical_StepWise_CDF_5resFn_i
     #if CYTHON_FAST_PYCALL
     if (PyFunction_Check(__pyx_t_9)) {
       PyObject *__pyx_temp[5] = {__pyx_t_2, __pyx_v_a, __pyx_v_i, __pyx_int_1, __pyx_v_xpr};
-      __pyx_t_7 = __Pyx_PyFunction_FastCall(__pyx_t_9, __pyx_temp+1-__pyx_t_8, 4+__pyx_t_8); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 31, __pyx_L1_error)
+      __pyx_t_7 = __Pyx_PyFunction_FastCall(__pyx_t_9, __pyx_temp+1-__pyx_t_8, 4+__pyx_t_8); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 32, __pyx_L1_error)
       __Pyx_XDECREF(__pyx_t_2); __pyx_t_2 = 0;
       __Pyx_GOTREF(__pyx_t_7);
     } else
@@ -2761,13 +2791,13 @@ static PyObject *__pyx_pf_18EmpiricalFunctions_22Empirical_StepWise_CDF_5resFn_i
     #if CYTHON_FAST_PYCCALL
     if (__Pyx_PyFastCFunction_Check(__pyx_t_9)) {
       PyObject *__pyx_temp[5] = {__pyx_t_2, __pyx_v_a, __pyx_v_i, __pyx_int_1, __pyx_v_xpr};
-      __pyx_t_7 = __Pyx_PyCFunction_FastCall(__pyx_t_9, __pyx_temp+1-__pyx_t_8, 4+__pyx_t_8); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 31, __pyx_L1_error)
+      __pyx_t_7 = __Pyx_PyCFunction_FastCall(__pyx_t_9, __pyx_temp+1-__pyx_t_8, 4+__pyx_t_8); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 32, __pyx_L1_error)
       __Pyx_XDECREF(__pyx_t_2); __pyx_t_2 = 0;
       __Pyx_GOTREF(__pyx_t_7);
     } else
     #endif
     {
-      __pyx_t_3 = PyTuple_New(4+__pyx_t_8); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 31, __pyx_L1_error)
+      __pyx_t_3 = PyTuple_New(4+__pyx_t_8); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 32, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_3);
       if (__pyx_t_2) {
         __Pyx_GIVEREF(__pyx_t_2); PyTuple_SET_ITEM(__pyx_t_3, 0, __pyx_t_2); __pyx_t_2 = NULL;
@@ -2784,25 +2814,25 @@ static PyObject *__pyx_pf_18EmpiricalFunctions_22Empirical_StepWise_CDF_5resFn_i
       __Pyx_INCREF(__pyx_v_xpr);
       __Pyx_GIVEREF(__pyx_v_xpr);
       PyTuple_SET_ITEM(__pyx_t_3, 3+__pyx_t_8, __pyx_v_xpr);
-      __pyx_t_7 = __Pyx_PyObject_Call(__pyx_t_9, __pyx_t_3, NULL); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 31, __pyx_L1_error)
+      __pyx_t_7 = __Pyx_PyObject_Call(__pyx_t_9, __pyx_t_3, NULL); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 32, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_7);
       __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
     }
     __Pyx_DECREF(__pyx_t_9); __pyx_t_9 = 0;
-    __pyx_t_9 = PyNumber_Add(__pyx_v_lb, __pyx_t_7); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 31, __pyx_L1_error)
+    __pyx_t_9 = PyNumber_Add(__pyx_v_lb, __pyx_t_7); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 32, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_9);
     __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
-    __pyx_t_7 = __Pyx_PyInt_AddObjC(__pyx_t_9, __pyx_int_1, 1, 0); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 31, __pyx_L1_error)
+    __pyx_t_7 = __Pyx_PyInt_AddObjC(__pyx_t_9, __pyx_int_1, 1, 0); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 32, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_7);
     __Pyx_DECREF(__pyx_t_9); __pyx_t_9 = 0;
-    if (unlikely(!__pyx_cur_scope->__pyx_outer_scope->__pyx_v_Ordrdx)) { __Pyx_RaiseClosureNameError("Ordrdx"); __PYX_ERR(0, 31, __pyx_L1_error) }
+    if (unlikely(!__pyx_cur_scope->__pyx_outer_scope->__pyx_v_Ordrdx)) { __Pyx_RaiseClosureNameError("Ordrdx"); __PYX_ERR(0, 32, __pyx_L1_error) }
     __pyx_t_9 = __pyx_cur_scope->__pyx_outer_scope->__pyx_v_Ordrdx;
     __Pyx_INCREF(__pyx_t_9);
-    __pyx_t_1 = PyObject_Length(__pyx_t_9); if (unlikely(__pyx_t_1 == ((Py_ssize_t)-1))) __PYX_ERR(0, 31, __pyx_L1_error)
+    __pyx_t_1 = PyObject_Length(__pyx_t_9); if (unlikely(__pyx_t_1 == ((Py_ssize_t)-1))) __PYX_ERR(0, 32, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_9); __pyx_t_9 = 0;
-    __pyx_t_9 = PyInt_FromSsize_t(__pyx_t_1); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 31, __pyx_L1_error)
+    __pyx_t_9 = PyInt_FromSsize_t(__pyx_t_1); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 32, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_9);
-    __pyx_t_3 = __Pyx_PyNumber_Divide(__pyx_t_7, __pyx_t_9); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 31, __pyx_L1_error)
+    __pyx_t_3 = __Pyx_PyNumber_Divide(__pyx_t_7, __pyx_t_9); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 32, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_3);
     __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
     __Pyx_DECREF(__pyx_t_9); __pyx_t_9 = 0;
@@ -2811,7 +2841,7 @@ static PyObject *__pyx_pf_18EmpiricalFunctions_22Empirical_StepWise_CDF_5resFn_i
     goto __pyx_L0;
   }
 
-  /* "EmpiricalFunctions.pyx":22
+  /* "EmpiricalFunctions.pyx":23
  *         if a < min(Ordrdx):
  *             return 0.0
  *         def innerFn(a,xpr,lb,ub):             # <<<<<<<<<<<<<<
@@ -2835,7 +2865,7 @@ static PyObject *__pyx_pf_18EmpiricalFunctions_22Empirical_StepWise_CDF_5resFn_i
   return __pyx_r;
 }
 
-/* "EmpiricalFunctions.pyx":17
+/* "EmpiricalFunctions.pyx":18
  * 
  * def Empirical_StepWise_CDF(Ordrdx):
  *     def resFn(a):             # <<<<<<<<<<<<<<
@@ -2857,7 +2887,7 @@ static PyObject *__pyx_pf_18EmpiricalFunctions_22Empirical_StepWise_CDF_resFn(Py
   if (unlikely(!__pyx_cur_scope)) {
     __pyx_cur_scope = ((struct __pyx_obj_18EmpiricalFunctions___pyx_scope_struct_1_resFn *)Py_None);
     __Pyx_INCREF(Py_None);
-    __PYX_ERR(0, 17, __pyx_L1_error)
+    __PYX_ERR(0, 18, __pyx_L1_error)
   } else {
     __Pyx_GOTREF(__pyx_cur_scope);
   }
@@ -2865,29 +2895,29 @@ static PyObject *__pyx_pf_18EmpiricalFunctions_22Empirical_StepWise_CDF_resFn(Py
   __Pyx_INCREF(((PyObject *)__pyx_cur_scope->__pyx_outer_scope));
   __Pyx_GIVEREF(__pyx_cur_scope->__pyx_outer_scope);
 
-  /* "EmpiricalFunctions.pyx":18
+  /* "EmpiricalFunctions.pyx":19
  * def Empirical_StepWise_CDF(Ordrdx):
  *     def resFn(a):
  *         if a > max(Ordrdx):             # <<<<<<<<<<<<<<
  *             return 1.0
  *         if a < min(Ordrdx):
  */
-  if (unlikely(!__pyx_cur_scope->__pyx_outer_scope->__pyx_v_Ordrdx)) { __Pyx_RaiseClosureNameError("Ordrdx"); __PYX_ERR(0, 18, __pyx_L1_error) }
-  __pyx_t_1 = PyTuple_New(1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 18, __pyx_L1_error)
+  if (unlikely(!__pyx_cur_scope->__pyx_outer_scope->__pyx_v_Ordrdx)) { __Pyx_RaiseClosureNameError("Ordrdx"); __PYX_ERR(0, 19, __pyx_L1_error) }
+  __pyx_t_1 = PyTuple_New(1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 19, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_INCREF(__pyx_cur_scope->__pyx_outer_scope->__pyx_v_Ordrdx);
   __Pyx_GIVEREF(__pyx_cur_scope->__pyx_outer_scope->__pyx_v_Ordrdx);
   PyTuple_SET_ITEM(__pyx_t_1, 0, __pyx_cur_scope->__pyx_outer_scope->__pyx_v_Ordrdx);
-  __pyx_t_2 = __Pyx_PyObject_Call(__pyx_builtin_max, __pyx_t_1, NULL); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 18, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_PyObject_Call(__pyx_builtin_max, __pyx_t_1, NULL); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 19, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-  __pyx_t_1 = PyObject_RichCompare(__pyx_v_a, __pyx_t_2, Py_GT); __Pyx_XGOTREF(__pyx_t_1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 18, __pyx_L1_error)
+  __pyx_t_1 = PyObject_RichCompare(__pyx_v_a, __pyx_t_2, Py_GT); __Pyx_XGOTREF(__pyx_t_1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 19, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-  __pyx_t_3 = __Pyx_PyObject_IsTrue(__pyx_t_1); if (unlikely(__pyx_t_3 < 0)) __PYX_ERR(0, 18, __pyx_L1_error)
+  __pyx_t_3 = __Pyx_PyObject_IsTrue(__pyx_t_1); if (unlikely(__pyx_t_3 < 0)) __PYX_ERR(0, 19, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   if (__pyx_t_3) {
 
-    /* "EmpiricalFunctions.pyx":19
+    /* "EmpiricalFunctions.pyx":20
  *     def resFn(a):
  *         if a > max(Ordrdx):
  *             return 1.0             # <<<<<<<<<<<<<<
@@ -2899,7 +2929,7 @@ static PyObject *__pyx_pf_18EmpiricalFunctions_22Empirical_StepWise_CDF_resFn(Py
     __pyx_r = __pyx_float_1_0;
     goto __pyx_L0;
 
-    /* "EmpiricalFunctions.pyx":18
+    /* "EmpiricalFunctions.pyx":19
  * def Empirical_StepWise_CDF(Ordrdx):
  *     def resFn(a):
  *         if a > max(Ordrdx):             # <<<<<<<<<<<<<<
@@ -2908,29 +2938,29 @@ static PyObject *__pyx_pf_18EmpiricalFunctions_22Empirical_StepWise_CDF_resFn(Py
  */
   }
 
-  /* "EmpiricalFunctions.pyx":20
+  /* "EmpiricalFunctions.pyx":21
  *         if a > max(Ordrdx):
  *             return 1.0
  *         if a < min(Ordrdx):             # <<<<<<<<<<<<<<
  *             return 0.0
  *         def innerFn(a,xpr,lb,ub):
  */
-  if (unlikely(!__pyx_cur_scope->__pyx_outer_scope->__pyx_v_Ordrdx)) { __Pyx_RaiseClosureNameError("Ordrdx"); __PYX_ERR(0, 20, __pyx_L1_error) }
-  __pyx_t_1 = PyTuple_New(1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 20, __pyx_L1_error)
+  if (unlikely(!__pyx_cur_scope->__pyx_outer_scope->__pyx_v_Ordrdx)) { __Pyx_RaiseClosureNameError("Ordrdx"); __PYX_ERR(0, 21, __pyx_L1_error) }
+  __pyx_t_1 = PyTuple_New(1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 21, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_INCREF(__pyx_cur_scope->__pyx_outer_scope->__pyx_v_Ordrdx);
   __Pyx_GIVEREF(__pyx_cur_scope->__pyx_outer_scope->__pyx_v_Ordrdx);
   PyTuple_SET_ITEM(__pyx_t_1, 0, __pyx_cur_scope->__pyx_outer_scope->__pyx_v_Ordrdx);
-  __pyx_t_2 = __Pyx_PyObject_Call(__pyx_builtin_min, __pyx_t_1, NULL); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 20, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_PyObject_Call(__pyx_builtin_min, __pyx_t_1, NULL); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 21, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-  __pyx_t_1 = PyObject_RichCompare(__pyx_v_a, __pyx_t_2, Py_LT); __Pyx_XGOTREF(__pyx_t_1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 20, __pyx_L1_error)
+  __pyx_t_1 = PyObject_RichCompare(__pyx_v_a, __pyx_t_2, Py_LT); __Pyx_XGOTREF(__pyx_t_1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 21, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-  __pyx_t_3 = __Pyx_PyObject_IsTrue(__pyx_t_1); if (unlikely(__pyx_t_3 < 0)) __PYX_ERR(0, 20, __pyx_L1_error)
+  __pyx_t_3 = __Pyx_PyObject_IsTrue(__pyx_t_1); if (unlikely(__pyx_t_3 < 0)) __PYX_ERR(0, 21, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   if (__pyx_t_3) {
 
-    /* "EmpiricalFunctions.pyx":21
+    /* "EmpiricalFunctions.pyx":22
  *             return 1.0
  *         if a < min(Ordrdx):
  *             return 0.0             # <<<<<<<<<<<<<<
@@ -2942,7 +2972,7 @@ static PyObject *__pyx_pf_18EmpiricalFunctions_22Empirical_StepWise_CDF_resFn(Py
     __pyx_r = __pyx_float_0_0;
     goto __pyx_L0;
 
-    /* "EmpiricalFunctions.pyx":20
+    /* "EmpiricalFunctions.pyx":21
  *         if a > max(Ordrdx):
  *             return 1.0
  *         if a < min(Ordrdx):             # <<<<<<<<<<<<<<
@@ -2951,20 +2981,20 @@ static PyObject *__pyx_pf_18EmpiricalFunctions_22Empirical_StepWise_CDF_resFn(Py
  */
   }
 
-  /* "EmpiricalFunctions.pyx":22
+  /* "EmpiricalFunctions.pyx":23
  *         if a < min(Ordrdx):
  *             return 0.0
  *         def innerFn(a,xpr,lb,ub):             # <<<<<<<<<<<<<<
  *             i = int((len(xpr) / 2))
  *             if xpr[i-1] < a and xpr[i] < a:
  */
-  __pyx_t_1 = __Pyx_CyFunction_NewEx(&__pyx_mdef_18EmpiricalFunctions_22Empirical_StepWise_CDF_5resFn_1innerFn, 0, __pyx_n_s_Empirical_StepWise_CDF_locals_re, ((PyObject*)__pyx_cur_scope), __pyx_n_s_EmpiricalFunctions, __pyx_d, ((PyObject *)__pyx_codeobj__2)); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 22, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_CyFunction_NewEx(&__pyx_mdef_18EmpiricalFunctions_22Empirical_StepWise_CDF_5resFn_1innerFn, 0, __pyx_n_s_Empirical_StepWise_CDF_locals_re, ((PyObject*)__pyx_cur_scope), __pyx_n_s_EmpiricalFunctions, __pyx_d, ((PyObject *)__pyx_codeobj__2)); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 23, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_GIVEREF(__pyx_t_1);
   __pyx_cur_scope->__pyx_v_innerFn = __pyx_t_1;
   __pyx_t_1 = 0;
 
-  /* "EmpiricalFunctions.pyx":32
+  /* "EmpiricalFunctions.pyx":33
  *             else:
  *                 return (lb + check(a,i,1,xpr) + 1) / len(Ordrdx)
  *         return innerFn(a,Ordrdx,0,len(Ordrdx)-1)             # <<<<<<<<<<<<<<
@@ -2972,17 +3002,17 @@ static PyObject *__pyx_pf_18EmpiricalFunctions_22Empirical_StepWise_CDF_resFn(Py
  *     #return the EmpiricalCDF function from this function.
  */
   __Pyx_XDECREF(__pyx_r);
-  if (unlikely(!__pyx_cur_scope->__pyx_outer_scope->__pyx_v_Ordrdx)) { __Pyx_RaiseClosureNameError("Ordrdx"); __PYX_ERR(0, 32, __pyx_L1_error) }
+  if (unlikely(!__pyx_cur_scope->__pyx_outer_scope->__pyx_v_Ordrdx)) { __Pyx_RaiseClosureNameError("Ordrdx"); __PYX_ERR(0, 33, __pyx_L1_error) }
   __pyx_t_1 = __pyx_cur_scope->__pyx_outer_scope->__pyx_v_Ordrdx;
   __Pyx_INCREF(__pyx_t_1);
-  if (unlikely(!__pyx_cur_scope->__pyx_outer_scope->__pyx_v_Ordrdx)) { __Pyx_RaiseClosureNameError("Ordrdx"); __PYX_ERR(0, 32, __pyx_L1_error) }
+  if (unlikely(!__pyx_cur_scope->__pyx_outer_scope->__pyx_v_Ordrdx)) { __Pyx_RaiseClosureNameError("Ordrdx"); __PYX_ERR(0, 33, __pyx_L1_error) }
   __pyx_t_2 = __pyx_cur_scope->__pyx_outer_scope->__pyx_v_Ordrdx;
   __Pyx_INCREF(__pyx_t_2);
-  __pyx_t_4 = PyObject_Length(__pyx_t_2); if (unlikely(__pyx_t_4 == ((Py_ssize_t)-1))) __PYX_ERR(0, 32, __pyx_L1_error)
+  __pyx_t_4 = PyObject_Length(__pyx_t_2); if (unlikely(__pyx_t_4 == ((Py_ssize_t)-1))) __PYX_ERR(0, 33, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-  __pyx_t_2 = PyInt_FromSsize_t((__pyx_t_4 - 1)); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 32, __pyx_L1_error)
+  __pyx_t_2 = PyInt_FromSsize_t((__pyx_t_4 - 1)); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 33, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  __pyx_t_5 = __pyx_pf_18EmpiricalFunctions_22Empirical_StepWise_CDF_5resFn_innerFn(__pyx_cur_scope->__pyx_v_innerFn, __pyx_v_a, __pyx_t_1, __pyx_int_0, __pyx_t_2); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 32, __pyx_L1_error)
+  __pyx_t_5 = __pyx_pf_18EmpiricalFunctions_22Empirical_StepWise_CDF_5resFn_innerFn(__pyx_cur_scope->__pyx_v_innerFn, __pyx_v_a, __pyx_t_1, __pyx_int_0, __pyx_t_2); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 33, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_5);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
@@ -2990,7 +3020,7 @@ static PyObject *__pyx_pf_18EmpiricalFunctions_22Empirical_StepWise_CDF_resFn(Py
   __pyx_t_5 = 0;
   goto __pyx_L0;
 
-  /* "EmpiricalFunctions.pyx":17
+  /* "EmpiricalFunctions.pyx":18
  * 
  * def Empirical_StepWise_CDF(Ordrdx):
  *     def resFn(a):             # <<<<<<<<<<<<<<
@@ -3012,7 +3042,7 @@ static PyObject *__pyx_pf_18EmpiricalFunctions_22Empirical_StepWise_CDF_resFn(Py
   return __pyx_r;
 }
 
-/* "EmpiricalFunctions.pyx":16
+/* "EmpiricalFunctions.pyx":17
  *         return i
  * 
  * def Empirical_StepWise_CDF(Ordrdx):             # <<<<<<<<<<<<<<
@@ -3031,7 +3061,7 @@ static PyObject *__pyx_pf_18EmpiricalFunctions_2Empirical_StepWise_CDF(CYTHON_UN
   if (unlikely(!__pyx_cur_scope)) {
     __pyx_cur_scope = ((struct __pyx_obj_18EmpiricalFunctions___pyx_scope_struct__Empirical_StepWise_CDF *)Py_None);
     __Pyx_INCREF(Py_None);
-    __PYX_ERR(0, 16, __pyx_L1_error)
+    __PYX_ERR(0, 17, __pyx_L1_error)
   } else {
     __Pyx_GOTREF(__pyx_cur_scope);
   }
@@ -3039,19 +3069,19 @@ static PyObject *__pyx_pf_18EmpiricalFunctions_2Empirical_StepWise_CDF(CYTHON_UN
   __Pyx_INCREF(__pyx_cur_scope->__pyx_v_Ordrdx);
   __Pyx_GIVEREF(__pyx_cur_scope->__pyx_v_Ordrdx);
 
-  /* "EmpiricalFunctions.pyx":17
+  /* "EmpiricalFunctions.pyx":18
  * 
  * def Empirical_StepWise_CDF(Ordrdx):
  *     def resFn(a):             # <<<<<<<<<<<<<<
  *         if a > max(Ordrdx):
  *             return 1.0
  */
-  __pyx_t_1 = __Pyx_CyFunction_NewEx(&__pyx_mdef_18EmpiricalFunctions_22Empirical_StepWise_CDF_1resFn, 0, __pyx_n_s_Empirical_StepWise_CDF_locals_re_2, ((PyObject*)__pyx_cur_scope), __pyx_n_s_EmpiricalFunctions, __pyx_d, ((PyObject *)__pyx_codeobj__4)); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 17, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_CyFunction_NewEx(&__pyx_mdef_18EmpiricalFunctions_22Empirical_StepWise_CDF_1resFn, 0, __pyx_n_s_Empirical_StepWise_CDF_locals_re_2, ((PyObject*)__pyx_cur_scope), __pyx_n_s_EmpiricalFunctions, __pyx_d, ((PyObject *)__pyx_codeobj__4)); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 18, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_v_resFn = __pyx_t_1;
   __pyx_t_1 = 0;
 
-  /* "EmpiricalFunctions.pyx":33
+  /* "EmpiricalFunctions.pyx":34
  *                 return (lb + check(a,i,1,xpr) + 1) / len(Ordrdx)
  *         return innerFn(a,Ordrdx,0,len(Ordrdx)-1)
  *     return resFn             # <<<<<<<<<<<<<<
@@ -3063,7 +3093,7 @@ static PyObject *__pyx_pf_18EmpiricalFunctions_2Empirical_StepWise_CDF(CYTHON_UN
   __pyx_r = __pyx_v_resFn;
   goto __pyx_L0;
 
-  /* "EmpiricalFunctions.pyx":16
+  /* "EmpiricalFunctions.pyx":17
  *         return i
  * 
  * def Empirical_StepWise_CDF(Ordrdx):             # <<<<<<<<<<<<<<
@@ -3084,7 +3114,7 @@ static PyObject *__pyx_pf_18EmpiricalFunctions_2Empirical_StepWise_CDF(CYTHON_UN
   return __pyx_r;
 }
 
-/* "EmpiricalFunctions.pyx":35
+/* "EmpiricalFunctions.pyx":36
  *     return resFn
  *     #return the EmpiricalCDF function from this function.
  * def ApproxPWCDFDicFromHazardRates(l,step = 0.01):             # <<<<<<<<<<<<<<
@@ -3129,7 +3159,7 @@ static PyObject *__pyx_pw_18EmpiricalFunctions_5ApproxPWCDFDicFromHazardRates(Py
         }
       }
       if (unlikely(kw_args > 0)) {
-        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "ApproxPWCDFDicFromHazardRates") < 0)) __PYX_ERR(0, 35, __pyx_L3_error)
+        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "ApproxPWCDFDicFromHazardRates") < 0)) __PYX_ERR(0, 36, __pyx_L3_error)
       }
     } else {
       switch (PyTuple_GET_SIZE(__pyx_args)) {
@@ -3145,7 +3175,7 @@ static PyObject *__pyx_pw_18EmpiricalFunctions_5ApproxPWCDFDicFromHazardRates(Py
   }
   goto __pyx_L4_argument_unpacking_done;
   __pyx_L5_argtuple_error:;
-  __Pyx_RaiseArgtupleInvalid("ApproxPWCDFDicFromHazardRates", 0, 1, 2, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 35, __pyx_L3_error)
+  __Pyx_RaiseArgtupleInvalid("ApproxPWCDFDicFromHazardRates", 0, 1, 2, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 36, __pyx_L3_error)
   __pyx_L3_error:;
   __Pyx_AddTraceback("EmpiricalFunctions.ApproxPWCDFDicFromHazardRates", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __Pyx_RefNannyFinishContext();
@@ -3158,7 +3188,7 @@ static PyObject *__pyx_pw_18EmpiricalFunctions_5ApproxPWCDFDicFromHazardRates(Py
   return __pyx_r;
 }
 
-/* "EmpiricalFunctions.pyx":37
+/* "EmpiricalFunctions.pyx":38
  * def ApproxPWCDFDicFromHazardRates(l,step = 0.01):
  *     cdef float i
  *     def P(T):             # <<<<<<<<<<<<<<
@@ -3181,7 +3211,7 @@ static PyObject *__pyx_pw_18EmpiricalFunctions_29ApproxPWCDFDicFromHazardRates_1
 }
 static PyObject *__pyx_gb_18EmpiricalFunctions_29ApproxPWCDFDicFromHazardRates_1P_2generator(__pyx_CoroutineObject *__pyx_generator, CYTHON_UNUSED PyThreadState *__pyx_tstate, PyObject *__pyx_sent_value); /* proto */
 
-/* "EmpiricalFunctions.pyx":41
+/* "EmpiricalFunctions.pyx":42
  *         keys = np.arange(0,len(ls),1,dtype=DTYPE) #!change this if ever change the time periods from years os cant use the index of the array to count periods unless 1 period = 1 year
  *         s = keys[1] - keys[0]
  *         kT = max(next( (key for key in keys if T >= (key-s) and T <= (key)), max(keys)) - 1,0)             # <<<<<<<<<<<<<<
@@ -3198,7 +3228,7 @@ static PyObject *__pyx_pf_18EmpiricalFunctions_29ApproxPWCDFDicFromHazardRates_1
   if (unlikely(!__pyx_cur_scope)) {
     __pyx_cur_scope = ((struct __pyx_obj_18EmpiricalFunctions___pyx_scope_struct_4_genexpr *)Py_None);
     __Pyx_INCREF(Py_None);
-    __PYX_ERR(0, 41, __pyx_L1_error)
+    __PYX_ERR(0, 42, __pyx_L1_error)
   } else {
     __Pyx_GOTREF(__pyx_cur_scope);
   }
@@ -3206,7 +3236,7 @@ static PyObject *__pyx_pf_18EmpiricalFunctions_29ApproxPWCDFDicFromHazardRates_1
   __Pyx_INCREF(((PyObject *)__pyx_cur_scope->__pyx_outer_scope));
   __Pyx_GIVEREF(__pyx_cur_scope->__pyx_outer_scope);
   {
-    __pyx_CoroutineObject *gen = __Pyx_Generator_New((__pyx_coroutine_body_t) __pyx_gb_18EmpiricalFunctions_29ApproxPWCDFDicFromHazardRates_1P_2generator, (PyObject *) __pyx_cur_scope, __pyx_n_s_genexpr, __pyx_n_s_ApproxPWCDFDicFromHazardRates_lo, __pyx_n_s_EmpiricalFunctions); if (unlikely(!gen)) __PYX_ERR(0, 41, __pyx_L1_error)
+    __pyx_CoroutineObject *gen = __Pyx_Generator_New((__pyx_coroutine_body_t) __pyx_gb_18EmpiricalFunctions_29ApproxPWCDFDicFromHazardRates_1P_2generator, (PyObject *) __pyx_cur_scope, __pyx_n_s_genexpr, __pyx_n_s_ApproxPWCDFDicFromHazardRates_lo, __pyx_n_s_EmpiricalFunctions); if (unlikely(!gen)) __PYX_ERR(0, 42, __pyx_L1_error)
     __Pyx_DECREF(__pyx_cur_scope);
     __Pyx_RefNannyFinishContext();
     return (PyObject *) gen;
@@ -3243,32 +3273,32 @@ static PyObject *__pyx_gb_18EmpiricalFunctions_29ApproxPWCDFDicFromHazardRates_1
     return NULL;
   }
   __pyx_L3_first_run:;
-  if (unlikely(!__pyx_sent_value)) __PYX_ERR(0, 41, __pyx_L1_error)
-  if (unlikely(!__pyx_cur_scope->__pyx_outer_scope->__pyx_v_keys)) { __Pyx_RaiseClosureNameError("keys"); __PYX_ERR(0, 41, __pyx_L1_error) }
+  if (unlikely(!__pyx_sent_value)) __PYX_ERR(0, 42, __pyx_L1_error)
+  if (unlikely(!__pyx_cur_scope->__pyx_outer_scope->__pyx_v_keys)) { __Pyx_RaiseClosureNameError("keys"); __PYX_ERR(0, 42, __pyx_L1_error) }
   if (likely(PyList_CheckExact(__pyx_cur_scope->__pyx_outer_scope->__pyx_v_keys)) || PyTuple_CheckExact(__pyx_cur_scope->__pyx_outer_scope->__pyx_v_keys)) {
     __pyx_t_1 = __pyx_cur_scope->__pyx_outer_scope->__pyx_v_keys; __Pyx_INCREF(__pyx_t_1); __pyx_t_2 = 0;
     __pyx_t_3 = NULL;
   } else {
-    __pyx_t_2 = -1; __pyx_t_1 = PyObject_GetIter(__pyx_cur_scope->__pyx_outer_scope->__pyx_v_keys); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 41, __pyx_L1_error)
+    __pyx_t_2 = -1; __pyx_t_1 = PyObject_GetIter(__pyx_cur_scope->__pyx_outer_scope->__pyx_v_keys); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 42, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
-    __pyx_t_3 = Py_TYPE(__pyx_t_1)->tp_iternext; if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 41, __pyx_L1_error)
+    __pyx_t_3 = Py_TYPE(__pyx_t_1)->tp_iternext; if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 42, __pyx_L1_error)
   }
   for (;;) {
     if (likely(!__pyx_t_3)) {
       if (likely(PyList_CheckExact(__pyx_t_1))) {
         if (__pyx_t_2 >= PyList_GET_SIZE(__pyx_t_1)) break;
         #if CYTHON_ASSUME_SAFE_MACROS && !CYTHON_AVOID_BORROWED_REFS
-        __pyx_t_4 = PyList_GET_ITEM(__pyx_t_1, __pyx_t_2); __Pyx_INCREF(__pyx_t_4); __pyx_t_2++; if (unlikely(0 < 0)) __PYX_ERR(0, 41, __pyx_L1_error)
+        __pyx_t_4 = PyList_GET_ITEM(__pyx_t_1, __pyx_t_2); __Pyx_INCREF(__pyx_t_4); __pyx_t_2++; if (unlikely(0 < 0)) __PYX_ERR(0, 42, __pyx_L1_error)
         #else
-        __pyx_t_4 = PySequence_ITEM(__pyx_t_1, __pyx_t_2); __pyx_t_2++; if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 41, __pyx_L1_error)
+        __pyx_t_4 = PySequence_ITEM(__pyx_t_1, __pyx_t_2); __pyx_t_2++; if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 42, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_4);
         #endif
       } else {
         if (__pyx_t_2 >= PyTuple_GET_SIZE(__pyx_t_1)) break;
         #if CYTHON_ASSUME_SAFE_MACROS && !CYTHON_AVOID_BORROWED_REFS
-        __pyx_t_4 = PyTuple_GET_ITEM(__pyx_t_1, __pyx_t_2); __Pyx_INCREF(__pyx_t_4); __pyx_t_2++; if (unlikely(0 < 0)) __PYX_ERR(0, 41, __pyx_L1_error)
+        __pyx_t_4 = PyTuple_GET_ITEM(__pyx_t_1, __pyx_t_2); __Pyx_INCREF(__pyx_t_4); __pyx_t_2++; if (unlikely(0 < 0)) __PYX_ERR(0, 42, __pyx_L1_error)
         #else
-        __pyx_t_4 = PySequence_ITEM(__pyx_t_1, __pyx_t_2); __pyx_t_2++; if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 41, __pyx_L1_error)
+        __pyx_t_4 = PySequence_ITEM(__pyx_t_1, __pyx_t_2); __pyx_t_2++; if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 42, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_4);
         #endif
       }
@@ -3278,7 +3308,7 @@ static PyObject *__pyx_gb_18EmpiricalFunctions_29ApproxPWCDFDicFromHazardRates_1
         PyObject* exc_type = PyErr_Occurred();
         if (exc_type) {
           if (likely(__Pyx_PyErr_GivenExceptionMatches(exc_type, PyExc_StopIteration))) PyErr_Clear();
-          else __PYX_ERR(0, 41, __pyx_L1_error)
+          else __PYX_ERR(0, 42, __pyx_L1_error)
         }
         break;
       }
@@ -3288,22 +3318,22 @@ static PyObject *__pyx_gb_18EmpiricalFunctions_29ApproxPWCDFDicFromHazardRates_1
     __Pyx_XDECREF_SET(__pyx_cur_scope->__pyx_v_key, __pyx_t_4);
     __Pyx_GIVEREF(__pyx_t_4);
     __pyx_t_4 = 0;
-    if (unlikely(!__pyx_cur_scope->__pyx_outer_scope->__pyx_v_T)) { __Pyx_RaiseClosureNameError("T"); __PYX_ERR(0, 41, __pyx_L1_error) }
-    if (unlikely(!__pyx_cur_scope->__pyx_outer_scope->__pyx_v_s)) { __Pyx_RaiseClosureNameError("s"); __PYX_ERR(0, 41, __pyx_L1_error) }
-    __pyx_t_4 = PyNumber_Subtract(__pyx_cur_scope->__pyx_v_key, __pyx_cur_scope->__pyx_outer_scope->__pyx_v_s); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 41, __pyx_L1_error)
+    if (unlikely(!__pyx_cur_scope->__pyx_outer_scope->__pyx_v_T)) { __Pyx_RaiseClosureNameError("T"); __PYX_ERR(0, 42, __pyx_L1_error) }
+    if (unlikely(!__pyx_cur_scope->__pyx_outer_scope->__pyx_v_s)) { __Pyx_RaiseClosureNameError("s"); __PYX_ERR(0, 42, __pyx_L1_error) }
+    __pyx_t_4 = PyNumber_Subtract(__pyx_cur_scope->__pyx_v_key, __pyx_cur_scope->__pyx_outer_scope->__pyx_v_s); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 42, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_4);
-    __pyx_t_6 = PyObject_RichCompare(__pyx_cur_scope->__pyx_outer_scope->__pyx_v_T, __pyx_t_4, Py_GE); __Pyx_XGOTREF(__pyx_t_6); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 41, __pyx_L1_error)
+    __pyx_t_6 = PyObject_RichCompare(__pyx_cur_scope->__pyx_outer_scope->__pyx_v_T, __pyx_t_4, Py_GE); __Pyx_XGOTREF(__pyx_t_6); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 42, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-    __pyx_t_7 = __Pyx_PyObject_IsTrue(__pyx_t_6); if (unlikely(__pyx_t_7 < 0)) __PYX_ERR(0, 41, __pyx_L1_error)
+    __pyx_t_7 = __Pyx_PyObject_IsTrue(__pyx_t_6); if (unlikely(__pyx_t_7 < 0)) __PYX_ERR(0, 42, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
     if (__pyx_t_7) {
     } else {
       __pyx_t_5 = __pyx_t_7;
       goto __pyx_L7_bool_binop_done;
     }
-    if (unlikely(!__pyx_cur_scope->__pyx_outer_scope->__pyx_v_T)) { __Pyx_RaiseClosureNameError("T"); __PYX_ERR(0, 41, __pyx_L1_error) }
-    __pyx_t_6 = PyObject_RichCompare(__pyx_cur_scope->__pyx_outer_scope->__pyx_v_T, __pyx_cur_scope->__pyx_v_key, Py_LE); __Pyx_XGOTREF(__pyx_t_6); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 41, __pyx_L1_error)
-    __pyx_t_7 = __Pyx_PyObject_IsTrue(__pyx_t_6); if (unlikely(__pyx_t_7 < 0)) __PYX_ERR(0, 41, __pyx_L1_error)
+    if (unlikely(!__pyx_cur_scope->__pyx_outer_scope->__pyx_v_T)) { __Pyx_RaiseClosureNameError("T"); __PYX_ERR(0, 42, __pyx_L1_error) }
+    __pyx_t_6 = PyObject_RichCompare(__pyx_cur_scope->__pyx_outer_scope->__pyx_v_T, __pyx_cur_scope->__pyx_v_key, Py_LE); __Pyx_XGOTREF(__pyx_t_6); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 42, __pyx_L1_error)
+    __pyx_t_7 = __Pyx_PyObject_IsTrue(__pyx_t_6); if (unlikely(__pyx_t_7 < 0)) __PYX_ERR(0, 42, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
     __pyx_t_5 = __pyx_t_7;
     __pyx_L7_bool_binop_done:;
@@ -3326,7 +3356,7 @@ static PyObject *__pyx_gb_18EmpiricalFunctions_29ApproxPWCDFDicFromHazardRates_1
       __Pyx_XGOTREF(__pyx_t_1);
       __pyx_t_2 = __pyx_cur_scope->__pyx_t_1;
       __pyx_t_3 = __pyx_cur_scope->__pyx_t_2;
-      if (unlikely(!__pyx_sent_value)) __PYX_ERR(0, 41, __pyx_L1_error)
+      if (unlikely(!__pyx_sent_value)) __PYX_ERR(0, 42, __pyx_L1_error)
     }
   }
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
@@ -3349,7 +3379,7 @@ static PyObject *__pyx_gb_18EmpiricalFunctions_29ApproxPWCDFDicFromHazardRates_1
   return __pyx_r;
 }
 
-/* "EmpiricalFunctions.pyx":37
+/* "EmpiricalFunctions.pyx":38
  * def ApproxPWCDFDicFromHazardRates(l,step = 0.01):
  *     cdef float i
  *     def P(T):             # <<<<<<<<<<<<<<
@@ -3378,7 +3408,7 @@ static PyObject *__pyx_pf_18EmpiricalFunctions_29ApproxPWCDFDicFromHazardRates_P
   if (unlikely(!__pyx_cur_scope)) {
     __pyx_cur_scope = ((struct __pyx_obj_18EmpiricalFunctions___pyx_scope_struct_3_P *)Py_None);
     __Pyx_INCREF(Py_None);
-    __PYX_ERR(0, 37, __pyx_L1_error)
+    __PYX_ERR(0, 38, __pyx_L1_error)
   } else {
     __Pyx_GOTREF(__pyx_cur_scope);
   }
@@ -3389,31 +3419,31 @@ static PyObject *__pyx_pf_18EmpiricalFunctions_29ApproxPWCDFDicFromHazardRates_P
   __Pyx_INCREF(__pyx_cur_scope->__pyx_v_T);
   __Pyx_GIVEREF(__pyx_cur_scope->__pyx_v_T);
 
-  /* "EmpiricalFunctions.pyx":38
+  /* "EmpiricalFunctions.pyx":39
  *     cdef float i
  *     def P(T):
  *         ls = np.asarray(l,dtype=FDTYPE)             # <<<<<<<<<<<<<<
  *         keys = np.arange(0,len(ls),1,dtype=DTYPE) #!change this if ever change the time periods from years os cant use the index of the array to count periods unless 1 period = 1 year
  *         s = keys[1] - keys[0]
  */
-  __pyx_t_1 = __Pyx_GetModuleGlobalName(__pyx_n_s_np); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 38, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_GetModuleGlobalName(__pyx_n_s_np); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 39, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_t_1, __pyx_n_s_asarray); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 38, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_t_1, __pyx_n_s_asarray); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 39, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-  if (unlikely(!__pyx_cur_scope->__pyx_outer_scope->__pyx_v_l)) { __Pyx_RaiseClosureNameError("l"); __PYX_ERR(0, 38, __pyx_L1_error) }
-  __pyx_t_1 = PyTuple_New(1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 38, __pyx_L1_error)
+  if (unlikely(!__pyx_cur_scope->__pyx_outer_scope->__pyx_v_l)) { __Pyx_RaiseClosureNameError("l"); __PYX_ERR(0, 39, __pyx_L1_error) }
+  __pyx_t_1 = PyTuple_New(1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 39, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_INCREF(__pyx_cur_scope->__pyx_outer_scope->__pyx_v_l);
   __Pyx_GIVEREF(__pyx_cur_scope->__pyx_outer_scope->__pyx_v_l);
   PyTuple_SET_ITEM(__pyx_t_1, 0, __pyx_cur_scope->__pyx_outer_scope->__pyx_v_l);
-  __pyx_t_3 = __Pyx_PyDict_NewPresized(1); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 38, __pyx_L1_error)
+  __pyx_t_3 = __Pyx_PyDict_NewPresized(1); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 39, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
-  __pyx_t_4 = __Pyx_GetModuleGlobalName(__pyx_n_s_FDTYPE); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 38, __pyx_L1_error)
+  __pyx_t_4 = __Pyx_GetModuleGlobalName(__pyx_n_s_FDTYPE); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 39, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
-  if (PyDict_SetItem(__pyx_t_3, __pyx_n_s_dtype, __pyx_t_4) < 0) __PYX_ERR(0, 38, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_t_3, __pyx_n_s_dtype, __pyx_t_4) < 0) __PYX_ERR(0, 39, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-  __pyx_t_4 = __Pyx_PyObject_Call(__pyx_t_2, __pyx_t_1, __pyx_t_3); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 38, __pyx_L1_error)
+  __pyx_t_4 = __Pyx_PyObject_Call(__pyx_t_2, __pyx_t_1, __pyx_t_3); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 39, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
@@ -3421,22 +3451,22 @@ static PyObject *__pyx_pf_18EmpiricalFunctions_29ApproxPWCDFDicFromHazardRates_P
   __pyx_v_ls = __pyx_t_4;
   __pyx_t_4 = 0;
 
-  /* "EmpiricalFunctions.pyx":39
+  /* "EmpiricalFunctions.pyx":40
  *     def P(T):
  *         ls = np.asarray(l,dtype=FDTYPE)
  *         keys = np.arange(0,len(ls),1,dtype=DTYPE) #!change this if ever change the time periods from years os cant use the index of the array to count periods unless 1 period = 1 year             # <<<<<<<<<<<<<<
  *         s = keys[1] - keys[0]
  *         kT = max(next( (key for key in keys if T >= (key-s) and T <= (key)), max(keys)) - 1,0)
  */
-  __pyx_t_4 = __Pyx_GetModuleGlobalName(__pyx_n_s_np); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 39, __pyx_L1_error)
+  __pyx_t_4 = __Pyx_GetModuleGlobalName(__pyx_n_s_np); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 40, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
-  __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_t_4, __pyx_n_s_arange); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 39, __pyx_L1_error)
+  __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_t_4, __pyx_n_s_arange); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 40, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
   __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-  __pyx_t_5 = PyObject_Length(__pyx_v_ls); if (unlikely(__pyx_t_5 == ((Py_ssize_t)-1))) __PYX_ERR(0, 39, __pyx_L1_error)
-  __pyx_t_4 = PyInt_FromSsize_t(__pyx_t_5); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 39, __pyx_L1_error)
+  __pyx_t_5 = PyObject_Length(__pyx_v_ls); if (unlikely(__pyx_t_5 == ((Py_ssize_t)-1))) __PYX_ERR(0, 40, __pyx_L1_error)
+  __pyx_t_4 = PyInt_FromSsize_t(__pyx_t_5); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 40, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
-  __pyx_t_1 = PyTuple_New(3); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 39, __pyx_L1_error)
+  __pyx_t_1 = PyTuple_New(3); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 40, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_INCREF(__pyx_int_0);
   __Pyx_GIVEREF(__pyx_int_0);
@@ -3447,13 +3477,13 @@ static PyObject *__pyx_pf_18EmpiricalFunctions_29ApproxPWCDFDicFromHazardRates_P
   __Pyx_GIVEREF(__pyx_int_1);
   PyTuple_SET_ITEM(__pyx_t_1, 2, __pyx_int_1);
   __pyx_t_4 = 0;
-  __pyx_t_4 = __Pyx_PyDict_NewPresized(1); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 39, __pyx_L1_error)
+  __pyx_t_4 = __Pyx_PyDict_NewPresized(1); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 40, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
-  __pyx_t_2 = __Pyx_GetModuleGlobalName(__pyx_n_s_DTYPE); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 39, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_GetModuleGlobalName(__pyx_n_s_DTYPE); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 40, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  if (PyDict_SetItem(__pyx_t_4, __pyx_n_s_dtype, __pyx_t_2) < 0) __PYX_ERR(0, 39, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_t_4, __pyx_n_s_dtype, __pyx_t_2) < 0) __PYX_ERR(0, 40, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-  __pyx_t_2 = __Pyx_PyObject_Call(__pyx_t_3, __pyx_t_1, __pyx_t_4); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 39, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_PyObject_Call(__pyx_t_3, __pyx_t_1, __pyx_t_4); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 40, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
@@ -3462,18 +3492,18 @@ static PyObject *__pyx_pf_18EmpiricalFunctions_29ApproxPWCDFDicFromHazardRates_P
   __pyx_cur_scope->__pyx_v_keys = __pyx_t_2;
   __pyx_t_2 = 0;
 
-  /* "EmpiricalFunctions.pyx":40
+  /* "EmpiricalFunctions.pyx":41
  *         ls = np.asarray(l,dtype=FDTYPE)
  *         keys = np.arange(0,len(ls),1,dtype=DTYPE) #!change this if ever change the time periods from years os cant use the index of the array to count periods unless 1 period = 1 year
  *         s = keys[1] - keys[0]             # <<<<<<<<<<<<<<
  *         kT = max(next( (key for key in keys if T >= (key-s) and T <= (key)), max(keys)) - 1,0)
  *         p = 1 - math.exp(-(sum(ls[0:kT]) + ls[kT]*(T - kT)))
  */
-  __pyx_t_2 = __Pyx_GetItemInt(__pyx_cur_scope->__pyx_v_keys, 1, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 40, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_GetItemInt(__pyx_cur_scope->__pyx_v_keys, 1, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 41, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  __pyx_t_4 = __Pyx_GetItemInt(__pyx_cur_scope->__pyx_v_keys, 0, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 40, __pyx_L1_error)
+  __pyx_t_4 = __Pyx_GetItemInt(__pyx_cur_scope->__pyx_v_keys, 0, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 41, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
-  __pyx_t_1 = PyNumber_Subtract(__pyx_t_2, __pyx_t_4); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 40, __pyx_L1_error)
+  __pyx_t_1 = PyNumber_Subtract(__pyx_t_2, __pyx_t_4); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 41, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
@@ -3481,7 +3511,7 @@ static PyObject *__pyx_pf_18EmpiricalFunctions_29ApproxPWCDFDicFromHazardRates_P
   __pyx_cur_scope->__pyx_v_s = __pyx_t_1;
   __pyx_t_1 = 0;
 
-  /* "EmpiricalFunctions.pyx":41
+  /* "EmpiricalFunctions.pyx":42
  *         keys = np.arange(0,len(ls),1,dtype=DTYPE) #!change this if ever change the time periods from years os cant use the index of the array to count periods unless 1 period = 1 year
  *         s = keys[1] - keys[0]
  *         kT = max(next( (key for key in keys if T >= (key-s) and T <= (key)), max(keys)) - 1,0)             # <<<<<<<<<<<<<<
@@ -3489,31 +3519,31 @@ static PyObject *__pyx_pf_18EmpiricalFunctions_29ApproxPWCDFDicFromHazardRates_P
  *         return p
  */
   __pyx_t_6 = 0;
-  __pyx_t_1 = __pyx_pf_18EmpiricalFunctions_29ApproxPWCDFDicFromHazardRates_1P_genexpr(((PyObject*)__pyx_cur_scope)); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 41, __pyx_L1_error)
+  __pyx_t_1 = __pyx_pf_18EmpiricalFunctions_29ApproxPWCDFDicFromHazardRates_1P_genexpr(((PyObject*)__pyx_cur_scope)); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 42, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_4 = PyTuple_New(1); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 41, __pyx_L1_error)
+  __pyx_t_4 = PyTuple_New(1); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 42, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
   __Pyx_INCREF(__pyx_cur_scope->__pyx_v_keys);
   __Pyx_GIVEREF(__pyx_cur_scope->__pyx_v_keys);
   PyTuple_SET_ITEM(__pyx_t_4, 0, __pyx_cur_scope->__pyx_v_keys);
-  __pyx_t_2 = __Pyx_PyObject_Call(__pyx_builtin_max, __pyx_t_4, NULL); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 41, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_PyObject_Call(__pyx_builtin_max, __pyx_t_4, NULL); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 42, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-  __pyx_t_4 = __Pyx_PyIter_Next2(__pyx_t_1, __pyx_t_2); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 41, __pyx_L1_error)
+  __pyx_t_4 = __Pyx_PyIter_Next2(__pyx_t_1, __pyx_t_2); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 42, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-  __pyx_t_2 = __Pyx_PyInt_SubtractObjC(__pyx_t_4, __pyx_int_1, 1, 0); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 41, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_PyInt_SubtractObjC(__pyx_t_4, __pyx_int_1, 1, 0); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 42, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-  __pyx_t_1 = __Pyx_PyInt_From_long(__pyx_t_6); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 41, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyInt_From_long(__pyx_t_6); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 42, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_3 = PyObject_RichCompare(__pyx_t_1, __pyx_t_2, Py_GT); __Pyx_XGOTREF(__pyx_t_3); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 41, __pyx_L1_error)
+  __pyx_t_3 = PyObject_RichCompare(__pyx_t_1, __pyx_t_2, Py_GT); __Pyx_XGOTREF(__pyx_t_3); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 42, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-  __pyx_t_7 = __Pyx_PyObject_IsTrue(__pyx_t_3); if (unlikely(__pyx_t_7 < 0)) __PYX_ERR(0, 41, __pyx_L1_error)
+  __pyx_t_7 = __Pyx_PyObject_IsTrue(__pyx_t_3); if (unlikely(__pyx_t_7 < 0)) __PYX_ERR(0, 42, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
   if (__pyx_t_7) {
-    __pyx_t_3 = __Pyx_PyInt_From_long(__pyx_t_6); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 41, __pyx_L1_error)
+    __pyx_t_3 = __Pyx_PyInt_From_long(__pyx_t_6); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 42, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_3);
     __pyx_t_4 = __pyx_t_3;
     __pyx_t_3 = 0;
@@ -3528,41 +3558,41 @@ static PyObject *__pyx_pf_18EmpiricalFunctions_29ApproxPWCDFDicFromHazardRates_P
   __pyx_v_kT = __pyx_t_2;
   __pyx_t_2 = 0;
 
-  /* "EmpiricalFunctions.pyx":42
+  /* "EmpiricalFunctions.pyx":43
  *         s = keys[1] - keys[0]
  *         kT = max(next( (key for key in keys if T >= (key-s) and T <= (key)), max(keys)) - 1,0)
  *         p = 1 - math.exp(-(sum(ls[0:kT]) + ls[kT]*(T - kT)))             # <<<<<<<<<<<<<<
  *         return p
  *     res = dict()
  */
-  __pyx_t_4 = __Pyx_GetModuleGlobalName(__pyx_n_s_math); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 42, __pyx_L1_error)
+  __pyx_t_4 = __Pyx_GetModuleGlobalName(__pyx_n_s_math); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 43, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
-  __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_t_4, __pyx_n_s_exp); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 42, __pyx_L1_error)
+  __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_t_4, __pyx_n_s_exp); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 43, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
   __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-  __pyx_t_4 = __Pyx_PyObject_GetSlice(__pyx_v_ls, 0, 0, NULL, &__pyx_v_kT, NULL, 1, 0, 1); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 42, __pyx_L1_error)
+  __pyx_t_4 = __Pyx_PyObject_GetSlice(__pyx_v_ls, 0, 0, NULL, &__pyx_v_kT, NULL, 1, 0, 1); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 43, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
-  __pyx_t_1 = PyTuple_New(1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 42, __pyx_L1_error)
+  __pyx_t_1 = PyTuple_New(1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 43, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_GIVEREF(__pyx_t_4);
   PyTuple_SET_ITEM(__pyx_t_1, 0, __pyx_t_4);
   __pyx_t_4 = 0;
-  __pyx_t_4 = __Pyx_PyObject_Call(__pyx_builtin_sum, __pyx_t_1, NULL); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 42, __pyx_L1_error)
+  __pyx_t_4 = __Pyx_PyObject_Call(__pyx_builtin_sum, __pyx_t_1, NULL); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 43, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-  __pyx_t_1 = PyObject_GetItem(__pyx_v_ls, __pyx_v_kT); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 42, __pyx_L1_error)
+  __pyx_t_1 = PyObject_GetItem(__pyx_v_ls, __pyx_v_kT); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 43, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_8 = PyNumber_Subtract(__pyx_cur_scope->__pyx_v_T, __pyx_v_kT); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 42, __pyx_L1_error)
+  __pyx_t_8 = PyNumber_Subtract(__pyx_cur_scope->__pyx_v_T, __pyx_v_kT); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 43, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_8);
-  __pyx_t_9 = PyNumber_Multiply(__pyx_t_1, __pyx_t_8); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 42, __pyx_L1_error)
+  __pyx_t_9 = PyNumber_Multiply(__pyx_t_1, __pyx_t_8); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 43, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_9);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
-  __pyx_t_8 = PyNumber_Add(__pyx_t_4, __pyx_t_9); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 42, __pyx_L1_error)
+  __pyx_t_8 = PyNumber_Add(__pyx_t_4, __pyx_t_9); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 43, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_8);
   __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
   __Pyx_DECREF(__pyx_t_9); __pyx_t_9 = 0;
-  __pyx_t_9 = PyNumber_Negative(__pyx_t_8); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 42, __pyx_L1_error)
+  __pyx_t_9 = PyNumber_Negative(__pyx_t_8); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 43, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_9);
   __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
   __pyx_t_8 = NULL;
@@ -3576,14 +3606,14 @@ static PyObject *__pyx_pf_18EmpiricalFunctions_29ApproxPWCDFDicFromHazardRates_P
     }
   }
   if (!__pyx_t_8) {
-    __pyx_t_2 = __Pyx_PyObject_CallOneArg(__pyx_t_3, __pyx_t_9); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 42, __pyx_L1_error)
+    __pyx_t_2 = __Pyx_PyObject_CallOneArg(__pyx_t_3, __pyx_t_9); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 43, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_9); __pyx_t_9 = 0;
     __Pyx_GOTREF(__pyx_t_2);
   } else {
     #if CYTHON_FAST_PYCALL
     if (PyFunction_Check(__pyx_t_3)) {
       PyObject *__pyx_temp[2] = {__pyx_t_8, __pyx_t_9};
-      __pyx_t_2 = __Pyx_PyFunction_FastCall(__pyx_t_3, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 42, __pyx_L1_error)
+      __pyx_t_2 = __Pyx_PyFunction_FastCall(__pyx_t_3, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 43, __pyx_L1_error)
       __Pyx_XDECREF(__pyx_t_8); __pyx_t_8 = 0;
       __Pyx_GOTREF(__pyx_t_2);
       __Pyx_DECREF(__pyx_t_9); __pyx_t_9 = 0;
@@ -3592,32 +3622,32 @@ static PyObject *__pyx_pf_18EmpiricalFunctions_29ApproxPWCDFDicFromHazardRates_P
     #if CYTHON_FAST_PYCCALL
     if (__Pyx_PyFastCFunction_Check(__pyx_t_3)) {
       PyObject *__pyx_temp[2] = {__pyx_t_8, __pyx_t_9};
-      __pyx_t_2 = __Pyx_PyCFunction_FastCall(__pyx_t_3, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 42, __pyx_L1_error)
+      __pyx_t_2 = __Pyx_PyCFunction_FastCall(__pyx_t_3, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 43, __pyx_L1_error)
       __Pyx_XDECREF(__pyx_t_8); __pyx_t_8 = 0;
       __Pyx_GOTREF(__pyx_t_2);
       __Pyx_DECREF(__pyx_t_9); __pyx_t_9 = 0;
     } else
     #endif
     {
-      __pyx_t_4 = PyTuple_New(1+1); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 42, __pyx_L1_error)
+      __pyx_t_4 = PyTuple_New(1+1); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 43, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_4);
       __Pyx_GIVEREF(__pyx_t_8); PyTuple_SET_ITEM(__pyx_t_4, 0, __pyx_t_8); __pyx_t_8 = NULL;
       __Pyx_GIVEREF(__pyx_t_9);
       PyTuple_SET_ITEM(__pyx_t_4, 0+1, __pyx_t_9);
       __pyx_t_9 = 0;
-      __pyx_t_2 = __Pyx_PyObject_Call(__pyx_t_3, __pyx_t_4, NULL); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 42, __pyx_L1_error)
+      __pyx_t_2 = __Pyx_PyObject_Call(__pyx_t_3, __pyx_t_4, NULL); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 43, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_2);
       __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
     }
   }
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-  __pyx_t_3 = __Pyx_PyInt_SubtractCObj(__pyx_int_1, __pyx_t_2, 1, 0); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 42, __pyx_L1_error)
+  __pyx_t_3 = __Pyx_PyInt_SubtractCObj(__pyx_int_1, __pyx_t_2, 1, 0); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 43, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   __pyx_v_p = __pyx_t_3;
   __pyx_t_3 = 0;
 
-  /* "EmpiricalFunctions.pyx":43
+  /* "EmpiricalFunctions.pyx":44
  *         kT = max(next( (key for key in keys if T >= (key-s) and T <= (key)), max(keys)) - 1,0)
  *         p = 1 - math.exp(-(sum(ls[0:kT]) + ls[kT]*(T - kT)))
  *         return p             # <<<<<<<<<<<<<<
@@ -3629,7 +3659,7 @@ static PyObject *__pyx_pf_18EmpiricalFunctions_29ApproxPWCDFDicFromHazardRates_P
   __pyx_r = __pyx_v_p;
   goto __pyx_L0;
 
-  /* "EmpiricalFunctions.pyx":37
+  /* "EmpiricalFunctions.pyx":38
  * def ApproxPWCDFDicFromHazardRates(l,step = 0.01):
  *     cdef float i
  *     def P(T):             # <<<<<<<<<<<<<<
@@ -3657,7 +3687,7 @@ static PyObject *__pyx_pf_18EmpiricalFunctions_29ApproxPWCDFDicFromHazardRates_P
   return __pyx_r;
 }
 
-/* "EmpiricalFunctions.pyx":35
+/* "EmpiricalFunctions.pyx":36
  *     return resFn
  *     #return the EmpiricalCDF function from this function.
  * def ApproxPWCDFDicFromHazardRates(l,step = 0.01):             # <<<<<<<<<<<<<<
@@ -3686,7 +3716,7 @@ static PyObject *__pyx_pf_18EmpiricalFunctions_4ApproxPWCDFDicFromHazardRates(CY
   if (unlikely(!__pyx_cur_scope)) {
     __pyx_cur_scope = ((struct __pyx_obj_18EmpiricalFunctions___pyx_scope_struct_2_ApproxPWCDFDicFromHazardRates *)Py_None);
     __Pyx_INCREF(Py_None);
-    __PYX_ERR(0, 35, __pyx_L1_error)
+    __PYX_ERR(0, 36, __pyx_L1_error)
   } else {
     __Pyx_GOTREF(__pyx_cur_scope);
   }
@@ -3694,43 +3724,43 @@ static PyObject *__pyx_pf_18EmpiricalFunctions_4ApproxPWCDFDicFromHazardRates(CY
   __Pyx_INCREF(__pyx_cur_scope->__pyx_v_l);
   __Pyx_GIVEREF(__pyx_cur_scope->__pyx_v_l);
 
-  /* "EmpiricalFunctions.pyx":37
+  /* "EmpiricalFunctions.pyx":38
  * def ApproxPWCDFDicFromHazardRates(l,step = 0.01):
  *     cdef float i
  *     def P(T):             # <<<<<<<<<<<<<<
  *         ls = np.asarray(l,dtype=FDTYPE)
  *         keys = np.arange(0,len(ls),1,dtype=DTYPE) #!change this if ever change the time periods from years os cant use the index of the array to count periods unless 1 period = 1 year
  */
-  __pyx_t_1 = __Pyx_CyFunction_NewEx(&__pyx_mdef_18EmpiricalFunctions_29ApproxPWCDFDicFromHazardRates_1P, 0, __pyx_n_s_ApproxPWCDFDicFromHazardRates_lo_2, ((PyObject*)__pyx_cur_scope), __pyx_n_s_EmpiricalFunctions, __pyx_d, ((PyObject *)__pyx_codeobj__6)); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 37, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_CyFunction_NewEx(&__pyx_mdef_18EmpiricalFunctions_29ApproxPWCDFDicFromHazardRates_1P, 0, __pyx_n_s_ApproxPWCDFDicFromHazardRates_lo_2, ((PyObject*)__pyx_cur_scope), __pyx_n_s_EmpiricalFunctions, __pyx_d, ((PyObject *)__pyx_codeobj__6)); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 38, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_v_P = __pyx_t_1;
   __pyx_t_1 = 0;
 
-  /* "EmpiricalFunctions.pyx":44
+  /* "EmpiricalFunctions.pyx":45
  *         p = 1 - math.exp(-(sum(ls[0:kT]) + ls[kT]*(T - kT)))
  *         return p
  *     res = dict()             # <<<<<<<<<<<<<<
  *     for i in np.arange(0,1,step/100):
  *         res[P(i)] = i
  */
-  __pyx_t_1 = __Pyx_PyDict_NewPresized(0); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 44, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyDict_NewPresized(0); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 45, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_v_res = ((PyObject*)__pyx_t_1);
   __pyx_t_1 = 0;
 
-  /* "EmpiricalFunctions.pyx":45
+  /* "EmpiricalFunctions.pyx":46
  *         return p
  *     res = dict()
  *     for i in np.arange(0,1,step/100):             # <<<<<<<<<<<<<<
  *         res[P(i)] = i
  *     for i in np.arange(1,10,step):
  */
-  __pyx_t_2 = __Pyx_GetModuleGlobalName(__pyx_n_s_np); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 45, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_GetModuleGlobalName(__pyx_n_s_np); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 46, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_t_2, __pyx_n_s_arange); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 45, __pyx_L1_error)
+  __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_t_2, __pyx_n_s_arange); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 46, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-  __pyx_t_2 = __Pyx_PyNumber_Divide(__pyx_v_step, __pyx_int_100); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 45, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_PyNumber_Divide(__pyx_v_step, __pyx_int_100); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 46, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __pyx_t_4 = NULL;
   __pyx_t_5 = 0;
@@ -3747,7 +3777,7 @@ static PyObject *__pyx_pf_18EmpiricalFunctions_4ApproxPWCDFDicFromHazardRates(CY
   #if CYTHON_FAST_PYCALL
   if (PyFunction_Check(__pyx_t_3)) {
     PyObject *__pyx_temp[4] = {__pyx_t_4, __pyx_int_0, __pyx_int_1, __pyx_t_2};
-    __pyx_t_1 = __Pyx_PyFunction_FastCall(__pyx_t_3, __pyx_temp+1-__pyx_t_5, 3+__pyx_t_5); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 45, __pyx_L1_error)
+    __pyx_t_1 = __Pyx_PyFunction_FastCall(__pyx_t_3, __pyx_temp+1-__pyx_t_5, 3+__pyx_t_5); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 46, __pyx_L1_error)
     __Pyx_XDECREF(__pyx_t_4); __pyx_t_4 = 0;
     __Pyx_GOTREF(__pyx_t_1);
     __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
@@ -3756,14 +3786,14 @@ static PyObject *__pyx_pf_18EmpiricalFunctions_4ApproxPWCDFDicFromHazardRates(CY
   #if CYTHON_FAST_PYCCALL
   if (__Pyx_PyFastCFunction_Check(__pyx_t_3)) {
     PyObject *__pyx_temp[4] = {__pyx_t_4, __pyx_int_0, __pyx_int_1, __pyx_t_2};
-    __pyx_t_1 = __Pyx_PyCFunction_FastCall(__pyx_t_3, __pyx_temp+1-__pyx_t_5, 3+__pyx_t_5); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 45, __pyx_L1_error)
+    __pyx_t_1 = __Pyx_PyCFunction_FastCall(__pyx_t_3, __pyx_temp+1-__pyx_t_5, 3+__pyx_t_5); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 46, __pyx_L1_error)
     __Pyx_XDECREF(__pyx_t_4); __pyx_t_4 = 0;
     __Pyx_GOTREF(__pyx_t_1);
     __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   } else
   #endif
   {
-    __pyx_t_6 = PyTuple_New(3+__pyx_t_5); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 45, __pyx_L1_error)
+    __pyx_t_6 = PyTuple_New(3+__pyx_t_5); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 46, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_6);
     if (__pyx_t_4) {
       __Pyx_GIVEREF(__pyx_t_4); PyTuple_SET_ITEM(__pyx_t_6, 0, __pyx_t_4); __pyx_t_4 = NULL;
@@ -3777,7 +3807,7 @@ static PyObject *__pyx_pf_18EmpiricalFunctions_4ApproxPWCDFDicFromHazardRates(CY
     __Pyx_GIVEREF(__pyx_t_2);
     PyTuple_SET_ITEM(__pyx_t_6, 2+__pyx_t_5, __pyx_t_2);
     __pyx_t_2 = 0;
-    __pyx_t_1 = __Pyx_PyObject_Call(__pyx_t_3, __pyx_t_6, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 45, __pyx_L1_error)
+    __pyx_t_1 = __Pyx_PyObject_Call(__pyx_t_3, __pyx_t_6, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 46, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
     __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
   }
@@ -3786,9 +3816,9 @@ static PyObject *__pyx_pf_18EmpiricalFunctions_4ApproxPWCDFDicFromHazardRates(CY
     __pyx_t_3 = __pyx_t_1; __Pyx_INCREF(__pyx_t_3); __pyx_t_7 = 0;
     __pyx_t_8 = NULL;
   } else {
-    __pyx_t_7 = -1; __pyx_t_3 = PyObject_GetIter(__pyx_t_1); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 45, __pyx_L1_error)
+    __pyx_t_7 = -1; __pyx_t_3 = PyObject_GetIter(__pyx_t_1); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 46, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_3);
-    __pyx_t_8 = Py_TYPE(__pyx_t_3)->tp_iternext; if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 45, __pyx_L1_error)
+    __pyx_t_8 = Py_TYPE(__pyx_t_3)->tp_iternext; if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 46, __pyx_L1_error)
   }
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   for (;;) {
@@ -3796,17 +3826,17 @@ static PyObject *__pyx_pf_18EmpiricalFunctions_4ApproxPWCDFDicFromHazardRates(CY
       if (likely(PyList_CheckExact(__pyx_t_3))) {
         if (__pyx_t_7 >= PyList_GET_SIZE(__pyx_t_3)) break;
         #if CYTHON_ASSUME_SAFE_MACROS && !CYTHON_AVOID_BORROWED_REFS
-        __pyx_t_1 = PyList_GET_ITEM(__pyx_t_3, __pyx_t_7); __Pyx_INCREF(__pyx_t_1); __pyx_t_7++; if (unlikely(0 < 0)) __PYX_ERR(0, 45, __pyx_L1_error)
+        __pyx_t_1 = PyList_GET_ITEM(__pyx_t_3, __pyx_t_7); __Pyx_INCREF(__pyx_t_1); __pyx_t_7++; if (unlikely(0 < 0)) __PYX_ERR(0, 46, __pyx_L1_error)
         #else
-        __pyx_t_1 = PySequence_ITEM(__pyx_t_3, __pyx_t_7); __pyx_t_7++; if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 45, __pyx_L1_error)
+        __pyx_t_1 = PySequence_ITEM(__pyx_t_3, __pyx_t_7); __pyx_t_7++; if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 46, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_1);
         #endif
       } else {
         if (__pyx_t_7 >= PyTuple_GET_SIZE(__pyx_t_3)) break;
         #if CYTHON_ASSUME_SAFE_MACROS && !CYTHON_AVOID_BORROWED_REFS
-        __pyx_t_1 = PyTuple_GET_ITEM(__pyx_t_3, __pyx_t_7); __Pyx_INCREF(__pyx_t_1); __pyx_t_7++; if (unlikely(0 < 0)) __PYX_ERR(0, 45, __pyx_L1_error)
+        __pyx_t_1 = PyTuple_GET_ITEM(__pyx_t_3, __pyx_t_7); __Pyx_INCREF(__pyx_t_1); __pyx_t_7++; if (unlikely(0 < 0)) __PYX_ERR(0, 46, __pyx_L1_error)
         #else
-        __pyx_t_1 = PySequence_ITEM(__pyx_t_3, __pyx_t_7); __pyx_t_7++; if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 45, __pyx_L1_error)
+        __pyx_t_1 = PySequence_ITEM(__pyx_t_3, __pyx_t_7); __pyx_t_7++; if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 46, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_1);
         #endif
       }
@@ -3816,35 +3846,35 @@ static PyObject *__pyx_pf_18EmpiricalFunctions_4ApproxPWCDFDicFromHazardRates(CY
         PyObject* exc_type = PyErr_Occurred();
         if (exc_type) {
           if (likely(__Pyx_PyErr_GivenExceptionMatches(exc_type, PyExc_StopIteration))) PyErr_Clear();
-          else __PYX_ERR(0, 45, __pyx_L1_error)
+          else __PYX_ERR(0, 46, __pyx_L1_error)
         }
         break;
       }
       __Pyx_GOTREF(__pyx_t_1);
     }
-    __pyx_t_9 = __pyx_PyFloat_AsFloat(__pyx_t_1); if (unlikely((__pyx_t_9 == (float)-1) && PyErr_Occurred())) __PYX_ERR(0, 45, __pyx_L1_error)
+    __pyx_t_9 = __pyx_PyFloat_AsFloat(__pyx_t_1); if (unlikely((__pyx_t_9 == (float)-1) && PyErr_Occurred())) __PYX_ERR(0, 46, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
     __pyx_v_i = __pyx_t_9;
 
-    /* "EmpiricalFunctions.pyx":46
+    /* "EmpiricalFunctions.pyx":47
  *     res = dict()
  *     for i in np.arange(0,1,step/100):
  *         res[P(i)] = i             # <<<<<<<<<<<<<<
  *     for i in np.arange(1,10,step):
  *         res[P(i)] = i
  */
-    __pyx_t_1 = PyFloat_FromDouble(__pyx_v_i); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 46, __pyx_L1_error)
+    __pyx_t_1 = PyFloat_FromDouble(__pyx_v_i); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 47, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
-    __pyx_t_6 = PyFloat_FromDouble(__pyx_v_i); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 46, __pyx_L1_error)
+    __pyx_t_6 = PyFloat_FromDouble(__pyx_v_i); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 47, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_6);
-    __pyx_t_2 = __pyx_pf_18EmpiricalFunctions_29ApproxPWCDFDicFromHazardRates_P(__pyx_v_P, __pyx_t_6); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 46, __pyx_L1_error)
+    __pyx_t_2 = __pyx_pf_18EmpiricalFunctions_29ApproxPWCDFDicFromHazardRates_P(__pyx_v_P, __pyx_t_6); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 47, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_2);
     __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
-    if (unlikely(PyDict_SetItem(__pyx_v_res, __pyx_t_2, __pyx_t_1) < 0)) __PYX_ERR(0, 46, __pyx_L1_error)
+    if (unlikely(PyDict_SetItem(__pyx_v_res, __pyx_t_2, __pyx_t_1) < 0)) __PYX_ERR(0, 47, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-    /* "EmpiricalFunctions.pyx":45
+    /* "EmpiricalFunctions.pyx":46
  *         return p
  *     res = dict()
  *     for i in np.arange(0,1,step/100):             # <<<<<<<<<<<<<<
@@ -3854,16 +3884,16 @@ static PyObject *__pyx_pf_18EmpiricalFunctions_4ApproxPWCDFDicFromHazardRates(CY
   }
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
 
-  /* "EmpiricalFunctions.pyx":47
+  /* "EmpiricalFunctions.pyx":48
  *     for i in np.arange(0,1,step/100):
  *         res[P(i)] = i
  *     for i in np.arange(1,10,step):             # <<<<<<<<<<<<<<
  *         res[P(i)] = i
  *     for i in np.arange(10,100,step*100):
  */
-  __pyx_t_1 = __Pyx_GetModuleGlobalName(__pyx_n_s_np); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 47, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_GetModuleGlobalName(__pyx_n_s_np); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 48, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_t_1, __pyx_n_s_arange); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 47, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_t_1, __pyx_n_s_arange); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 48, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   __pyx_t_1 = NULL;
@@ -3881,7 +3911,7 @@ static PyObject *__pyx_pf_18EmpiricalFunctions_4ApproxPWCDFDicFromHazardRates(CY
   #if CYTHON_FAST_PYCALL
   if (PyFunction_Check(__pyx_t_2)) {
     PyObject *__pyx_temp[4] = {__pyx_t_1, __pyx_int_1, __pyx_int_10, __pyx_v_step};
-    __pyx_t_3 = __Pyx_PyFunction_FastCall(__pyx_t_2, __pyx_temp+1-__pyx_t_5, 3+__pyx_t_5); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 47, __pyx_L1_error)
+    __pyx_t_3 = __Pyx_PyFunction_FastCall(__pyx_t_2, __pyx_temp+1-__pyx_t_5, 3+__pyx_t_5); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 48, __pyx_L1_error)
     __Pyx_XDECREF(__pyx_t_1); __pyx_t_1 = 0;
     __Pyx_GOTREF(__pyx_t_3);
   } else
@@ -3889,13 +3919,13 @@ static PyObject *__pyx_pf_18EmpiricalFunctions_4ApproxPWCDFDicFromHazardRates(CY
   #if CYTHON_FAST_PYCCALL
   if (__Pyx_PyFastCFunction_Check(__pyx_t_2)) {
     PyObject *__pyx_temp[4] = {__pyx_t_1, __pyx_int_1, __pyx_int_10, __pyx_v_step};
-    __pyx_t_3 = __Pyx_PyCFunction_FastCall(__pyx_t_2, __pyx_temp+1-__pyx_t_5, 3+__pyx_t_5); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 47, __pyx_L1_error)
+    __pyx_t_3 = __Pyx_PyCFunction_FastCall(__pyx_t_2, __pyx_temp+1-__pyx_t_5, 3+__pyx_t_5); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 48, __pyx_L1_error)
     __Pyx_XDECREF(__pyx_t_1); __pyx_t_1 = 0;
     __Pyx_GOTREF(__pyx_t_3);
   } else
   #endif
   {
-    __pyx_t_6 = PyTuple_New(3+__pyx_t_5); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 47, __pyx_L1_error)
+    __pyx_t_6 = PyTuple_New(3+__pyx_t_5); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 48, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_6);
     if (__pyx_t_1) {
       __Pyx_GIVEREF(__pyx_t_1); PyTuple_SET_ITEM(__pyx_t_6, 0, __pyx_t_1); __pyx_t_1 = NULL;
@@ -3909,7 +3939,7 @@ static PyObject *__pyx_pf_18EmpiricalFunctions_4ApproxPWCDFDicFromHazardRates(CY
     __Pyx_INCREF(__pyx_v_step);
     __Pyx_GIVEREF(__pyx_v_step);
     PyTuple_SET_ITEM(__pyx_t_6, 2+__pyx_t_5, __pyx_v_step);
-    __pyx_t_3 = __Pyx_PyObject_Call(__pyx_t_2, __pyx_t_6, NULL); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 47, __pyx_L1_error)
+    __pyx_t_3 = __Pyx_PyObject_Call(__pyx_t_2, __pyx_t_6, NULL); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 48, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_3);
     __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
   }
@@ -3918,9 +3948,9 @@ static PyObject *__pyx_pf_18EmpiricalFunctions_4ApproxPWCDFDicFromHazardRates(CY
     __pyx_t_2 = __pyx_t_3; __Pyx_INCREF(__pyx_t_2); __pyx_t_7 = 0;
     __pyx_t_8 = NULL;
   } else {
-    __pyx_t_7 = -1; __pyx_t_2 = PyObject_GetIter(__pyx_t_3); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 47, __pyx_L1_error)
+    __pyx_t_7 = -1; __pyx_t_2 = PyObject_GetIter(__pyx_t_3); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 48, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_2);
-    __pyx_t_8 = Py_TYPE(__pyx_t_2)->tp_iternext; if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 47, __pyx_L1_error)
+    __pyx_t_8 = Py_TYPE(__pyx_t_2)->tp_iternext; if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 48, __pyx_L1_error)
   }
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
   for (;;) {
@@ -3928,17 +3958,17 @@ static PyObject *__pyx_pf_18EmpiricalFunctions_4ApproxPWCDFDicFromHazardRates(CY
       if (likely(PyList_CheckExact(__pyx_t_2))) {
         if (__pyx_t_7 >= PyList_GET_SIZE(__pyx_t_2)) break;
         #if CYTHON_ASSUME_SAFE_MACROS && !CYTHON_AVOID_BORROWED_REFS
-        __pyx_t_3 = PyList_GET_ITEM(__pyx_t_2, __pyx_t_7); __Pyx_INCREF(__pyx_t_3); __pyx_t_7++; if (unlikely(0 < 0)) __PYX_ERR(0, 47, __pyx_L1_error)
+        __pyx_t_3 = PyList_GET_ITEM(__pyx_t_2, __pyx_t_7); __Pyx_INCREF(__pyx_t_3); __pyx_t_7++; if (unlikely(0 < 0)) __PYX_ERR(0, 48, __pyx_L1_error)
         #else
-        __pyx_t_3 = PySequence_ITEM(__pyx_t_2, __pyx_t_7); __pyx_t_7++; if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 47, __pyx_L1_error)
+        __pyx_t_3 = PySequence_ITEM(__pyx_t_2, __pyx_t_7); __pyx_t_7++; if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 48, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_3);
         #endif
       } else {
         if (__pyx_t_7 >= PyTuple_GET_SIZE(__pyx_t_2)) break;
         #if CYTHON_ASSUME_SAFE_MACROS && !CYTHON_AVOID_BORROWED_REFS
-        __pyx_t_3 = PyTuple_GET_ITEM(__pyx_t_2, __pyx_t_7); __Pyx_INCREF(__pyx_t_3); __pyx_t_7++; if (unlikely(0 < 0)) __PYX_ERR(0, 47, __pyx_L1_error)
+        __pyx_t_3 = PyTuple_GET_ITEM(__pyx_t_2, __pyx_t_7); __Pyx_INCREF(__pyx_t_3); __pyx_t_7++; if (unlikely(0 < 0)) __PYX_ERR(0, 48, __pyx_L1_error)
         #else
-        __pyx_t_3 = PySequence_ITEM(__pyx_t_2, __pyx_t_7); __pyx_t_7++; if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 47, __pyx_L1_error)
+        __pyx_t_3 = PySequence_ITEM(__pyx_t_2, __pyx_t_7); __pyx_t_7++; if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 48, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_3);
         #endif
       }
@@ -3948,35 +3978,35 @@ static PyObject *__pyx_pf_18EmpiricalFunctions_4ApproxPWCDFDicFromHazardRates(CY
         PyObject* exc_type = PyErr_Occurred();
         if (exc_type) {
           if (likely(__Pyx_PyErr_GivenExceptionMatches(exc_type, PyExc_StopIteration))) PyErr_Clear();
-          else __PYX_ERR(0, 47, __pyx_L1_error)
+          else __PYX_ERR(0, 48, __pyx_L1_error)
         }
         break;
       }
       __Pyx_GOTREF(__pyx_t_3);
     }
-    __pyx_t_9 = __pyx_PyFloat_AsFloat(__pyx_t_3); if (unlikely((__pyx_t_9 == (float)-1) && PyErr_Occurred())) __PYX_ERR(0, 47, __pyx_L1_error)
+    __pyx_t_9 = __pyx_PyFloat_AsFloat(__pyx_t_3); if (unlikely((__pyx_t_9 == (float)-1) && PyErr_Occurred())) __PYX_ERR(0, 48, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
     __pyx_v_i = __pyx_t_9;
 
-    /* "EmpiricalFunctions.pyx":48
+    /* "EmpiricalFunctions.pyx":49
  *         res[P(i)] = i
  *     for i in np.arange(1,10,step):
  *         res[P(i)] = i             # <<<<<<<<<<<<<<
  *     for i in np.arange(10,100,step*100):
  *         res[P(i)] = i
  */
-    __pyx_t_3 = PyFloat_FromDouble(__pyx_v_i); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 48, __pyx_L1_error)
+    __pyx_t_3 = PyFloat_FromDouble(__pyx_v_i); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 49, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_3);
-    __pyx_t_6 = PyFloat_FromDouble(__pyx_v_i); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 48, __pyx_L1_error)
+    __pyx_t_6 = PyFloat_FromDouble(__pyx_v_i); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 49, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_6);
-    __pyx_t_1 = __pyx_pf_18EmpiricalFunctions_29ApproxPWCDFDicFromHazardRates_P(__pyx_v_P, __pyx_t_6); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 48, __pyx_L1_error)
+    __pyx_t_1 = __pyx_pf_18EmpiricalFunctions_29ApproxPWCDFDicFromHazardRates_P(__pyx_v_P, __pyx_t_6); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 49, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
     __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
-    if (unlikely(PyDict_SetItem(__pyx_v_res, __pyx_t_1, __pyx_t_3) < 0)) __PYX_ERR(0, 48, __pyx_L1_error)
+    if (unlikely(PyDict_SetItem(__pyx_v_res, __pyx_t_1, __pyx_t_3) < 0)) __PYX_ERR(0, 49, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
     __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
 
-    /* "EmpiricalFunctions.pyx":47
+    /* "EmpiricalFunctions.pyx":48
  *     for i in np.arange(0,1,step/100):
  *         res[P(i)] = i
  *     for i in np.arange(1,10,step):             # <<<<<<<<<<<<<<
@@ -3986,19 +4016,19 @@ static PyObject *__pyx_pf_18EmpiricalFunctions_4ApproxPWCDFDicFromHazardRates(CY
   }
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
-  /* "EmpiricalFunctions.pyx":49
+  /* "EmpiricalFunctions.pyx":50
  *     for i in np.arange(1,10,step):
  *         res[P(i)] = i
  *     for i in np.arange(10,100,step*100):             # <<<<<<<<<<<<<<
  *         res[P(i)] = i
  *     #return res
  */
-  __pyx_t_3 = __Pyx_GetModuleGlobalName(__pyx_n_s_np); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 49, __pyx_L1_error)
+  __pyx_t_3 = __Pyx_GetModuleGlobalName(__pyx_n_s_np); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 50, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
-  __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_t_3, __pyx_n_s_arange); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 49, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_t_3, __pyx_n_s_arange); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 50, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-  __pyx_t_3 = PyNumber_Multiply(__pyx_v_step, __pyx_int_100); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 49, __pyx_L1_error)
+  __pyx_t_3 = PyNumber_Multiply(__pyx_v_step, __pyx_int_100); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 50, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
   __pyx_t_6 = NULL;
   __pyx_t_5 = 0;
@@ -4015,7 +4045,7 @@ static PyObject *__pyx_pf_18EmpiricalFunctions_4ApproxPWCDFDicFromHazardRates(CY
   #if CYTHON_FAST_PYCALL
   if (PyFunction_Check(__pyx_t_1)) {
     PyObject *__pyx_temp[4] = {__pyx_t_6, __pyx_int_10, __pyx_int_100, __pyx_t_3};
-    __pyx_t_2 = __Pyx_PyFunction_FastCall(__pyx_t_1, __pyx_temp+1-__pyx_t_5, 3+__pyx_t_5); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 49, __pyx_L1_error)
+    __pyx_t_2 = __Pyx_PyFunction_FastCall(__pyx_t_1, __pyx_temp+1-__pyx_t_5, 3+__pyx_t_5); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 50, __pyx_L1_error)
     __Pyx_XDECREF(__pyx_t_6); __pyx_t_6 = 0;
     __Pyx_GOTREF(__pyx_t_2);
     __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
@@ -4024,14 +4054,14 @@ static PyObject *__pyx_pf_18EmpiricalFunctions_4ApproxPWCDFDicFromHazardRates(CY
   #if CYTHON_FAST_PYCCALL
   if (__Pyx_PyFastCFunction_Check(__pyx_t_1)) {
     PyObject *__pyx_temp[4] = {__pyx_t_6, __pyx_int_10, __pyx_int_100, __pyx_t_3};
-    __pyx_t_2 = __Pyx_PyCFunction_FastCall(__pyx_t_1, __pyx_temp+1-__pyx_t_5, 3+__pyx_t_5); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 49, __pyx_L1_error)
+    __pyx_t_2 = __Pyx_PyCFunction_FastCall(__pyx_t_1, __pyx_temp+1-__pyx_t_5, 3+__pyx_t_5); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 50, __pyx_L1_error)
     __Pyx_XDECREF(__pyx_t_6); __pyx_t_6 = 0;
     __Pyx_GOTREF(__pyx_t_2);
     __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
   } else
   #endif
   {
-    __pyx_t_4 = PyTuple_New(3+__pyx_t_5); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 49, __pyx_L1_error)
+    __pyx_t_4 = PyTuple_New(3+__pyx_t_5); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 50, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_4);
     if (__pyx_t_6) {
       __Pyx_GIVEREF(__pyx_t_6); PyTuple_SET_ITEM(__pyx_t_4, 0, __pyx_t_6); __pyx_t_6 = NULL;
@@ -4045,7 +4075,7 @@ static PyObject *__pyx_pf_18EmpiricalFunctions_4ApproxPWCDFDicFromHazardRates(CY
     __Pyx_GIVEREF(__pyx_t_3);
     PyTuple_SET_ITEM(__pyx_t_4, 2+__pyx_t_5, __pyx_t_3);
     __pyx_t_3 = 0;
-    __pyx_t_2 = __Pyx_PyObject_Call(__pyx_t_1, __pyx_t_4, NULL); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 49, __pyx_L1_error)
+    __pyx_t_2 = __Pyx_PyObject_Call(__pyx_t_1, __pyx_t_4, NULL); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 50, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_2);
     __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
   }
@@ -4054,9 +4084,9 @@ static PyObject *__pyx_pf_18EmpiricalFunctions_4ApproxPWCDFDicFromHazardRates(CY
     __pyx_t_1 = __pyx_t_2; __Pyx_INCREF(__pyx_t_1); __pyx_t_7 = 0;
     __pyx_t_8 = NULL;
   } else {
-    __pyx_t_7 = -1; __pyx_t_1 = PyObject_GetIter(__pyx_t_2); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 49, __pyx_L1_error)
+    __pyx_t_7 = -1; __pyx_t_1 = PyObject_GetIter(__pyx_t_2); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 50, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
-    __pyx_t_8 = Py_TYPE(__pyx_t_1)->tp_iternext; if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 49, __pyx_L1_error)
+    __pyx_t_8 = Py_TYPE(__pyx_t_1)->tp_iternext; if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 50, __pyx_L1_error)
   }
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   for (;;) {
@@ -4064,17 +4094,17 @@ static PyObject *__pyx_pf_18EmpiricalFunctions_4ApproxPWCDFDicFromHazardRates(CY
       if (likely(PyList_CheckExact(__pyx_t_1))) {
         if (__pyx_t_7 >= PyList_GET_SIZE(__pyx_t_1)) break;
         #if CYTHON_ASSUME_SAFE_MACROS && !CYTHON_AVOID_BORROWED_REFS
-        __pyx_t_2 = PyList_GET_ITEM(__pyx_t_1, __pyx_t_7); __Pyx_INCREF(__pyx_t_2); __pyx_t_7++; if (unlikely(0 < 0)) __PYX_ERR(0, 49, __pyx_L1_error)
+        __pyx_t_2 = PyList_GET_ITEM(__pyx_t_1, __pyx_t_7); __Pyx_INCREF(__pyx_t_2); __pyx_t_7++; if (unlikely(0 < 0)) __PYX_ERR(0, 50, __pyx_L1_error)
         #else
-        __pyx_t_2 = PySequence_ITEM(__pyx_t_1, __pyx_t_7); __pyx_t_7++; if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 49, __pyx_L1_error)
+        __pyx_t_2 = PySequence_ITEM(__pyx_t_1, __pyx_t_7); __pyx_t_7++; if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 50, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_2);
         #endif
       } else {
         if (__pyx_t_7 >= PyTuple_GET_SIZE(__pyx_t_1)) break;
         #if CYTHON_ASSUME_SAFE_MACROS && !CYTHON_AVOID_BORROWED_REFS
-        __pyx_t_2 = PyTuple_GET_ITEM(__pyx_t_1, __pyx_t_7); __Pyx_INCREF(__pyx_t_2); __pyx_t_7++; if (unlikely(0 < 0)) __PYX_ERR(0, 49, __pyx_L1_error)
+        __pyx_t_2 = PyTuple_GET_ITEM(__pyx_t_1, __pyx_t_7); __Pyx_INCREF(__pyx_t_2); __pyx_t_7++; if (unlikely(0 < 0)) __PYX_ERR(0, 50, __pyx_L1_error)
         #else
-        __pyx_t_2 = PySequence_ITEM(__pyx_t_1, __pyx_t_7); __pyx_t_7++; if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 49, __pyx_L1_error)
+        __pyx_t_2 = PySequence_ITEM(__pyx_t_1, __pyx_t_7); __pyx_t_7++; if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 50, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_2);
         #endif
       }
@@ -4084,35 +4114,35 @@ static PyObject *__pyx_pf_18EmpiricalFunctions_4ApproxPWCDFDicFromHazardRates(CY
         PyObject* exc_type = PyErr_Occurred();
         if (exc_type) {
           if (likely(__Pyx_PyErr_GivenExceptionMatches(exc_type, PyExc_StopIteration))) PyErr_Clear();
-          else __PYX_ERR(0, 49, __pyx_L1_error)
+          else __PYX_ERR(0, 50, __pyx_L1_error)
         }
         break;
       }
       __Pyx_GOTREF(__pyx_t_2);
     }
-    __pyx_t_9 = __pyx_PyFloat_AsFloat(__pyx_t_2); if (unlikely((__pyx_t_9 == (float)-1) && PyErr_Occurred())) __PYX_ERR(0, 49, __pyx_L1_error)
+    __pyx_t_9 = __pyx_PyFloat_AsFloat(__pyx_t_2); if (unlikely((__pyx_t_9 == (float)-1) && PyErr_Occurred())) __PYX_ERR(0, 50, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
     __pyx_v_i = __pyx_t_9;
 
-    /* "EmpiricalFunctions.pyx":50
+    /* "EmpiricalFunctions.pyx":51
  *         res[P(i)] = i
  *     for i in np.arange(10,100,step*100):
  *         res[P(i)] = i             # <<<<<<<<<<<<<<
  *     #return res
  *     #def InnerFn(u):
  */
-    __pyx_t_2 = PyFloat_FromDouble(__pyx_v_i); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 50, __pyx_L1_error)
+    __pyx_t_2 = PyFloat_FromDouble(__pyx_v_i); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 51, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_2);
-    __pyx_t_4 = PyFloat_FromDouble(__pyx_v_i); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 50, __pyx_L1_error)
+    __pyx_t_4 = PyFloat_FromDouble(__pyx_v_i); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 51, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_4);
-    __pyx_t_3 = __pyx_pf_18EmpiricalFunctions_29ApproxPWCDFDicFromHazardRates_P(__pyx_v_P, __pyx_t_4); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 50, __pyx_L1_error)
+    __pyx_t_3 = __pyx_pf_18EmpiricalFunctions_29ApproxPWCDFDicFromHazardRates_P(__pyx_v_P, __pyx_t_4); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 51, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_3);
     __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-    if (unlikely(PyDict_SetItem(__pyx_v_res, __pyx_t_3, __pyx_t_2) < 0)) __PYX_ERR(0, 50, __pyx_L1_error)
+    if (unlikely(PyDict_SetItem(__pyx_v_res, __pyx_t_3, __pyx_t_2) < 0)) __PYX_ERR(0, 51, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
     __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
-    /* "EmpiricalFunctions.pyx":49
+    /* "EmpiricalFunctions.pyx":50
  *     for i in np.arange(1,10,step):
  *         res[P(i)] = i
  *     for i in np.arange(10,100,step*100):             # <<<<<<<<<<<<<<
@@ -4122,7 +4152,7 @@ static PyObject *__pyx_pf_18EmpiricalFunctions_4ApproxPWCDFDicFromHazardRates(CY
   }
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "EmpiricalFunctions.pyx":67
+  /* "EmpiricalFunctions.pyx":68
  *     #    return fn(u,res.keys())
  *     #return InnerFn
  *     return FindClosestKeyInDicAndReturnValueAlgorithm(res), P             # <<<<<<<<<<<<<<
@@ -4130,7 +4160,7 @@ static PyObject *__pyx_pf_18EmpiricalFunctions_4ApproxPWCDFDicFromHazardRates(CY
  * 
  */
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_2 = __Pyx_GetModuleGlobalName(__pyx_n_s_FindClosestKeyInDicAndReturnValu); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 67, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_GetModuleGlobalName(__pyx_n_s_FindClosestKeyInDicAndReturnValu); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 68, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __pyx_t_3 = NULL;
   if (CYTHON_UNPACK_METHODS && unlikely(PyMethod_Check(__pyx_t_2))) {
@@ -4143,13 +4173,13 @@ static PyObject *__pyx_pf_18EmpiricalFunctions_4ApproxPWCDFDicFromHazardRates(CY
     }
   }
   if (!__pyx_t_3) {
-    __pyx_t_1 = __Pyx_PyObject_CallOneArg(__pyx_t_2, __pyx_v_res); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 67, __pyx_L1_error)
+    __pyx_t_1 = __Pyx_PyObject_CallOneArg(__pyx_t_2, __pyx_v_res); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 68, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
   } else {
     #if CYTHON_FAST_PYCALL
     if (PyFunction_Check(__pyx_t_2)) {
       PyObject *__pyx_temp[2] = {__pyx_t_3, __pyx_v_res};
-      __pyx_t_1 = __Pyx_PyFunction_FastCall(__pyx_t_2, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 67, __pyx_L1_error)
+      __pyx_t_1 = __Pyx_PyFunction_FastCall(__pyx_t_2, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 68, __pyx_L1_error)
       __Pyx_XDECREF(__pyx_t_3); __pyx_t_3 = 0;
       __Pyx_GOTREF(__pyx_t_1);
     } else
@@ -4157,25 +4187,25 @@ static PyObject *__pyx_pf_18EmpiricalFunctions_4ApproxPWCDFDicFromHazardRates(CY
     #if CYTHON_FAST_PYCCALL
     if (__Pyx_PyFastCFunction_Check(__pyx_t_2)) {
       PyObject *__pyx_temp[2] = {__pyx_t_3, __pyx_v_res};
-      __pyx_t_1 = __Pyx_PyCFunction_FastCall(__pyx_t_2, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 67, __pyx_L1_error)
+      __pyx_t_1 = __Pyx_PyCFunction_FastCall(__pyx_t_2, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 68, __pyx_L1_error)
       __Pyx_XDECREF(__pyx_t_3); __pyx_t_3 = 0;
       __Pyx_GOTREF(__pyx_t_1);
     } else
     #endif
     {
-      __pyx_t_4 = PyTuple_New(1+1); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 67, __pyx_L1_error)
+      __pyx_t_4 = PyTuple_New(1+1); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 68, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_4);
       __Pyx_GIVEREF(__pyx_t_3); PyTuple_SET_ITEM(__pyx_t_4, 0, __pyx_t_3); __pyx_t_3 = NULL;
       __Pyx_INCREF(__pyx_v_res);
       __Pyx_GIVEREF(__pyx_v_res);
       PyTuple_SET_ITEM(__pyx_t_4, 0+1, __pyx_v_res);
-      __pyx_t_1 = __Pyx_PyObject_Call(__pyx_t_2, __pyx_t_4, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 67, __pyx_L1_error)
+      __pyx_t_1 = __Pyx_PyObject_Call(__pyx_t_2, __pyx_t_4, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 68, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_1);
       __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
     }
   }
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-  __pyx_t_2 = PyTuple_New(2); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 67, __pyx_L1_error)
+  __pyx_t_2 = PyTuple_New(2); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 68, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_GIVEREF(__pyx_t_1);
   PyTuple_SET_ITEM(__pyx_t_2, 0, __pyx_t_1);
@@ -4187,7 +4217,7 @@ static PyObject *__pyx_pf_18EmpiricalFunctions_4ApproxPWCDFDicFromHazardRates(CY
   __pyx_t_2 = 0;
   goto __pyx_L0;
 
-  /* "EmpiricalFunctions.pyx":35
+  /* "EmpiricalFunctions.pyx":36
  *     return resFn
  *     #return the EmpiricalCDF function from this function.
  * def ApproxPWCDFDicFromHazardRates(l,step = 0.01):             # <<<<<<<<<<<<<<
@@ -4213,7 +4243,7 @@ static PyObject *__pyx_pf_18EmpiricalFunctions_4ApproxPWCDFDicFromHazardRates(CY
   return __pyx_r;
 }
 
-/* "EmpiricalFunctions.pyx":71
+/* "EmpiricalFunctions.pyx":72
  * 
  * 
  * cdef float fnVals(float a,np.ndarray U,res):             # <<<<<<<<<<<<<<
@@ -4238,24 +4268,24 @@ static float __pyx_f_18EmpiricalFunctions_fnVals(float __pyx_v_a, PyArrayObject 
   float __pyx_t_11;
   __Pyx_RefNannySetupContext("fnVals", 0);
 
-  /* "EmpiricalFunctions.pyx":73
+  /* "EmpiricalFunctions.pyx":74
  * cdef float fnVals(float a,np.ndarray U,res):
  *     cdef int i
  *     i = len(U) / 2 if len(U) % 2 == 0 else (len(U)-1) / 2             # <<<<<<<<<<<<<<
  *     i = int(i)
  *     if U[i-1] < a and U[i] < a:
  */
-  __pyx_t_2 = PyObject_Length(((PyObject *)__pyx_v_U)); if (unlikely(__pyx_t_2 == ((Py_ssize_t)-1))) __PYX_ERR(0, 73, __pyx_L1_error)
+  __pyx_t_2 = PyObject_Length(((PyObject *)__pyx_v_U)); if (unlikely(__pyx_t_2 == ((Py_ssize_t)-1))) __PYX_ERR(0, 74, __pyx_L1_error)
   if (((__Pyx_mod_Py_ssize_t(__pyx_t_2, 2) == 0) != 0)) {
-    __pyx_t_3 = PyObject_Length(((PyObject *)__pyx_v_U)); if (unlikely(__pyx_t_3 == ((Py_ssize_t)-1))) __PYX_ERR(0, 73, __pyx_L1_error)
+    __pyx_t_3 = PyObject_Length(((PyObject *)__pyx_v_U)); if (unlikely(__pyx_t_3 == ((Py_ssize_t)-1))) __PYX_ERR(0, 74, __pyx_L1_error)
     __pyx_t_1 = __Pyx_div_Py_ssize_t(__pyx_t_3, 2);
   } else {
-    __pyx_t_3 = PyObject_Length(((PyObject *)__pyx_v_U)); if (unlikely(__pyx_t_3 == ((Py_ssize_t)-1))) __PYX_ERR(0, 73, __pyx_L1_error)
+    __pyx_t_3 = PyObject_Length(((PyObject *)__pyx_v_U)); if (unlikely(__pyx_t_3 == ((Py_ssize_t)-1))) __PYX_ERR(0, 74, __pyx_L1_error)
     __pyx_t_1 = __Pyx_div_Py_ssize_t((__pyx_t_3 - 1), 2);
   }
   __pyx_v_i = __pyx_t_1;
 
-  /* "EmpiricalFunctions.pyx":74
+  /* "EmpiricalFunctions.pyx":75
  *     cdef int i
  *     i = len(U) / 2 if len(U) % 2 == 0 else (len(U)-1) / 2
  *     i = int(i)             # <<<<<<<<<<<<<<
@@ -4264,7 +4294,7 @@ static float __pyx_f_18EmpiricalFunctions_fnVals(float __pyx_v_a, PyArrayObject 
  */
 
 
-  /* "EmpiricalFunctions.pyx":75
+  /* "EmpiricalFunctions.pyx":76
  *     i = len(U) / 2 if len(U) % 2 == 0 else (len(U)-1) / 2
  *     i = int(i)
  *     if U[i-1] < a and U[i] < a:             # <<<<<<<<<<<<<<
@@ -4272,49 +4302,49 @@ static float __pyx_f_18EmpiricalFunctions_fnVals(float __pyx_v_a, PyArrayObject 
  *     elif U[i] > a and U[i-1] > a:
  */
   __pyx_t_5 = (__pyx_v_i - 1);
-  __pyx_t_6 = __Pyx_GetItemInt(((PyObject *)__pyx_v_U), __pyx_t_5, long, 1, __Pyx_PyInt_From_long, 0, 1, 1); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 75, __pyx_L1_error)
+  __pyx_t_6 = __Pyx_GetItemInt(((PyObject *)__pyx_v_U), __pyx_t_5, long, 1, __Pyx_PyInt_From_long, 0, 1, 1); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 76, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_6);
-  __pyx_t_7 = PyFloat_FromDouble(__pyx_v_a); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 75, __pyx_L1_error)
+  __pyx_t_7 = PyFloat_FromDouble(__pyx_v_a); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 76, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_7);
-  __pyx_t_8 = PyObject_RichCompare(__pyx_t_6, __pyx_t_7, Py_LT); __Pyx_XGOTREF(__pyx_t_8); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 75, __pyx_L1_error)
+  __pyx_t_8 = PyObject_RichCompare(__pyx_t_6, __pyx_t_7, Py_LT); __Pyx_XGOTREF(__pyx_t_8); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 76, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
   __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
-  __pyx_t_9 = __Pyx_PyObject_IsTrue(__pyx_t_8); if (unlikely(__pyx_t_9 < 0)) __PYX_ERR(0, 75, __pyx_L1_error)
+  __pyx_t_9 = __Pyx_PyObject_IsTrue(__pyx_t_8); if (unlikely(__pyx_t_9 < 0)) __PYX_ERR(0, 76, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
   if (__pyx_t_9) {
   } else {
     __pyx_t_4 = __pyx_t_9;
     goto __pyx_L4_bool_binop_done;
   }
-  __pyx_t_8 = __Pyx_GetItemInt(((PyObject *)__pyx_v_U), __pyx_v_i, int, 1, __Pyx_PyInt_From_int, 0, 1, 1); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 75, __pyx_L1_error)
+  __pyx_t_8 = __Pyx_GetItemInt(((PyObject *)__pyx_v_U), __pyx_v_i, int, 1, __Pyx_PyInt_From_int, 0, 1, 1); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 76, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_8);
-  __pyx_t_7 = PyFloat_FromDouble(__pyx_v_a); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 75, __pyx_L1_error)
+  __pyx_t_7 = PyFloat_FromDouble(__pyx_v_a); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 76, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_7);
-  __pyx_t_6 = PyObject_RichCompare(__pyx_t_8, __pyx_t_7, Py_LT); __Pyx_XGOTREF(__pyx_t_6); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 75, __pyx_L1_error)
+  __pyx_t_6 = PyObject_RichCompare(__pyx_t_8, __pyx_t_7, Py_LT); __Pyx_XGOTREF(__pyx_t_6); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 76, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
   __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
-  __pyx_t_9 = __Pyx_PyObject_IsTrue(__pyx_t_6); if (unlikely(__pyx_t_9 < 0)) __PYX_ERR(0, 75, __pyx_L1_error)
+  __pyx_t_9 = __Pyx_PyObject_IsTrue(__pyx_t_6); if (unlikely(__pyx_t_9 < 0)) __PYX_ERR(0, 76, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
   __pyx_t_4 = __pyx_t_9;
   __pyx_L4_bool_binop_done:;
   if (__pyx_t_4) {
 
-    /* "EmpiricalFunctions.pyx":76
+    /* "EmpiricalFunctions.pyx":77
  *     i = int(i)
  *     if U[i-1] < a and U[i] < a:
  *         return fnVals(a,U[i:],res) if len(U) - i > 1 else max(res.values())             # <<<<<<<<<<<<<<
  *     elif U[i] > a and U[i-1] > a:
  *         return fnVals(a,U[0:i],res) if i > 1 else min(res.values())
  */
-    __pyx_t_1 = PyObject_Length(((PyObject *)__pyx_v_U)); if (unlikely(__pyx_t_1 == ((Py_ssize_t)-1))) __PYX_ERR(0, 76, __pyx_L1_error)
+    __pyx_t_1 = PyObject_Length(((PyObject *)__pyx_v_U)); if (unlikely(__pyx_t_1 == ((Py_ssize_t)-1))) __PYX_ERR(0, 77, __pyx_L1_error)
     if ((((__pyx_t_1 - __pyx_v_i) > 1) != 0)) {
-      __pyx_t_6 = __Pyx_PyObject_GetSlice(((PyObject *)__pyx_v_U), __pyx_v_i, 0, NULL, NULL, NULL, 1, 0, 1); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 76, __pyx_L1_error)
+      __pyx_t_6 = __Pyx_PyObject_GetSlice(((PyObject *)__pyx_v_U), __pyx_v_i, 0, NULL, NULL, NULL, 1, 0, 1); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 77, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_6);
-      if (!(likely(((__pyx_t_6) == Py_None) || likely(__Pyx_TypeTest(__pyx_t_6, __pyx_ptype_5numpy_ndarray))))) __PYX_ERR(0, 76, __pyx_L1_error)
+      if (!(likely(((__pyx_t_6) == Py_None) || likely(__Pyx_TypeTest(__pyx_t_6, __pyx_ptype_5numpy_ndarray))))) __PYX_ERR(0, 77, __pyx_L1_error)
       __pyx_t_10 = __pyx_f_18EmpiricalFunctions_fnVals(__pyx_v_a, ((PyArrayObject *)__pyx_t_6), __pyx_v_res);
       __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
     } else {
-      __pyx_t_7 = __Pyx_PyObject_GetAttrStr(__pyx_v_res, __pyx_n_s_values); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 76, __pyx_L1_error)
+      __pyx_t_7 = __Pyx_PyObject_GetAttrStr(__pyx_v_res, __pyx_n_s_values); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 77, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_7);
       __pyx_t_8 = NULL;
       if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_7))) {
@@ -4327,29 +4357,29 @@ static float __pyx_f_18EmpiricalFunctions_fnVals(float __pyx_v_a, PyArrayObject 
         }
       }
       if (__pyx_t_8) {
-        __pyx_t_6 = __Pyx_PyObject_CallOneArg(__pyx_t_7, __pyx_t_8); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 76, __pyx_L1_error)
+        __pyx_t_6 = __Pyx_PyObject_CallOneArg(__pyx_t_7, __pyx_t_8); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 77, __pyx_L1_error)
         __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
       } else {
-        __pyx_t_6 = __Pyx_PyObject_CallNoArg(__pyx_t_7); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 76, __pyx_L1_error)
+        __pyx_t_6 = __Pyx_PyObject_CallNoArg(__pyx_t_7); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 77, __pyx_L1_error)
       }
       __Pyx_GOTREF(__pyx_t_6);
       __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
-      __pyx_t_7 = PyTuple_New(1); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 76, __pyx_L1_error)
+      __pyx_t_7 = PyTuple_New(1); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 77, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_7);
       __Pyx_GIVEREF(__pyx_t_6);
       PyTuple_SET_ITEM(__pyx_t_7, 0, __pyx_t_6);
       __pyx_t_6 = 0;
-      __pyx_t_6 = __Pyx_PyObject_Call(__pyx_builtin_max, __pyx_t_7, NULL); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 76, __pyx_L1_error)
+      __pyx_t_6 = __Pyx_PyObject_Call(__pyx_builtin_max, __pyx_t_7, NULL); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 77, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_6);
       __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
-      __pyx_t_11 = __pyx_PyFloat_AsFloat(__pyx_t_6); if (unlikely((__pyx_t_11 == (float)-1) && PyErr_Occurred())) __PYX_ERR(0, 76, __pyx_L1_error)
+      __pyx_t_11 = __pyx_PyFloat_AsFloat(__pyx_t_6); if (unlikely((__pyx_t_11 == (float)-1) && PyErr_Occurred())) __PYX_ERR(0, 77, __pyx_L1_error)
       __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
       __pyx_t_10 = __pyx_t_11;
     }
     __pyx_r = __pyx_t_10;
     goto __pyx_L0;
 
-    /* "EmpiricalFunctions.pyx":75
+    /* "EmpiricalFunctions.pyx":76
  *     i = len(U) / 2 if len(U) % 2 == 0 else (len(U)-1) / 2
  *     i = int(i)
  *     if U[i-1] < a and U[i] < a:             # <<<<<<<<<<<<<<
@@ -4358,21 +4388,21 @@ static float __pyx_f_18EmpiricalFunctions_fnVals(float __pyx_v_a, PyArrayObject 
  */
   }
 
-  /* "EmpiricalFunctions.pyx":77
+  /* "EmpiricalFunctions.pyx":78
  *     if U[i-1] < a and U[i] < a:
  *         return fnVals(a,U[i:],res) if len(U) - i > 1 else max(res.values())
  *     elif U[i] > a and U[i-1] > a:             # <<<<<<<<<<<<<<
  *         return fnVals(a,U[0:i],res) if i > 1 else min(res.values())
  *     elif U[i-1] == a:
  */
-  __pyx_t_6 = __Pyx_GetItemInt(((PyObject *)__pyx_v_U), __pyx_v_i, int, 1, __Pyx_PyInt_From_int, 0, 1, 1); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 77, __pyx_L1_error)
+  __pyx_t_6 = __Pyx_GetItemInt(((PyObject *)__pyx_v_U), __pyx_v_i, int, 1, __Pyx_PyInt_From_int, 0, 1, 1); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 78, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_6);
-  __pyx_t_7 = PyFloat_FromDouble(__pyx_v_a); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 77, __pyx_L1_error)
+  __pyx_t_7 = PyFloat_FromDouble(__pyx_v_a); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 78, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_7);
-  __pyx_t_8 = PyObject_RichCompare(__pyx_t_6, __pyx_t_7, Py_GT); __Pyx_XGOTREF(__pyx_t_8); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 77, __pyx_L1_error)
+  __pyx_t_8 = PyObject_RichCompare(__pyx_t_6, __pyx_t_7, Py_GT); __Pyx_XGOTREF(__pyx_t_8); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 78, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
   __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
-  __pyx_t_9 = __Pyx_PyObject_IsTrue(__pyx_t_8); if (unlikely(__pyx_t_9 < 0)) __PYX_ERR(0, 77, __pyx_L1_error)
+  __pyx_t_9 = __Pyx_PyObject_IsTrue(__pyx_t_8); if (unlikely(__pyx_t_9 < 0)) __PYX_ERR(0, 78, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
   if (__pyx_t_9) {
   } else {
@@ -4380,20 +4410,20 @@ static float __pyx_f_18EmpiricalFunctions_fnVals(float __pyx_v_a, PyArrayObject 
     goto __pyx_L6_bool_binop_done;
   }
   __pyx_t_5 = (__pyx_v_i - 1);
-  __pyx_t_8 = __Pyx_GetItemInt(((PyObject *)__pyx_v_U), __pyx_t_5, long, 1, __Pyx_PyInt_From_long, 0, 1, 1); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 77, __pyx_L1_error)
+  __pyx_t_8 = __Pyx_GetItemInt(((PyObject *)__pyx_v_U), __pyx_t_5, long, 1, __Pyx_PyInt_From_long, 0, 1, 1); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 78, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_8);
-  __pyx_t_7 = PyFloat_FromDouble(__pyx_v_a); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 77, __pyx_L1_error)
+  __pyx_t_7 = PyFloat_FromDouble(__pyx_v_a); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 78, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_7);
-  __pyx_t_6 = PyObject_RichCompare(__pyx_t_8, __pyx_t_7, Py_GT); __Pyx_XGOTREF(__pyx_t_6); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 77, __pyx_L1_error)
+  __pyx_t_6 = PyObject_RichCompare(__pyx_t_8, __pyx_t_7, Py_GT); __Pyx_XGOTREF(__pyx_t_6); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 78, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
   __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
-  __pyx_t_9 = __Pyx_PyObject_IsTrue(__pyx_t_6); if (unlikely(__pyx_t_9 < 0)) __PYX_ERR(0, 77, __pyx_L1_error)
+  __pyx_t_9 = __Pyx_PyObject_IsTrue(__pyx_t_6); if (unlikely(__pyx_t_9 < 0)) __PYX_ERR(0, 78, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
   __pyx_t_4 = __pyx_t_9;
   __pyx_L6_bool_binop_done:;
   if (__pyx_t_4) {
 
-    /* "EmpiricalFunctions.pyx":78
+    /* "EmpiricalFunctions.pyx":79
  *         return fnVals(a,U[i:],res) if len(U) - i > 1 else max(res.values())
  *     elif U[i] > a and U[i-1] > a:
  *         return fnVals(a,U[0:i],res) if i > 1 else min(res.values())             # <<<<<<<<<<<<<<
@@ -4401,13 +4431,13 @@ static float __pyx_f_18EmpiricalFunctions_fnVals(float __pyx_v_a, PyArrayObject 
  *         return res[U[i-1]]
  */
     if (((__pyx_v_i > 1) != 0)) {
-      __pyx_t_6 = __Pyx_PyObject_GetSlice(((PyObject *)__pyx_v_U), 0, __pyx_v_i, NULL, NULL, NULL, 1, 1, 1); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 78, __pyx_L1_error)
+      __pyx_t_6 = __Pyx_PyObject_GetSlice(((PyObject *)__pyx_v_U), 0, __pyx_v_i, NULL, NULL, NULL, 1, 1, 1); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 79, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_6);
-      if (!(likely(((__pyx_t_6) == Py_None) || likely(__Pyx_TypeTest(__pyx_t_6, __pyx_ptype_5numpy_ndarray))))) __PYX_ERR(0, 78, __pyx_L1_error)
+      if (!(likely(((__pyx_t_6) == Py_None) || likely(__Pyx_TypeTest(__pyx_t_6, __pyx_ptype_5numpy_ndarray))))) __PYX_ERR(0, 79, __pyx_L1_error)
       __pyx_t_10 = __pyx_f_18EmpiricalFunctions_fnVals(__pyx_v_a, ((PyArrayObject *)__pyx_t_6), __pyx_v_res);
       __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
     } else {
-      __pyx_t_7 = __Pyx_PyObject_GetAttrStr(__pyx_v_res, __pyx_n_s_values); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 78, __pyx_L1_error)
+      __pyx_t_7 = __Pyx_PyObject_GetAttrStr(__pyx_v_res, __pyx_n_s_values); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 79, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_7);
       __pyx_t_8 = NULL;
       if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_7))) {
@@ -4420,29 +4450,29 @@ static float __pyx_f_18EmpiricalFunctions_fnVals(float __pyx_v_a, PyArrayObject 
         }
       }
       if (__pyx_t_8) {
-        __pyx_t_6 = __Pyx_PyObject_CallOneArg(__pyx_t_7, __pyx_t_8); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 78, __pyx_L1_error)
+        __pyx_t_6 = __Pyx_PyObject_CallOneArg(__pyx_t_7, __pyx_t_8); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 79, __pyx_L1_error)
         __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
       } else {
-        __pyx_t_6 = __Pyx_PyObject_CallNoArg(__pyx_t_7); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 78, __pyx_L1_error)
+        __pyx_t_6 = __Pyx_PyObject_CallNoArg(__pyx_t_7); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 79, __pyx_L1_error)
       }
       __Pyx_GOTREF(__pyx_t_6);
       __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
-      __pyx_t_7 = PyTuple_New(1); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 78, __pyx_L1_error)
+      __pyx_t_7 = PyTuple_New(1); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 79, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_7);
       __Pyx_GIVEREF(__pyx_t_6);
       PyTuple_SET_ITEM(__pyx_t_7, 0, __pyx_t_6);
       __pyx_t_6 = 0;
-      __pyx_t_6 = __Pyx_PyObject_Call(__pyx_builtin_min, __pyx_t_7, NULL); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 78, __pyx_L1_error)
+      __pyx_t_6 = __Pyx_PyObject_Call(__pyx_builtin_min, __pyx_t_7, NULL); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 79, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_6);
       __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
-      __pyx_t_11 = __pyx_PyFloat_AsFloat(__pyx_t_6); if (unlikely((__pyx_t_11 == (float)-1) && PyErr_Occurred())) __PYX_ERR(0, 78, __pyx_L1_error)
+      __pyx_t_11 = __pyx_PyFloat_AsFloat(__pyx_t_6); if (unlikely((__pyx_t_11 == (float)-1) && PyErr_Occurred())) __PYX_ERR(0, 79, __pyx_L1_error)
       __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
       __pyx_t_10 = __pyx_t_11;
     }
     __pyx_r = __pyx_t_10;
     goto __pyx_L0;
 
-    /* "EmpiricalFunctions.pyx":77
+    /* "EmpiricalFunctions.pyx":78
  *     if U[i-1] < a and U[i] < a:
  *         return fnVals(a,U[i:],res) if len(U) - i > 1 else max(res.values())
  *     elif U[i] > a and U[i-1] > a:             # <<<<<<<<<<<<<<
@@ -4451,7 +4481,7 @@ static float __pyx_f_18EmpiricalFunctions_fnVals(float __pyx_v_a, PyArrayObject 
  */
   }
 
-  /* "EmpiricalFunctions.pyx":79
+  /* "EmpiricalFunctions.pyx":80
  *     elif U[i] > a and U[i-1] > a:
  *         return fnVals(a,U[0:i],res) if i > 1 else min(res.values())
  *     elif U[i-1] == a:             # <<<<<<<<<<<<<<
@@ -4459,18 +4489,18 @@ static float __pyx_f_18EmpiricalFunctions_fnVals(float __pyx_v_a, PyArrayObject 
  *     else:
  */
   __pyx_t_5 = (__pyx_v_i - 1);
-  __pyx_t_6 = __Pyx_GetItemInt(((PyObject *)__pyx_v_U), __pyx_t_5, long, 1, __Pyx_PyInt_From_long, 0, 1, 1); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 79, __pyx_L1_error)
+  __pyx_t_6 = __Pyx_GetItemInt(((PyObject *)__pyx_v_U), __pyx_t_5, long, 1, __Pyx_PyInt_From_long, 0, 1, 1); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 80, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_6);
-  __pyx_t_7 = PyFloat_FromDouble(__pyx_v_a); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 79, __pyx_L1_error)
+  __pyx_t_7 = PyFloat_FromDouble(__pyx_v_a); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 80, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_7);
-  __pyx_t_8 = PyObject_RichCompare(__pyx_t_6, __pyx_t_7, Py_EQ); __Pyx_XGOTREF(__pyx_t_8); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 79, __pyx_L1_error)
+  __pyx_t_8 = PyObject_RichCompare(__pyx_t_6, __pyx_t_7, Py_EQ); __Pyx_XGOTREF(__pyx_t_8); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 80, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
   __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
-  __pyx_t_4 = __Pyx_PyObject_IsTrue(__pyx_t_8); if (unlikely(__pyx_t_4 < 0)) __PYX_ERR(0, 79, __pyx_L1_error)
+  __pyx_t_4 = __Pyx_PyObject_IsTrue(__pyx_t_8); if (unlikely(__pyx_t_4 < 0)) __PYX_ERR(0, 80, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
   if (__pyx_t_4) {
 
-    /* "EmpiricalFunctions.pyx":80
+    /* "EmpiricalFunctions.pyx":81
  *         return fnVals(a,U[0:i],res) if i > 1 else min(res.values())
  *     elif U[i-1] == a:
  *         return res[U[i-1]]             # <<<<<<<<<<<<<<
@@ -4478,17 +4508,17 @@ static float __pyx_f_18EmpiricalFunctions_fnVals(float __pyx_v_a, PyArrayObject 
  *         return res[U[i]]
  */
     __pyx_t_5 = (__pyx_v_i - 1);
-    __pyx_t_8 = __Pyx_GetItemInt(((PyObject *)__pyx_v_U), __pyx_t_5, long, 1, __Pyx_PyInt_From_long, 0, 1, 1); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 80, __pyx_L1_error)
+    __pyx_t_8 = __Pyx_GetItemInt(((PyObject *)__pyx_v_U), __pyx_t_5, long, 1, __Pyx_PyInt_From_long, 0, 1, 1); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 81, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_8);
-    __pyx_t_7 = PyObject_GetItem(__pyx_v_res, __pyx_t_8); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 80, __pyx_L1_error)
+    __pyx_t_7 = PyObject_GetItem(__pyx_v_res, __pyx_t_8); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 81, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_7);
     __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
-    __pyx_t_10 = __pyx_PyFloat_AsFloat(__pyx_t_7); if (unlikely((__pyx_t_10 == (float)-1) && PyErr_Occurred())) __PYX_ERR(0, 80, __pyx_L1_error)
+    __pyx_t_10 = __pyx_PyFloat_AsFloat(__pyx_t_7); if (unlikely((__pyx_t_10 == (float)-1) && PyErr_Occurred())) __PYX_ERR(0, 81, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
     __pyx_r = __pyx_t_10;
     goto __pyx_L0;
 
-    /* "EmpiricalFunctions.pyx":79
+    /* "EmpiricalFunctions.pyx":80
  *     elif U[i] > a and U[i-1] > a:
  *         return fnVals(a,U[0:i],res) if i > 1 else min(res.values())
  *     elif U[i-1] == a:             # <<<<<<<<<<<<<<
@@ -4497,7 +4527,7 @@ static float __pyx_f_18EmpiricalFunctions_fnVals(float __pyx_v_a, PyArrayObject 
  */
   }
 
-  /* "EmpiricalFunctions.pyx":82
+  /* "EmpiricalFunctions.pyx":83
  *         return res[U[i-1]]
  *     else:
  *         return res[U[i]]             # <<<<<<<<<<<<<<
@@ -4505,18 +4535,18 @@ static float __pyx_f_18EmpiricalFunctions_fnVals(float __pyx_v_a, PyArrayObject 
  * cdef np.ndarray fKeys(a,np.ndarray U):
  */
   /*else*/ {
-    __pyx_t_7 = __Pyx_GetItemInt(((PyObject *)__pyx_v_U), __pyx_v_i, int, 1, __Pyx_PyInt_From_int, 0, 1, 1); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 82, __pyx_L1_error)
+    __pyx_t_7 = __Pyx_GetItemInt(((PyObject *)__pyx_v_U), __pyx_v_i, int, 1, __Pyx_PyInt_From_int, 0, 1, 1); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 83, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_7);
-    __pyx_t_8 = PyObject_GetItem(__pyx_v_res, __pyx_t_7); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 82, __pyx_L1_error)
+    __pyx_t_8 = PyObject_GetItem(__pyx_v_res, __pyx_t_7); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 83, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_8);
     __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
-    __pyx_t_10 = __pyx_PyFloat_AsFloat(__pyx_t_8); if (unlikely((__pyx_t_10 == (float)-1) && PyErr_Occurred())) __PYX_ERR(0, 82, __pyx_L1_error)
+    __pyx_t_10 = __pyx_PyFloat_AsFloat(__pyx_t_8); if (unlikely((__pyx_t_10 == (float)-1) && PyErr_Occurred())) __PYX_ERR(0, 83, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
     __pyx_r = __pyx_t_10;
     goto __pyx_L0;
   }
 
-  /* "EmpiricalFunctions.pyx":71
+  /* "EmpiricalFunctions.pyx":72
  * 
  * 
  * cdef float fnVals(float a,np.ndarray U,res):             # <<<<<<<<<<<<<<
@@ -4536,7 +4566,7 @@ static float __pyx_f_18EmpiricalFunctions_fnVals(float __pyx_v_a, PyArrayObject 
   return __pyx_r;
 }
 
-/* "EmpiricalFunctions.pyx":84
+/* "EmpiricalFunctions.pyx":85
  *         return res[U[i]]
  * 
  * cdef np.ndarray fKeys(a,np.ndarray U):             # <<<<<<<<<<<<<<
@@ -4562,24 +4592,24 @@ static PyArrayObject *__pyx_f_18EmpiricalFunctions_fKeys(PyObject *__pyx_v_a, Py
   PyObject *__pyx_t_12 = NULL;
   __Pyx_RefNannySetupContext("fKeys", 0);
 
-  /* "EmpiricalFunctions.pyx":86
+  /* "EmpiricalFunctions.pyx":87
  * cdef np.ndarray fKeys(a,np.ndarray U):
  *     cdef int i
  *     i = len(U) / 2 if len(U) % 2 == 0 else (len(U)-1) / 2             # <<<<<<<<<<<<<<
  *     i = int(i)
  *     if U[i-1] < a and U[i] < a:
  */
-  __pyx_t_2 = PyObject_Length(((PyObject *)__pyx_v_U)); if (unlikely(__pyx_t_2 == ((Py_ssize_t)-1))) __PYX_ERR(0, 86, __pyx_L1_error)
+  __pyx_t_2 = PyObject_Length(((PyObject *)__pyx_v_U)); if (unlikely(__pyx_t_2 == ((Py_ssize_t)-1))) __PYX_ERR(0, 87, __pyx_L1_error)
   if (((__Pyx_mod_Py_ssize_t(__pyx_t_2, 2) == 0) != 0)) {
-    __pyx_t_3 = PyObject_Length(((PyObject *)__pyx_v_U)); if (unlikely(__pyx_t_3 == ((Py_ssize_t)-1))) __PYX_ERR(0, 86, __pyx_L1_error)
+    __pyx_t_3 = PyObject_Length(((PyObject *)__pyx_v_U)); if (unlikely(__pyx_t_3 == ((Py_ssize_t)-1))) __PYX_ERR(0, 87, __pyx_L1_error)
     __pyx_t_1 = __Pyx_div_Py_ssize_t(__pyx_t_3, 2);
   } else {
-    __pyx_t_3 = PyObject_Length(((PyObject *)__pyx_v_U)); if (unlikely(__pyx_t_3 == ((Py_ssize_t)-1))) __PYX_ERR(0, 86, __pyx_L1_error)
+    __pyx_t_3 = PyObject_Length(((PyObject *)__pyx_v_U)); if (unlikely(__pyx_t_3 == ((Py_ssize_t)-1))) __PYX_ERR(0, 87, __pyx_L1_error)
     __pyx_t_1 = __Pyx_div_Py_ssize_t((__pyx_t_3 - 1), 2);
   }
   __pyx_v_i = __pyx_t_1;
 
-  /* "EmpiricalFunctions.pyx":87
+  /* "EmpiricalFunctions.pyx":88
  *     cdef int i
  *     i = len(U) / 2 if len(U) % 2 == 0 else (len(U)-1) / 2
  *     i = int(i)             # <<<<<<<<<<<<<<
@@ -4588,7 +4618,7 @@ static PyArrayObject *__pyx_f_18EmpiricalFunctions_fKeys(PyObject *__pyx_v_a, Py
  */
 
 
-  /* "EmpiricalFunctions.pyx":88
+  /* "EmpiricalFunctions.pyx":89
  *     i = len(U) / 2 if len(U) % 2 == 0 else (len(U)-1) / 2
  *     i = int(i)
  *     if U[i-1] < a and U[i] < a:             # <<<<<<<<<<<<<<
@@ -4596,28 +4626,28 @@ static PyArrayObject *__pyx_f_18EmpiricalFunctions_fKeys(PyObject *__pyx_v_a, Py
  *     elif U[i] > a and U[i-1] > a:
  */
   __pyx_t_5 = (__pyx_v_i - 1);
-  __pyx_t_6 = __Pyx_GetItemInt(((PyObject *)__pyx_v_U), __pyx_t_5, long, 1, __Pyx_PyInt_From_long, 0, 1, 1); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 88, __pyx_L1_error)
+  __pyx_t_6 = __Pyx_GetItemInt(((PyObject *)__pyx_v_U), __pyx_t_5, long, 1, __Pyx_PyInt_From_long, 0, 1, 1); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 89, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_6);
-  __pyx_t_7 = PyObject_RichCompare(__pyx_t_6, __pyx_v_a, Py_LT); __Pyx_XGOTREF(__pyx_t_7); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 88, __pyx_L1_error)
+  __pyx_t_7 = PyObject_RichCompare(__pyx_t_6, __pyx_v_a, Py_LT); __Pyx_XGOTREF(__pyx_t_7); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 89, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
-  __pyx_t_8 = __Pyx_PyObject_IsTrue(__pyx_t_7); if (unlikely(__pyx_t_8 < 0)) __PYX_ERR(0, 88, __pyx_L1_error)
+  __pyx_t_8 = __Pyx_PyObject_IsTrue(__pyx_t_7); if (unlikely(__pyx_t_8 < 0)) __PYX_ERR(0, 89, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
   if (__pyx_t_8) {
   } else {
     __pyx_t_4 = __pyx_t_8;
     goto __pyx_L4_bool_binop_done;
   }
-  __pyx_t_7 = __Pyx_GetItemInt(((PyObject *)__pyx_v_U), __pyx_v_i, int, 1, __Pyx_PyInt_From_int, 0, 1, 1); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 88, __pyx_L1_error)
+  __pyx_t_7 = __Pyx_GetItemInt(((PyObject *)__pyx_v_U), __pyx_v_i, int, 1, __Pyx_PyInt_From_int, 0, 1, 1); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 89, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_7);
-  __pyx_t_6 = PyObject_RichCompare(__pyx_t_7, __pyx_v_a, Py_LT); __Pyx_XGOTREF(__pyx_t_6); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 88, __pyx_L1_error)
+  __pyx_t_6 = PyObject_RichCompare(__pyx_t_7, __pyx_v_a, Py_LT); __Pyx_XGOTREF(__pyx_t_6); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 89, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
-  __pyx_t_8 = __Pyx_PyObject_IsTrue(__pyx_t_6); if (unlikely(__pyx_t_8 < 0)) __PYX_ERR(0, 88, __pyx_L1_error)
+  __pyx_t_8 = __Pyx_PyObject_IsTrue(__pyx_t_6); if (unlikely(__pyx_t_8 < 0)) __PYX_ERR(0, 89, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
   __pyx_t_4 = __pyx_t_8;
   __pyx_L4_bool_binop_done:;
   if (__pyx_t_4) {
 
-    /* "EmpiricalFunctions.pyx":89
+    /* "EmpiricalFunctions.pyx":90
  *     i = int(i)
  *     if U[i-1] < a and U[i] < a:
  *         return fKeys(a,U[i:]) if len(U) - i > 1 else np.asarray([max(U)])             # <<<<<<<<<<<<<<
@@ -4625,31 +4655,31 @@ static PyArrayObject *__pyx_f_18EmpiricalFunctions_fKeys(PyObject *__pyx_v_a, Py
  *         return fKeys(a,U[0:i]) if i > 1 else np.asarray([min(U)])
  */
     __Pyx_XDECREF(((PyObject *)__pyx_r));
-    __pyx_t_1 = PyObject_Length(((PyObject *)__pyx_v_U)); if (unlikely(__pyx_t_1 == ((Py_ssize_t)-1))) __PYX_ERR(0, 89, __pyx_L1_error)
+    __pyx_t_1 = PyObject_Length(((PyObject *)__pyx_v_U)); if (unlikely(__pyx_t_1 == ((Py_ssize_t)-1))) __PYX_ERR(0, 90, __pyx_L1_error)
     if ((((__pyx_t_1 - __pyx_v_i) > 1) != 0)) {
-      __pyx_t_7 = __Pyx_PyObject_GetSlice(((PyObject *)__pyx_v_U), __pyx_v_i, 0, NULL, NULL, NULL, 1, 0, 1); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 89, __pyx_L1_error)
+      __pyx_t_7 = __Pyx_PyObject_GetSlice(((PyObject *)__pyx_v_U), __pyx_v_i, 0, NULL, NULL, NULL, 1, 0, 1); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 90, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_7);
-      if (!(likely(((__pyx_t_7) == Py_None) || likely(__Pyx_TypeTest(__pyx_t_7, __pyx_ptype_5numpy_ndarray))))) __PYX_ERR(0, 89, __pyx_L1_error)
-      __pyx_t_9 = ((PyObject *)__pyx_f_18EmpiricalFunctions_fKeys(__pyx_v_a, ((PyArrayObject *)__pyx_t_7))); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 89, __pyx_L1_error)
+      if (!(likely(((__pyx_t_7) == Py_None) || likely(__Pyx_TypeTest(__pyx_t_7, __pyx_ptype_5numpy_ndarray))))) __PYX_ERR(0, 90, __pyx_L1_error)
+      __pyx_t_9 = ((PyObject *)__pyx_f_18EmpiricalFunctions_fKeys(__pyx_v_a, ((PyArrayObject *)__pyx_t_7))); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 90, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_9);
       __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
       __pyx_t_6 = __pyx_t_9;
       __pyx_t_9 = 0;
     } else {
-      __pyx_t_7 = __Pyx_GetModuleGlobalName(__pyx_n_s_np); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 89, __pyx_L1_error)
+      __pyx_t_7 = __Pyx_GetModuleGlobalName(__pyx_n_s_np); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 90, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_7);
-      __pyx_t_10 = __Pyx_PyObject_GetAttrStr(__pyx_t_7, __pyx_n_s_asarray); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 89, __pyx_L1_error)
+      __pyx_t_10 = __Pyx_PyObject_GetAttrStr(__pyx_t_7, __pyx_n_s_asarray); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 90, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_10);
       __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
-      __pyx_t_7 = PyTuple_New(1); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 89, __pyx_L1_error)
+      __pyx_t_7 = PyTuple_New(1); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 90, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_7);
       __Pyx_INCREF(((PyObject *)__pyx_v_U));
       __Pyx_GIVEREF(((PyObject *)__pyx_v_U));
       PyTuple_SET_ITEM(__pyx_t_7, 0, ((PyObject *)__pyx_v_U));
-      __pyx_t_11 = __Pyx_PyObject_Call(__pyx_builtin_max, __pyx_t_7, NULL); if (unlikely(!__pyx_t_11)) __PYX_ERR(0, 89, __pyx_L1_error)
+      __pyx_t_11 = __Pyx_PyObject_Call(__pyx_builtin_max, __pyx_t_7, NULL); if (unlikely(!__pyx_t_11)) __PYX_ERR(0, 90, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_11);
       __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
-      __pyx_t_7 = PyList_New(1); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 89, __pyx_L1_error)
+      __pyx_t_7 = PyList_New(1); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 90, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_7);
       __Pyx_GIVEREF(__pyx_t_11);
       PyList_SET_ITEM(__pyx_t_7, 0, __pyx_t_11);
@@ -4665,14 +4695,14 @@ static PyArrayObject *__pyx_f_18EmpiricalFunctions_fKeys(PyObject *__pyx_v_a, Py
         }
       }
       if (!__pyx_t_11) {
-        __pyx_t_9 = __Pyx_PyObject_CallOneArg(__pyx_t_10, __pyx_t_7); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 89, __pyx_L1_error)
+        __pyx_t_9 = __Pyx_PyObject_CallOneArg(__pyx_t_10, __pyx_t_7); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 90, __pyx_L1_error)
         __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
         __Pyx_GOTREF(__pyx_t_9);
       } else {
         #if CYTHON_FAST_PYCALL
         if (PyFunction_Check(__pyx_t_10)) {
           PyObject *__pyx_temp[2] = {__pyx_t_11, __pyx_t_7};
-          __pyx_t_9 = __Pyx_PyFunction_FastCall(__pyx_t_10, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 89, __pyx_L1_error)
+          __pyx_t_9 = __Pyx_PyFunction_FastCall(__pyx_t_10, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 90, __pyx_L1_error)
           __Pyx_XDECREF(__pyx_t_11); __pyx_t_11 = 0;
           __Pyx_GOTREF(__pyx_t_9);
           __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
@@ -4681,26 +4711,26 @@ static PyArrayObject *__pyx_f_18EmpiricalFunctions_fKeys(PyObject *__pyx_v_a, Py
         #if CYTHON_FAST_PYCCALL
         if (__Pyx_PyFastCFunction_Check(__pyx_t_10)) {
           PyObject *__pyx_temp[2] = {__pyx_t_11, __pyx_t_7};
-          __pyx_t_9 = __Pyx_PyCFunction_FastCall(__pyx_t_10, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 89, __pyx_L1_error)
+          __pyx_t_9 = __Pyx_PyCFunction_FastCall(__pyx_t_10, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 90, __pyx_L1_error)
           __Pyx_XDECREF(__pyx_t_11); __pyx_t_11 = 0;
           __Pyx_GOTREF(__pyx_t_9);
           __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
         } else
         #endif
         {
-          __pyx_t_12 = PyTuple_New(1+1); if (unlikely(!__pyx_t_12)) __PYX_ERR(0, 89, __pyx_L1_error)
+          __pyx_t_12 = PyTuple_New(1+1); if (unlikely(!__pyx_t_12)) __PYX_ERR(0, 90, __pyx_L1_error)
           __Pyx_GOTREF(__pyx_t_12);
           __Pyx_GIVEREF(__pyx_t_11); PyTuple_SET_ITEM(__pyx_t_12, 0, __pyx_t_11); __pyx_t_11 = NULL;
           __Pyx_GIVEREF(__pyx_t_7);
           PyTuple_SET_ITEM(__pyx_t_12, 0+1, __pyx_t_7);
           __pyx_t_7 = 0;
-          __pyx_t_9 = __Pyx_PyObject_Call(__pyx_t_10, __pyx_t_12, NULL); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 89, __pyx_L1_error)
+          __pyx_t_9 = __Pyx_PyObject_Call(__pyx_t_10, __pyx_t_12, NULL); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 90, __pyx_L1_error)
           __Pyx_GOTREF(__pyx_t_9);
           __Pyx_DECREF(__pyx_t_12); __pyx_t_12 = 0;
         }
       }
       __Pyx_DECREF(__pyx_t_10); __pyx_t_10 = 0;
-      if (!(likely(((__pyx_t_9) == Py_None) || likely(__Pyx_TypeTest(__pyx_t_9, __pyx_ptype_5numpy_ndarray))))) __PYX_ERR(0, 89, __pyx_L1_error)
+      if (!(likely(((__pyx_t_9) == Py_None) || likely(__Pyx_TypeTest(__pyx_t_9, __pyx_ptype_5numpy_ndarray))))) __PYX_ERR(0, 90, __pyx_L1_error)
       __pyx_t_6 = __pyx_t_9;
       __pyx_t_9 = 0;
     }
@@ -4708,7 +4738,7 @@ static PyArrayObject *__pyx_f_18EmpiricalFunctions_fKeys(PyObject *__pyx_v_a, Py
     __pyx_t_6 = 0;
     goto __pyx_L0;
 
-    /* "EmpiricalFunctions.pyx":88
+    /* "EmpiricalFunctions.pyx":89
  *     i = len(U) / 2 if len(U) % 2 == 0 else (len(U)-1) / 2
  *     i = int(i)
  *     if U[i-1] < a and U[i] < a:             # <<<<<<<<<<<<<<
@@ -4717,18 +4747,18 @@ static PyArrayObject *__pyx_f_18EmpiricalFunctions_fKeys(PyObject *__pyx_v_a, Py
  */
   }
 
-  /* "EmpiricalFunctions.pyx":90
+  /* "EmpiricalFunctions.pyx":91
  *     if U[i-1] < a and U[i] < a:
  *         return fKeys(a,U[i:]) if len(U) - i > 1 else np.asarray([max(U)])
  *     elif U[i] > a and U[i-1] > a:             # <<<<<<<<<<<<<<
  *         return fKeys(a,U[0:i]) if i > 1 else np.asarray([min(U)])
  *     elif U[i-1] == a or U[i] == a:
  */
-  __pyx_t_6 = __Pyx_GetItemInt(((PyObject *)__pyx_v_U), __pyx_v_i, int, 1, __Pyx_PyInt_From_int, 0, 1, 1); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 90, __pyx_L1_error)
+  __pyx_t_6 = __Pyx_GetItemInt(((PyObject *)__pyx_v_U), __pyx_v_i, int, 1, __Pyx_PyInt_From_int, 0, 1, 1); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 91, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_6);
-  __pyx_t_9 = PyObject_RichCompare(__pyx_t_6, __pyx_v_a, Py_GT); __Pyx_XGOTREF(__pyx_t_9); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 90, __pyx_L1_error)
+  __pyx_t_9 = PyObject_RichCompare(__pyx_t_6, __pyx_v_a, Py_GT); __Pyx_XGOTREF(__pyx_t_9); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 91, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
-  __pyx_t_8 = __Pyx_PyObject_IsTrue(__pyx_t_9); if (unlikely(__pyx_t_8 < 0)) __PYX_ERR(0, 90, __pyx_L1_error)
+  __pyx_t_8 = __Pyx_PyObject_IsTrue(__pyx_t_9); if (unlikely(__pyx_t_8 < 0)) __PYX_ERR(0, 91, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_9); __pyx_t_9 = 0;
   if (__pyx_t_8) {
   } else {
@@ -4736,17 +4766,17 @@ static PyArrayObject *__pyx_f_18EmpiricalFunctions_fKeys(PyObject *__pyx_v_a, Py
     goto __pyx_L6_bool_binop_done;
   }
   __pyx_t_5 = (__pyx_v_i - 1);
-  __pyx_t_9 = __Pyx_GetItemInt(((PyObject *)__pyx_v_U), __pyx_t_5, long, 1, __Pyx_PyInt_From_long, 0, 1, 1); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 90, __pyx_L1_error)
+  __pyx_t_9 = __Pyx_GetItemInt(((PyObject *)__pyx_v_U), __pyx_t_5, long, 1, __Pyx_PyInt_From_long, 0, 1, 1); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 91, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_9);
-  __pyx_t_6 = PyObject_RichCompare(__pyx_t_9, __pyx_v_a, Py_GT); __Pyx_XGOTREF(__pyx_t_6); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 90, __pyx_L1_error)
+  __pyx_t_6 = PyObject_RichCompare(__pyx_t_9, __pyx_v_a, Py_GT); __Pyx_XGOTREF(__pyx_t_6); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 91, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_9); __pyx_t_9 = 0;
-  __pyx_t_8 = __Pyx_PyObject_IsTrue(__pyx_t_6); if (unlikely(__pyx_t_8 < 0)) __PYX_ERR(0, 90, __pyx_L1_error)
+  __pyx_t_8 = __Pyx_PyObject_IsTrue(__pyx_t_6); if (unlikely(__pyx_t_8 < 0)) __PYX_ERR(0, 91, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
   __pyx_t_4 = __pyx_t_8;
   __pyx_L6_bool_binop_done:;
   if (__pyx_t_4) {
 
-    /* "EmpiricalFunctions.pyx":91
+    /* "EmpiricalFunctions.pyx":92
  *         return fKeys(a,U[i:]) if len(U) - i > 1 else np.asarray([max(U)])
  *     elif U[i] > a and U[i-1] > a:
  *         return fKeys(a,U[0:i]) if i > 1 else np.asarray([min(U)])             # <<<<<<<<<<<<<<
@@ -4755,29 +4785,29 @@ static PyArrayObject *__pyx_f_18EmpiricalFunctions_fKeys(PyObject *__pyx_v_a, Py
  */
     __Pyx_XDECREF(((PyObject *)__pyx_r));
     if (((__pyx_v_i > 1) != 0)) {
-      __pyx_t_9 = __Pyx_PyObject_GetSlice(((PyObject *)__pyx_v_U), 0, __pyx_v_i, NULL, NULL, NULL, 1, 1, 1); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 91, __pyx_L1_error)
+      __pyx_t_9 = __Pyx_PyObject_GetSlice(((PyObject *)__pyx_v_U), 0, __pyx_v_i, NULL, NULL, NULL, 1, 1, 1); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 92, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_9);
-      if (!(likely(((__pyx_t_9) == Py_None) || likely(__Pyx_TypeTest(__pyx_t_9, __pyx_ptype_5numpy_ndarray))))) __PYX_ERR(0, 91, __pyx_L1_error)
-      __pyx_t_10 = ((PyObject *)__pyx_f_18EmpiricalFunctions_fKeys(__pyx_v_a, ((PyArrayObject *)__pyx_t_9))); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 91, __pyx_L1_error)
+      if (!(likely(((__pyx_t_9) == Py_None) || likely(__Pyx_TypeTest(__pyx_t_9, __pyx_ptype_5numpy_ndarray))))) __PYX_ERR(0, 92, __pyx_L1_error)
+      __pyx_t_10 = ((PyObject *)__pyx_f_18EmpiricalFunctions_fKeys(__pyx_v_a, ((PyArrayObject *)__pyx_t_9))); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 92, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_10);
       __Pyx_DECREF(__pyx_t_9); __pyx_t_9 = 0;
       __pyx_t_6 = __pyx_t_10;
       __pyx_t_10 = 0;
     } else {
-      __pyx_t_9 = __Pyx_GetModuleGlobalName(__pyx_n_s_np); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 91, __pyx_L1_error)
+      __pyx_t_9 = __Pyx_GetModuleGlobalName(__pyx_n_s_np); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 92, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_9);
-      __pyx_t_12 = __Pyx_PyObject_GetAttrStr(__pyx_t_9, __pyx_n_s_asarray); if (unlikely(!__pyx_t_12)) __PYX_ERR(0, 91, __pyx_L1_error)
+      __pyx_t_12 = __Pyx_PyObject_GetAttrStr(__pyx_t_9, __pyx_n_s_asarray); if (unlikely(!__pyx_t_12)) __PYX_ERR(0, 92, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_12);
       __Pyx_DECREF(__pyx_t_9); __pyx_t_9 = 0;
-      __pyx_t_9 = PyTuple_New(1); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 91, __pyx_L1_error)
+      __pyx_t_9 = PyTuple_New(1); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 92, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_9);
       __Pyx_INCREF(((PyObject *)__pyx_v_U));
       __Pyx_GIVEREF(((PyObject *)__pyx_v_U));
       PyTuple_SET_ITEM(__pyx_t_9, 0, ((PyObject *)__pyx_v_U));
-      __pyx_t_7 = __Pyx_PyObject_Call(__pyx_builtin_min, __pyx_t_9, NULL); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 91, __pyx_L1_error)
+      __pyx_t_7 = __Pyx_PyObject_Call(__pyx_builtin_min, __pyx_t_9, NULL); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 92, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_7);
       __Pyx_DECREF(__pyx_t_9); __pyx_t_9 = 0;
-      __pyx_t_9 = PyList_New(1); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 91, __pyx_L1_error)
+      __pyx_t_9 = PyList_New(1); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 92, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_9);
       __Pyx_GIVEREF(__pyx_t_7);
       PyList_SET_ITEM(__pyx_t_9, 0, __pyx_t_7);
@@ -4793,14 +4823,14 @@ static PyArrayObject *__pyx_f_18EmpiricalFunctions_fKeys(PyObject *__pyx_v_a, Py
         }
       }
       if (!__pyx_t_7) {
-        __pyx_t_10 = __Pyx_PyObject_CallOneArg(__pyx_t_12, __pyx_t_9); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 91, __pyx_L1_error)
+        __pyx_t_10 = __Pyx_PyObject_CallOneArg(__pyx_t_12, __pyx_t_9); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 92, __pyx_L1_error)
         __Pyx_DECREF(__pyx_t_9); __pyx_t_9 = 0;
         __Pyx_GOTREF(__pyx_t_10);
       } else {
         #if CYTHON_FAST_PYCALL
         if (PyFunction_Check(__pyx_t_12)) {
           PyObject *__pyx_temp[2] = {__pyx_t_7, __pyx_t_9};
-          __pyx_t_10 = __Pyx_PyFunction_FastCall(__pyx_t_12, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 91, __pyx_L1_error)
+          __pyx_t_10 = __Pyx_PyFunction_FastCall(__pyx_t_12, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 92, __pyx_L1_error)
           __Pyx_XDECREF(__pyx_t_7); __pyx_t_7 = 0;
           __Pyx_GOTREF(__pyx_t_10);
           __Pyx_DECREF(__pyx_t_9); __pyx_t_9 = 0;
@@ -4809,26 +4839,26 @@ static PyArrayObject *__pyx_f_18EmpiricalFunctions_fKeys(PyObject *__pyx_v_a, Py
         #if CYTHON_FAST_PYCCALL
         if (__Pyx_PyFastCFunction_Check(__pyx_t_12)) {
           PyObject *__pyx_temp[2] = {__pyx_t_7, __pyx_t_9};
-          __pyx_t_10 = __Pyx_PyCFunction_FastCall(__pyx_t_12, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 91, __pyx_L1_error)
+          __pyx_t_10 = __Pyx_PyCFunction_FastCall(__pyx_t_12, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 92, __pyx_L1_error)
           __Pyx_XDECREF(__pyx_t_7); __pyx_t_7 = 0;
           __Pyx_GOTREF(__pyx_t_10);
           __Pyx_DECREF(__pyx_t_9); __pyx_t_9 = 0;
         } else
         #endif
         {
-          __pyx_t_11 = PyTuple_New(1+1); if (unlikely(!__pyx_t_11)) __PYX_ERR(0, 91, __pyx_L1_error)
+          __pyx_t_11 = PyTuple_New(1+1); if (unlikely(!__pyx_t_11)) __PYX_ERR(0, 92, __pyx_L1_error)
           __Pyx_GOTREF(__pyx_t_11);
           __Pyx_GIVEREF(__pyx_t_7); PyTuple_SET_ITEM(__pyx_t_11, 0, __pyx_t_7); __pyx_t_7 = NULL;
           __Pyx_GIVEREF(__pyx_t_9);
           PyTuple_SET_ITEM(__pyx_t_11, 0+1, __pyx_t_9);
           __pyx_t_9 = 0;
-          __pyx_t_10 = __Pyx_PyObject_Call(__pyx_t_12, __pyx_t_11, NULL); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 91, __pyx_L1_error)
+          __pyx_t_10 = __Pyx_PyObject_Call(__pyx_t_12, __pyx_t_11, NULL); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 92, __pyx_L1_error)
           __Pyx_GOTREF(__pyx_t_10);
           __Pyx_DECREF(__pyx_t_11); __pyx_t_11 = 0;
         }
       }
       __Pyx_DECREF(__pyx_t_12); __pyx_t_12 = 0;
-      if (!(likely(((__pyx_t_10) == Py_None) || likely(__Pyx_TypeTest(__pyx_t_10, __pyx_ptype_5numpy_ndarray))))) __PYX_ERR(0, 91, __pyx_L1_error)
+      if (!(likely(((__pyx_t_10) == Py_None) || likely(__Pyx_TypeTest(__pyx_t_10, __pyx_ptype_5numpy_ndarray))))) __PYX_ERR(0, 92, __pyx_L1_error)
       __pyx_t_6 = __pyx_t_10;
       __pyx_t_10 = 0;
     }
@@ -4836,7 +4866,7 @@ static PyArrayObject *__pyx_f_18EmpiricalFunctions_fKeys(PyObject *__pyx_v_a, Py
     __pyx_t_6 = 0;
     goto __pyx_L0;
 
-    /* "EmpiricalFunctions.pyx":90
+    /* "EmpiricalFunctions.pyx":91
  *     if U[i-1] < a and U[i] < a:
  *         return fKeys(a,U[i:]) if len(U) - i > 1 else np.asarray([max(U)])
  *     elif U[i] > a and U[i-1] > a:             # <<<<<<<<<<<<<<
@@ -4845,7 +4875,7 @@ static PyArrayObject *__pyx_f_18EmpiricalFunctions_fKeys(PyObject *__pyx_v_a, Py
  */
   }
 
-  /* "EmpiricalFunctions.pyx":92
+  /* "EmpiricalFunctions.pyx":93
  *     elif U[i] > a and U[i-1] > a:
  *         return fKeys(a,U[0:i]) if i > 1 else np.asarray([min(U)])
  *     elif U[i-1] == a or U[i] == a:             # <<<<<<<<<<<<<<
@@ -4853,28 +4883,28 @@ static PyArrayObject *__pyx_f_18EmpiricalFunctions_fKeys(PyObject *__pyx_v_a, Py
  *     else:
  */
   __pyx_t_5 = (__pyx_v_i - 1);
-  __pyx_t_6 = __Pyx_GetItemInt(((PyObject *)__pyx_v_U), __pyx_t_5, long, 1, __Pyx_PyInt_From_long, 0, 1, 1); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 92, __pyx_L1_error)
+  __pyx_t_6 = __Pyx_GetItemInt(((PyObject *)__pyx_v_U), __pyx_t_5, long, 1, __Pyx_PyInt_From_long, 0, 1, 1); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 93, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_6);
-  __pyx_t_10 = PyObject_RichCompare(__pyx_t_6, __pyx_v_a, Py_EQ); __Pyx_XGOTREF(__pyx_t_10); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 92, __pyx_L1_error)
+  __pyx_t_10 = PyObject_RichCompare(__pyx_t_6, __pyx_v_a, Py_EQ); __Pyx_XGOTREF(__pyx_t_10); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 93, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
-  __pyx_t_8 = __Pyx_PyObject_IsTrue(__pyx_t_10); if (unlikely(__pyx_t_8 < 0)) __PYX_ERR(0, 92, __pyx_L1_error)
+  __pyx_t_8 = __Pyx_PyObject_IsTrue(__pyx_t_10); if (unlikely(__pyx_t_8 < 0)) __PYX_ERR(0, 93, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_10); __pyx_t_10 = 0;
   if (!__pyx_t_8) {
   } else {
     __pyx_t_4 = __pyx_t_8;
     goto __pyx_L8_bool_binop_done;
   }
-  __pyx_t_10 = __Pyx_GetItemInt(((PyObject *)__pyx_v_U), __pyx_v_i, int, 1, __Pyx_PyInt_From_int, 0, 1, 1); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 92, __pyx_L1_error)
+  __pyx_t_10 = __Pyx_GetItemInt(((PyObject *)__pyx_v_U), __pyx_v_i, int, 1, __Pyx_PyInt_From_int, 0, 1, 1); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 93, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_10);
-  __pyx_t_6 = PyObject_RichCompare(__pyx_t_10, __pyx_v_a, Py_EQ); __Pyx_XGOTREF(__pyx_t_6); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 92, __pyx_L1_error)
+  __pyx_t_6 = PyObject_RichCompare(__pyx_t_10, __pyx_v_a, Py_EQ); __Pyx_XGOTREF(__pyx_t_6); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 93, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_10); __pyx_t_10 = 0;
-  __pyx_t_8 = __Pyx_PyObject_IsTrue(__pyx_t_6); if (unlikely(__pyx_t_8 < 0)) __PYX_ERR(0, 92, __pyx_L1_error)
+  __pyx_t_8 = __Pyx_PyObject_IsTrue(__pyx_t_6); if (unlikely(__pyx_t_8 < 0)) __PYX_ERR(0, 93, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
   __pyx_t_4 = __pyx_t_8;
   __pyx_L8_bool_binop_done:;
   if (__pyx_t_4) {
 
-    /* "EmpiricalFunctions.pyx":93
+    /* "EmpiricalFunctions.pyx":94
  *         return fKeys(a,U[0:i]) if i > 1 else np.asarray([min(U)])
  *     elif U[i-1] == a or U[i] == a:
  *         return np.asarray([a])             # <<<<<<<<<<<<<<
@@ -4882,12 +4912,12 @@ static PyArrayObject *__pyx_f_18EmpiricalFunctions_fKeys(PyObject *__pyx_v_a, Py
  *         return np.asarray([U[i-1],U[i]])
  */
     __Pyx_XDECREF(((PyObject *)__pyx_r));
-    __pyx_t_10 = __Pyx_GetModuleGlobalName(__pyx_n_s_np); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 93, __pyx_L1_error)
+    __pyx_t_10 = __Pyx_GetModuleGlobalName(__pyx_n_s_np); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 94, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_10);
-    __pyx_t_12 = __Pyx_PyObject_GetAttrStr(__pyx_t_10, __pyx_n_s_asarray); if (unlikely(!__pyx_t_12)) __PYX_ERR(0, 93, __pyx_L1_error)
+    __pyx_t_12 = __Pyx_PyObject_GetAttrStr(__pyx_t_10, __pyx_n_s_asarray); if (unlikely(!__pyx_t_12)) __PYX_ERR(0, 94, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_12);
     __Pyx_DECREF(__pyx_t_10); __pyx_t_10 = 0;
-    __pyx_t_10 = PyList_New(1); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 93, __pyx_L1_error)
+    __pyx_t_10 = PyList_New(1); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 94, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_10);
     __Pyx_INCREF(__pyx_v_a);
     __Pyx_GIVEREF(__pyx_v_a);
@@ -4903,14 +4933,14 @@ static PyArrayObject *__pyx_f_18EmpiricalFunctions_fKeys(PyObject *__pyx_v_a, Py
       }
     }
     if (!__pyx_t_11) {
-      __pyx_t_6 = __Pyx_PyObject_CallOneArg(__pyx_t_12, __pyx_t_10); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 93, __pyx_L1_error)
+      __pyx_t_6 = __Pyx_PyObject_CallOneArg(__pyx_t_12, __pyx_t_10); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 94, __pyx_L1_error)
       __Pyx_DECREF(__pyx_t_10); __pyx_t_10 = 0;
       __Pyx_GOTREF(__pyx_t_6);
     } else {
       #if CYTHON_FAST_PYCALL
       if (PyFunction_Check(__pyx_t_12)) {
         PyObject *__pyx_temp[2] = {__pyx_t_11, __pyx_t_10};
-        __pyx_t_6 = __Pyx_PyFunction_FastCall(__pyx_t_12, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 93, __pyx_L1_error)
+        __pyx_t_6 = __Pyx_PyFunction_FastCall(__pyx_t_12, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 94, __pyx_L1_error)
         __Pyx_XDECREF(__pyx_t_11); __pyx_t_11 = 0;
         __Pyx_GOTREF(__pyx_t_6);
         __Pyx_DECREF(__pyx_t_10); __pyx_t_10 = 0;
@@ -4919,31 +4949,31 @@ static PyArrayObject *__pyx_f_18EmpiricalFunctions_fKeys(PyObject *__pyx_v_a, Py
       #if CYTHON_FAST_PYCCALL
       if (__Pyx_PyFastCFunction_Check(__pyx_t_12)) {
         PyObject *__pyx_temp[2] = {__pyx_t_11, __pyx_t_10};
-        __pyx_t_6 = __Pyx_PyCFunction_FastCall(__pyx_t_12, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 93, __pyx_L1_error)
+        __pyx_t_6 = __Pyx_PyCFunction_FastCall(__pyx_t_12, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 94, __pyx_L1_error)
         __Pyx_XDECREF(__pyx_t_11); __pyx_t_11 = 0;
         __Pyx_GOTREF(__pyx_t_6);
         __Pyx_DECREF(__pyx_t_10); __pyx_t_10 = 0;
       } else
       #endif
       {
-        __pyx_t_9 = PyTuple_New(1+1); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 93, __pyx_L1_error)
+        __pyx_t_9 = PyTuple_New(1+1); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 94, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_9);
         __Pyx_GIVEREF(__pyx_t_11); PyTuple_SET_ITEM(__pyx_t_9, 0, __pyx_t_11); __pyx_t_11 = NULL;
         __Pyx_GIVEREF(__pyx_t_10);
         PyTuple_SET_ITEM(__pyx_t_9, 0+1, __pyx_t_10);
         __pyx_t_10 = 0;
-        __pyx_t_6 = __Pyx_PyObject_Call(__pyx_t_12, __pyx_t_9, NULL); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 93, __pyx_L1_error)
+        __pyx_t_6 = __Pyx_PyObject_Call(__pyx_t_12, __pyx_t_9, NULL); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 94, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_6);
         __Pyx_DECREF(__pyx_t_9); __pyx_t_9 = 0;
       }
     }
     __Pyx_DECREF(__pyx_t_12); __pyx_t_12 = 0;
-    if (!(likely(((__pyx_t_6) == Py_None) || likely(__Pyx_TypeTest(__pyx_t_6, __pyx_ptype_5numpy_ndarray))))) __PYX_ERR(0, 93, __pyx_L1_error)
+    if (!(likely(((__pyx_t_6) == Py_None) || likely(__Pyx_TypeTest(__pyx_t_6, __pyx_ptype_5numpy_ndarray))))) __PYX_ERR(0, 94, __pyx_L1_error)
     __pyx_r = ((PyArrayObject *)__pyx_t_6);
     __pyx_t_6 = 0;
     goto __pyx_L0;
 
-    /* "EmpiricalFunctions.pyx":92
+    /* "EmpiricalFunctions.pyx":93
  *     elif U[i] > a and U[i-1] > a:
  *         return fKeys(a,U[0:i]) if i > 1 else np.asarray([min(U)])
  *     elif U[i-1] == a or U[i] == a:             # <<<<<<<<<<<<<<
@@ -4952,26 +4982,26 @@ static PyArrayObject *__pyx_f_18EmpiricalFunctions_fKeys(PyObject *__pyx_v_a, Py
  */
   }
 
-  /* "EmpiricalFunctions.pyx":95
+  /* "EmpiricalFunctions.pyx":96
  *         return np.asarray([a])
  *     else:
  *         return np.asarray([U[i-1],U[i]])             # <<<<<<<<<<<<<<
  * 
- * def FindClosestKeyInDicAndReturnValueAlgorithm(Res):
+ * def longlist2array(longlist):
  */
   /*else*/ {
     __Pyx_XDECREF(((PyObject *)__pyx_r));
-    __pyx_t_12 = __Pyx_GetModuleGlobalName(__pyx_n_s_np); if (unlikely(!__pyx_t_12)) __PYX_ERR(0, 95, __pyx_L1_error)
+    __pyx_t_12 = __Pyx_GetModuleGlobalName(__pyx_n_s_np); if (unlikely(!__pyx_t_12)) __PYX_ERR(0, 96, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_12);
-    __pyx_t_9 = __Pyx_PyObject_GetAttrStr(__pyx_t_12, __pyx_n_s_asarray); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 95, __pyx_L1_error)
+    __pyx_t_9 = __Pyx_PyObject_GetAttrStr(__pyx_t_12, __pyx_n_s_asarray); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 96, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_9);
     __Pyx_DECREF(__pyx_t_12); __pyx_t_12 = 0;
     __pyx_t_5 = (__pyx_v_i - 1);
-    __pyx_t_12 = __Pyx_GetItemInt(((PyObject *)__pyx_v_U), __pyx_t_5, long, 1, __Pyx_PyInt_From_long, 0, 1, 1); if (unlikely(!__pyx_t_12)) __PYX_ERR(0, 95, __pyx_L1_error)
+    __pyx_t_12 = __Pyx_GetItemInt(((PyObject *)__pyx_v_U), __pyx_t_5, long, 1, __Pyx_PyInt_From_long, 0, 1, 1); if (unlikely(!__pyx_t_12)) __PYX_ERR(0, 96, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_12);
-    __pyx_t_10 = __Pyx_GetItemInt(((PyObject *)__pyx_v_U), __pyx_v_i, int, 1, __Pyx_PyInt_From_int, 0, 1, 1); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 95, __pyx_L1_error)
+    __pyx_t_10 = __Pyx_GetItemInt(((PyObject *)__pyx_v_U), __pyx_v_i, int, 1, __Pyx_PyInt_From_int, 0, 1, 1); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 96, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_10);
-    __pyx_t_11 = PyList_New(2); if (unlikely(!__pyx_t_11)) __PYX_ERR(0, 95, __pyx_L1_error)
+    __pyx_t_11 = PyList_New(2); if (unlikely(!__pyx_t_11)) __PYX_ERR(0, 96, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_11);
     __Pyx_GIVEREF(__pyx_t_12);
     PyList_SET_ITEM(__pyx_t_11, 0, __pyx_t_12);
@@ -4990,14 +5020,14 @@ static PyArrayObject *__pyx_f_18EmpiricalFunctions_fKeys(PyObject *__pyx_v_a, Py
       }
     }
     if (!__pyx_t_10) {
-      __pyx_t_6 = __Pyx_PyObject_CallOneArg(__pyx_t_9, __pyx_t_11); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 95, __pyx_L1_error)
+      __pyx_t_6 = __Pyx_PyObject_CallOneArg(__pyx_t_9, __pyx_t_11); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 96, __pyx_L1_error)
       __Pyx_DECREF(__pyx_t_11); __pyx_t_11 = 0;
       __Pyx_GOTREF(__pyx_t_6);
     } else {
       #if CYTHON_FAST_PYCALL
       if (PyFunction_Check(__pyx_t_9)) {
         PyObject *__pyx_temp[2] = {__pyx_t_10, __pyx_t_11};
-        __pyx_t_6 = __Pyx_PyFunction_FastCall(__pyx_t_9, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 95, __pyx_L1_error)
+        __pyx_t_6 = __Pyx_PyFunction_FastCall(__pyx_t_9, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 96, __pyx_L1_error)
         __Pyx_XDECREF(__pyx_t_10); __pyx_t_10 = 0;
         __Pyx_GOTREF(__pyx_t_6);
         __Pyx_DECREF(__pyx_t_11); __pyx_t_11 = 0;
@@ -5006,32 +5036,32 @@ static PyArrayObject *__pyx_f_18EmpiricalFunctions_fKeys(PyObject *__pyx_v_a, Py
       #if CYTHON_FAST_PYCCALL
       if (__Pyx_PyFastCFunction_Check(__pyx_t_9)) {
         PyObject *__pyx_temp[2] = {__pyx_t_10, __pyx_t_11};
-        __pyx_t_6 = __Pyx_PyCFunction_FastCall(__pyx_t_9, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 95, __pyx_L1_error)
+        __pyx_t_6 = __Pyx_PyCFunction_FastCall(__pyx_t_9, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 96, __pyx_L1_error)
         __Pyx_XDECREF(__pyx_t_10); __pyx_t_10 = 0;
         __Pyx_GOTREF(__pyx_t_6);
         __Pyx_DECREF(__pyx_t_11); __pyx_t_11 = 0;
       } else
       #endif
       {
-        __pyx_t_12 = PyTuple_New(1+1); if (unlikely(!__pyx_t_12)) __PYX_ERR(0, 95, __pyx_L1_error)
+        __pyx_t_12 = PyTuple_New(1+1); if (unlikely(!__pyx_t_12)) __PYX_ERR(0, 96, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_12);
         __Pyx_GIVEREF(__pyx_t_10); PyTuple_SET_ITEM(__pyx_t_12, 0, __pyx_t_10); __pyx_t_10 = NULL;
         __Pyx_GIVEREF(__pyx_t_11);
         PyTuple_SET_ITEM(__pyx_t_12, 0+1, __pyx_t_11);
         __pyx_t_11 = 0;
-        __pyx_t_6 = __Pyx_PyObject_Call(__pyx_t_9, __pyx_t_12, NULL); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 95, __pyx_L1_error)
+        __pyx_t_6 = __Pyx_PyObject_Call(__pyx_t_9, __pyx_t_12, NULL); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 96, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_6);
         __Pyx_DECREF(__pyx_t_12); __pyx_t_12 = 0;
       }
     }
     __Pyx_DECREF(__pyx_t_9); __pyx_t_9 = 0;
-    if (!(likely(((__pyx_t_6) == Py_None) || likely(__Pyx_TypeTest(__pyx_t_6, __pyx_ptype_5numpy_ndarray))))) __PYX_ERR(0, 95, __pyx_L1_error)
+    if (!(likely(((__pyx_t_6) == Py_None) || likely(__Pyx_TypeTest(__pyx_t_6, __pyx_ptype_5numpy_ndarray))))) __PYX_ERR(0, 96, __pyx_L1_error)
     __pyx_r = ((PyArrayObject *)__pyx_t_6);
     __pyx_t_6 = 0;
     goto __pyx_L0;
   }
 
-  /* "EmpiricalFunctions.pyx":84
+  /* "EmpiricalFunctions.pyx":85
  *         return res[U[i]]
  * 
  * cdef np.ndarray fKeys(a,np.ndarray U):             # <<<<<<<<<<<<<<
@@ -5055,8 +5085,498 @@ static PyArrayObject *__pyx_f_18EmpiricalFunctions_fKeys(PyObject *__pyx_v_a, Py
   return __pyx_r;
 }
 
-/* "EmpiricalFunctions.pyx":97
+/* "EmpiricalFunctions.pyx":98
  *         return np.asarray([U[i-1],U[i]])
+ * 
+ * def longlist2array(longlist):             # <<<<<<<<<<<<<<
+ *     flat = np.fromiter(chain.from_iterable(longlist), np.array(longlist[0][0]).dtype, -1) # Without intermediate list:)
+ *     return flat.reshape((len(longlist), -1))
+ */
+
+/* Python wrapper */
+static PyObject *__pyx_pw_18EmpiricalFunctions_7longlist2array(PyObject *__pyx_self, PyObject *__pyx_v_longlist); /*proto*/
+static PyMethodDef __pyx_mdef_18EmpiricalFunctions_7longlist2array = {"longlist2array", (PyCFunction)__pyx_pw_18EmpiricalFunctions_7longlist2array, METH_O, 0};
+static PyObject *__pyx_pw_18EmpiricalFunctions_7longlist2array(PyObject *__pyx_self, PyObject *__pyx_v_longlist) {
+  PyObject *__pyx_r = 0;
+  __Pyx_RefNannyDeclarations
+  __Pyx_RefNannySetupContext("longlist2array (wrapper)", 0);
+  __pyx_r = __pyx_pf_18EmpiricalFunctions_6longlist2array(__pyx_self, ((PyObject *)__pyx_v_longlist));
+
+  /* function exit code */
+  __Pyx_RefNannyFinishContext();
+  return __pyx_r;
+}
+
+static PyObject *__pyx_pf_18EmpiricalFunctions_6longlist2array(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_longlist) {
+  PyObject *__pyx_v_flat = NULL;
+  PyObject *__pyx_r = NULL;
+  __Pyx_RefNannyDeclarations
+  PyObject *__pyx_t_1 = NULL;
+  PyObject *__pyx_t_2 = NULL;
+  PyObject *__pyx_t_3 = NULL;
+  PyObject *__pyx_t_4 = NULL;
+  PyObject *__pyx_t_5 = NULL;
+  PyObject *__pyx_t_6 = NULL;
+  PyObject *__pyx_t_7 = NULL;
+  PyObject *__pyx_t_8 = NULL;
+  int __pyx_t_9;
+  Py_ssize_t __pyx_t_10;
+  __Pyx_RefNannySetupContext("longlist2array", 0);
+
+  /* "EmpiricalFunctions.pyx":99
+ * 
+ * def longlist2array(longlist):
+ *     flat = np.fromiter(chain.from_iterable(longlist), np.array(longlist[0][0]).dtype, -1) # Without intermediate list:)             # <<<<<<<<<<<<<<
+ *     return flat.reshape((len(longlist), -1))
+ * 
+ */
+  __pyx_t_2 = __Pyx_GetModuleGlobalName(__pyx_n_s_np); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 99, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_2);
+  __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_t_2, __pyx_n_s_fromiter); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 99, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_3);
+  __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
+  __pyx_t_4 = __Pyx_GetModuleGlobalName(__pyx_n_s_chain); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 99, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_4);
+  __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_t_4, __pyx_n_s_from_iterable); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 99, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_5);
+  __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
+  __pyx_t_4 = NULL;
+  if (CYTHON_UNPACK_METHODS && unlikely(PyMethod_Check(__pyx_t_5))) {
+    __pyx_t_4 = PyMethod_GET_SELF(__pyx_t_5);
+    if (likely(__pyx_t_4)) {
+      PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_5);
+      __Pyx_INCREF(__pyx_t_4);
+      __Pyx_INCREF(function);
+      __Pyx_DECREF_SET(__pyx_t_5, function);
+    }
+  }
+  if (!__pyx_t_4) {
+    __pyx_t_2 = __Pyx_PyObject_CallOneArg(__pyx_t_5, __pyx_v_longlist); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 99, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_2);
+  } else {
+    #if CYTHON_FAST_PYCALL
+    if (PyFunction_Check(__pyx_t_5)) {
+      PyObject *__pyx_temp[2] = {__pyx_t_4, __pyx_v_longlist};
+      __pyx_t_2 = __Pyx_PyFunction_FastCall(__pyx_t_5, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 99, __pyx_L1_error)
+      __Pyx_XDECREF(__pyx_t_4); __pyx_t_4 = 0;
+      __Pyx_GOTREF(__pyx_t_2);
+    } else
+    #endif
+    #if CYTHON_FAST_PYCCALL
+    if (__Pyx_PyFastCFunction_Check(__pyx_t_5)) {
+      PyObject *__pyx_temp[2] = {__pyx_t_4, __pyx_v_longlist};
+      __pyx_t_2 = __Pyx_PyCFunction_FastCall(__pyx_t_5, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 99, __pyx_L1_error)
+      __Pyx_XDECREF(__pyx_t_4); __pyx_t_4 = 0;
+      __Pyx_GOTREF(__pyx_t_2);
+    } else
+    #endif
+    {
+      __pyx_t_6 = PyTuple_New(1+1); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 99, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_6);
+      __Pyx_GIVEREF(__pyx_t_4); PyTuple_SET_ITEM(__pyx_t_6, 0, __pyx_t_4); __pyx_t_4 = NULL;
+      __Pyx_INCREF(__pyx_v_longlist);
+      __Pyx_GIVEREF(__pyx_v_longlist);
+      PyTuple_SET_ITEM(__pyx_t_6, 0+1, __pyx_v_longlist);
+      __pyx_t_2 = __Pyx_PyObject_Call(__pyx_t_5, __pyx_t_6, NULL); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 99, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_2);
+      __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
+    }
+  }
+  __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
+  __pyx_t_6 = __Pyx_GetModuleGlobalName(__pyx_n_s_np); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 99, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_6);
+  __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_t_6, __pyx_n_s_array); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 99, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_4);
+  __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
+  __pyx_t_6 = __Pyx_GetItemInt(__pyx_v_longlist, 0, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 99, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_6);
+  __pyx_t_7 = __Pyx_GetItemInt(__pyx_t_6, 0, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 99, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_7);
+  __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
+  __pyx_t_6 = NULL;
+  if (CYTHON_UNPACK_METHODS && unlikely(PyMethod_Check(__pyx_t_4))) {
+    __pyx_t_6 = PyMethod_GET_SELF(__pyx_t_4);
+    if (likely(__pyx_t_6)) {
+      PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_4);
+      __Pyx_INCREF(__pyx_t_6);
+      __Pyx_INCREF(function);
+      __Pyx_DECREF_SET(__pyx_t_4, function);
+    }
+  }
+  if (!__pyx_t_6) {
+    __pyx_t_5 = __Pyx_PyObject_CallOneArg(__pyx_t_4, __pyx_t_7); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 99, __pyx_L1_error)
+    __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
+    __Pyx_GOTREF(__pyx_t_5);
+  } else {
+    #if CYTHON_FAST_PYCALL
+    if (PyFunction_Check(__pyx_t_4)) {
+      PyObject *__pyx_temp[2] = {__pyx_t_6, __pyx_t_7};
+      __pyx_t_5 = __Pyx_PyFunction_FastCall(__pyx_t_4, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 99, __pyx_L1_error)
+      __Pyx_XDECREF(__pyx_t_6); __pyx_t_6 = 0;
+      __Pyx_GOTREF(__pyx_t_5);
+      __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
+    } else
+    #endif
+    #if CYTHON_FAST_PYCCALL
+    if (__Pyx_PyFastCFunction_Check(__pyx_t_4)) {
+      PyObject *__pyx_temp[2] = {__pyx_t_6, __pyx_t_7};
+      __pyx_t_5 = __Pyx_PyCFunction_FastCall(__pyx_t_4, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 99, __pyx_L1_error)
+      __Pyx_XDECREF(__pyx_t_6); __pyx_t_6 = 0;
+      __Pyx_GOTREF(__pyx_t_5);
+      __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
+    } else
+    #endif
+    {
+      __pyx_t_8 = PyTuple_New(1+1); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 99, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_8);
+      __Pyx_GIVEREF(__pyx_t_6); PyTuple_SET_ITEM(__pyx_t_8, 0, __pyx_t_6); __pyx_t_6 = NULL;
+      __Pyx_GIVEREF(__pyx_t_7);
+      PyTuple_SET_ITEM(__pyx_t_8, 0+1, __pyx_t_7);
+      __pyx_t_7 = 0;
+      __pyx_t_5 = __Pyx_PyObject_Call(__pyx_t_4, __pyx_t_8, NULL); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 99, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_5);
+      __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
+    }
+  }
+  __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
+  __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_t_5, __pyx_n_s_dtype); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 99, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_4);
+  __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
+  __pyx_t_5 = NULL;
+  __pyx_t_9 = 0;
+  if (CYTHON_UNPACK_METHODS && unlikely(PyMethod_Check(__pyx_t_3))) {
+    __pyx_t_5 = PyMethod_GET_SELF(__pyx_t_3);
+    if (likely(__pyx_t_5)) {
+      PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_3);
+      __Pyx_INCREF(__pyx_t_5);
+      __Pyx_INCREF(function);
+      __Pyx_DECREF_SET(__pyx_t_3, function);
+      __pyx_t_9 = 1;
+    }
+  }
+  #if CYTHON_FAST_PYCALL
+  if (PyFunction_Check(__pyx_t_3)) {
+    PyObject *__pyx_temp[4] = {__pyx_t_5, __pyx_t_2, __pyx_t_4, __pyx_int_neg_1};
+    __pyx_t_1 = __Pyx_PyFunction_FastCall(__pyx_t_3, __pyx_temp+1-__pyx_t_9, 3+__pyx_t_9); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 99, __pyx_L1_error)
+    __Pyx_XDECREF(__pyx_t_5); __pyx_t_5 = 0;
+    __Pyx_GOTREF(__pyx_t_1);
+    __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
+    __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
+  } else
+  #endif
+  #if CYTHON_FAST_PYCCALL
+  if (__Pyx_PyFastCFunction_Check(__pyx_t_3)) {
+    PyObject *__pyx_temp[4] = {__pyx_t_5, __pyx_t_2, __pyx_t_4, __pyx_int_neg_1};
+    __pyx_t_1 = __Pyx_PyCFunction_FastCall(__pyx_t_3, __pyx_temp+1-__pyx_t_9, 3+__pyx_t_9); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 99, __pyx_L1_error)
+    __Pyx_XDECREF(__pyx_t_5); __pyx_t_5 = 0;
+    __Pyx_GOTREF(__pyx_t_1);
+    __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
+    __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
+  } else
+  #endif
+  {
+    __pyx_t_8 = PyTuple_New(3+__pyx_t_9); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 99, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_8);
+    if (__pyx_t_5) {
+      __Pyx_GIVEREF(__pyx_t_5); PyTuple_SET_ITEM(__pyx_t_8, 0, __pyx_t_5); __pyx_t_5 = NULL;
+    }
+    __Pyx_GIVEREF(__pyx_t_2);
+    PyTuple_SET_ITEM(__pyx_t_8, 0+__pyx_t_9, __pyx_t_2);
+    __Pyx_GIVEREF(__pyx_t_4);
+    PyTuple_SET_ITEM(__pyx_t_8, 1+__pyx_t_9, __pyx_t_4);
+    __Pyx_INCREF(__pyx_int_neg_1);
+    __Pyx_GIVEREF(__pyx_int_neg_1);
+    PyTuple_SET_ITEM(__pyx_t_8, 2+__pyx_t_9, __pyx_int_neg_1);
+    __pyx_t_2 = 0;
+    __pyx_t_4 = 0;
+    __pyx_t_1 = __Pyx_PyObject_Call(__pyx_t_3, __pyx_t_8, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 99, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_1);
+    __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
+  }
+  __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
+  __pyx_v_flat = __pyx_t_1;
+  __pyx_t_1 = 0;
+
+  /* "EmpiricalFunctions.pyx":100
+ * def longlist2array(longlist):
+ *     flat = np.fromiter(chain.from_iterable(longlist), np.array(longlist[0][0]).dtype, -1) # Without intermediate list:)
+ *     return flat.reshape((len(longlist), -1))             # <<<<<<<<<<<<<<
+ * 
+ * def longlist1array(longlist):
+ */
+  __Pyx_XDECREF(__pyx_r);
+  __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_v_flat, __pyx_n_s_reshape); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 100, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_3);
+  __pyx_t_10 = PyObject_Length(__pyx_v_longlist); if (unlikely(__pyx_t_10 == ((Py_ssize_t)-1))) __PYX_ERR(0, 100, __pyx_L1_error)
+  __pyx_t_8 = PyInt_FromSsize_t(__pyx_t_10); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 100, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_8);
+  __pyx_t_4 = PyTuple_New(2); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 100, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_4);
+  __Pyx_GIVEREF(__pyx_t_8);
+  PyTuple_SET_ITEM(__pyx_t_4, 0, __pyx_t_8);
+  __Pyx_INCREF(__pyx_int_neg_1);
+  __Pyx_GIVEREF(__pyx_int_neg_1);
+  PyTuple_SET_ITEM(__pyx_t_4, 1, __pyx_int_neg_1);
+  __pyx_t_8 = 0;
+  __pyx_t_8 = NULL;
+  if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_3))) {
+    __pyx_t_8 = PyMethod_GET_SELF(__pyx_t_3);
+    if (likely(__pyx_t_8)) {
+      PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_3);
+      __Pyx_INCREF(__pyx_t_8);
+      __Pyx_INCREF(function);
+      __Pyx_DECREF_SET(__pyx_t_3, function);
+    }
+  }
+  if (!__pyx_t_8) {
+    __pyx_t_1 = __Pyx_PyObject_CallOneArg(__pyx_t_3, __pyx_t_4); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 100, __pyx_L1_error)
+    __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
+    __Pyx_GOTREF(__pyx_t_1);
+  } else {
+    #if CYTHON_FAST_PYCALL
+    if (PyFunction_Check(__pyx_t_3)) {
+      PyObject *__pyx_temp[2] = {__pyx_t_8, __pyx_t_4};
+      __pyx_t_1 = __Pyx_PyFunction_FastCall(__pyx_t_3, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 100, __pyx_L1_error)
+      __Pyx_XDECREF(__pyx_t_8); __pyx_t_8 = 0;
+      __Pyx_GOTREF(__pyx_t_1);
+      __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
+    } else
+    #endif
+    #if CYTHON_FAST_PYCCALL
+    if (__Pyx_PyFastCFunction_Check(__pyx_t_3)) {
+      PyObject *__pyx_temp[2] = {__pyx_t_8, __pyx_t_4};
+      __pyx_t_1 = __Pyx_PyCFunction_FastCall(__pyx_t_3, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 100, __pyx_L1_error)
+      __Pyx_XDECREF(__pyx_t_8); __pyx_t_8 = 0;
+      __Pyx_GOTREF(__pyx_t_1);
+      __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
+    } else
+    #endif
+    {
+      __pyx_t_2 = PyTuple_New(1+1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 100, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_2);
+      __Pyx_GIVEREF(__pyx_t_8); PyTuple_SET_ITEM(__pyx_t_2, 0, __pyx_t_8); __pyx_t_8 = NULL;
+      __Pyx_GIVEREF(__pyx_t_4);
+      PyTuple_SET_ITEM(__pyx_t_2, 0+1, __pyx_t_4);
+      __pyx_t_4 = 0;
+      __pyx_t_1 = __Pyx_PyObject_Call(__pyx_t_3, __pyx_t_2, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 100, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_1);
+      __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
+    }
+  }
+  __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
+  __pyx_r = __pyx_t_1;
+  __pyx_t_1 = 0;
+  goto __pyx_L0;
+
+  /* "EmpiricalFunctions.pyx":98
+ *         return np.asarray([U[i-1],U[i]])
+ * 
+ * def longlist2array(longlist):             # <<<<<<<<<<<<<<
+ *     flat = np.fromiter(chain.from_iterable(longlist), np.array(longlist[0][0]).dtype, -1) # Without intermediate list:)
+ *     return flat.reshape((len(longlist), -1))
+ */
+
+  /* function exit code */
+  __pyx_L1_error:;
+  __Pyx_XDECREF(__pyx_t_1);
+  __Pyx_XDECREF(__pyx_t_2);
+  __Pyx_XDECREF(__pyx_t_3);
+  __Pyx_XDECREF(__pyx_t_4);
+  __Pyx_XDECREF(__pyx_t_5);
+  __Pyx_XDECREF(__pyx_t_6);
+  __Pyx_XDECREF(__pyx_t_7);
+  __Pyx_XDECREF(__pyx_t_8);
+  __Pyx_AddTraceback("EmpiricalFunctions.longlist2array", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __pyx_r = NULL;
+  __pyx_L0:;
+  __Pyx_XDECREF(__pyx_v_flat);
+  __Pyx_XGIVEREF(__pyx_r);
+  __Pyx_RefNannyFinishContext();
+  return __pyx_r;
+}
+
+/* "EmpiricalFunctions.pyx":102
+ *     return flat.reshape((len(longlist), -1))
+ * 
+ * def longlist1array(longlist):             # <<<<<<<<<<<<<<
+ *     return np.fromiter(longlist, np.array(longlist[0]).dtype) # Without intermediate li
+ * 
+ */
+
+/* Python wrapper */
+static PyObject *__pyx_pw_18EmpiricalFunctions_9longlist1array(PyObject *__pyx_self, PyObject *__pyx_v_longlist); /*proto*/
+static PyMethodDef __pyx_mdef_18EmpiricalFunctions_9longlist1array = {"longlist1array", (PyCFunction)__pyx_pw_18EmpiricalFunctions_9longlist1array, METH_O, 0};
+static PyObject *__pyx_pw_18EmpiricalFunctions_9longlist1array(PyObject *__pyx_self, PyObject *__pyx_v_longlist) {
+  PyObject *__pyx_r = 0;
+  __Pyx_RefNannyDeclarations
+  __Pyx_RefNannySetupContext("longlist1array (wrapper)", 0);
+  __pyx_r = __pyx_pf_18EmpiricalFunctions_8longlist1array(__pyx_self, ((PyObject *)__pyx_v_longlist));
+
+  /* function exit code */
+  __Pyx_RefNannyFinishContext();
+  return __pyx_r;
+}
+
+static PyObject *__pyx_pf_18EmpiricalFunctions_8longlist1array(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_longlist) {
+  PyObject *__pyx_r = NULL;
+  __Pyx_RefNannyDeclarations
+  PyObject *__pyx_t_1 = NULL;
+  PyObject *__pyx_t_2 = NULL;
+  PyObject *__pyx_t_3 = NULL;
+  PyObject *__pyx_t_4 = NULL;
+  PyObject *__pyx_t_5 = NULL;
+  PyObject *__pyx_t_6 = NULL;
+  PyObject *__pyx_t_7 = NULL;
+  int __pyx_t_8;
+  __Pyx_RefNannySetupContext("longlist1array", 0);
+
+  /* "EmpiricalFunctions.pyx":103
+ * 
+ * def longlist1array(longlist):
+ *     return np.fromiter(longlist, np.array(longlist[0]).dtype) # Without intermediate li             # <<<<<<<<<<<<<<
+ * 
+ * def FindClosestKeyInDicAndReturnValueAlgorithm(Res):
+ */
+  __Pyx_XDECREF(__pyx_r);
+  __pyx_t_2 = __Pyx_GetModuleGlobalName(__pyx_n_s_np); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 103, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_2);
+  __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_t_2, __pyx_n_s_fromiter); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 103, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_3);
+  __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
+  __pyx_t_4 = __Pyx_GetModuleGlobalName(__pyx_n_s_np); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 103, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_4);
+  __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_t_4, __pyx_n_s_array); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 103, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_5);
+  __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
+  __pyx_t_4 = __Pyx_GetItemInt(__pyx_v_longlist, 0, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 103, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_4);
+  __pyx_t_6 = NULL;
+  if (CYTHON_UNPACK_METHODS && unlikely(PyMethod_Check(__pyx_t_5))) {
+    __pyx_t_6 = PyMethod_GET_SELF(__pyx_t_5);
+    if (likely(__pyx_t_6)) {
+      PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_5);
+      __Pyx_INCREF(__pyx_t_6);
+      __Pyx_INCREF(function);
+      __Pyx_DECREF_SET(__pyx_t_5, function);
+    }
+  }
+  if (!__pyx_t_6) {
+    __pyx_t_2 = __Pyx_PyObject_CallOneArg(__pyx_t_5, __pyx_t_4); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 103, __pyx_L1_error)
+    __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
+    __Pyx_GOTREF(__pyx_t_2);
+  } else {
+    #if CYTHON_FAST_PYCALL
+    if (PyFunction_Check(__pyx_t_5)) {
+      PyObject *__pyx_temp[2] = {__pyx_t_6, __pyx_t_4};
+      __pyx_t_2 = __Pyx_PyFunction_FastCall(__pyx_t_5, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 103, __pyx_L1_error)
+      __Pyx_XDECREF(__pyx_t_6); __pyx_t_6 = 0;
+      __Pyx_GOTREF(__pyx_t_2);
+      __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
+    } else
+    #endif
+    #if CYTHON_FAST_PYCCALL
+    if (__Pyx_PyFastCFunction_Check(__pyx_t_5)) {
+      PyObject *__pyx_temp[2] = {__pyx_t_6, __pyx_t_4};
+      __pyx_t_2 = __Pyx_PyCFunction_FastCall(__pyx_t_5, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 103, __pyx_L1_error)
+      __Pyx_XDECREF(__pyx_t_6); __pyx_t_6 = 0;
+      __Pyx_GOTREF(__pyx_t_2);
+      __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
+    } else
+    #endif
+    {
+      __pyx_t_7 = PyTuple_New(1+1); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 103, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_7);
+      __Pyx_GIVEREF(__pyx_t_6); PyTuple_SET_ITEM(__pyx_t_7, 0, __pyx_t_6); __pyx_t_6 = NULL;
+      __Pyx_GIVEREF(__pyx_t_4);
+      PyTuple_SET_ITEM(__pyx_t_7, 0+1, __pyx_t_4);
+      __pyx_t_4 = 0;
+      __pyx_t_2 = __Pyx_PyObject_Call(__pyx_t_5, __pyx_t_7, NULL); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 103, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_2);
+      __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
+    }
+  }
+  __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
+  __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_t_2, __pyx_n_s_dtype); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 103, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_5);
+  __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
+  __pyx_t_2 = NULL;
+  __pyx_t_8 = 0;
+  if (CYTHON_UNPACK_METHODS && unlikely(PyMethod_Check(__pyx_t_3))) {
+    __pyx_t_2 = PyMethod_GET_SELF(__pyx_t_3);
+    if (likely(__pyx_t_2)) {
+      PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_3);
+      __Pyx_INCREF(__pyx_t_2);
+      __Pyx_INCREF(function);
+      __Pyx_DECREF_SET(__pyx_t_3, function);
+      __pyx_t_8 = 1;
+    }
+  }
+  #if CYTHON_FAST_PYCALL
+  if (PyFunction_Check(__pyx_t_3)) {
+    PyObject *__pyx_temp[3] = {__pyx_t_2, __pyx_v_longlist, __pyx_t_5};
+    __pyx_t_1 = __Pyx_PyFunction_FastCall(__pyx_t_3, __pyx_temp+1-__pyx_t_8, 2+__pyx_t_8); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 103, __pyx_L1_error)
+    __Pyx_XDECREF(__pyx_t_2); __pyx_t_2 = 0;
+    __Pyx_GOTREF(__pyx_t_1);
+    __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
+  } else
+  #endif
+  #if CYTHON_FAST_PYCCALL
+  if (__Pyx_PyFastCFunction_Check(__pyx_t_3)) {
+    PyObject *__pyx_temp[3] = {__pyx_t_2, __pyx_v_longlist, __pyx_t_5};
+    __pyx_t_1 = __Pyx_PyCFunction_FastCall(__pyx_t_3, __pyx_temp+1-__pyx_t_8, 2+__pyx_t_8); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 103, __pyx_L1_error)
+    __Pyx_XDECREF(__pyx_t_2); __pyx_t_2 = 0;
+    __Pyx_GOTREF(__pyx_t_1);
+    __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
+  } else
+  #endif
+  {
+    __pyx_t_7 = PyTuple_New(2+__pyx_t_8); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 103, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_7);
+    if (__pyx_t_2) {
+      __Pyx_GIVEREF(__pyx_t_2); PyTuple_SET_ITEM(__pyx_t_7, 0, __pyx_t_2); __pyx_t_2 = NULL;
+    }
+    __Pyx_INCREF(__pyx_v_longlist);
+    __Pyx_GIVEREF(__pyx_v_longlist);
+    PyTuple_SET_ITEM(__pyx_t_7, 0+__pyx_t_8, __pyx_v_longlist);
+    __Pyx_GIVEREF(__pyx_t_5);
+    PyTuple_SET_ITEM(__pyx_t_7, 1+__pyx_t_8, __pyx_t_5);
+    __pyx_t_5 = 0;
+    __pyx_t_1 = __Pyx_PyObject_Call(__pyx_t_3, __pyx_t_7, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 103, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_1);
+    __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
+  }
+  __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
+  __pyx_r = __pyx_t_1;
+  __pyx_t_1 = 0;
+  goto __pyx_L0;
+
+  /* "EmpiricalFunctions.pyx":102
+ *     return flat.reshape((len(longlist), -1))
+ * 
+ * def longlist1array(longlist):             # <<<<<<<<<<<<<<
+ *     return np.fromiter(longlist, np.array(longlist[0]).dtype) # Without intermediate li
+ * 
+ */
+
+  /* function exit code */
+  __pyx_L1_error:;
+  __Pyx_XDECREF(__pyx_t_1);
+  __Pyx_XDECREF(__pyx_t_2);
+  __Pyx_XDECREF(__pyx_t_3);
+  __Pyx_XDECREF(__pyx_t_4);
+  __Pyx_XDECREF(__pyx_t_5);
+  __Pyx_XDECREF(__pyx_t_6);
+  __Pyx_XDECREF(__pyx_t_7);
+  __Pyx_AddTraceback("EmpiricalFunctions.longlist1array", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __pyx_r = NULL;
+  __pyx_L0:;
+  __Pyx_XGIVEREF(__pyx_r);
+  __Pyx_RefNannyFinishContext();
+  return __pyx_r;
+}
+
+/* "EmpiricalFunctions.pyx":105
+ *     return np.fromiter(longlist, np.array(longlist[0]).dtype) # Without intermediate li
  * 
  * def FindClosestKeyInDicAndReturnValueAlgorithm(Res):             # <<<<<<<<<<<<<<
  *     ORes = collections.OrderedDict(sorted(Res.items()))
@@ -5064,24 +5584,24 @@ static PyArrayObject *__pyx_f_18EmpiricalFunctions_fKeys(PyObject *__pyx_v_a, Py
  */
 
 /* Python wrapper */
-static PyObject *__pyx_pw_18EmpiricalFunctions_7FindClosestKeyInDicAndReturnValueAlgorithm(PyObject *__pyx_self, PyObject *__pyx_v_Res); /*proto*/
-static PyMethodDef __pyx_mdef_18EmpiricalFunctions_7FindClosestKeyInDicAndReturnValueAlgorithm = {"FindClosestKeyInDicAndReturnValueAlgorithm", (PyCFunction)__pyx_pw_18EmpiricalFunctions_7FindClosestKeyInDicAndReturnValueAlgorithm, METH_O, 0};
-static PyObject *__pyx_pw_18EmpiricalFunctions_7FindClosestKeyInDicAndReturnValueAlgorithm(PyObject *__pyx_self, PyObject *__pyx_v_Res) {
+static PyObject *__pyx_pw_18EmpiricalFunctions_11FindClosestKeyInDicAndReturnValueAlgorithm(PyObject *__pyx_self, PyObject *__pyx_v_Res); /*proto*/
+static PyMethodDef __pyx_mdef_18EmpiricalFunctions_11FindClosestKeyInDicAndReturnValueAlgorithm = {"FindClosestKeyInDicAndReturnValueAlgorithm", (PyCFunction)__pyx_pw_18EmpiricalFunctions_11FindClosestKeyInDicAndReturnValueAlgorithm, METH_O, 0};
+static PyObject *__pyx_pw_18EmpiricalFunctions_11FindClosestKeyInDicAndReturnValueAlgorithm(PyObject *__pyx_self, PyObject *__pyx_v_Res) {
   PyObject *__pyx_r = 0;
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("FindClosestKeyInDicAndReturnValueAlgorithm (wrapper)", 0);
-  __pyx_r = __pyx_pf_18EmpiricalFunctions_6FindClosestKeyInDicAndReturnValueAlgorithm(__pyx_self, ((PyObject *)__pyx_v_Res));
+  __pyx_r = __pyx_pf_18EmpiricalFunctions_10FindClosestKeyInDicAndReturnValueAlgorithm(__pyx_self, ((PyObject *)__pyx_v_Res));
 
   /* function exit code */
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-/* "EmpiricalFunctions.pyx":99
+/* "EmpiricalFunctions.pyx":107
  * def FindClosestKeyInDicAndReturnValueAlgorithm(Res):
  *     ORes = collections.OrderedDict(sorted(Res.items()))
  *     def InnerFn(float u):             # <<<<<<<<<<<<<<
- *         return fnVals(u,np.asarray(list(ORes.keys())),ORes)
+ *         return fnVals(u,longlist1array(list(ORes.keys())),ORes)
  *     return InnerFn
  */
 
@@ -5094,7 +5614,7 @@ static PyObject *__pyx_pw_18EmpiricalFunctions_42FindClosestKeyInDicAndReturnVal
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("InnerFn (wrapper)", 0);
   assert(__pyx_arg_u); {
-    __pyx_v_u = __pyx_PyFloat_AsFloat(__pyx_arg_u); if (unlikely((__pyx_v_u == (float)-1) && PyErr_Occurred())) __PYX_ERR(0, 99, __pyx_L3_error)
+    __pyx_v_u = __pyx_PyFloat_AsFloat(__pyx_arg_u); if (unlikely((__pyx_v_u == (float)-1) && PyErr_Occurred())) __PYX_ERR(0, 107, __pyx_L3_error)
   }
   goto __pyx_L4_argument_unpacking_done;
   __pyx_L3_error:;
@@ -5123,21 +5643,18 @@ static PyObject *__pyx_pf_18EmpiricalFunctions_42FindClosestKeyInDicAndReturnVal
   __pyx_outer_scope = (struct __pyx_obj_18EmpiricalFunctions___pyx_scope_struct_5_FindClosestKeyInDicAndReturnValueAlgorithm *) __Pyx_CyFunction_GetClosure(__pyx_self);
   __pyx_cur_scope = __pyx_outer_scope;
 
-  /* "EmpiricalFunctions.pyx":100
+  /* "EmpiricalFunctions.pyx":108
  *     ORes = collections.OrderedDict(sorted(Res.items()))
  *     def InnerFn(float u):
- *         return fnVals(u,np.asarray(list(ORes.keys())),ORes)             # <<<<<<<<<<<<<<
+ *         return fnVals(u,longlist1array(list(ORes.keys())),ORes)             # <<<<<<<<<<<<<<
  *     return InnerFn
  * 
  */
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_2 = __Pyx_GetModuleGlobalName(__pyx_n_s_np); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 100, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_GetModuleGlobalName(__pyx_n_s_longlist1array); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 108, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_t_2, __pyx_n_s_asarray); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 100, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_3);
-  __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-  if (unlikely(!__pyx_cur_scope->__pyx_v_ORes)) { __Pyx_RaiseClosureNameError("ORes"); __PYX_ERR(0, 100, __pyx_L1_error) }
-  __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_cur_scope->__pyx_v_ORes, __pyx_n_s_keys); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 100, __pyx_L1_error)
+  if (unlikely(!__pyx_cur_scope->__pyx_v_ORes)) { __Pyx_RaiseClosureNameError("ORes"); __PYX_ERR(0, 108, __pyx_L1_error) }
+  __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_cur_scope->__pyx_v_ORes, __pyx_n_s_keys); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 108, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
   __pyx_t_5 = NULL;
   if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_4))) {
@@ -5150,79 +5667,79 @@ static PyObject *__pyx_pf_18EmpiricalFunctions_42FindClosestKeyInDicAndReturnVal
     }
   }
   if (__pyx_t_5) {
-    __pyx_t_2 = __Pyx_PyObject_CallOneArg(__pyx_t_4, __pyx_t_5); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 100, __pyx_L1_error)
+    __pyx_t_3 = __Pyx_PyObject_CallOneArg(__pyx_t_4, __pyx_t_5); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 108, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
   } else {
-    __pyx_t_2 = __Pyx_PyObject_CallNoArg(__pyx_t_4); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 100, __pyx_L1_error)
+    __pyx_t_3 = __Pyx_PyObject_CallNoArg(__pyx_t_4); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 108, __pyx_L1_error)
   }
-  __Pyx_GOTREF(__pyx_t_2);
+  __Pyx_GOTREF(__pyx_t_3);
   __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-  __pyx_t_4 = PySequence_List(__pyx_t_2); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 100, __pyx_L1_error)
+  __pyx_t_4 = PySequence_List(__pyx_t_3); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 108, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
-  __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-  __pyx_t_2 = NULL;
-  if (CYTHON_UNPACK_METHODS && unlikely(PyMethod_Check(__pyx_t_3))) {
-    __pyx_t_2 = PyMethod_GET_SELF(__pyx_t_3);
-    if (likely(__pyx_t_2)) {
-      PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_3);
-      __Pyx_INCREF(__pyx_t_2);
+  __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
+  __pyx_t_3 = NULL;
+  if (CYTHON_UNPACK_METHODS && unlikely(PyMethod_Check(__pyx_t_2))) {
+    __pyx_t_3 = PyMethod_GET_SELF(__pyx_t_2);
+    if (likely(__pyx_t_3)) {
+      PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_2);
+      __Pyx_INCREF(__pyx_t_3);
       __Pyx_INCREF(function);
-      __Pyx_DECREF_SET(__pyx_t_3, function);
+      __Pyx_DECREF_SET(__pyx_t_2, function);
     }
   }
-  if (!__pyx_t_2) {
-    __pyx_t_1 = __Pyx_PyObject_CallOneArg(__pyx_t_3, __pyx_t_4); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 100, __pyx_L1_error)
+  if (!__pyx_t_3) {
+    __pyx_t_1 = __Pyx_PyObject_CallOneArg(__pyx_t_2, __pyx_t_4); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 108, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
     __Pyx_GOTREF(__pyx_t_1);
   } else {
     #if CYTHON_FAST_PYCALL
-    if (PyFunction_Check(__pyx_t_3)) {
-      PyObject *__pyx_temp[2] = {__pyx_t_2, __pyx_t_4};
-      __pyx_t_1 = __Pyx_PyFunction_FastCall(__pyx_t_3, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 100, __pyx_L1_error)
-      __Pyx_XDECREF(__pyx_t_2); __pyx_t_2 = 0;
+    if (PyFunction_Check(__pyx_t_2)) {
+      PyObject *__pyx_temp[2] = {__pyx_t_3, __pyx_t_4};
+      __pyx_t_1 = __Pyx_PyFunction_FastCall(__pyx_t_2, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 108, __pyx_L1_error)
+      __Pyx_XDECREF(__pyx_t_3); __pyx_t_3 = 0;
       __Pyx_GOTREF(__pyx_t_1);
       __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
     } else
     #endif
     #if CYTHON_FAST_PYCCALL
-    if (__Pyx_PyFastCFunction_Check(__pyx_t_3)) {
-      PyObject *__pyx_temp[2] = {__pyx_t_2, __pyx_t_4};
-      __pyx_t_1 = __Pyx_PyCFunction_FastCall(__pyx_t_3, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 100, __pyx_L1_error)
-      __Pyx_XDECREF(__pyx_t_2); __pyx_t_2 = 0;
+    if (__Pyx_PyFastCFunction_Check(__pyx_t_2)) {
+      PyObject *__pyx_temp[2] = {__pyx_t_3, __pyx_t_4};
+      __pyx_t_1 = __Pyx_PyCFunction_FastCall(__pyx_t_2, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 108, __pyx_L1_error)
+      __Pyx_XDECREF(__pyx_t_3); __pyx_t_3 = 0;
       __Pyx_GOTREF(__pyx_t_1);
       __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
     } else
     #endif
     {
-      __pyx_t_5 = PyTuple_New(1+1); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 100, __pyx_L1_error)
+      __pyx_t_5 = PyTuple_New(1+1); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 108, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_5);
-      __Pyx_GIVEREF(__pyx_t_2); PyTuple_SET_ITEM(__pyx_t_5, 0, __pyx_t_2); __pyx_t_2 = NULL;
+      __Pyx_GIVEREF(__pyx_t_3); PyTuple_SET_ITEM(__pyx_t_5, 0, __pyx_t_3); __pyx_t_3 = NULL;
       __Pyx_GIVEREF(__pyx_t_4);
       PyTuple_SET_ITEM(__pyx_t_5, 0+1, __pyx_t_4);
       __pyx_t_4 = 0;
-      __pyx_t_1 = __Pyx_PyObject_Call(__pyx_t_3, __pyx_t_5, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 100, __pyx_L1_error)
+      __pyx_t_1 = __Pyx_PyObject_Call(__pyx_t_2, __pyx_t_5, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 108, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_1);
       __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
     }
   }
-  __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-  if (!(likely(((__pyx_t_1) == Py_None) || likely(__Pyx_TypeTest(__pyx_t_1, __pyx_ptype_5numpy_ndarray))))) __PYX_ERR(0, 100, __pyx_L1_error)
-  if (unlikely(!__pyx_cur_scope->__pyx_v_ORes)) { __Pyx_RaiseClosureNameError("ORes"); __PYX_ERR(0, 100, __pyx_L1_error) }
-  __pyx_t_3 = __pyx_cur_scope->__pyx_v_ORes;
-  __Pyx_INCREF(__pyx_t_3);
-  __pyx_t_5 = PyFloat_FromDouble(__pyx_f_18EmpiricalFunctions_fnVals(__pyx_v_u, ((PyArrayObject *)__pyx_t_1), __pyx_t_3)); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 100, __pyx_L1_error)
+  __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
+  if (!(likely(((__pyx_t_1) == Py_None) || likely(__Pyx_TypeTest(__pyx_t_1, __pyx_ptype_5numpy_ndarray))))) __PYX_ERR(0, 108, __pyx_L1_error)
+  if (unlikely(!__pyx_cur_scope->__pyx_v_ORes)) { __Pyx_RaiseClosureNameError("ORes"); __PYX_ERR(0, 108, __pyx_L1_error) }
+  __pyx_t_2 = __pyx_cur_scope->__pyx_v_ORes;
+  __Pyx_INCREF(__pyx_t_2);
+  __pyx_t_5 = PyFloat_FromDouble(__pyx_f_18EmpiricalFunctions_fnVals(__pyx_v_u, ((PyArrayObject *)__pyx_t_1), __pyx_t_2)); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 108, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_5);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-  __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
+  __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   __pyx_r = __pyx_t_5;
   __pyx_t_5 = 0;
   goto __pyx_L0;
 
-  /* "EmpiricalFunctions.pyx":99
+  /* "EmpiricalFunctions.pyx":107
  * def FindClosestKeyInDicAndReturnValueAlgorithm(Res):
  *     ORes = collections.OrderedDict(sorted(Res.items()))
  *     def InnerFn(float u):             # <<<<<<<<<<<<<<
- *         return fnVals(u,np.asarray(list(ORes.keys())),ORes)
+ *         return fnVals(u,longlist1array(list(ORes.keys())),ORes)
  *     return InnerFn
  */
 
@@ -5241,15 +5758,15 @@ static PyObject *__pyx_pf_18EmpiricalFunctions_42FindClosestKeyInDicAndReturnVal
   return __pyx_r;
 }
 
-/* "EmpiricalFunctions.pyx":97
- *         return np.asarray([U[i-1],U[i]])
+/* "EmpiricalFunctions.pyx":105
+ *     return np.fromiter(longlist, np.array(longlist[0]).dtype) # Without intermediate li
  * 
  * def FindClosestKeyInDicAndReturnValueAlgorithm(Res):             # <<<<<<<<<<<<<<
  *     ORes = collections.OrderedDict(sorted(Res.items()))
  *     def InnerFn(float u):
  */
 
-static PyObject *__pyx_pf_18EmpiricalFunctions_6FindClosestKeyInDicAndReturnValueAlgorithm(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_Res) {
+static PyObject *__pyx_pf_18EmpiricalFunctions_10FindClosestKeyInDicAndReturnValueAlgorithm(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_Res) {
   struct __pyx_obj_18EmpiricalFunctions___pyx_scope_struct_5_FindClosestKeyInDicAndReturnValueAlgorithm *__pyx_cur_scope;
   PyObject *__pyx_v_InnerFn = 0;
   PyObject *__pyx_r = NULL;
@@ -5266,24 +5783,24 @@ static PyObject *__pyx_pf_18EmpiricalFunctions_6FindClosestKeyInDicAndReturnValu
   if (unlikely(!__pyx_cur_scope)) {
     __pyx_cur_scope = ((struct __pyx_obj_18EmpiricalFunctions___pyx_scope_struct_5_FindClosestKeyInDicAndReturnValueAlgorithm *)Py_None);
     __Pyx_INCREF(Py_None);
-    __PYX_ERR(0, 97, __pyx_L1_error)
+    __PYX_ERR(0, 105, __pyx_L1_error)
   } else {
     __Pyx_GOTREF(__pyx_cur_scope);
   }
 
-  /* "EmpiricalFunctions.pyx":98
+  /* "EmpiricalFunctions.pyx":106
  * 
  * def FindClosestKeyInDicAndReturnValueAlgorithm(Res):
  *     ORes = collections.OrderedDict(sorted(Res.items()))             # <<<<<<<<<<<<<<
  *     def InnerFn(float u):
- *         return fnVals(u,np.asarray(list(ORes.keys())),ORes)
+ *         return fnVals(u,longlist1array(list(ORes.keys())),ORes)
  */
-  __pyx_t_2 = __Pyx_GetModuleGlobalName(__pyx_n_s_collections); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 98, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_GetModuleGlobalName(__pyx_n_s_collections); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 106, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_t_2, __pyx_n_s_OrderedDict); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 98, __pyx_L1_error)
+  __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_t_2, __pyx_n_s_OrderedDict); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 106, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-  __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_v_Res, __pyx_n_s_items); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 98, __pyx_L1_error)
+  __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_v_Res, __pyx_n_s_items); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 106, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_5);
   __pyx_t_6 = NULL;
   if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_5))) {
@@ -5296,19 +5813,19 @@ static PyObject *__pyx_pf_18EmpiricalFunctions_6FindClosestKeyInDicAndReturnValu
     }
   }
   if (__pyx_t_6) {
-    __pyx_t_4 = __Pyx_PyObject_CallOneArg(__pyx_t_5, __pyx_t_6); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 98, __pyx_L1_error)
+    __pyx_t_4 = __Pyx_PyObject_CallOneArg(__pyx_t_5, __pyx_t_6); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 106, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
   } else {
-    __pyx_t_4 = __Pyx_PyObject_CallNoArg(__pyx_t_5); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 98, __pyx_L1_error)
+    __pyx_t_4 = __Pyx_PyObject_CallNoArg(__pyx_t_5); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 106, __pyx_L1_error)
   }
   __Pyx_GOTREF(__pyx_t_4);
   __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-  __pyx_t_5 = PySequence_List(__pyx_t_4); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 98, __pyx_L1_error)
+  __pyx_t_5 = PySequence_List(__pyx_t_4); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 106, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_5);
   __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
   __pyx_t_2 = ((PyObject*)__pyx_t_5);
   __pyx_t_5 = 0;
-  __pyx_t_7 = PyList_Sort(__pyx_t_2); if (unlikely(__pyx_t_7 == ((int)-1))) __PYX_ERR(0, 98, __pyx_L1_error)
+  __pyx_t_7 = PyList_Sort(__pyx_t_2); if (unlikely(__pyx_t_7 == ((int)-1))) __PYX_ERR(0, 106, __pyx_L1_error)
   __pyx_t_5 = NULL;
   if (CYTHON_UNPACK_METHODS && unlikely(PyMethod_Check(__pyx_t_3))) {
     __pyx_t_5 = PyMethod_GET_SELF(__pyx_t_3);
@@ -5320,14 +5837,14 @@ static PyObject *__pyx_pf_18EmpiricalFunctions_6FindClosestKeyInDicAndReturnValu
     }
   }
   if (!__pyx_t_5) {
-    __pyx_t_1 = __Pyx_PyObject_CallOneArg(__pyx_t_3, __pyx_t_2); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 98, __pyx_L1_error)
+    __pyx_t_1 = __Pyx_PyObject_CallOneArg(__pyx_t_3, __pyx_t_2); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 106, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
     __Pyx_GOTREF(__pyx_t_1);
   } else {
     #if CYTHON_FAST_PYCALL
     if (PyFunction_Check(__pyx_t_3)) {
       PyObject *__pyx_temp[2] = {__pyx_t_5, __pyx_t_2};
-      __pyx_t_1 = __Pyx_PyFunction_FastCall(__pyx_t_3, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 98, __pyx_L1_error)
+      __pyx_t_1 = __Pyx_PyFunction_FastCall(__pyx_t_3, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 106, __pyx_L1_error)
       __Pyx_XDECREF(__pyx_t_5); __pyx_t_5 = 0;
       __Pyx_GOTREF(__pyx_t_1);
       __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
@@ -5336,20 +5853,20 @@ static PyObject *__pyx_pf_18EmpiricalFunctions_6FindClosestKeyInDicAndReturnValu
     #if CYTHON_FAST_PYCCALL
     if (__Pyx_PyFastCFunction_Check(__pyx_t_3)) {
       PyObject *__pyx_temp[2] = {__pyx_t_5, __pyx_t_2};
-      __pyx_t_1 = __Pyx_PyCFunction_FastCall(__pyx_t_3, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 98, __pyx_L1_error)
+      __pyx_t_1 = __Pyx_PyCFunction_FastCall(__pyx_t_3, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 106, __pyx_L1_error)
       __Pyx_XDECREF(__pyx_t_5); __pyx_t_5 = 0;
       __Pyx_GOTREF(__pyx_t_1);
       __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
     } else
     #endif
     {
-      __pyx_t_4 = PyTuple_New(1+1); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 98, __pyx_L1_error)
+      __pyx_t_4 = PyTuple_New(1+1); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 106, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_4);
       __Pyx_GIVEREF(__pyx_t_5); PyTuple_SET_ITEM(__pyx_t_4, 0, __pyx_t_5); __pyx_t_5 = NULL;
       __Pyx_GIVEREF(__pyx_t_2);
       PyTuple_SET_ITEM(__pyx_t_4, 0+1, __pyx_t_2);
       __pyx_t_2 = 0;
-      __pyx_t_1 = __Pyx_PyObject_Call(__pyx_t_3, __pyx_t_4, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 98, __pyx_L1_error)
+      __pyx_t_1 = __Pyx_PyObject_Call(__pyx_t_3, __pyx_t_4, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 106, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_1);
       __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
     }
@@ -5359,21 +5876,21 @@ static PyObject *__pyx_pf_18EmpiricalFunctions_6FindClosestKeyInDicAndReturnValu
   __pyx_cur_scope->__pyx_v_ORes = __pyx_t_1;
   __pyx_t_1 = 0;
 
-  /* "EmpiricalFunctions.pyx":99
+  /* "EmpiricalFunctions.pyx":107
  * def FindClosestKeyInDicAndReturnValueAlgorithm(Res):
  *     ORes = collections.OrderedDict(sorted(Res.items()))
  *     def InnerFn(float u):             # <<<<<<<<<<<<<<
- *         return fnVals(u,np.asarray(list(ORes.keys())),ORes)
+ *         return fnVals(u,longlist1array(list(ORes.keys())),ORes)
  *     return InnerFn
  */
-  __pyx_t_1 = __Pyx_CyFunction_NewEx(&__pyx_mdef_18EmpiricalFunctions_42FindClosestKeyInDicAndReturnValueAlgorithm_1InnerFn, 0, __pyx_n_s_FindClosestKeyInDicAndReturnValu_2, ((PyObject*)__pyx_cur_scope), __pyx_n_s_EmpiricalFunctions, __pyx_d, ((PyObject *)__pyx_codeobj__8)); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 99, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_CyFunction_NewEx(&__pyx_mdef_18EmpiricalFunctions_42FindClosestKeyInDicAndReturnValueAlgorithm_1InnerFn, 0, __pyx_n_s_FindClosestKeyInDicAndReturnValu_2, ((PyObject*)__pyx_cur_scope), __pyx_n_s_EmpiricalFunctions, __pyx_d, ((PyObject *)__pyx_codeobj__8)); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 107, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_v_InnerFn = __pyx_t_1;
   __pyx_t_1 = 0;
 
-  /* "EmpiricalFunctions.pyx":101
+  /* "EmpiricalFunctions.pyx":109
  *     def InnerFn(float u):
- *         return fnVals(u,np.asarray(list(ORes.keys())),ORes)
+ *         return fnVals(u,longlist1array(list(ORes.keys())),ORes)
  *     return InnerFn             # <<<<<<<<<<<<<<
  * 
  * def FindClosestKeyInDicAndReturnKeyBoundsAlgorithm(Res):
@@ -5383,8 +5900,8 @@ static PyObject *__pyx_pf_18EmpiricalFunctions_6FindClosestKeyInDicAndReturnValu
   __pyx_r = __pyx_v_InnerFn;
   goto __pyx_L0;
 
-  /* "EmpiricalFunctions.pyx":97
- *         return np.asarray([U[i-1],U[i]])
+  /* "EmpiricalFunctions.pyx":105
+ *     return np.fromiter(longlist, np.array(longlist[0]).dtype) # Without intermediate li
  * 
  * def FindClosestKeyInDicAndReturnValueAlgorithm(Res):             # <<<<<<<<<<<<<<
  *     ORes = collections.OrderedDict(sorted(Res.items()))
@@ -5409,7 +5926,7 @@ static PyObject *__pyx_pf_18EmpiricalFunctions_6FindClosestKeyInDicAndReturnValu
   return __pyx_r;
 }
 
-/* "EmpiricalFunctions.pyx":103
+/* "EmpiricalFunctions.pyx":111
  *     return InnerFn
  * 
  * def FindClosestKeyInDicAndReturnKeyBoundsAlgorithm(Res):             # <<<<<<<<<<<<<<
@@ -5418,24 +5935,24 @@ static PyObject *__pyx_pf_18EmpiricalFunctions_6FindClosestKeyInDicAndReturnValu
  */
 
 /* Python wrapper */
-static PyObject *__pyx_pw_18EmpiricalFunctions_9FindClosestKeyInDicAndReturnKeyBoundsAlgorithm(PyObject *__pyx_self, PyObject *__pyx_v_Res); /*proto*/
-static PyMethodDef __pyx_mdef_18EmpiricalFunctions_9FindClosestKeyInDicAndReturnKeyBoundsAlgorithm = {"FindClosestKeyInDicAndReturnKeyBoundsAlgorithm", (PyCFunction)__pyx_pw_18EmpiricalFunctions_9FindClosestKeyInDicAndReturnKeyBoundsAlgorithm, METH_O, 0};
-static PyObject *__pyx_pw_18EmpiricalFunctions_9FindClosestKeyInDicAndReturnKeyBoundsAlgorithm(PyObject *__pyx_self, PyObject *__pyx_v_Res) {
+static PyObject *__pyx_pw_18EmpiricalFunctions_13FindClosestKeyInDicAndReturnKeyBoundsAlgorithm(PyObject *__pyx_self, PyObject *__pyx_v_Res); /*proto*/
+static PyMethodDef __pyx_mdef_18EmpiricalFunctions_13FindClosestKeyInDicAndReturnKeyBoundsAlgorithm = {"FindClosestKeyInDicAndReturnKeyBoundsAlgorithm", (PyCFunction)__pyx_pw_18EmpiricalFunctions_13FindClosestKeyInDicAndReturnKeyBoundsAlgorithm, METH_O, 0};
+static PyObject *__pyx_pw_18EmpiricalFunctions_13FindClosestKeyInDicAndReturnKeyBoundsAlgorithm(PyObject *__pyx_self, PyObject *__pyx_v_Res) {
   PyObject *__pyx_r = 0;
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("FindClosestKeyInDicAndReturnKeyBoundsAlgorithm (wrapper)", 0);
-  __pyx_r = __pyx_pf_18EmpiricalFunctions_8FindClosestKeyInDicAndReturnKeyBoundsAlgorithm(__pyx_self, ((PyObject *)__pyx_v_Res));
+  __pyx_r = __pyx_pf_18EmpiricalFunctions_12FindClosestKeyInDicAndReturnKeyBoundsAlgorithm(__pyx_self, ((PyObject *)__pyx_v_Res));
 
   /* function exit code */
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-/* "EmpiricalFunctions.pyx":105
+/* "EmpiricalFunctions.pyx":113
  * def FindClosestKeyInDicAndReturnKeyBoundsAlgorithm(Res):
  *     ORes = collections.OrderedDict(sorted(Res.items()))
  *     def FN(u):             # <<<<<<<<<<<<<<
- *         return fKeys(u,np.asarray(list(ORes.keys())))
+ *         return fKeys(u,longlist1array(list(ORes.keys())))
  *     return FN
  */
 
@@ -5467,21 +5984,18 @@ static PyObject *__pyx_pf_18EmpiricalFunctions_46FindClosestKeyInDicAndReturnKey
   __pyx_outer_scope = (struct __pyx_obj_18EmpiricalFunctions___pyx_scope_struct_6_FindClosestKeyInDicAndReturnKeyBoundsAlgorithm *) __Pyx_CyFunction_GetClosure(__pyx_self);
   __pyx_cur_scope = __pyx_outer_scope;
 
-  /* "EmpiricalFunctions.pyx":106
+  /* "EmpiricalFunctions.pyx":114
  *     ORes = collections.OrderedDict(sorted(Res.items()))
  *     def FN(u):
- *         return fKeys(u,np.asarray(list(ORes.keys())))             # <<<<<<<<<<<<<<
+ *         return fKeys(u,longlist1array(list(ORes.keys())))             # <<<<<<<<<<<<<<
  *     return FN
  * 
  */
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_2 = __Pyx_GetModuleGlobalName(__pyx_n_s_np); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 106, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_GetModuleGlobalName(__pyx_n_s_longlist1array); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 114, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_t_2, __pyx_n_s_asarray); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 106, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_3);
-  __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-  if (unlikely(!__pyx_cur_scope->__pyx_v_ORes)) { __Pyx_RaiseClosureNameError("ORes"); __PYX_ERR(0, 106, __pyx_L1_error) }
-  __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_cur_scope->__pyx_v_ORes, __pyx_n_s_keys); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 106, __pyx_L1_error)
+  if (unlikely(!__pyx_cur_scope->__pyx_v_ORes)) { __Pyx_RaiseClosureNameError("ORes"); __PYX_ERR(0, 114, __pyx_L1_error) }
+  __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_cur_scope->__pyx_v_ORes, __pyx_n_s_keys); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 114, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
   __pyx_t_5 = NULL;
   if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_4))) {
@@ -5494,75 +6008,75 @@ static PyObject *__pyx_pf_18EmpiricalFunctions_46FindClosestKeyInDicAndReturnKey
     }
   }
   if (__pyx_t_5) {
-    __pyx_t_2 = __Pyx_PyObject_CallOneArg(__pyx_t_4, __pyx_t_5); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 106, __pyx_L1_error)
+    __pyx_t_3 = __Pyx_PyObject_CallOneArg(__pyx_t_4, __pyx_t_5); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 114, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
   } else {
-    __pyx_t_2 = __Pyx_PyObject_CallNoArg(__pyx_t_4); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 106, __pyx_L1_error)
+    __pyx_t_3 = __Pyx_PyObject_CallNoArg(__pyx_t_4); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 114, __pyx_L1_error)
   }
-  __Pyx_GOTREF(__pyx_t_2);
+  __Pyx_GOTREF(__pyx_t_3);
   __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-  __pyx_t_4 = PySequence_List(__pyx_t_2); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 106, __pyx_L1_error)
+  __pyx_t_4 = PySequence_List(__pyx_t_3); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 114, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
-  __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-  __pyx_t_2 = NULL;
-  if (CYTHON_UNPACK_METHODS && unlikely(PyMethod_Check(__pyx_t_3))) {
-    __pyx_t_2 = PyMethod_GET_SELF(__pyx_t_3);
-    if (likely(__pyx_t_2)) {
-      PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_3);
-      __Pyx_INCREF(__pyx_t_2);
+  __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
+  __pyx_t_3 = NULL;
+  if (CYTHON_UNPACK_METHODS && unlikely(PyMethod_Check(__pyx_t_2))) {
+    __pyx_t_3 = PyMethod_GET_SELF(__pyx_t_2);
+    if (likely(__pyx_t_3)) {
+      PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_2);
+      __Pyx_INCREF(__pyx_t_3);
       __Pyx_INCREF(function);
-      __Pyx_DECREF_SET(__pyx_t_3, function);
+      __Pyx_DECREF_SET(__pyx_t_2, function);
     }
   }
-  if (!__pyx_t_2) {
-    __pyx_t_1 = __Pyx_PyObject_CallOneArg(__pyx_t_3, __pyx_t_4); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 106, __pyx_L1_error)
+  if (!__pyx_t_3) {
+    __pyx_t_1 = __Pyx_PyObject_CallOneArg(__pyx_t_2, __pyx_t_4); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 114, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
     __Pyx_GOTREF(__pyx_t_1);
   } else {
     #if CYTHON_FAST_PYCALL
-    if (PyFunction_Check(__pyx_t_3)) {
-      PyObject *__pyx_temp[2] = {__pyx_t_2, __pyx_t_4};
-      __pyx_t_1 = __Pyx_PyFunction_FastCall(__pyx_t_3, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 106, __pyx_L1_error)
-      __Pyx_XDECREF(__pyx_t_2); __pyx_t_2 = 0;
+    if (PyFunction_Check(__pyx_t_2)) {
+      PyObject *__pyx_temp[2] = {__pyx_t_3, __pyx_t_4};
+      __pyx_t_1 = __Pyx_PyFunction_FastCall(__pyx_t_2, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 114, __pyx_L1_error)
+      __Pyx_XDECREF(__pyx_t_3); __pyx_t_3 = 0;
       __Pyx_GOTREF(__pyx_t_1);
       __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
     } else
     #endif
     #if CYTHON_FAST_PYCCALL
-    if (__Pyx_PyFastCFunction_Check(__pyx_t_3)) {
-      PyObject *__pyx_temp[2] = {__pyx_t_2, __pyx_t_4};
-      __pyx_t_1 = __Pyx_PyCFunction_FastCall(__pyx_t_3, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 106, __pyx_L1_error)
-      __Pyx_XDECREF(__pyx_t_2); __pyx_t_2 = 0;
+    if (__Pyx_PyFastCFunction_Check(__pyx_t_2)) {
+      PyObject *__pyx_temp[2] = {__pyx_t_3, __pyx_t_4};
+      __pyx_t_1 = __Pyx_PyCFunction_FastCall(__pyx_t_2, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 114, __pyx_L1_error)
+      __Pyx_XDECREF(__pyx_t_3); __pyx_t_3 = 0;
       __Pyx_GOTREF(__pyx_t_1);
       __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
     } else
     #endif
     {
-      __pyx_t_5 = PyTuple_New(1+1); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 106, __pyx_L1_error)
+      __pyx_t_5 = PyTuple_New(1+1); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 114, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_5);
-      __Pyx_GIVEREF(__pyx_t_2); PyTuple_SET_ITEM(__pyx_t_5, 0, __pyx_t_2); __pyx_t_2 = NULL;
+      __Pyx_GIVEREF(__pyx_t_3); PyTuple_SET_ITEM(__pyx_t_5, 0, __pyx_t_3); __pyx_t_3 = NULL;
       __Pyx_GIVEREF(__pyx_t_4);
       PyTuple_SET_ITEM(__pyx_t_5, 0+1, __pyx_t_4);
       __pyx_t_4 = 0;
-      __pyx_t_1 = __Pyx_PyObject_Call(__pyx_t_3, __pyx_t_5, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 106, __pyx_L1_error)
+      __pyx_t_1 = __Pyx_PyObject_Call(__pyx_t_2, __pyx_t_5, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 114, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_1);
       __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
     }
   }
-  __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-  if (!(likely(((__pyx_t_1) == Py_None) || likely(__Pyx_TypeTest(__pyx_t_1, __pyx_ptype_5numpy_ndarray))))) __PYX_ERR(0, 106, __pyx_L1_error)
-  __pyx_t_3 = ((PyObject *)__pyx_f_18EmpiricalFunctions_fKeys(__pyx_v_u, ((PyArrayObject *)__pyx_t_1))); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 106, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_3);
+  __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
+  if (!(likely(((__pyx_t_1) == Py_None) || likely(__Pyx_TypeTest(__pyx_t_1, __pyx_ptype_5numpy_ndarray))))) __PYX_ERR(0, 114, __pyx_L1_error)
+  __pyx_t_2 = ((PyObject *)__pyx_f_18EmpiricalFunctions_fKeys(__pyx_v_u, ((PyArrayObject *)__pyx_t_1))); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 114, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_2);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-  __pyx_r = __pyx_t_3;
-  __pyx_t_3 = 0;
+  __pyx_r = __pyx_t_2;
+  __pyx_t_2 = 0;
   goto __pyx_L0;
 
-  /* "EmpiricalFunctions.pyx":105
+  /* "EmpiricalFunctions.pyx":113
  * def FindClosestKeyInDicAndReturnKeyBoundsAlgorithm(Res):
  *     ORes = collections.OrderedDict(sorted(Res.items()))
  *     def FN(u):             # <<<<<<<<<<<<<<
- *         return fKeys(u,np.asarray(list(ORes.keys())))
+ *         return fKeys(u,longlist1array(list(ORes.keys())))
  *     return FN
  */
 
@@ -5581,7 +6095,7 @@ static PyObject *__pyx_pf_18EmpiricalFunctions_46FindClosestKeyInDicAndReturnKey
   return __pyx_r;
 }
 
-/* "EmpiricalFunctions.pyx":103
+/* "EmpiricalFunctions.pyx":111
  *     return InnerFn
  * 
  * def FindClosestKeyInDicAndReturnKeyBoundsAlgorithm(Res):             # <<<<<<<<<<<<<<
@@ -5589,7 +6103,7 @@ static PyObject *__pyx_pf_18EmpiricalFunctions_46FindClosestKeyInDicAndReturnKey
  *     def FN(u):
  */
 
-static PyObject *__pyx_pf_18EmpiricalFunctions_8FindClosestKeyInDicAndReturnKeyBoundsAlgorithm(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_Res) {
+static PyObject *__pyx_pf_18EmpiricalFunctions_12FindClosestKeyInDicAndReturnKeyBoundsAlgorithm(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_Res) {
   struct __pyx_obj_18EmpiricalFunctions___pyx_scope_struct_6_FindClosestKeyInDicAndReturnKeyBoundsAlgorithm *__pyx_cur_scope;
   PyObject *__pyx_v_FN = 0;
   PyObject *__pyx_r = NULL;
@@ -5606,24 +6120,24 @@ static PyObject *__pyx_pf_18EmpiricalFunctions_8FindClosestKeyInDicAndReturnKeyB
   if (unlikely(!__pyx_cur_scope)) {
     __pyx_cur_scope = ((struct __pyx_obj_18EmpiricalFunctions___pyx_scope_struct_6_FindClosestKeyInDicAndReturnKeyBoundsAlgorithm *)Py_None);
     __Pyx_INCREF(Py_None);
-    __PYX_ERR(0, 103, __pyx_L1_error)
+    __PYX_ERR(0, 111, __pyx_L1_error)
   } else {
     __Pyx_GOTREF(__pyx_cur_scope);
   }
 
-  /* "EmpiricalFunctions.pyx":104
+  /* "EmpiricalFunctions.pyx":112
  * 
  * def FindClosestKeyInDicAndReturnKeyBoundsAlgorithm(Res):
  *     ORes = collections.OrderedDict(sorted(Res.items()))             # <<<<<<<<<<<<<<
  *     def FN(u):
- *         return fKeys(u,np.asarray(list(ORes.keys())))
+ *         return fKeys(u,longlist1array(list(ORes.keys())))
  */
-  __pyx_t_2 = __Pyx_GetModuleGlobalName(__pyx_n_s_collections); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 104, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_GetModuleGlobalName(__pyx_n_s_collections); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 112, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_t_2, __pyx_n_s_OrderedDict); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 104, __pyx_L1_error)
+  __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_t_2, __pyx_n_s_OrderedDict); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 112, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-  __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_v_Res, __pyx_n_s_items); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 104, __pyx_L1_error)
+  __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_v_Res, __pyx_n_s_items); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 112, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_5);
   __pyx_t_6 = NULL;
   if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_5))) {
@@ -5636,19 +6150,19 @@ static PyObject *__pyx_pf_18EmpiricalFunctions_8FindClosestKeyInDicAndReturnKeyB
     }
   }
   if (__pyx_t_6) {
-    __pyx_t_4 = __Pyx_PyObject_CallOneArg(__pyx_t_5, __pyx_t_6); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 104, __pyx_L1_error)
+    __pyx_t_4 = __Pyx_PyObject_CallOneArg(__pyx_t_5, __pyx_t_6); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 112, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
   } else {
-    __pyx_t_4 = __Pyx_PyObject_CallNoArg(__pyx_t_5); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 104, __pyx_L1_error)
+    __pyx_t_4 = __Pyx_PyObject_CallNoArg(__pyx_t_5); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 112, __pyx_L1_error)
   }
   __Pyx_GOTREF(__pyx_t_4);
   __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-  __pyx_t_5 = PySequence_List(__pyx_t_4); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 104, __pyx_L1_error)
+  __pyx_t_5 = PySequence_List(__pyx_t_4); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 112, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_5);
   __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
   __pyx_t_2 = ((PyObject*)__pyx_t_5);
   __pyx_t_5 = 0;
-  __pyx_t_7 = PyList_Sort(__pyx_t_2); if (unlikely(__pyx_t_7 == ((int)-1))) __PYX_ERR(0, 104, __pyx_L1_error)
+  __pyx_t_7 = PyList_Sort(__pyx_t_2); if (unlikely(__pyx_t_7 == ((int)-1))) __PYX_ERR(0, 112, __pyx_L1_error)
   __pyx_t_5 = NULL;
   if (CYTHON_UNPACK_METHODS && unlikely(PyMethod_Check(__pyx_t_3))) {
     __pyx_t_5 = PyMethod_GET_SELF(__pyx_t_3);
@@ -5660,14 +6174,14 @@ static PyObject *__pyx_pf_18EmpiricalFunctions_8FindClosestKeyInDicAndReturnKeyB
     }
   }
   if (!__pyx_t_5) {
-    __pyx_t_1 = __Pyx_PyObject_CallOneArg(__pyx_t_3, __pyx_t_2); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 104, __pyx_L1_error)
+    __pyx_t_1 = __Pyx_PyObject_CallOneArg(__pyx_t_3, __pyx_t_2); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 112, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
     __Pyx_GOTREF(__pyx_t_1);
   } else {
     #if CYTHON_FAST_PYCALL
     if (PyFunction_Check(__pyx_t_3)) {
       PyObject *__pyx_temp[2] = {__pyx_t_5, __pyx_t_2};
-      __pyx_t_1 = __Pyx_PyFunction_FastCall(__pyx_t_3, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 104, __pyx_L1_error)
+      __pyx_t_1 = __Pyx_PyFunction_FastCall(__pyx_t_3, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 112, __pyx_L1_error)
       __Pyx_XDECREF(__pyx_t_5); __pyx_t_5 = 0;
       __Pyx_GOTREF(__pyx_t_1);
       __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
@@ -5676,20 +6190,20 @@ static PyObject *__pyx_pf_18EmpiricalFunctions_8FindClosestKeyInDicAndReturnKeyB
     #if CYTHON_FAST_PYCCALL
     if (__Pyx_PyFastCFunction_Check(__pyx_t_3)) {
       PyObject *__pyx_temp[2] = {__pyx_t_5, __pyx_t_2};
-      __pyx_t_1 = __Pyx_PyCFunction_FastCall(__pyx_t_3, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 104, __pyx_L1_error)
+      __pyx_t_1 = __Pyx_PyCFunction_FastCall(__pyx_t_3, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 112, __pyx_L1_error)
       __Pyx_XDECREF(__pyx_t_5); __pyx_t_5 = 0;
       __Pyx_GOTREF(__pyx_t_1);
       __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
     } else
     #endif
     {
-      __pyx_t_4 = PyTuple_New(1+1); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 104, __pyx_L1_error)
+      __pyx_t_4 = PyTuple_New(1+1); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 112, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_4);
       __Pyx_GIVEREF(__pyx_t_5); PyTuple_SET_ITEM(__pyx_t_4, 0, __pyx_t_5); __pyx_t_5 = NULL;
       __Pyx_GIVEREF(__pyx_t_2);
       PyTuple_SET_ITEM(__pyx_t_4, 0+1, __pyx_t_2);
       __pyx_t_2 = 0;
-      __pyx_t_1 = __Pyx_PyObject_Call(__pyx_t_3, __pyx_t_4, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 104, __pyx_L1_error)
+      __pyx_t_1 = __Pyx_PyObject_Call(__pyx_t_3, __pyx_t_4, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 112, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_1);
       __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
     }
@@ -5699,21 +6213,21 @@ static PyObject *__pyx_pf_18EmpiricalFunctions_8FindClosestKeyInDicAndReturnKeyB
   __pyx_cur_scope->__pyx_v_ORes = __pyx_t_1;
   __pyx_t_1 = 0;
 
-  /* "EmpiricalFunctions.pyx":105
+  /* "EmpiricalFunctions.pyx":113
  * def FindClosestKeyInDicAndReturnKeyBoundsAlgorithm(Res):
  *     ORes = collections.OrderedDict(sorted(Res.items()))
  *     def FN(u):             # <<<<<<<<<<<<<<
- *         return fKeys(u,np.asarray(list(ORes.keys())))
+ *         return fKeys(u,longlist1array(list(ORes.keys())))
  *     return FN
  */
-  __pyx_t_1 = __Pyx_CyFunction_NewEx(&__pyx_mdef_18EmpiricalFunctions_46FindClosestKeyInDicAndReturnKeyBoundsAlgorithm_1FN, 0, __pyx_n_s_FindClosestKeyInDicAndReturnKeyB, ((PyObject*)__pyx_cur_scope), __pyx_n_s_EmpiricalFunctions, __pyx_d, ((PyObject *)__pyx_codeobj__10)); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 105, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_CyFunction_NewEx(&__pyx_mdef_18EmpiricalFunctions_46FindClosestKeyInDicAndReturnKeyBoundsAlgorithm_1FN, 0, __pyx_n_s_FindClosestKeyInDicAndReturnKeyB, ((PyObject*)__pyx_cur_scope), __pyx_n_s_EmpiricalFunctions, __pyx_d, ((PyObject *)__pyx_codeobj__10)); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 113, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_v_FN = __pyx_t_1;
   __pyx_t_1 = 0;
 
-  /* "EmpiricalFunctions.pyx":107
+  /* "EmpiricalFunctions.pyx":115
  *     def FN(u):
- *         return fKeys(u,np.asarray(list(ORes.keys())))
+ *         return fKeys(u,longlist1array(list(ORes.keys())))
  *     return FN             # <<<<<<<<<<<<<<
  * 
  */
@@ -5722,7 +6236,7 @@ static PyObject *__pyx_pf_18EmpiricalFunctions_8FindClosestKeyInDicAndReturnKeyB
   __pyx_r = __pyx_v_FN;
   goto __pyx_L0;
 
-  /* "EmpiricalFunctions.pyx":103
+  /* "EmpiricalFunctions.pyx":111
  *     return InnerFn
  * 
  * def FindClosestKeyInDicAndReturnKeyBoundsAlgorithm(Res):             # <<<<<<<<<<<<<<
@@ -9092,7 +9606,11 @@ static PyMethodDef __pyx_methods[] = {
 static int __pyx_import_star_set(PyObject *o, PyObject* py_name, char *name) {
   static const char* internal_type_names[] = {
     "__pyx_ctuple_Py_ssize_t",
+    "__pyx_ctuple_Py_ssize_t__and_long",
+    "__pyx_ctuple_Py_ssize_t__and_long_struct",
     "__pyx_ctuple_Py_ssize_t_struct",
+    "__pyx_ctuple___dunderpyx_ctuple_Py_ssize_t__dunderand_long",
+    "__pyx_ctuple___dunderpyx_ctuple_Py_ssize_t__dunderand_long_struct",
     "__pyx_ctuple_int",
     "__pyx_ctuple_int_struct",
     "__pyx_ctuple_long__and_Py_ssize_t__and_long",
@@ -9415,24 +9933,33 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {&__pyx_n_s_a, __pyx_k_a, sizeof(__pyx_k_a), 0, 0, 1, 1},
   {&__pyx_n_s_arange, __pyx_k_arange, sizeof(__pyx_k_arange), 0, 0, 1, 1},
   {&__pyx_n_s_args, __pyx_k_args, sizeof(__pyx_k_args), 0, 0, 1, 1},
+  {&__pyx_n_s_array, __pyx_k_array, sizeof(__pyx_k_array), 0, 0, 1, 1},
   {&__pyx_n_s_asarray, __pyx_k_asarray, sizeof(__pyx_k_asarray), 0, 0, 1, 1},
+  {&__pyx_n_s_chain, __pyx_k_chain, sizeof(__pyx_k_chain), 0, 0, 1, 1},
   {&__pyx_n_s_check, __pyx_k_check, sizeof(__pyx_k_check), 0, 0, 1, 1},
   {&__pyx_n_s_cline_in_traceback, __pyx_k_cline_in_traceback, sizeof(__pyx_k_cline_in_traceback), 0, 0, 1, 1},
   {&__pyx_n_s_close, __pyx_k_close, sizeof(__pyx_k_close), 0, 0, 1, 1},
   {&__pyx_n_s_collections, __pyx_k_collections, sizeof(__pyx_k_collections), 0, 0, 1, 1},
   {&__pyx_n_s_dtype, __pyx_k_dtype, sizeof(__pyx_k_dtype), 0, 0, 1, 1},
   {&__pyx_n_s_exp, __pyx_k_exp, sizeof(__pyx_k_exp), 0, 0, 1, 1},
+  {&__pyx_n_s_flat, __pyx_k_flat, sizeof(__pyx_k_flat), 0, 0, 1, 1},
   {&__pyx_n_s_float, __pyx_k_float, sizeof(__pyx_k_float), 0, 0, 1, 1},
+  {&__pyx_n_s_from_iterable, __pyx_k_from_iterable, sizeof(__pyx_k_from_iterable), 0, 0, 1, 1},
+  {&__pyx_n_s_fromiter, __pyx_k_fromiter, sizeof(__pyx_k_fromiter), 0, 0, 1, 1},
   {&__pyx_n_s_genexpr, __pyx_k_genexpr, sizeof(__pyx_k_genexpr), 0, 0, 1, 1},
   {&__pyx_n_s_i, __pyx_k_i, sizeof(__pyx_k_i), 0, 0, 1, 1},
   {&__pyx_n_s_import, __pyx_k_import, sizeof(__pyx_k_import), 0, 0, 1, 1},
   {&__pyx_n_s_innerFn, __pyx_k_innerFn, sizeof(__pyx_k_innerFn), 0, 0, 1, 1},
   {&__pyx_n_s_int, __pyx_k_int, sizeof(__pyx_k_int), 0, 0, 1, 1},
   {&__pyx_n_s_items, __pyx_k_items, sizeof(__pyx_k_items), 0, 0, 1, 1},
+  {&__pyx_n_s_itertools, __pyx_k_itertools, sizeof(__pyx_k_itertools), 0, 0, 1, 1},
   {&__pyx_n_s_kT, __pyx_k_kT, sizeof(__pyx_k_kT), 0, 0, 1, 1},
   {&__pyx_n_s_keys, __pyx_k_keys, sizeof(__pyx_k_keys), 0, 0, 1, 1},
   {&__pyx_n_s_l, __pyx_k_l, sizeof(__pyx_k_l), 0, 0, 1, 1},
   {&__pyx_n_s_lb, __pyx_k_lb, sizeof(__pyx_k_lb), 0, 0, 1, 1},
+  {&__pyx_n_s_longlist, __pyx_k_longlist, sizeof(__pyx_k_longlist), 0, 0, 1, 1},
+  {&__pyx_n_s_longlist1array, __pyx_k_longlist1array, sizeof(__pyx_k_longlist1array), 0, 0, 1, 1},
+  {&__pyx_n_s_longlist2array, __pyx_k_longlist2array, sizeof(__pyx_k_longlist2array), 0, 0, 1, 1},
   {&__pyx_n_s_ls, __pyx_k_ls, sizeof(__pyx_k_ls), 0, 0, 1, 1},
   {&__pyx_n_s_main, __pyx_k_main, sizeof(__pyx_k_main), 0, 0, 1, 1},
   {&__pyx_n_s_math, __pyx_k_math, sizeof(__pyx_k_math), 0, 0, 1, 1},
@@ -9448,6 +9975,7 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {&__pyx_n_s_range, __pyx_k_range, sizeof(__pyx_k_range), 0, 0, 1, 1},
   {&__pyx_n_s_res, __pyx_k_res, sizeof(__pyx_k_res), 0, 0, 1, 1},
   {&__pyx_n_s_resFn, __pyx_k_resFn, sizeof(__pyx_k_resFn), 0, 0, 1, 1},
+  {&__pyx_n_s_reshape, __pyx_k_reshape, sizeof(__pyx_k_reshape), 0, 0, 1, 1},
   {&__pyx_n_s_s, __pyx_k_s, sizeof(__pyx_k_s), 0, 0, 1, 1},
   {&__pyx_n_s_send, __pyx_k_send, sizeof(__pyx_k_send), 0, 0, 1, 1},
   {&__pyx_n_s_step, __pyx_k_step, sizeof(__pyx_k_step), 0, 0, 1, 1},
@@ -9462,9 +9990,9 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {0, 0, 0, 0, 0, 0, 0}
 };
 static int __Pyx_InitCachedBuiltins(void) {
-  __pyx_builtin_max = __Pyx_GetBuiltinName(__pyx_n_s_max); if (!__pyx_builtin_max) __PYX_ERR(0, 18, __pyx_L1_error)
-  __pyx_builtin_min = __Pyx_GetBuiltinName(__pyx_n_s_min); if (!__pyx_builtin_min) __PYX_ERR(0, 20, __pyx_L1_error)
-  __pyx_builtin_sum = __Pyx_GetBuiltinName(__pyx_n_s_sum); if (!__pyx_builtin_sum) __PYX_ERR(0, 42, __pyx_L1_error)
+  __pyx_builtin_max = __Pyx_GetBuiltinName(__pyx_n_s_max); if (!__pyx_builtin_max) __PYX_ERR(0, 19, __pyx_L1_error)
+  __pyx_builtin_min = __Pyx_GetBuiltinName(__pyx_n_s_min); if (!__pyx_builtin_min) __PYX_ERR(0, 21, __pyx_L1_error)
+  __pyx_builtin_sum = __Pyx_GetBuiltinName(__pyx_n_s_sum); if (!__pyx_builtin_sum) __PYX_ERR(0, 43, __pyx_L1_error)
   __pyx_builtin_ValueError = __Pyx_GetBuiltinName(__pyx_n_s_ValueError); if (!__pyx_builtin_ValueError) __PYX_ERR(1, 235, __pyx_L1_error)
   __pyx_builtin_range = __Pyx_GetBuiltinName(__pyx_n_s_range); if (!__pyx_builtin_range) __PYX_ERR(1, 248, __pyx_L1_error)
   __pyx_builtin_RuntimeError = __Pyx_GetBuiltinName(__pyx_n_s_RuntimeError); if (!__pyx_builtin_RuntimeError) __PYX_ERR(1, 823, __pyx_L1_error)
@@ -9478,65 +10006,65 @@ static int __Pyx_InitCachedConstants(void) {
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("__Pyx_InitCachedConstants", 0);
 
-  /* "EmpiricalFunctions.pyx":22
+  /* "EmpiricalFunctions.pyx":23
  *         if a < min(Ordrdx):
  *             return 0.0
  *         def innerFn(a,xpr,lb,ub):             # <<<<<<<<<<<<<<
  *             i = int((len(xpr) / 2))
  *             if xpr[i-1] < a and xpr[i] < a:
  */
-  __pyx_tuple_ = PyTuple_Pack(5, __pyx_n_s_a, __pyx_n_s_xpr, __pyx_n_s_lb, __pyx_n_s_ub, __pyx_n_s_i); if (unlikely(!__pyx_tuple_)) __PYX_ERR(0, 22, __pyx_L1_error)
+  __pyx_tuple_ = PyTuple_Pack(5, __pyx_n_s_a, __pyx_n_s_xpr, __pyx_n_s_lb, __pyx_n_s_ub, __pyx_n_s_i); if (unlikely(!__pyx_tuple_)) __PYX_ERR(0, 23, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple_);
   __Pyx_GIVEREF(__pyx_tuple_);
-  __pyx_codeobj__2 = (PyObject*)__Pyx_PyCode_New(4, 0, 5, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple_, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_EmpiricalFunctions_pyx, __pyx_n_s_innerFn, 22, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__2)) __PYX_ERR(0, 22, __pyx_L1_error)
+  __pyx_codeobj__2 = (PyObject*)__Pyx_PyCode_New(4, 0, 5, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple_, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_EmpiricalFunctions_pyx, __pyx_n_s_innerFn, 23, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__2)) __PYX_ERR(0, 23, __pyx_L1_error)
 
-  /* "EmpiricalFunctions.pyx":17
+  /* "EmpiricalFunctions.pyx":18
  * 
  * def Empirical_StepWise_CDF(Ordrdx):
  *     def resFn(a):             # <<<<<<<<<<<<<<
  *         if a > max(Ordrdx):
  *             return 1.0
  */
-  __pyx_tuple__3 = PyTuple_Pack(3, __pyx_n_s_a, __pyx_n_s_innerFn, __pyx_n_s_innerFn); if (unlikely(!__pyx_tuple__3)) __PYX_ERR(0, 17, __pyx_L1_error)
+  __pyx_tuple__3 = PyTuple_Pack(3, __pyx_n_s_a, __pyx_n_s_innerFn, __pyx_n_s_innerFn); if (unlikely(!__pyx_tuple__3)) __PYX_ERR(0, 18, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__3);
   __Pyx_GIVEREF(__pyx_tuple__3);
-  __pyx_codeobj__4 = (PyObject*)__Pyx_PyCode_New(1, 0, 3, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__3, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_EmpiricalFunctions_pyx, __pyx_n_s_resFn, 17, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__4)) __PYX_ERR(0, 17, __pyx_L1_error)
+  __pyx_codeobj__4 = (PyObject*)__Pyx_PyCode_New(1, 0, 3, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__3, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_EmpiricalFunctions_pyx, __pyx_n_s_resFn, 18, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__4)) __PYX_ERR(0, 18, __pyx_L1_error)
 
-  /* "EmpiricalFunctions.pyx":37
+  /* "EmpiricalFunctions.pyx":38
  * def ApproxPWCDFDicFromHazardRates(l,step = 0.01):
  *     cdef float i
  *     def P(T):             # <<<<<<<<<<<<<<
  *         ls = np.asarray(l,dtype=FDTYPE)
  *         keys = np.arange(0,len(ls),1,dtype=DTYPE) #!change this if ever change the time periods from years os cant use the index of the array to count periods unless 1 period = 1 year
  */
-  __pyx_tuple__5 = PyTuple_Pack(8, __pyx_n_s_T, __pyx_n_s_ls, __pyx_n_s_keys, __pyx_n_s_s, __pyx_n_s_kT, __pyx_n_s_p, __pyx_n_s_genexpr, __pyx_n_s_genexpr); if (unlikely(!__pyx_tuple__5)) __PYX_ERR(0, 37, __pyx_L1_error)
+  __pyx_tuple__5 = PyTuple_Pack(8, __pyx_n_s_T, __pyx_n_s_ls, __pyx_n_s_keys, __pyx_n_s_s, __pyx_n_s_kT, __pyx_n_s_p, __pyx_n_s_genexpr, __pyx_n_s_genexpr); if (unlikely(!__pyx_tuple__5)) __PYX_ERR(0, 38, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__5);
   __Pyx_GIVEREF(__pyx_tuple__5);
-  __pyx_codeobj__6 = (PyObject*)__Pyx_PyCode_New(1, 0, 8, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__5, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_EmpiricalFunctions_pyx, __pyx_n_s_P, 37, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__6)) __PYX_ERR(0, 37, __pyx_L1_error)
+  __pyx_codeobj__6 = (PyObject*)__Pyx_PyCode_New(1, 0, 8, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__5, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_EmpiricalFunctions_pyx, __pyx_n_s_P, 38, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__6)) __PYX_ERR(0, 38, __pyx_L1_error)
 
-  /* "EmpiricalFunctions.pyx":99
+  /* "EmpiricalFunctions.pyx":107
  * def FindClosestKeyInDicAndReturnValueAlgorithm(Res):
  *     ORes = collections.OrderedDict(sorted(Res.items()))
  *     def InnerFn(float u):             # <<<<<<<<<<<<<<
- *         return fnVals(u,np.asarray(list(ORes.keys())),ORes)
+ *         return fnVals(u,longlist1array(list(ORes.keys())),ORes)
  *     return InnerFn
  */
-  __pyx_tuple__7 = PyTuple_Pack(2, __pyx_n_s_u, __pyx_n_s_u); if (unlikely(!__pyx_tuple__7)) __PYX_ERR(0, 99, __pyx_L1_error)
+  __pyx_tuple__7 = PyTuple_Pack(2, __pyx_n_s_u, __pyx_n_s_u); if (unlikely(!__pyx_tuple__7)) __PYX_ERR(0, 107, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__7);
   __Pyx_GIVEREF(__pyx_tuple__7);
-  __pyx_codeobj__8 = (PyObject*)__Pyx_PyCode_New(1, 0, 2, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__7, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_EmpiricalFunctions_pyx, __pyx_n_s_InnerFn, 99, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__8)) __PYX_ERR(0, 99, __pyx_L1_error)
+  __pyx_codeobj__8 = (PyObject*)__Pyx_PyCode_New(1, 0, 2, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__7, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_EmpiricalFunctions_pyx, __pyx_n_s_InnerFn, 107, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__8)) __PYX_ERR(0, 107, __pyx_L1_error)
 
-  /* "EmpiricalFunctions.pyx":105
+  /* "EmpiricalFunctions.pyx":113
  * def FindClosestKeyInDicAndReturnKeyBoundsAlgorithm(Res):
  *     ORes = collections.OrderedDict(sorted(Res.items()))
  *     def FN(u):             # <<<<<<<<<<<<<<
- *         return fKeys(u,np.asarray(list(ORes.keys())))
+ *         return fKeys(u,longlist1array(list(ORes.keys())))
  *     return FN
  */
-  __pyx_tuple__9 = PyTuple_Pack(1, __pyx_n_s_u); if (unlikely(!__pyx_tuple__9)) __PYX_ERR(0, 105, __pyx_L1_error)
+  __pyx_tuple__9 = PyTuple_Pack(1, __pyx_n_s_u); if (unlikely(!__pyx_tuple__9)) __PYX_ERR(0, 113, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__9);
   __Pyx_GIVEREF(__pyx_tuple__9);
-  __pyx_codeobj__10 = (PyObject*)__Pyx_PyCode_New(1, 0, 1, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__9, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_EmpiricalFunctions_pyx, __pyx_n_s_FN, 105, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__10)) __PYX_ERR(0, 105, __pyx_L1_error)
+  __pyx_codeobj__10 = (PyObject*)__Pyx_PyCode_New(1, 0, 1, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__9, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_EmpiricalFunctions_pyx, __pyx_n_s_FN, 113, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__10)) __PYX_ERR(0, 113, __pyx_L1_error)
 
   /* "../../../../../../../Program Files (x86)/Microsoft Visual Studio/Shared/Anaconda3_64/lib/site-packages/Cython/Includes/numpy/__init__.pxd":235
  *             if ((flags & pybuf.PyBUF_C_CONTIGUOUS == pybuf.PyBUF_C_CONTIGUOUS)
@@ -9635,65 +10163,89 @@ static int __Pyx_InitCachedConstants(void) {
   __Pyx_GOTREF(__pyx_tuple__19);
   __Pyx_GIVEREF(__pyx_tuple__19);
 
-  /* "EmpiricalFunctions.pyx":10
+  /* "EmpiricalFunctions.pyx":11
  * FDTYPE = np.float
  * 
  * def check(a, i, step, xpr):             # <<<<<<<<<<<<<<
  *     if len(xpr) > i+step and xpr[i+step] == a:
  *         return check(a, i+step, step, xpr)
  */
-  __pyx_tuple__21 = PyTuple_Pack(4, __pyx_n_s_a, __pyx_n_s_i, __pyx_n_s_step, __pyx_n_s_xpr); if (unlikely(!__pyx_tuple__21)) __PYX_ERR(0, 10, __pyx_L1_error)
+  __pyx_tuple__21 = PyTuple_Pack(4, __pyx_n_s_a, __pyx_n_s_i, __pyx_n_s_step, __pyx_n_s_xpr); if (unlikely(!__pyx_tuple__21)) __PYX_ERR(0, 11, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__21);
   __Pyx_GIVEREF(__pyx_tuple__21);
-  __pyx_codeobj__22 = (PyObject*)__Pyx_PyCode_New(4, 0, 4, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__21, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_EmpiricalFunctions_pyx, __pyx_n_s_check, 10, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__22)) __PYX_ERR(0, 10, __pyx_L1_error)
+  __pyx_codeobj__22 = (PyObject*)__Pyx_PyCode_New(4, 0, 4, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__21, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_EmpiricalFunctions_pyx, __pyx_n_s_check, 11, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__22)) __PYX_ERR(0, 11, __pyx_L1_error)
 
-  /* "EmpiricalFunctions.pyx":16
+  /* "EmpiricalFunctions.pyx":17
  *         return i
  * 
  * def Empirical_StepWise_CDF(Ordrdx):             # <<<<<<<<<<<<<<
  *     def resFn(a):
  *         if a > max(Ordrdx):
  */
-  __pyx_tuple__23 = PyTuple_Pack(3, __pyx_n_s_Ordrdx, __pyx_n_s_resFn, __pyx_n_s_resFn); if (unlikely(!__pyx_tuple__23)) __PYX_ERR(0, 16, __pyx_L1_error)
+  __pyx_tuple__23 = PyTuple_Pack(3, __pyx_n_s_Ordrdx, __pyx_n_s_resFn, __pyx_n_s_resFn); if (unlikely(!__pyx_tuple__23)) __PYX_ERR(0, 17, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__23);
   __Pyx_GIVEREF(__pyx_tuple__23);
-  __pyx_codeobj__24 = (PyObject*)__Pyx_PyCode_New(1, 0, 3, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__23, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_EmpiricalFunctions_pyx, __pyx_n_s_Empirical_StepWise_CDF, 16, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__24)) __PYX_ERR(0, 16, __pyx_L1_error)
+  __pyx_codeobj__24 = (PyObject*)__Pyx_PyCode_New(1, 0, 3, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__23, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_EmpiricalFunctions_pyx, __pyx_n_s_Empirical_StepWise_CDF, 17, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__24)) __PYX_ERR(0, 17, __pyx_L1_error)
 
-  /* "EmpiricalFunctions.pyx":35
+  /* "EmpiricalFunctions.pyx":36
  *     return resFn
  *     #return the EmpiricalCDF function from this function.
  * def ApproxPWCDFDicFromHazardRates(l,step = 0.01):             # <<<<<<<<<<<<<<
  *     cdef float i
  *     def P(T):
  */
-  __pyx_tuple__25 = PyTuple_Pack(6, __pyx_n_s_l, __pyx_n_s_step, __pyx_n_s_i, __pyx_n_s_P, __pyx_n_s_P, __pyx_n_s_res); if (unlikely(!__pyx_tuple__25)) __PYX_ERR(0, 35, __pyx_L1_error)
+  __pyx_tuple__25 = PyTuple_Pack(6, __pyx_n_s_l, __pyx_n_s_step, __pyx_n_s_i, __pyx_n_s_P, __pyx_n_s_P, __pyx_n_s_res); if (unlikely(!__pyx_tuple__25)) __PYX_ERR(0, 36, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__25);
   __Pyx_GIVEREF(__pyx_tuple__25);
-  __pyx_codeobj__26 = (PyObject*)__Pyx_PyCode_New(2, 0, 6, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__25, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_EmpiricalFunctions_pyx, __pyx_n_s_ApproxPWCDFDicFromHazardRates, 35, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__26)) __PYX_ERR(0, 35, __pyx_L1_error)
+  __pyx_codeobj__26 = (PyObject*)__Pyx_PyCode_New(2, 0, 6, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__25, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_EmpiricalFunctions_pyx, __pyx_n_s_ApproxPWCDFDicFromHazardRates, 36, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__26)) __PYX_ERR(0, 36, __pyx_L1_error)
 
-  /* "EmpiricalFunctions.pyx":97
+  /* "EmpiricalFunctions.pyx":98
  *         return np.asarray([U[i-1],U[i]])
+ * 
+ * def longlist2array(longlist):             # <<<<<<<<<<<<<<
+ *     flat = np.fromiter(chain.from_iterable(longlist), np.array(longlist[0][0]).dtype, -1) # Without intermediate list:)
+ *     return flat.reshape((len(longlist), -1))
+ */
+  __pyx_tuple__27 = PyTuple_Pack(2, __pyx_n_s_longlist, __pyx_n_s_flat); if (unlikely(!__pyx_tuple__27)) __PYX_ERR(0, 98, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__27);
+  __Pyx_GIVEREF(__pyx_tuple__27);
+  __pyx_codeobj__28 = (PyObject*)__Pyx_PyCode_New(1, 0, 2, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__27, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_EmpiricalFunctions_pyx, __pyx_n_s_longlist2array, 98, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__28)) __PYX_ERR(0, 98, __pyx_L1_error)
+
+  /* "EmpiricalFunctions.pyx":102
+ *     return flat.reshape((len(longlist), -1))
+ * 
+ * def longlist1array(longlist):             # <<<<<<<<<<<<<<
+ *     return np.fromiter(longlist, np.array(longlist[0]).dtype) # Without intermediate li
+ * 
+ */
+  __pyx_tuple__29 = PyTuple_Pack(1, __pyx_n_s_longlist); if (unlikely(!__pyx_tuple__29)) __PYX_ERR(0, 102, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__29);
+  __Pyx_GIVEREF(__pyx_tuple__29);
+  __pyx_codeobj__30 = (PyObject*)__Pyx_PyCode_New(1, 0, 1, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__29, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_EmpiricalFunctions_pyx, __pyx_n_s_longlist1array, 102, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__30)) __PYX_ERR(0, 102, __pyx_L1_error)
+
+  /* "EmpiricalFunctions.pyx":105
+ *     return np.fromiter(longlist, np.array(longlist[0]).dtype) # Without intermediate li
  * 
  * def FindClosestKeyInDicAndReturnValueAlgorithm(Res):             # <<<<<<<<<<<<<<
  *     ORes = collections.OrderedDict(sorted(Res.items()))
  *     def InnerFn(float u):
  */
-  __pyx_tuple__27 = PyTuple_Pack(4, __pyx_n_s_Res, __pyx_n_s_ORes, __pyx_n_s_InnerFn, __pyx_n_s_InnerFn); if (unlikely(!__pyx_tuple__27)) __PYX_ERR(0, 97, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__27);
-  __Pyx_GIVEREF(__pyx_tuple__27);
-  __pyx_codeobj__28 = (PyObject*)__Pyx_PyCode_New(1, 0, 4, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__27, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_EmpiricalFunctions_pyx, __pyx_n_s_FindClosestKeyInDicAndReturnValu, 97, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__28)) __PYX_ERR(0, 97, __pyx_L1_error)
+  __pyx_tuple__31 = PyTuple_Pack(4, __pyx_n_s_Res, __pyx_n_s_ORes, __pyx_n_s_InnerFn, __pyx_n_s_InnerFn); if (unlikely(!__pyx_tuple__31)) __PYX_ERR(0, 105, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__31);
+  __Pyx_GIVEREF(__pyx_tuple__31);
+  __pyx_codeobj__32 = (PyObject*)__Pyx_PyCode_New(1, 0, 4, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__31, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_EmpiricalFunctions_pyx, __pyx_n_s_FindClosestKeyInDicAndReturnValu, 105, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__32)) __PYX_ERR(0, 105, __pyx_L1_error)
 
-  /* "EmpiricalFunctions.pyx":103
+  /* "EmpiricalFunctions.pyx":111
  *     return InnerFn
  * 
  * def FindClosestKeyInDicAndReturnKeyBoundsAlgorithm(Res):             # <<<<<<<<<<<<<<
  *     ORes = collections.OrderedDict(sorted(Res.items()))
  *     def FN(u):
  */
-  __pyx_tuple__29 = PyTuple_Pack(4, __pyx_n_s_Res, __pyx_n_s_ORes, __pyx_n_s_FN, __pyx_n_s_FN); if (unlikely(!__pyx_tuple__29)) __PYX_ERR(0, 103, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__29);
-  __Pyx_GIVEREF(__pyx_tuple__29);
-  __pyx_codeobj__30 = (PyObject*)__Pyx_PyCode_New(1, 0, 4, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__29, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_EmpiricalFunctions_pyx, __pyx_n_s_FindClosestKeyInDicAndReturnKeyB_2, 103, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__30)) __PYX_ERR(0, 103, __pyx_L1_error)
+  __pyx_tuple__33 = PyTuple_Pack(4, __pyx_n_s_Res, __pyx_n_s_ORes, __pyx_n_s_FN, __pyx_n_s_FN); if (unlikely(!__pyx_tuple__33)) __PYX_ERR(0, 111, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__33);
+  __Pyx_GIVEREF(__pyx_tuple__33);
+  __pyx_codeobj__34 = (PyObject*)__Pyx_PyCode_New(1, 0, 4, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__33, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_EmpiricalFunctions_pyx, __pyx_n_s_FindClosestKeyInDicAndReturnKeyB_2, 111, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__34)) __PYX_ERR(0, 111, __pyx_L1_error)
   __Pyx_RefNannyFinishContext();
   return 0;
   __pyx_L1_error:;
@@ -9710,6 +10262,7 @@ static int __Pyx_InitGlobals(void) {
   __pyx_int_1 = PyInt_FromLong(1); if (unlikely(!__pyx_int_1)) __PYX_ERR(0, 1, __pyx_L1_error)
   __pyx_int_10 = PyInt_FromLong(10); if (unlikely(!__pyx_int_10)) __PYX_ERR(0, 1, __pyx_L1_error)
   __pyx_int_100 = PyInt_FromLong(100); if (unlikely(!__pyx_int_100)) __PYX_ERR(0, 1, __pyx_L1_error)
+  __pyx_int_neg_1 = PyInt_FromLong(-1); if (unlikely(!__pyx_int_neg_1)) __PYX_ERR(0, 1, __pyx_L1_error)
   return 0;
   __pyx_L1_error:;
   return -1;
@@ -9853,25 +10406,25 @@ static int __pyx_pymod_exec_EmpiricalFunctions(PyObject *__pyx_pyinit_module)
   /*--- Variable export code ---*/
   /*--- Function export code ---*/
   /*--- Type init code ---*/
-  if (PyType_Ready(&__pyx_type_18EmpiricalFunctions___pyx_scope_struct__Empirical_StepWise_CDF) < 0) __PYX_ERR(0, 16, __pyx_L1_error)
+  if (PyType_Ready(&__pyx_type_18EmpiricalFunctions___pyx_scope_struct__Empirical_StepWise_CDF) < 0) __PYX_ERR(0, 17, __pyx_L1_error)
   __pyx_type_18EmpiricalFunctions___pyx_scope_struct__Empirical_StepWise_CDF.tp_print = 0;
   __pyx_ptype_18EmpiricalFunctions___pyx_scope_struct__Empirical_StepWise_CDF = &__pyx_type_18EmpiricalFunctions___pyx_scope_struct__Empirical_StepWise_CDF;
-  if (PyType_Ready(&__pyx_type_18EmpiricalFunctions___pyx_scope_struct_1_resFn) < 0) __PYX_ERR(0, 17, __pyx_L1_error)
+  if (PyType_Ready(&__pyx_type_18EmpiricalFunctions___pyx_scope_struct_1_resFn) < 0) __PYX_ERR(0, 18, __pyx_L1_error)
   __pyx_type_18EmpiricalFunctions___pyx_scope_struct_1_resFn.tp_print = 0;
   __pyx_ptype_18EmpiricalFunctions___pyx_scope_struct_1_resFn = &__pyx_type_18EmpiricalFunctions___pyx_scope_struct_1_resFn;
-  if (PyType_Ready(&__pyx_type_18EmpiricalFunctions___pyx_scope_struct_2_ApproxPWCDFDicFromHazardRates) < 0) __PYX_ERR(0, 35, __pyx_L1_error)
+  if (PyType_Ready(&__pyx_type_18EmpiricalFunctions___pyx_scope_struct_2_ApproxPWCDFDicFromHazardRates) < 0) __PYX_ERR(0, 36, __pyx_L1_error)
   __pyx_type_18EmpiricalFunctions___pyx_scope_struct_2_ApproxPWCDFDicFromHazardRates.tp_print = 0;
   __pyx_ptype_18EmpiricalFunctions___pyx_scope_struct_2_ApproxPWCDFDicFromHazardRates = &__pyx_type_18EmpiricalFunctions___pyx_scope_struct_2_ApproxPWCDFDicFromHazardRates;
-  if (PyType_Ready(&__pyx_type_18EmpiricalFunctions___pyx_scope_struct_3_P) < 0) __PYX_ERR(0, 37, __pyx_L1_error)
+  if (PyType_Ready(&__pyx_type_18EmpiricalFunctions___pyx_scope_struct_3_P) < 0) __PYX_ERR(0, 38, __pyx_L1_error)
   __pyx_type_18EmpiricalFunctions___pyx_scope_struct_3_P.tp_print = 0;
   __pyx_ptype_18EmpiricalFunctions___pyx_scope_struct_3_P = &__pyx_type_18EmpiricalFunctions___pyx_scope_struct_3_P;
-  if (PyType_Ready(&__pyx_type_18EmpiricalFunctions___pyx_scope_struct_4_genexpr) < 0) __PYX_ERR(0, 41, __pyx_L1_error)
+  if (PyType_Ready(&__pyx_type_18EmpiricalFunctions___pyx_scope_struct_4_genexpr) < 0) __PYX_ERR(0, 42, __pyx_L1_error)
   __pyx_type_18EmpiricalFunctions___pyx_scope_struct_4_genexpr.tp_print = 0;
   __pyx_ptype_18EmpiricalFunctions___pyx_scope_struct_4_genexpr = &__pyx_type_18EmpiricalFunctions___pyx_scope_struct_4_genexpr;
-  if (PyType_Ready(&__pyx_type_18EmpiricalFunctions___pyx_scope_struct_5_FindClosestKeyInDicAndReturnValueAlgorithm) < 0) __PYX_ERR(0, 97, __pyx_L1_error)
+  if (PyType_Ready(&__pyx_type_18EmpiricalFunctions___pyx_scope_struct_5_FindClosestKeyInDicAndReturnValueAlgorithm) < 0) __PYX_ERR(0, 105, __pyx_L1_error)
   __pyx_type_18EmpiricalFunctions___pyx_scope_struct_5_FindClosestKeyInDicAndReturnValueAlgorithm.tp_print = 0;
   __pyx_ptype_18EmpiricalFunctions___pyx_scope_struct_5_FindClosestKeyInDicAndReturnValueAlgorithm = &__pyx_type_18EmpiricalFunctions___pyx_scope_struct_5_FindClosestKeyInDicAndReturnValueAlgorithm;
-  if (PyType_Ready(&__pyx_type_18EmpiricalFunctions___pyx_scope_struct_6_FindClosestKeyInDicAndReturnKeyBoundsAlgorithm) < 0) __PYX_ERR(0, 103, __pyx_L1_error)
+  if (PyType_Ready(&__pyx_type_18EmpiricalFunctions___pyx_scope_struct_6_FindClosestKeyInDicAndReturnKeyBoundsAlgorithm) < 0) __PYX_ERR(0, 111, __pyx_L1_error)
   __pyx_type_18EmpiricalFunctions___pyx_scope_struct_6_FindClosestKeyInDicAndReturnKeyBoundsAlgorithm.tp_print = 0;
   __pyx_ptype_18EmpiricalFunctions___pyx_scope_struct_6_FindClosestKeyInDicAndReturnKeyBoundsAlgorithm = &__pyx_type_18EmpiricalFunctions___pyx_scope_struct_6_FindClosestKeyInDicAndReturnKeyBoundsAlgorithm;
   /*--- Type import code ---*/
@@ -9920,7 +10473,7 @@ static int __pyx_pymod_exec_EmpiricalFunctions(PyObject *__pyx_pyinit_module)
  * import numpy as np
  * from Returns import *             # <<<<<<<<<<<<<<
  * from Sorting import *
- * import collections
+ * from itertools import chain
  */
   __pyx_t_1 = PyList_New(1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 3, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
@@ -9937,8 +10490,8 @@ static int __pyx_pymod_exec_EmpiricalFunctions(PyObject *__pyx_pyinit_module)
  * import numpy as np
  * from Returns import *
  * from Sorting import *             # <<<<<<<<<<<<<<
+ * from itertools import chain
  * import collections
- * cimport numpy as np
  */
   __pyx_t_2 = PyList_New(1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 4, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
@@ -9954,114 +10507,159 @@ static int __pyx_pymod_exec_EmpiricalFunctions(PyObject *__pyx_pyinit_module)
   /* "EmpiricalFunctions.pyx":5
  * from Returns import *
  * from Sorting import *
+ * from itertools import chain             # <<<<<<<<<<<<<<
+ * import collections
+ * cimport numpy as np
+ */
+  __pyx_t_1 = PyList_New(1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 5, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_1);
+  __Pyx_INCREF(__pyx_n_s_chain);
+  __Pyx_GIVEREF(__pyx_n_s_chain);
+  PyList_SET_ITEM(__pyx_t_1, 0, __pyx_n_s_chain);
+  __pyx_t_2 = __Pyx_Import(__pyx_n_s_itertools, __pyx_t_1, -1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 5, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_2);
+  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+  __pyx_t_1 = __Pyx_ImportFrom(__pyx_t_2, __pyx_n_s_chain); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 5, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_1);
+  if (PyDict_SetItem(__pyx_d, __pyx_n_s_chain, __pyx_t_1) < 0) __PYX_ERR(0, 5, __pyx_L1_error)
+  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+  __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
+
+  /* "EmpiricalFunctions.pyx":6
+ * from Sorting import *
+ * from itertools import chain
  * import collections             # <<<<<<<<<<<<<<
  * cimport numpy as np
  * DTYPE = np.int
  */
-  __pyx_t_1 = __Pyx_Import(__pyx_n_s_collections, 0, -1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 5, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_1);
-  if (PyDict_SetItem(__pyx_d, __pyx_n_s_collections, __pyx_t_1) < 0) __PYX_ERR(0, 5, __pyx_L1_error)
-  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+  __pyx_t_2 = __Pyx_Import(__pyx_n_s_collections, 0, -1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 6, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_2);
+  if (PyDict_SetItem(__pyx_d, __pyx_n_s_collections, __pyx_t_2) < 0) __PYX_ERR(0, 6, __pyx_L1_error)
+  __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
-  /* "EmpiricalFunctions.pyx":7
+  /* "EmpiricalFunctions.pyx":8
  * import collections
  * cimport numpy as np
  * DTYPE = np.int             # <<<<<<<<<<<<<<
  * FDTYPE = np.float
  * 
  */
-  __pyx_t_1 = __Pyx_GetModuleGlobalName(__pyx_n_s_np); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 7, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_t_1, __pyx_n_s_int); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 7, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_GetModuleGlobalName(__pyx_n_s_np); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 8, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-  if (PyDict_SetItem(__pyx_d, __pyx_n_s_DTYPE, __pyx_t_2) < 0) __PYX_ERR(0, 7, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_t_2, __pyx_n_s_int); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 8, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_1);
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
+  if (PyDict_SetItem(__pyx_d, __pyx_n_s_DTYPE, __pyx_t_1) < 0) __PYX_ERR(0, 8, __pyx_L1_error)
+  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "EmpiricalFunctions.pyx":8
+  /* "EmpiricalFunctions.pyx":9
  * cimport numpy as np
  * DTYPE = np.int
  * FDTYPE = np.float             # <<<<<<<<<<<<<<
  * 
  * def check(a, i, step, xpr):
  */
-  __pyx_t_2 = __Pyx_GetModuleGlobalName(__pyx_n_s_np); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 8, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_2);
-  __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_t_2, __pyx_n_s_float); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 8, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_GetModuleGlobalName(__pyx_n_s_np); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 9, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-  if (PyDict_SetItem(__pyx_d, __pyx_n_s_FDTYPE, __pyx_t_1) < 0) __PYX_ERR(0, 8, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_t_1, __pyx_n_s_float); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 9, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_2);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+  if (PyDict_SetItem(__pyx_d, __pyx_n_s_FDTYPE, __pyx_t_2) < 0) __PYX_ERR(0, 9, __pyx_L1_error)
+  __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
-  /* "EmpiricalFunctions.pyx":10
+  /* "EmpiricalFunctions.pyx":11
  * FDTYPE = np.float
  * 
  * def check(a, i, step, xpr):             # <<<<<<<<<<<<<<
  *     if len(xpr) > i+step and xpr[i+step] == a:
  *         return check(a, i+step, step, xpr)
  */
-  __pyx_t_1 = PyCFunction_NewEx(&__pyx_mdef_18EmpiricalFunctions_1check, NULL, __pyx_n_s_EmpiricalFunctions); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 10, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_1);
-  if (PyDict_SetItem(__pyx_d, __pyx_n_s_check, __pyx_t_1) < 0) __PYX_ERR(0, 10, __pyx_L1_error)
-  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+  __pyx_t_2 = PyCFunction_NewEx(&__pyx_mdef_18EmpiricalFunctions_1check, NULL, __pyx_n_s_EmpiricalFunctions); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 11, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_2);
+  if (PyDict_SetItem(__pyx_d, __pyx_n_s_check, __pyx_t_2) < 0) __PYX_ERR(0, 11, __pyx_L1_error)
+  __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
-  /* "EmpiricalFunctions.pyx":16
+  /* "EmpiricalFunctions.pyx":17
  *         return i
  * 
  * def Empirical_StepWise_CDF(Ordrdx):             # <<<<<<<<<<<<<<
  *     def resFn(a):
  *         if a > max(Ordrdx):
  */
-  __pyx_t_1 = PyCFunction_NewEx(&__pyx_mdef_18EmpiricalFunctions_3Empirical_StepWise_CDF, NULL, __pyx_n_s_EmpiricalFunctions); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 16, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_1);
-  if (PyDict_SetItem(__pyx_d, __pyx_n_s_Empirical_StepWise_CDF, __pyx_t_1) < 0) __PYX_ERR(0, 16, __pyx_L1_error)
-  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+  __pyx_t_2 = PyCFunction_NewEx(&__pyx_mdef_18EmpiricalFunctions_3Empirical_StepWise_CDF, NULL, __pyx_n_s_EmpiricalFunctions); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 17, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_2);
+  if (PyDict_SetItem(__pyx_d, __pyx_n_s_Empirical_StepWise_CDF, __pyx_t_2) < 0) __PYX_ERR(0, 17, __pyx_L1_error)
+  __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
-  /* "EmpiricalFunctions.pyx":35
+  /* "EmpiricalFunctions.pyx":36
  *     return resFn
  *     #return the EmpiricalCDF function from this function.
  * def ApproxPWCDFDicFromHazardRates(l,step = 0.01):             # <<<<<<<<<<<<<<
  *     cdef float i
  *     def P(T):
  */
-  __pyx_t_1 = PyCFunction_NewEx(&__pyx_mdef_18EmpiricalFunctions_5ApproxPWCDFDicFromHazardRates, NULL, __pyx_n_s_EmpiricalFunctions); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 35, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_1);
-  if (PyDict_SetItem(__pyx_d, __pyx_n_s_ApproxPWCDFDicFromHazardRates, __pyx_t_1) < 0) __PYX_ERR(0, 35, __pyx_L1_error)
-  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+  __pyx_t_2 = PyCFunction_NewEx(&__pyx_mdef_18EmpiricalFunctions_5ApproxPWCDFDicFromHazardRates, NULL, __pyx_n_s_EmpiricalFunctions); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 36, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_2);
+  if (PyDict_SetItem(__pyx_d, __pyx_n_s_ApproxPWCDFDicFromHazardRates, __pyx_t_2) < 0) __PYX_ERR(0, 36, __pyx_L1_error)
+  __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
-  /* "EmpiricalFunctions.pyx":97
+  /* "EmpiricalFunctions.pyx":98
  *         return np.asarray([U[i-1],U[i]])
+ * 
+ * def longlist2array(longlist):             # <<<<<<<<<<<<<<
+ *     flat = np.fromiter(chain.from_iterable(longlist), np.array(longlist[0][0]).dtype, -1) # Without intermediate list:)
+ *     return flat.reshape((len(longlist), -1))
+ */
+  __pyx_t_2 = PyCFunction_NewEx(&__pyx_mdef_18EmpiricalFunctions_7longlist2array, NULL, __pyx_n_s_EmpiricalFunctions); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 98, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_2);
+  if (PyDict_SetItem(__pyx_d, __pyx_n_s_longlist2array, __pyx_t_2) < 0) __PYX_ERR(0, 98, __pyx_L1_error)
+  __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
+
+  /* "EmpiricalFunctions.pyx":102
+ *     return flat.reshape((len(longlist), -1))
+ * 
+ * def longlist1array(longlist):             # <<<<<<<<<<<<<<
+ *     return np.fromiter(longlist, np.array(longlist[0]).dtype) # Without intermediate li
+ * 
+ */
+  __pyx_t_2 = PyCFunction_NewEx(&__pyx_mdef_18EmpiricalFunctions_9longlist1array, NULL, __pyx_n_s_EmpiricalFunctions); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 102, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_2);
+  if (PyDict_SetItem(__pyx_d, __pyx_n_s_longlist1array, __pyx_t_2) < 0) __PYX_ERR(0, 102, __pyx_L1_error)
+  __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
+
+  /* "EmpiricalFunctions.pyx":105
+ *     return np.fromiter(longlist, np.array(longlist[0]).dtype) # Without intermediate li
  * 
  * def FindClosestKeyInDicAndReturnValueAlgorithm(Res):             # <<<<<<<<<<<<<<
  *     ORes = collections.OrderedDict(sorted(Res.items()))
  *     def InnerFn(float u):
  */
-  __pyx_t_1 = PyCFunction_NewEx(&__pyx_mdef_18EmpiricalFunctions_7FindClosestKeyInDicAndReturnValueAlgorithm, NULL, __pyx_n_s_EmpiricalFunctions); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 97, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_1);
-  if (PyDict_SetItem(__pyx_d, __pyx_n_s_FindClosestKeyInDicAndReturnValu, __pyx_t_1) < 0) __PYX_ERR(0, 97, __pyx_L1_error)
-  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+  __pyx_t_2 = PyCFunction_NewEx(&__pyx_mdef_18EmpiricalFunctions_11FindClosestKeyInDicAndReturnValueAlgorithm, NULL, __pyx_n_s_EmpiricalFunctions); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 105, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_2);
+  if (PyDict_SetItem(__pyx_d, __pyx_n_s_FindClosestKeyInDicAndReturnValu, __pyx_t_2) < 0) __PYX_ERR(0, 105, __pyx_L1_error)
+  __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
-  /* "EmpiricalFunctions.pyx":103
+  /* "EmpiricalFunctions.pyx":111
  *     return InnerFn
  * 
  * def FindClosestKeyInDicAndReturnKeyBoundsAlgorithm(Res):             # <<<<<<<<<<<<<<
  *     ORes = collections.OrderedDict(sorted(Res.items()))
  *     def FN(u):
  */
-  __pyx_t_1 = PyCFunction_NewEx(&__pyx_mdef_18EmpiricalFunctions_9FindClosestKeyInDicAndReturnKeyBoundsAlgorithm, NULL, __pyx_n_s_EmpiricalFunctions); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 103, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_1);
-  if (PyDict_SetItem(__pyx_d, __pyx_n_s_FindClosestKeyInDicAndReturnKeyB_2, __pyx_t_1) < 0) __PYX_ERR(0, 103, __pyx_L1_error)
-  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+  __pyx_t_2 = PyCFunction_NewEx(&__pyx_mdef_18EmpiricalFunctions_13FindClosestKeyInDicAndReturnKeyBoundsAlgorithm, NULL, __pyx_n_s_EmpiricalFunctions); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 111, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_2);
+  if (PyDict_SetItem(__pyx_d, __pyx_n_s_FindClosestKeyInDicAndReturnKeyB_2, __pyx_t_2) < 0) __PYX_ERR(0, 111, __pyx_L1_error)
+  __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
   /* "EmpiricalFunctions.pyx":1
  * import math             # <<<<<<<<<<<<<<
  * import numpy as np
  * from Returns import *
  */
-  __pyx_t_1 = __Pyx_PyDict_NewPresized(0); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 1, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_1);
-  if (PyDict_SetItem(__pyx_d, __pyx_n_s_test, __pyx_t_1) < 0) __PYX_ERR(0, 1, __pyx_L1_error)
-  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+  __pyx_t_2 = __Pyx_PyDict_NewPresized(0); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 1, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_2);
+  if (PyDict_SetItem(__pyx_d, __pyx_n_s_test, __pyx_t_2) < 0) __PYX_ERR(0, 1, __pyx_L1_error)
+  __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
   /* "../../../../../../../Program Files (x86)/Microsoft Visual Studio/Shared/Anaconda3_64/lib/site-packages/Cython/Includes/numpy/__init__.pxd":1021
  *         raise ImportError("numpy.core.umath failed to import")
@@ -12219,6 +12817,20 @@ bad:
     Py_XDECREF(empty_list);
     Py_XDECREF(empty_dict);
     return module;
+}
+
+/* ImportFrom */
+          static PyObject* __Pyx_ImportFrom(PyObject* module, PyObject* name) {
+    PyObject* value = __Pyx_PyObject_GetAttrStr(module, name);
+    if (unlikely(!value) && PyErr_ExceptionMatches(PyExc_AttributeError)) {
+        PyErr_Format(PyExc_ImportError,
+        #if PY_MAJOR_VERSION < 3
+            "cannot import name %.230s", PyString_AS_STRING(name));
+        #else
+            "cannot import name %S", name);
+        #endif
+    }
+    return value;
 }
 
 /* CLineInTraceback */

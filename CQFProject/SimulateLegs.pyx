@@ -78,9 +78,27 @@ cdef np.ndarray _TCopula_DF_MLE(np.ndarray U_hist_t, np.ndarray corM):
     vE[0] = maxV
     return vE
 
+# def multivariate_t_distribution(x,mu,Sigma,df,d):
+#     '''
+#     Multivariate t-student density:
+#     output:
+#         the density of the given element
+#     input:
+#         x = parameter (d dimensional numpy array or scalar)
+#         mu = mean (d dimensional numpy array or scalar)
+#         Sigma = scale matrix (dxd numpy array)
+#         df = degrees of freedom
+#         d: dimension
+#     '''
+#     Num = gamma(1. * (d+df)/2)
+#     Denom = ( gamma(1.*df/2) * pow(df*pi,1.*d/2) * pow(np.linalg.det(Sigma),1./2) * pow(1 + (1./df)*np.dot(np.dot((x - mu),np.linalg.inv(Sigma)), (x - mu)),1.* (d+df)/2))
+#     d = 1. * Num / Denom 
+#     return d
 
 
-def SimulateLegPricesFromCorrelationNormal(HistCreditSpreads,TenorCreditSpreads,TenorCDSPayments,InvPWCDF,DiscountFactors,ImpHazdRts,DataTenorDic,U_correlatedNorm,CDSMaturity,FairSpreads,R=0.4,InitialNoDefaults_PeriodLengthYrs=0.0):
+
+def SimulateLegPricesFromCorrelationNormal(HistCreditSpreads,TenorCreditSpreads,TenorCDSPayments,InvPWCDF,DiscountFactors,
+    ImpHazdRts,DataTenorDic,U_correlatedNorm,CDSMaturity,FairSpreads,R=0.4,InitialNoDefaults_PeriodLengthYrs=0.0):
     cdef int i,i_TenorData,i_HistData
     ExactDefaultTimesGauss = dict()
     CDSLegsN = dict()
@@ -97,13 +115,15 @@ def SimulateLegPricesFromCorrelationNormal(HistCreditSpreads,TenorCreditSpreads,
     OrderedExactDefaultTimesGauss = sorted(ExactDefaultTimesGauss.items(), key=operator.itemgetter(1)) #quickSort(list(ExactDefaultTimesGauss.values()))
     for i in range(0,5):
         IndKey_Tenor = OrderedExactDefaultTimesGauss[i][0]
-        CDSLegsN[i+1] = CreateCDSPVLegsForExactDefault(OrderedExactDefaultTimesGauss[i][1]+ InitialNoDefaults_PeriodLengthYrs,TenorCDSPayments,ImpHazdRts[IndKey_Tenor],DiscountFactors["Sonia"],FairSpreads[i],R) 
+        CDSLegsN[i+1] = CreateCDSPVLegsForExactDefault(OrderedExactDefaultTimesGauss[i][1]+ InitialNoDefaults_PeriodLengthYrs,
+            TenorCDSPayments,ImpHazdRts[IndKey_Tenor],DiscountFactors["Sonia"],FairSpreads[i],R) 
         #todo: how can we use this spread unless we already know a SIMULATED defualt time which then gives us the order of defaults and hence which of the kth to default spreads to use.
         # CDSLegsN[i+1] = CreateCDSPVLegsForExactDefault(OrderedExactDefaultTimesGauss[i][1],TenorCDSPayments,ImpHazdRts[IndKey_Tenor],DiscountFactors["Sonia"],DataTenorDic[IndKey_Tenor][CDSMaturity-1],0.4) #Use quoted credit spread instead
         CDSLegsSumN[i+1] = [sum(CDSLegsN[i+1]["CompensationLeg"]), sum(CDSLegsN[i+1]["PremiumLeg"])]
     return CDSLegsSumN
 
-def SimulateLegPricesFromCorrelationT(HistCreditSpreads,TenorCreditSpreads,TenorCDSPayments,InvPWCDF,DiscountFactors,ImpHazdRts,DataTenorDic,U_correlatedT,CDSMaturity,FairSpreads,R=0.4,InitialNoDefaults_PeriodLengthYrs=0.0):
+def SimulateLegPricesFromCorrelationT(HistCreditSpreads,TenorCreditSpreads,TenorCDSPayments,InvPWCDF,DiscountFactors,
+    ImpHazdRts,DataTenorDic,U_correlatedT,CDSMaturity,FairSpreads,R=0.4,InitialNoDefaults_PeriodLengthYrs=0.0):
     cdef int i,i_TenorData,i_HistData
     ExactDefaultTimesT = dict()
     CDSLegsT = dict()
@@ -118,7 +138,8 @@ def SimulateLegPricesFromCorrelationT(HistCreditSpreads,TenorCreditSpreads,Tenor
     OrderedExactDefaultTimesT= sorted(ExactDefaultTimesT.items(), key=operator.itemgetter(1))
     for i in range(0,5):
         IndKey_Tenor = OrderedExactDefaultTimesT[i][0]
-        CDSLegsT[i+1] = CreateCDSPVLegsForExactDefault(OrderedExactDefaultTimesT[i][1]+ InitialNoDefaults_PeriodLengthYrs,TenorCDSPayments,ImpHazdRts[IndKey_Tenor],DiscountFactors["Sonia"],FairSpreads[i],R)
+        CDSLegsT[i+1] = CreateCDSPVLegsForExactDefault(OrderedExactDefaultTimesT[i][1]+ InitialNoDefaults_PeriodLengthYrs,
+            TenorCDSPayments,ImpHazdRts[IndKey_Tenor],DiscountFactors["Sonia"],FairSpreads[i],R)
         # CDSLegsT[i+1] = CreateCDSPVLegsForExactDefault(OrderedExactDefaultTimesT[i][1],TenorCDSPayments,ImpHazdRts[IndKey_Tenor],DiscountFactors["Sonia"],DataTenorDic[IndKey_Tenor][CDSMaturity-1],0.4) #Use quoted credit spread instead
         CDSLegsSumT[i+1] = [sum(CDSLegsT[i+1]["CompensationLeg"]), sum(CDSLegsT[i+1]["PremiumLeg"])]
     return CDSLegsSumT

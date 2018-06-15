@@ -51,10 +51,10 @@ def TweakWhole2DMatrixByPercent(arr,percentTweak):
     '''
     res = np.array(arr)
     for i in range(0,arr.shape[0]):
-        for j in range(i,arr.shape[1]):
-            res[i][j] = TweakByPercent(arr,(i,j),percentTweak)
+        for j in range(i+1,arr.shape[1]):
+            res[i][j] = TweakByPercent(arr,(i,j),percentTweak)[i][j]
             res[j][i] = res[i][j]
-
+    return res
 
 def SetArbitrarily(arr, index, value):
     res = np.array(arr)

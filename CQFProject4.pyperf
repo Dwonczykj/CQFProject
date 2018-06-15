@@ -1,0 +1,12 @@
+<?xml version="1.0"?>
+<ProfilingTarget xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <ProjectTarget>
+    <TargetProject>0c8fbdda-b5d8-46b3-b3e3-905760602608</TargetProject>
+    <FriendlyName>CQFProject</FriendlyName>
+  </ProjectTarget>
+  <Reports>
+    <Report>
+      <Filename>C:\Users\Joe.Dwonczyk\AppData\Local\Temp\CQFProject4_20180612.vsp</Filename>
+    </Report>
+  </Reports>
+</ProfilingTarget>

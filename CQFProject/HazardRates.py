@@ -59,22 +59,34 @@ def InterpolateHazrateLinear(TenoredSeries,Tenors):
 
 def DiscountFactorFn(DF: dict):
     fnd = FindClosestKeyInDicAndReturnKeyBoundsAlgorithm(DF)
+    cache = dict()
     def f(val):
-        res = fnd(val)
-        if len(res) > 1:
-            return math.exp((val - res[0])/(res[1] - res[0]) * math.log(DF[res[1]]) + (res[1] - val)/(res[1] - res[0]) * math.log(DF[res[0]]))
+        if val in cache.keys():
+            return cache[val]
         else:
-            return DF[res[0]]
+            res = fnd(val)
+            if len(res) > 1:
+                cache[val] = math.exp((val - res[0])/(res[1] - res[0]) * math.log(DF[res[1]]) + (res[1] - val)/(res[1] - res[0]) * math.log(DF[res[0]]))
+                return cache[val]
+            else:
+                cache[val] = DF[res[0]]
+                return cache[val]
     return f
 
 def ImpProbFn(DF: dict):
     fnd = FindClosestKeyInDicAndReturnKeyBoundsAlgorithm(DF)
+    cache = dict()
     def f(val):
-        res = fnd(val)
-        if len(res) > 1:
-            return math.exp((val - res[0])/(res[1] - res[0]) * math.log(DF[res[1]]) + (res[1] - val)/(res[1] - res[0]) * math.log(DF[res[0]]))
+        if val in cache.keys():
+            return cache[val]
         else:
-            return DF[res[0]]
+            res = fnd(val)
+            if len(res) > 1:
+                cache[val] = math.exp((val - res[0])/(res[1] - res[0]) * math.log(DF[res[1]]) + (res[1] - val)/(res[1] - res[0]) * math.log(DF[res[0]]))
+                return cache[val]
+            else:
+                cache[val] = DF[res[0]]
+                return cache[val]
     return f
 
 def LogLinearInterpolatorForDiscFac(qDataHazards: pd.DataFrame, delta = 1):

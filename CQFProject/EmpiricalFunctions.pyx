@@ -2,6 +2,7 @@ import math
 import numpy as np
 from Returns import *
 from Sorting import *
+from itertools import chain
 import collections
 cimport numpy as np
 DTYPE = np.int
@@ -94,15 +95,22 @@ cdef np.ndarray fKeys(a,np.ndarray U):
     else:
         return np.asarray([U[i-1],U[i]])
 
+def longlist2array(longlist):
+    flat = np.fromiter(chain.from_iterable(longlist), np.array(longlist[0][0]).dtype, -1) # Without intermediate list:)
+    return flat.reshape((len(longlist), -1))
+
+def longlist1array(longlist):
+    return np.fromiter(longlist, np.array(longlist[0]).dtype) # Without intermediate li
+
 def FindClosestKeyInDicAndReturnValueAlgorithm(Res):
     ORes = collections.OrderedDict(sorted(Res.items()))
     def InnerFn(float u):
-        return fnVals(u,np.asarray(list(ORes.keys())),ORes)
+        return fnVals(u,longlist1array(list(ORes.keys())),ORes)
     return InnerFn
 
 def FindClosestKeyInDicAndReturnKeyBoundsAlgorithm(Res):
     ORes = collections.OrderedDict(sorted(Res.items()))
     def FN(u):
-        return fKeys(u,np.asarray(list(ORes.keys())))
+        return fKeys(u,longlist1array(list(ORes.keys())))
     return FN
 

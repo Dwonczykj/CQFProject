@@ -3,6 +3,7 @@ import pandas as pd
 import math
 from scipy import linalg as LA
 from scipy.optimize.nonlin import KrylovJacobian
+import operator
 
 def LogReturns(values: pd.Series, lag: np.int = 1, jump: np.int = 1, averageJumpPeriod = False):
     '''
@@ -280,6 +281,6 @@ def SpectralDecomp(Sigma: np.matrix, ForcePositiveSemiDefiniteness=True):
     return A
 
 def AIC(y,y_pred,k):
-    resid = np.fromiter(map(operator.sub,y,y_pred))
+    resid = np.fromiter(map(operator.sub,y,y_pred),dtype=np.float)
     sse=sum(resid**2)
-    return 2*k - 2*math.log(sse)
+    return 2*k - 2*math.log(np.max([sse,0.0000000000000000000000000000001]))
