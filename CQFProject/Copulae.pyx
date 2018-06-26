@@ -12,8 +12,8 @@ cdef np.ndarray[FDTYPE_t,ndim=1] SharedCopulaAlgoWork(P, SobolNumbers LowDiscNum
     if LowDiscNumbers is None:
             raise TypeError
     A = CholeskyDecomp(P)
-    #A1 = np.linalg.cholesky(P)
-    cdef int d = A.shape[0]
+    # A = np.linalg.cholesky(P)
+    # cdef int d = A.shape[0]
     #Xtilda = np.random.uniform(size=A.shape[0])
     #Xtilda = norm.ppf(Xtilda)
     #todo: Use the random number generator to generate the normal vals here. Read Jaeckel
@@ -22,6 +22,7 @@ cdef np.ndarray[FDTYPE_t,ndim=1] SharedCopulaAlgoWork(P, SobolNumbers LowDiscNum
     cdef np.ndarray[FDTYPE_t,ndim=1] CorrlelatedX
     LowDiscU = LowDiscNumbers.Generate()
     IndptXtilda = np.fromiter(map(lambda u: InvStdCumNormal(u),LowDiscU),dtype=FDTYPE)
+    # IndptXtilda = norm.rvs(size=len(LowDiscU))
     #IndependentXtilda = np.random.randn(A.shape[0])
     CorrlelatedX = np.matmul(A.transpose(),IndptXtilda)
     return CorrlelatedX

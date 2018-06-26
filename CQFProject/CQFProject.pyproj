@@ -34,6 +34,9 @@
     <Compile Include="MonteCarloCDSBasketPricer.py">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="MultiProcessingTest.py">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="NumericalIntegration.py" />
     <Compile Include="plotting.py" />
     <Compile Include="ProbabilityIntegralTransform.py">

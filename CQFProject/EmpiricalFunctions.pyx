@@ -102,15 +102,27 @@ def longlist2array(longlist):
 def longlist1array(longlist):
     return np.fromiter(longlist, np.array(longlist[0]).dtype) # Without intermediate li
 
-def FindClosestKeyInDicAndReturnValueAlgorithm(Res):
-    ORes = collections.OrderedDict(sorted(Res.items()))
-    def InnerFn(float u):
-        return fnVals(u,longlist1array(list(ORes.keys())),ORes)
-    return InnerFn
+# def FindClosestKeyInDicAndReturnValueAlgorithm(Res):
+#     ORes = collections.OrderedDict(sorted(Res.items()))
+#     def InnerFn(float u):
+#         return fnVals(u,longlist1array(list(ORes.keys())),ORes)
+#     return InnerFn
 
-def FindClosestKeyInDicAndReturnKeyBoundsAlgorithm(Res):
-    ORes = collections.OrderedDict(sorted(Res.items()))
-    def FN(u):
-        return fKeys(u,longlist1array(list(ORes.keys())))
-    return FN
+class FindClosestKeyInDicAndReturnValueAlgorithm(object):
+    def __init__(self, Res):
+        self.ORes = collections.OrderedDict(sorted(Res.items()))
+    def __call__(self, float u):
+        return fnVals(u,longlist1array(list(self.ORes.keys())),self.ORes)
+
+# def FindClosestKeyInDicAndReturnKeyBoundsAlgorithm(Res):
+#     ORes = collections.OrderedDict(sorted(Res.items()))
+#     def FN(u):
+#         return fKeys(u,longlist1array(list(ORes.keys())))
+#     return FN
+
+class FindClosestKeyInDicAndReturnKeyBoundsAlgorithm(object):
+    def __init__(self, Res):
+        self.ORes = collections.OrderedDict(sorted(Res.items()))
+    def __call__(self, float u):
+        return fKeys(u,longlist1array(list(self.ORes.keys())))
 

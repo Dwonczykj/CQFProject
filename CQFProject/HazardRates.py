@@ -57,37 +57,71 @@ def InterpolateHazrateLinear(TenoredSeries,Tenors):
             
     return res
 
-def DiscountFactorFn(DF: dict):
-    fnd = FindClosestKeyInDicAndReturnKeyBoundsAlgorithm(DF)
-    cache = dict()
-    def f(val):
-        if val in cache.keys():
-            return cache[val]
-        else:
-            res = fnd(val)
-            if len(res) > 1:
-                cache[val] = math.exp((val - res[0])/(res[1] - res[0]) * math.log(DF[res[1]]) + (res[1] - val)/(res[1] - res[0]) * math.log(DF[res[0]]))
-                return cache[val]
-            else:
-                cache[val] = DF[res[0]]
-                return cache[val]
-    return f
+#def DiscountFactorFn(DF: dict):
+#    fnd = FindClosestKeyInDicAndReturnKeyBoundsAlgorithm(DF)
+#    cache = dict()
+#    def f(val):
+#        if val in cache.keys():
+#            return cache[val]
+#        else:
+#            res = fnd(val)
+#            if len(res) > 1:
+#                cache[val] = math.exp((val - res[0])/(res[1] - res[0]) * math.log(DF[res[1]]) + (res[1] - val)/(res[1] - res[0]) * math.log(DF[res[0]]))
+#                return cache[val]
+#            else:
+#                cache[val] = DF[res[0]]
+#                return cache[val]
+#    return f
 
-def ImpProbFn(DF: dict):
-    fnd = FindClosestKeyInDicAndReturnKeyBoundsAlgorithm(DF)
-    cache = dict()
-    def f(val):
-        if val in cache.keys():
-            return cache[val]
+class DiscountFactorFn(object):
+    def __init__(self, DF: dict):
+        self.fnd = FindClosestKeyInDicAndReturnKeyBoundsAlgorithm(DF)
+        self.cache = dict()
+        self.DF = DF
+    def __call__(self, val):
+        if val in self.cache.keys():
+            return self.cache[val]
         else:
-            res = fnd(val)
+            res = self.fnd(val)
             if len(res) > 1:
-                cache[val] = math.exp((val - res[0])/(res[1] - res[0]) * math.log(DF[res[1]]) + (res[1] - val)/(res[1] - res[0]) * math.log(DF[res[0]]))
-                return cache[val]
+                self.cache[val] = math.exp((val - res[0])/(res[1] - res[0]) * math.log(self.DF[res[1]]) + (res[1] - val)/(res[1] - res[0]) * math.log(self.DF[res[0]]))
+                return self.cache[val]
             else:
-                cache[val] = DF[res[0]]
-                return cache[val]
-    return f
+                self.cache[val] = self.DF[res[0]]
+                return self.cache[val]
+
+#def ImpProbFn(DF: dict):
+#    fnd = FindClosestKeyInDicAndReturnKeyBoundsAlgorithm(DF)
+#    cache = dict()
+#    def f(val):
+#        if val in cache.keys():
+#            return cache[val]
+#        else:
+#            res = fnd(val)
+#            if len(res) > 1:
+#                cache[val] = math.exp((val - res[0])/(res[1] - res[0]) * math.log(DF[res[1]]) + (res[1] - val)/(res[1] - res[0]) * math.log(DF[res[0]]))
+#                return cache[val]
+#            else:
+#                cache[val] = DF[res[0]]
+#                return cache[val]
+#    return f
+
+class ImpProbFn(object):
+    def __init__(self, DF: dict):
+        self.fnd = FindClosestKeyInDicAndReturnKeyBoundsAlgorithm(DF)
+        self.cache = dict()
+        self.DF = DF
+    def __call__(self, val):
+        if val in self.cache.keys():
+            return self.cache[val]
+        else:
+            res = self.fnd(val)
+            if len(res) > 1:
+                self.cache[val] = math.exp((val - res[0])/(res[1] - res[0]) * math.log(self.DF[res[1]]) + (res[1] - val)/(res[1] - res[0]) * math.log(self.DF[res[0]]))
+                return self.cache[val]
+            else:
+                self.cache[val] = self.DF[res[0]]
+                return self.cache[val]
 
 def LogLinearInterpolatorForDiscFac(qDataHazards: pd.DataFrame, delta = 1):
     #check if params are to young
@@ -213,15 +247,21 @@ def Sum(start,stop,step,func,dtype=np.int):
 
 
 
-def BootstrapImpliedProbalities(RR, spreads: pd.Series, index: pd.Series):
+def BootstrapImpliedProbalities(RR, spreads: pd.Series, DF):
+    '''
+    Function assumes annual term spreads, ie terms of 1,2,3,4,5,6,...
+    RR: Recovery Rate,
+    spreads: Credit spreads,
+    DF: A function that takes time t as an argument and returns DF from that time to present.
+    Returns Implied probabilities.
+    '''
     sprSr = [np.nan] + spreads
     
     qDataDBCDS = pd.DataFrame({'Spread': sprSr},
                  index = range(0,len(sprSr)))
-    #qDataDBCDS = pd.DataFrame({'Spread': [np.nan,0.014176,0.016536,0.018856,0.020732,0.021838]}
-    #                    ,index = [0,1,2,3,4,5])
-    def DF(T):
-        return math.exp(-1 * 0.008 * T)
+    
+    #def DF(T):
+    #    return math.exp(-1 * 0.008 * T)
     
     Tenors = qDataDBCDS.index
     Spreads =  qDataDBCDS['Spread']

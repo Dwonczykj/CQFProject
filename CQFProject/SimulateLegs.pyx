@@ -1,7 +1,6 @@
 from Copulae import MultVarGaussianCopula, MultVarTDistnCopula, TCopulaDensity
 from HazardRates import CreateCDSPVLegsForExactDefault
 import operator
-from plotting import return_lineChart
 import numpy as np
 cimport numpy as np
 from LowDiscrepancyNumberGenerators cimport SobolNumbers

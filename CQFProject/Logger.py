@@ -1,7 +1,6 @@
 import io
 import os
 import time
-import plotting
 
 Extension = ".tex"
 
@@ -12,7 +11,7 @@ def printf(str):
     logfile.write('\n-------------------------------\n')
     logfile.close()
 
-def convertToLaTeX(df,name="", alignment="c", horAlignment="l", topLeftCellText=""):
+def convertToLaTeX(plottingObject,df,name="", alignment="c", horAlignment="l", topLeftCellText="",centerTable=True):
     """
     Convert a pandas dataframe to a LaTeX tabular.
     Prints labels in bold, does not use math mode
@@ -23,7 +22,9 @@ def convertToLaTeX(df,name="", alignment="c", horAlignment="l", topLeftCellText=
     colFormat = ("%s|%s" % (alignment, alignment * numColumns)) 
     newColFormat = ("|%s%s" % ((horAlignment + "|") * numColumns, (alignment + "|") * numColumns))
     #Write header
-    output.write("\\begin{center}\n \\begin{tabular}{%s}\n\hline\n" % newColFormat)
+    if centerTable:
+        output.write("\\begin{center}\n ")
+    output.write("\\begin{tabular}{%s}\n\hline\n" % newColFormat)
     columnLabels = ["\\textbf{%s}" % label for label in df.columns]
     output.write("\\textbf{{0}} ".format(topLeftCellText)+"& %s\\\\\\hhline{|%s}\n" % (" & ".join(columnLabels),"=|"*(numColumns + 1)))
     #Write data lines
@@ -32,9 +33,11 @@ def convertToLaTeX(df,name="", alignment="c", horAlignment="l", topLeftCellText=
         output.write("\\textbf{%s} & %s\\\\\n"
                      % (ind, " & ".join([str(val) for val in df.ix[ind]])))
     #Write footer
-    output.write("\\hline\n\end{tabular}\n\end{center}")
+    output.write("\\hline\n\end{tabular}\n")
+    if centerTable:
+        output.write("\end{center}")
 
-    SubmissionFilePath= plotting.SubmissionFilePath #os.path.join('C:\\', 'Users', 'Joe.Dwonczyk', 'Documents', 'CQF', 'CVASection', 'Submission') + "\\CDSBasketProj\\" + time.strftime("%Y%m%d-%H%M%S") + "\\"
+    SubmissionFilePath= plottingObject.SubmissionFilePath #os.path.join('C:\\', 'Users', 'Joe.Dwonczyk', 'Documents', 'CQF', 'CVASection', 'Submission') + "\\CDSBasketProj\\" + time.strftime("%Y%m%d-%H%M%S") + "\\"
     if not os.path.exists(SubmissionFilePath):
         os.makedirs(SubmissionFilePath)
     
