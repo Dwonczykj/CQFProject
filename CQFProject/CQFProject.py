@@ -172,7 +172,7 @@ if __name__ == '__main__':
         ConsecDiffsDic[IndKey] = AbsoluteDifferences(HistDataDic[IndKey]['Spreads'])
         EmpFnForHistSpread[IndKey] = Empirical_StepWise_CDF(quickSort(DifferencesDic[IndKey].values))
         u_gpdthreashold = np.percentile(HistDataDic[IndKey]['Spreads'],95)
-        SemiParamametric[IndKey] = SemiParametricCDFFit(list(HistDataDic[IndKey]['Spreads']),u_gpdthreashold, True, "SemiParametricFit_%s"%(IndKey), "Historical Spreads", "Distribution")
+        SemiParamametric[IndKey]= ReturnSemiParametricFitAndAFnToQueuePlot(plotter,list(HistDataDic[IndKey]['Spreads']),u_gpdthreashold, True, "SemiParametricFit_%s"%(IndKey), "Historical Spreads", "Distribution")
         CanonicalMLETransformedHistDataDic[IndKey] = pd.Series(DifferencesDic[IndKey].values).apply(EmpFnForHistSpread[IndKey])
         SemiParamTransformedCDFHistDataDic[IndKey] =  pd.Series(SemiParamametric[IndKey]['%.10f'%(u_gpdthreashold)][0])
         SemiParamTransformedPDFHistDataDic[IndKey] =  pd.Series(SemiParamametric[IndKey]['%.10f'%(u_gpdthreashold)][1])
@@ -198,7 +198,7 @@ if __name__ == '__main__':
         AltDifferencesDic[IndKey] = AbsoluteDifferences(pd.Series(AltHistData_SpreadsOnly[IndKey]),jump=5,averageJumpPeriod=True)
         AltEmpFnForHistSpread[IndKey] = Empirical_StepWise_CDF(quickSort(AltDifferencesDic[IndKey].values))
         u_gpdthreashold = np.percentile(AltHistData_SpreadsOnly[IndKey],95)
-        AltSemiParamametric[IndKey] = SemiParametricCDFFit(list(AltHistData_SpreadsOnly[IndKey]),u_gpdthreashold, True, "SemiParametricFit_%s"%(IndKey), "Alternative Historical Spreads", "Distribution")
+        AltSemiParamametric[IndKey] = ReturnSemiParametricFitAndAFnToQueuePlot(plotter,list(AltHistData_SpreadsOnly[IndKey]),u_gpdthreashold, True, "SemiParametricFit_%s"%(IndKey), "Alternative Historical Spreads", "Distribution")
         AltCanonicalMLETransformedHistDataDic[IndKey] = pd.Series(AltDifferencesDic[IndKey].values).apply(EmpFnForHistSpread[IndKey])
         AltSemiParamTransformedCDFHistDataDic[IndKey] =  pd.Series(AltSemiParamametric[IndKey]['%.10f'%(u_gpdthreashold)][0])
         AltSemiParamTransformedPDFHistDataDic[IndKey] =  pd.Series(AltSemiParamametric[IndKey]['%.10f'%(u_gpdthreashold)][1])
@@ -251,7 +251,7 @@ if __name__ == '__main__':
         Fac10AltDifferencesDic[IndKey] = AbsoluteDifferences(pd.Series(Fac10AltHistData_SpreadsOnly[IndKey]),jump=5,averageJumpPeriod=True)
         Fac10AltEmpFnForHistSpread[IndKey] = Empirical_StepWise_CDF(quickSort(Fac10AltDifferencesDic[IndKey].values))
         u_gpdthreashold = np.percentile(Fac10AltHistData_SpreadsOnly[IndKey],95)
-        Fac10AltSemiParamametric[IndKey] = SemiParametricCDFFit(list(Fac10AltHistData_SpreadsOnly[IndKey]),u_gpdthreashold, True, "SemiParametricFit_%s"%(IndKey), "Fac 10 Historical Spreads", "Distribution")
+        Fac10AltSemiParamametric[IndKey] = ReturnSemiParametricFitAndAFnToQueuePlot(plotter,list(Fac10AltHistData_SpreadsOnly[IndKey]),u_gpdthreashold, True, "SemiParametricFit_%s"%(IndKey), "Fac 10 Historical Spreads", "Distribution")
         Fac10AltCanonicalMLETransformedHistDataDic[IndKey] = pd.Series(Fac10AltDifferencesDic[IndKey].values).apply(EmpFnForHistSpread[IndKey])
         Fac10AltSemiParamTransformedCDFHistDataDic[IndKey] =  pd.Series(Fac10AltSemiParamametric[IndKey]['%.10f'%(u_gpdthreashold)][0])
         Fac10AltSemiParamTransformedPDFHistDataDic[IndKey] =  pd.Series(Fac10AltSemiParamametric[IndKey]['%.10f'%(u_gpdthreashold)][1])
@@ -519,7 +519,7 @@ if __name__ == '__main__':
 
 
     GaussFairSpread,TFairSpread,t10 = FullMCFairSpreadValuation(plotter,t6,LogRtnCorP,RankCorP,M,HistCreditSpreads,SemiParamTransformedCDFHistDataDic, vE[0],TenorCreditSpreads,InvPWCDF,
-                                                                DiscountFactorCurve,ImpHazdRts,DataTenorDic,CDSPaymentTenors,CDSBasketMaturity,name="Initial_Fair_Spread_Calculation")
+                                                                DiscountFactorCurve,ImpHazdRts,DataTenorDic,CDSPaymentTenors,CDSBasketMaturity,name="Initial_Fair_Spread_Calculation",plot=True)
 
 
     latexFairSpreads = convertToLaTeX(plotter,pd.DataFrame(data=np.array([GaussFairSpread,TFairSpread],dtype=np.float), 
@@ -903,7 +903,7 @@ def AllFac10CreditAndHist(plotter, M,HistCreditSpreads,SemiParamTransformedCDFHi
     GaussFairSpreadTweakCDS, TFairSpreadTweakCDS, t17 = FullMCFairSpreadValuation(plotter,time.time(),Fac10AltLogRtnCorP,Fac10AltRankCorP,M,HistCreditSpreads,
                                                                                                         Fac10AltSemiParamTransformedCDFHistDataDic, vE[0],TenorCreditSpreads,TweakedInvPWCDF,DiscountFactorCurve,
                                                                                                         TweakedImpHazdRts,TweakedDataTenorDic,CDSPaymentTenors,CDSBasketMaturity,
-                                                                                                        name="10 Times Credit Spreads fair spread")
+                                                                                                        name="10 Times Credit Spreads fair spread",plotter=True)
 
     latexAltFairSpreads = convertToLaTeX(plotter,pd.DataFrame(data=np.array([GaussFairSpreadTweakCDS,TFairSpreadTweakCDS],dtype=np.float), 
                                                     index = ["Gaussian", "Student's T"], columns=["1st to default","2nd to default","3rd to default","4th to default","5th to default"], dtype=np.float),
@@ -1063,7 +1063,7 @@ def CorTweaksAll(plotter, M,HistCreditSpreads,SemiParamTransformedCDFHistDataDic
         print("Calculating fair spread after tweaking correlation for whole matrix by {0}%".format(percTweak*100))
         CorAllTweakFairSpreadGauss,CorAllTweakFairSpreadT,tNew = FullMCFairSpreadValuation(plotter,time.time(),TweakedLogRtnCorP,TweakedRankCorP,M,HistCreditSpreads,SemiParamTransformedCDFHistDataDic, vE[0],TenorCreditSpreads,InvPWCDF,
                                                                                 DiscountFactorCurve,ImpHazdRts,DataTenorDic,CDSPaymentTenors,CDSBasketMaturity,
-                                                                                name="Correlation between all reference names tweaked by {0} percent".format(percTweak*100))
+                                                                                name="Correlation between all reference names tweaked by {0} percent".format(percTweak*100),plot=True)
         CorAllTweakFairSpreadGaussList.append(CorAllTweakFairSpreadGauss)
         CorAllTweakFairSpreadTList.append(CorAllTweakFairSpreadT)
         NonZeroGFAirSpread = np.copy(GaussFairSpread)
@@ -1292,13 +1292,13 @@ if __name__ == '__main__':
     print("hello_inside")
 
     fn_dict = dict()
-    #fns = [pCheckFairSpead,IRTweak,RTweak,AltHistDataTweak,AllFac10CreditAndHist,CreditSpreadTweak,CorTweaksAll,TweakPairwiseCors]
-    fns = [CreditSpreadTweak]
+    fns = [pCheckFairSpead,IRTweak,RTweak,AltHistDataTweak,AllFac10CreditAndHist,CreditSpreadTweak,CorTweaksAll,TweakPairwiseCors]
+    #fns = [CreditSpreadTweak]
     for fn in fns:
         working_q.put(fn.__name__)
         fn_dict[fn.__name__] = fn
 
-    processes = [mp.Process(target=worker,args=(working_q, output_q, fn_dict,Plotter(),M,HistCreditSpreads,SemiParamTransformedCDFHistDataDic, vE,
+    processes = [mp.Process(target=worker,args=(working_q, output_q, fn_dict,plotter,M,HistCreditSpreads,SemiParamTransformedCDFHistDataDic, vE,
                         TenorCreditSpreads,InvPWCDF,DiscountFactorCurve,ImpHazdRts,DataTenorDic,
                         CDSPaymentTenors,CDSBasketMaturity, 
                         GaussFairSpread,TFairSpread,RankCorP,LogRtnCorP,ReferenceNameList,

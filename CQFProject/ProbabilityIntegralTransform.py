@@ -1,15 +1,16 @@
-from scipy import stats
 import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
-from scipy.stats.distributions import norm
 from statsmodels.nonparametric.kde import KDEUnivariate
 from statsmodels.nonparametric.kernel_density import KDEMultivariate
+from scipy import stats
+from scipy.stats.distributions import norm
 from scipy.stats import genpareto
-from Returns import mean, sd
-from bisect import bisect_left
-import warnings
 from EmpiricalFunctions import *
+from Returns import mean, sd
+import warnings
+from bisect import bisect_left
+from plotting import DualSortByL1
 
 #def measure(n):
 #    "Measurement model, return two coupled measurements."
@@ -234,57 +235,60 @@ def kde_statsmodels_m_cdf_output(x, x_grid, bandwidth=0.2, **kwargs):
 #    plt.show()
 
 
-def GenerateEVTKernelSmoothing():
-    nobs = 3000
-    c1 = np.random.standard_t(3,size=(nobs))
+#def GenerateEVTKernelSmoothing():
+#    nobs = 3000
+#    c1 = np.random.standard_t(3,size=(nobs))
     
-    x = np.linspace(min(c1), max(c1),1000)
+#    x = np.linspace(min(c1), max(c1),1000)
 
     
-    us = [norm.ppf(0.975)]
-    fig, ax = plt.subplots(2, len(us), sharey=True,
-                           figsize=(7, 7*len(us)))
-    fig.subplots_adjust(wspace=0)
-    i = 1
-    for u in us:
-        exceedances = list()
-        internals = list()
-        for rvs in c1:
-            if abs(rvs) > u:
-                exceedances.append(abs(rvs) - u)
-            else:
-                internals.append(rvs)
+#    us = [norm.ppf(0.975)]
+#    fig, ax = plt.subplots(2, len(us), sharey=True,
+#                           figsize=(7, 7*len(us)))
+#    fig.subplots_adjust(wspace=0)
+#    i = 1
+#    for u in us:
+#        exceedances = list()
+#        internals = list()
+#        for rvs in c1:
+#            if abs(rvs) > u:
+#                exceedances.append(abs(rvs) - u)
+#            else:
+#                internals.append(rvs)
     
-        fits = genpareto.fit(exceedances)
-        internals = np.array(internals).reshape((len(internals),1))
-        #c1s = np.array(c1).reshape((len(c1),1))
-        #cdf_smoother = kde_statsmodels_m_cdf(internals,x,bandwidth=0.2)
-        #pdf_smoother = kde_statsmodels_m_pdf(internals,x,bandwidth=0.2)
-        plt.subplot(2,len(us),i)
-        plt.plot(x, HybridNormalGPDCDF(x,u,mean(c1),sd(c1),fits[0],loc=fits[1],scale=fits[2]), linewidth=2)
-        plt.plot(x, norm.cdf(x,mean(c1),sd(c1)), linewidth=2)
-        plt.plot(x, HybridNormalGPDPDF(x,u,mean(c1),sd(c1),fits[0],loc=fits[1],scale=fits[2]), linewidth=2)
-        plt.plot(x, norm.pdf(x,mean(c1),sd(c1)), linewidth=2)
-        plt.hist(np.array(c1), bins=15, normed=True)
-        plt.title("Generalised Pareto on Normal Exceedances")
-        plt.legend(["Fitted_HybridCDF", "Fitted_NormalCDF", "Fitted_HybridPDF", "Fitted_Normal_CDF", "Student_T Hist"],loc='best')
+#        fits = genpareto.fit(exceedances)
+#        internals = np.array(internals).reshape((len(internals),1))
+#        #c1s = np.array(c1).reshape((len(c1),1))
+#        #cdf_smoother = kde_statsmodels_m_cdf(internals,x,bandwidth=0.2)
+#        #pdf_smoother = kde_statsmodels_m_pdf(internals,x,bandwidth=0.2)
+#        plt.subplot(2,len(us),i)
+#        plt.plot(x, HybridNormalGPDCDF(x,u,mean(c1),sd(c1),fits[0],loc=fits[1],scale=fits[2]), linewidth=2)
+#        plt.plot(x, norm.cdf(x,mean(c1),sd(c1)), linewidth=2)
+#        plt.plot(x, HybridNormalGPDPDF(x,u,mean(c1),sd(c1),fits[0],loc=fits[1],scale=fits[2]), linewidth=2)
+#        plt.plot(x, norm.pdf(x,mean(c1),sd(c1)), linewidth=2)
+#        plt.hist(np.array(c1), bins=15, normed=True)
+#        plt.title("Generalised Pareto on Normal Exceedances")
+#        plt.legend(["Fitted_HybridCDF", "Fitted_NormalCDF", "Fitted_HybridPDF", "Fitted_Normal_CDF", "Student_T Hist"],loc='best')
 
-        plt.subplot(2,len(us),i+1)
-        r1,r2,r3,r4 = HybridSemiParametricGPDCDF(x,u,c1,fits[0],loc=fits[1],scale=fits[2])
-        plt.plot(r1, r2, linewidth=2)
-        plt.plot(r3, r4, linewidth=2)
-        plt.plot(r1, norm.cdf(r1,mean(c1),sd(c1)), linewidth=2)
-        r1,r2,r3,r4 = HybridSemiParametricGPDPDF(x,u,c1,fits[0],loc=fits[1],scale=fits[2])
-        plt.plot(r1, r2, linewidth=2)
-        plt.plot(r3, r4, linewidth=2)
-        plt.plot(r1, norm.pdf(r1,mean(c1),sd(c1)), linewidth=2)
-        plt.hist(np.array(c1), bins=15, normed=True)
-        plt.title("Generalised Pareto on Normal Exceedances")
-        plt.legend(["Fitted_HybridCDF", "CDF_Smoother", "Fitted_NormalCDF", "Fitted_HybridPDF", "PDF_Smoother", "Fitted_Normal_CDF", "Student_T Hist"],loc='best')
-        i += 2
+#        plt.subplot(2,len(us),i+1)
+#        r1,r2,r3,r4 = HybridSemiParametricGPDCDF(x,u,c1,fits[0],loc=fits[1],scale=fits[2])
+#        plt.plot(r1, r2, linewidth=2)
+#        plt.plot(r3, r4, linewidth=2)
+#        plt.plot(r1, norm.cdf(r1,mean(c1),sd(c1)), linewidth=2)
+#        r1,r2,r3,r4 = HybridSemiParametricGPDPDF(x,u,c1,fits[0],loc=fits[1],scale=fits[2])
+#        plt.plot(r1, r2, linewidth=2)
+#        plt.plot(r3, r4, linewidth=2)
+#        plt.plot(r1, norm.pdf(r1,mean(c1),sd(c1)), linewidth=2)
+#        plt.hist(np.array(c1), bins=15, normed=True)
+#        plt.title("Generalised Pareto on Normal Exceedances")
+#        plt.legend(["Fitted_HybridCDF", "CDF_Smoother", "Fitted_NormalCDF", "Fitted_HybridPDF", "PDF_Smoother", "Fitted_Normal_CDF", "Student_T Hist"],loc='best')
+#        i += 2
 
-    plt.show()
-    return 0
+#    #plt.show()
+#    return 0
+
+
+
 
 def SemiParametricCDFFit(c1,u,plotvsc1=False,name="Semi-Parametric Fit",xlabel="",ylabel=""):
     '''
@@ -371,8 +375,134 @@ def SemiParametricCDFFit(c1,u,plotvsc1=False,name="Semi-Parametric Fit",xlabel="
         plt.subplots_adjust(hspace=0.48)
     return result
 
-def DualSortByL1(L1,L2):
-    return (list(t) for t in zip(*sorted(zip(L1,L2))))
+def ReturnSemiParametricFitAndAFnToQueuePlot(plotter,c1,u,plotvsc1=False,name="Semi-Parametric Fit",xlabel="",ylabel=""):
+    '''
+    Return SemiParametricFit
+    '''
+    result,*args = SetUpSemiParametricCDFPlot(c1,u,plotvsc1,name,xlabel,ylabel)
+    plotter.PlotSemiParametricFitResults(*args)
+
+    return result 
+
+def SetUpSemiParametricCDFPlot(c1,u,plotvsc1=False,name="Semi-Parametric Fit",xlabel="",ylabel=""):
+    
+    result = dict()
+    us = list([u])
+    x = np.linspace(min(c1), max(c1),1000) if plotvsc1 == False else c1
+    i = 1
+    for u in us:
+        exceedances = list()
+        internals = list()
+        for rvs in c1:
+            if abs(rvs) > u:
+                exceedances.append(abs(rvs) - u)
+            else:
+                internals.append(rvs)
+        fits = None
+        while fits == None:
+            with warnings.catch_warnings():
+                warnings.filterwarnings('ignore')
+                try:
+                    fits = genpareto.fit(exceedances)
+                except Warning as e:
+                    print('error found:', e)
+                warnings.filterwarnings('default')
+        internals = np.array(internals).reshape((len(internals),1))
+        
+        r1c,r2c,r3c,r4c, bwArr_Cdf = HybridSemiParametricGPDCDF(x,u,c1,fits[0],loc=fits[1],scale=fits[2])
+        emp = pd.Series(r1c).apply(Empirical_StepWise_CDF(sorted(c1)))
+        r1s,r2cs = DualSortByL1(r1c,r2c)
+        
+        r1p,r2p,r3p,r4p, bwArr_pdf = HybridSemiParametricGPDPDF(x,u,c1,fits[0],loc=fits[1],scale=fits[2])
+        r1s,r2ps = DualSortByL1(r1p,r2p)
+
+        result['%.10f'%(u)] = (r2c,r2p)
+        i += 3
+
+        plt.subplots_adjust(hspace=0.48)
+    return result, c1,u,r1c,r2c,r3c,r4c,bwArr_Cdf,r1p,r2p,r3p,r4p,bwArr_pdf,plotvsc1,name,xlabel,ylabel 
+
+#def PlotSemiParametricFitResults(c1,u,r1c,r2c,r3c,r4c, bwArr_Cdf,r1p,r2p,r3p,r4p, bwArr_pdf, plotvsc1=False,name="Semi-Parametric Fit",xlabel="",ylabel="",):
+#    '''
+#    Wrapper to plot the results of SemiParametricCDFFit
+#    returns void
+#    '''
+#    x = np.linspace(min(c1), max(c1),1000) if plotvsc1 == False else c1
+
+    
+#    us = list([u])
+#    fig, ax = plt.subplots(3, len(us), sharey=True,
+#                           figsize=(7, 7*len(us)))
+#    fig.subplots_adjust(wspace=0)
+#    fig.canvas.set_window_title(name)
+#    fig.canvas.figure.set_label(name)
+#    result = dict()
+#    i = 1
+#    for u in us:
+#        exceedances = list()
+#        internals = list()
+#        for rvs in c1:
+#            if abs(rvs) > u:
+#                exceedances.append(abs(rvs) - u)
+#            else:
+#                internals.append(rvs)
+#        fits = None
+#        while fits == None:
+#            with warnings.catch_warnings():
+#                warnings.filterwarnings('ignore')
+#                try:
+#                    fits = genpareto.fit(exceedances)
+#                except Warning as e:
+#                    print('error found:', e)
+#                warnings.filterwarnings('default')
+#        internals = np.array(internals).reshape((len(internals),1))
+#        #c1s = np.array(c1).reshape((len(c1),1))
+#        #cdf_smoother = kde_statsmodels_m_cdf(internals,x,bandwidth=0.2)
+#        #pdf_smoother = kde_statsmodels_m_pdf(internals,x,bandwidth=0.2)
+#        #plt.subplot(2,len(us),i)
+#        #plt.plot(x, HybridNormalGPDCDF(x,u,mean(c1),sd(c1),fits[0],loc=fits[1],scale=fits[2]), linewidth=2)
+#        #plt.plot(x, norm.cdf(x,mean(c1),sd(c1)), linewidth=2)
+#        #plt.plot(x, HybridNormalGPDPDF(x,u,mean(c1),sd(c1),fits[0],loc=fits[1],scale=fits[2]), linewidth=2)
+#        #plt.plot(x, norm.pdf(x,mean(c1),sd(c1)), linewidth=2)
+#        #plt.hist(np.array(c1), bins=15, normed=True)
+#        #plt.xlabel(xlabel)
+#        #plt.ylabel(ylabel)
+#        #plt.title("Generalised Pareto Tails on Gaussian Fitted Center")
+#        #plt.legend(["Fitted_HybridCDF", "Fitted_Normal_CDF", "Fitted_HybridPDF", "Fitted_Normal_PDF", "Data Histogram"],loc='best')
+#        plt.subplot(2,len(us),i)
+        
+#        emp = pd.Series(r1c).apply(Empirical_StepWise_CDF(sorted(c1)))
+#        r1s,r2cs = DualSortByL1(r1c,r2c)
+#        plt.plot(r3c, r4c, linewidth=2)
+#        plt.plot(r1c, emp, linewidth=2)
+#        plt.plot(r1s, r2cs, linewidth=2)
+#        #plt.plot(r1, norm.cdf(r1,mean(c1),sd(c1)), linewidth=2)
+#        plt.xlabel(xlabel)
+#        plt.ylabel(ylabel)
+#        plt.title("Semi Parametric CDF with BandWidth {0}".format(bwArr_Cdf).replace('[ ',"list_").replace(']',"_"))
+#        #plt.legend(["Fitted_HybridCDF", "ECDF Comparison", "CDF_Smoother", "Fitted_NormalCDF", "Fitted_HybridPDF", "PDF_Smoother", "Fitted_Normal_PDF", "Student_T Hist"],loc='best')
+#        plt.legend(["Fitted_HybridCDF", "ECDF Comparison", "CDF_Smoother"],loc='best')
+
+#        plt.subplot(2,len(us),i+1)
+    
+#        r1s,r2ps = DualSortByL1(r1p,r2p)
+#        plt.plot(r3p, r4p, linewidth=2)
+#        plt.plot(r1s, r2ps, linewidth=2)
+#        #plt.plot(r1, norm.pdf(r1,mean(c1),sd(c1)), linewidth=2)
+#        plt.hist(np.array(c1), bins=15, normed=True)
+#        plt.xlabel(xlabel)
+#        plt.ylabel(ylabel)
+#        plt.title("Semi Parametric PDF with BandWidth {0}".format(bwArr_pdf).replace('[ ',"list_").replace(']',"_"))
+#        plt.legend(["Fitted_HybridPDF", "PDF_Smoother", "Data Histogram"],loc='best')
+
+#        result['%.10f'%(u)] = (r2c,r2p)
+#        i += 3
+
+#        plt.subplots_adjust(hspace=0.48)
+
+
+#def DualSortByL1(L1,L2):
+#    return (list(t) for t in zip(*sorted(zip(L1,L2))))
 
 def HybridNormalGPDCDF(xs, u, mu, sigma, shape, loc, scale):
     '''

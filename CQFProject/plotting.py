@@ -7,12 +7,14 @@ import pandas as pd
 from CumulativeAverager import CumAverage
 from scipy.interpolate import interp1d
 from scipy import interpolate
-from scipy.stats import norm
+from scipy.stats import norm, genpareto
 from Returns import AIC, mean, sd
 import os
 import time
 import multiprocessing as mp
 import threading
+from EmpiricalFunctions import *
+import warnings
 
 if __name__ == '__main__':
     mplock = mp.Lock()  
@@ -35,6 +37,7 @@ class Plotter(object):
         #s = mp.sharedctypes.Array('c',b"{0}".format(ThreadSafe_SubmissionFilePath),True)
         self.SubmissionFilePath = ThreadSafe_SubmissionFilePath
         self.queue = mp.Queue()
+        self.processingPlots = False
         self.mplock.acquire()
         try:
             if not os.path.exists(ThreadSafe_SubmissionFilePath):
@@ -44,9 +47,9 @@ class Plotter(object):
         finally:
             self.mplock.release()
 
-    def pyplot_memcheck(self):
+    def pyplot_memcheck(self,noToAllow=1):
         fignums = plt.get_fignums()
-        if len(fignums) > 0:
+        if len(fignums) > noToAllow:
             self.save_all_figs()
 
     def save_all_figs(self):
@@ -56,6 +59,7 @@ class Plotter(object):
                 name = self.SubmissionFilePath + fig.canvas.get_window_title().replace(" ","_").replace(".",",")
                 if not os.path.exists(name+".png"):
                     plt.savefig(name)
+                    print("saved file with name: {0}".format(name))
                 else:
                     j = 1
                     tname = name
@@ -63,15 +67,30 @@ class Plotter(object):
                         tname = name + "_%d"%(j)
                         j +=1
                     plt.savefig(tname)
+                    print("saved file with name: {0}".format(tname))
                 plt.close(i)
 
-    def QueuePlots(self, lambdaArray):
-        self.queue.put(lambdaArray)
+    def QueuePlots(self, fnNameArgsList):
+        [self.queue.put(fnNameArgs) for fnNameArgs in fnNameArgsList]
+        if not self.processingPlots:
+            self.DestinationThread()
 
-    def DestinationThread() :
+    def DestinationThread(self) :
         while True :
-            f = q.get()
-            f()
+            self.processingPlots = True
+            try:
+                fnArgs = self.queue.get(False)
+            except:
+                # Handle empty queue here
+                self.processingPlots = False
+                #print("Plotting Queue is empty")
+                break
+            else:
+                # Handle task here and call q.task_done()
+                fnName = fnArgs[0]
+                args = fnArgs[1:]
+                #print("Plotting function: {0} to location {1}".format(fnName,self.SubmissionFilePath))
+                getattr(Plotter, fnName)(self,*args)
 
     def showAllPlots(self):
         plt.show()
@@ -83,32 +102,32 @@ class Plotter(object):
         self.mplock.release()
 
     def plot_DefaultProbs(self,x,y,name,legendArray):
-        self.queue.put(lambda: self._plot_DefaultProbs(x,y,name,legendArray))
+        self.QueuePlots([["_plot_DefaultProbs",x,y,name,legendArray]])
 
 
     def plot_codependence_scatters(self,dataDic,xlabel,ylabel="",name=""):
-        self.queue.put(lambda: self._plot_codependence_scatters(dataDic,xlabel,ylabel,name))
+        self.QueuePlots([["_plot_codependence_scatters",dataDic,xlabel,ylabel,name]])
 
     def return_scatter(self,xdata,ydata,name,numberPlot=1,noOfPlotsW=1, noOfPlotsH=1,xlabel = "", ylabel="frequency/probability",legend=[], xticks=[], yticks=[]):
         ''' Plots a scatter plot showing any co-dependency between 2 variables. '''
-        self.queue.put(lambda: self._return_scatter(xdata,ydata,name,numberPlot,noOfPlotsW, noOfPlotsH,xlabel, ylabel,legend, xticks, yticks))
+        self.QueuePlots([["_return_scatter",xdata,ydata,name,numberPlot,noOfPlotsW, noOfPlotsH,xlabel, ylabel,legend, xticks, yticks]])
 
     def return_scatter_multdependencies(self,xdata,arrydata,name,numberPlot=1,noOfPlotsW=1, noOfPlotsH=1,xlabel = "", ylabel="frequency/probability",legend=[], xticks=[], yticks=[]):
         ''' Plots a scatter plot showing any co-dependency between 2 variables. '''
-        self.queue.put(lambda: self._return_scatter_multdependencies(xdata,arrydata,name,numberPlot,noOfPlotsW, noOfPlotsH,xlabel, ylabel,legend, xticks, yticks))
+        self.QueuePlots([["_return_scatter_multdependencies",xdata,arrydata,name,numberPlot,noOfPlotsW, noOfPlotsH,xlabel, ylabel,legend, xticks, yticks]])
 
     def Plot_Converging_Averages(self,ArrOfArrays,baseName):
-        self.queue.put(lambda: self._Plot_Converging_Averages(ArrOfArrays,baseName))
+        self.QueuePlots([["_Plot_Converging_Averages",ArrOfArrays,baseName]])
         
 
     def Plot_Converging_Average(self,data,name,numberPlot=1,noOfPlotsW=1, noOfPlotsH=1):
         ''' Plots a line plot showing the convergence against iterations of the average. '''
-        self.queue.put(lambda: self._Plot_Converging_Average(data,name,numberPlot,noOfPlotsW, noOfPlotsH))
+        self.QueuePlots([["_Plot_Converging_Average",data,name,numberPlot,noOfPlotsW, noOfPlotsH]])
 
 
     def return_Densitys(self,datatable,name,legendArray,noOfLines):
         ''' Plots Normal PDFs on an array of returns. '''
-        self.queue.put(lambda: self._return_Densitys(data,datatable,name,legendArray,noOfLines))
+        self.QueuePlots([["_return_Densitys",data,datatable,name,legendArray,noOfLines]])
 
     def dN(self,x, mu, sigma):
         ''' Probability density function of a normal random variable x.
@@ -147,7 +166,7 @@ class Plotter(object):
         rvs : float[]
             rvs to be tested for normality
         '''
-        self.queue.put(lambda: self._QQPlot(rv,name))
+        self.QueuePlots([["_QQPlot",rv,name]])
 
     #def dGeneralisedPareto(x, k=0, sigma=1, theta=0):
     #    ''' Probability density function of an Generalised Pareto random variable x.
@@ -205,12 +224,12 @@ class Plotter(object):
         pdf : float
             value of probability density function
         '''
-        self.queue.put(lambda: self._dExpForPiecewiselambda(rates, tenors))
+        self.QueuePlots([["_dExpForPiecewiselambda",rates, tenors]])
 
     # histogram of annualized daily log returns
     def return_histogram(self,data,name,numberPlot=1,noOfPlotsW=1, noOfPlotsH=1,xlabel = "", length = 1, f = None, displayMiddlePercentile=100, figSize = (10,6)):
         ''' Plots a histogram of the returns. '''
-        self.queue.put(lambda: self._return_histogram(data,name,numberPlot,noOfPlotsW, noOfPlotsH,xlabel, length, f, displayMiddlePercentile, figSize))
+        self.QueuePlots([["_return_histogram",data,name,numberPlot,noOfPlotsW, noOfPlotsH,xlabel, length, f, displayMiddlePercentile, figSize]])
 
     def plot_histogram_array(self,dataDic,xlabel, displayMiddlePercentile=100, outPercentiles=[1, 5, 10, 25, 75, 90, 95, 99],name=""):
         '''
@@ -219,18 +238,18 @@ class Plotter(object):
         outPercentiles define the sample percentile values to return for each dataset in the dataDic.
         Returns a dict of {[key]: (mean, sd, dict(percentile, value))}
         '''
-        self.queue.put(lambda: self._plot_histogram_array(dataDic,xlabel, displayMiddlePercentile, outPercentiles,name))
+        self.QueuePlots([["_plot_histogram_array",dataDic,xlabel, displayMiddlePercentile, outPercentiles,name]])
 
 
     def SuitableRegressionFit(self,x,y,name="",numberOfAdditionalPointsToReturn=100,startingPower=0):
         #Use AIC to estimate best power to use as this is a PREDICTIVE MODEL for volaty functions that will be used to simulate future volatilites.
         first_Power = startingPower
         k = 1
-        f_test, xL = self.FittedValuesLinear(x,y,"Regression",first_Power,name,numberOfAdditionalPointsToReturn)
+        f_test, xL = self._FittedValuesLinear(x,y,"Regression",first_Power,name,numberOfAdditionalPointsToReturn)
         min_AIC = AIC(y, f_test(x),k)
         j = first_Power
         for i in range(first_Power+1,11):
-            try_f_test, xLin = self.FittedValuesLinear(x,y,"Regression",i,name,numberOfAdditionalPointsToReturn)
+            try_f_test, xLin = self._FittedValuesLinear(x,y,"Regression",i,name,numberOfAdditionalPointsToReturn)
             try_AIC = AIC(y, try_f_test(x),k)
             if(try_AIC < min_AIC):
                 f_test = try_f_test
@@ -240,16 +259,16 @@ class Plotter(object):
         return f_test, j, xL
 
     def FittedValuesLinear(self,x,y,IsInterpolationOrRegression="Interpolation",PowerOfRegression=3,name="",numberOfAdditionalPointsToReturn=100):
-        self.queue.put(lambda: self._FittedValuesLinear(x,y,IsInterpolationOrRegression,PowerOfRegression,name,numberOfAdditionalPointsToReturn))
+        self.QueuePlots([["_FittedValuesLinear",x,y,IsInterpolationOrRegression,PowerOfRegression,name,numberOfAdditionalPointsToReturn]])
 
     def return_lineChart(self,x,arrLines,name,numberPlot=1,noOfPlotsW=1, noOfPlotsH=1,xlabel = "",ylabel="",legend=[], xticks=[], yticks=[], trimTrailingZeros=False):
         ''' Plots all lines on the same chart against x.'''
-        self.queue.put(lambda: self._return_lineChart(x,arrLines,name,numberPlot,noOfPlotsW, noOfPlotsH,xlabel,ylabel,legend, xticks, yticks, trimTrailingZeros))
+        self.QueuePlots([["_return_lineChart",x,arrLines,name,numberPlot,noOfPlotsW, noOfPlotsH,xlabel,ylabel,legend, xticks, yticks, trimTrailingZeros]])
 
 
     def return_lineChart_dates(self,x,arrLines,name,numberPlot=1,noOfPlotsW=1, noOfPlotsH=1,xlabel = "",ylabel="",legend=[], yticks=[]):
         ''' Plots all lines on the same chart against x.'''
-        self.queue.put(lambda: self._return_lineChart_dates(x,arrLines,name,numberPlot,noOfPlotsW, noOfPlotsH,xlabel,ylabel,legend, yticks))
+        self.QueuePlots([["_return_lineChart_dates",x,arrLines,name,numberPlot,noOfPlotsW, noOfPlotsH,xlabel,ylabel,legend, yticks]])
 
 
     def colorPicker(self,i): #https://matplotlib.org/users/colors.html
@@ -257,12 +276,17 @@ class Plotter(object):
         return colors[(i % len(colors))]
 
     def return_barchart_old(self,categories,dataDic,name="",xlabel="",ylabel=""):
-        self.queue.put(lambda: self._return_barchart_old(categories,dataDic,name,xlabel,ylabel))
+        self.QueuePlots([["_return_barchart_old",categories,dataDic,name,xlabel,ylabel]])
 
     def return_barchart(self,categories,dataDic,name="",xlabel="",ylabel="", ScalingAmount=1.0):
-        self.queue.put(lambda: self._return_barchart(categories,dataDic,name,xlabel,ylabel, ScalingAmount))
+        self.QueuePlots([["_return_barchart",categories,dataDic,name,xlabel,ylabel, ScalingAmount]])
         
-
+    def PlotSemiParametricFitResults(self,c1,u,r1c,r2c,r3c,r4c, bwArr_Cdf,r1p,r2p,r3p,r4p, bwArr_pdf, plotvsc1=False,name="Semi-Parametric Fit",xlabel="",ylabel=""):
+        '''
+        Wrapper to plot the results of SemiParametricCDFFit
+        returns void
+        '''
+        self.QueuePlots([["_PlotSemiParametricFitResults",c1,u,r1c,r2c,r3c,r4c, bwArr_Cdf,r1p,r2p,r3p,r4p, bwArr_pdf,plotvsc1,name,xlabel,ylabel]])
 
     def _plot_DefaultProbs(self,x,y,name,legendArray):
         self.pyplot_memcheck()
@@ -313,10 +337,11 @@ class Plotter(object):
                 key2 = keys[j2]
                 self._return_scatter(dataDic[key1],dataDic[key2],name+" "+"%s vs %s" % (key1,key2),j+1,numCols,numRows,xlabel.replace("%","%s"%(key1)) if "%" in xlabel else xlabel,ylabel.replace("%","%s"%(key2)) if "%" in ylabel else ylabel) if ylabel != "" else return_scatter(dataDic[key1],dataDic[key2],"%s vs %s" % (key1,key2),j+1,numCols,numRows,xlabel.replace("%","%s"%(key1)) if "%" in xlabel else xlabel)
                 j += 1
+        self.save_all_figs()
 
     def _return_scatter(self,xdata,ydata,name,numberPlot=1,noOfPlotsW=1, noOfPlotsH=1,xlabel = "", ylabel="frequency/probability",legend=[], xticks=[], yticks=[]):
         ''' Plots a scatter plot showing any co-dependency between 2 variables. '''
-        self.pyplot_memcheck()
+        self.pyplot_memcheck(max([numberPlot,noOfPlotsW*noOfPlotsH]))
         if numberPlot==1:
             fig = plt.figure(figsize=(10, 6))
             fig.canvas.set_window_title(name)
@@ -330,14 +355,15 @@ class Plotter(object):
             plt.xticks(xticks)
         if(len(yticks)>0):
             plt.yticks(yticks)
-        plt.title(name[:70] + '\n' + name[70:])
+        char_width = int(60/noOfPlotsW)-5
+        plt.title('\n'.join([name[i:i+char_width] for i in range(0, len(name), char_width)]))
         if len(legend) > 0:
             plt.legend(legend,loc='best')
         plt.grid(True)
 
     def _return_scatter_multdependencies(self,xdata,arrydata,name,numberPlot=1,noOfPlotsW=1, noOfPlotsH=1,xlabel = "", ylabel="frequency/probability",legend=[], xticks=[], yticks=[]):
         ''' Plots a scatter plot showing any co-dependency between 2 variables. '''
-        self.pyplot_memcheck()
+        self.pyplot_memcheck(max([numberPlot,noOfPlotsW*noOfPlotsH]))
         if numberPlot==1:
             fig = plt.figure(figsize=(10, 6))
             fig.canvas.set_window_title(name)
@@ -352,13 +378,15 @@ class Plotter(object):
             plt.xticks(xticks)
         if(len(yticks)>0):
             plt.yticks(yticks)
-        plt.title(name[:70] + '\n' + name[70:])
+        char_width = int(60/noOfPlotsW)-5
+        plt.title('\n'.join([name[i:i+char_width] for i in range(0, len(name), char_width)]))
         if len(legend) > 0:
             plt.legend(legend,loc='best')
         plt.grid(True)
+        if(numberPlot == noOfPlotsH * noOfPlotsW):
+            self.save_all_figs()
 
     def _Plot_Converging_Averages(self,ArrOfArrays,baseName):
-        self.pyplot_memcheck()
         ln = len(ArrOfArrays[0])
         #keep on dividing by 2 with no remainder until it is not possible:
         i = 0
@@ -372,12 +400,14 @@ class Plotter(object):
         if ln % i > 0:
             numCols += 1
         numRows = i
+        self.pyplot_memcheck(ln)
         for j in range(0,ln):
             self._Plot_Converging_Average(CumAverage(np.asarray([item[j] for item in ArrOfArrays],dtype=np.float)),"%s %dth to default" % (baseName,j+1),j+1,numCols,numRows)
+        self.save_all_figs()
 
     def _Plot_Converging_Average(self,data,name,numberPlot=1,noOfPlotsW=1, noOfPlotsH=1):
         ''' Plots a line plot showing the convergence against iterations of the average. '''
-        self.pyplot_memcheck()
+        self.pyplot_memcheck(max([numberPlot,noOfPlotsW*noOfPlotsH]))
         if numberPlot==1:
             fig = plt.figure(figsize=(10, 6))
             fig.canvas.set_window_title(name)
@@ -386,7 +416,8 @@ class Plotter(object):
         x = np.linspace(0, len(data), 100)
         plt.xlabel("Number of iterations")
         plt.ylabel('Average')
-        plt.title(name[:70] + '\n' + name[70:])
+        char_width = int(60/noOfPlotsW)-5
+        plt.title('\n'.join([name[i:i+char_width] for i in range(0, len(name), char_width)]))
         plt.grid(True)
         y = self.dN(x, np.mean(data), np.std(data))
         plt.plot(x, y, linewidth=2)
@@ -510,7 +541,7 @@ class Plotter(object):
     # histogram of annualized daily log returns
     def _return_histogram(self,data,name,numberPlot=1,noOfPlotsW=1, noOfPlotsH=1,xlabel = "", length = 1, f = None, displayMiddlePercentile=100, figSize = (10,6)):
         ''' Plots a histogram of the returns. '''
-        self.pyplot_memcheck()
+        self.pyplot_memcheck(max([numberPlot,noOfPlotsW*noOfPlotsH,length]))
 
         c = int((100 - min(max(0,displayMiddlePercentile),100))/2)
         xMin = np.percentile(data,c)
@@ -538,7 +569,8 @@ class Plotter(object):
     
         plt.xlabel(xlabel)
         plt.ylabel('Frequency')
-        plt.title(name[:70] + '\n' + name[70:])
+        char_width = min([int(60/noOfPlotsW)-5,30])
+        plt.title('\n'.join([name[i:i+char_width] for i in range(0, len(name), char_width)]))
         plt.grid(True)
         #if numberPlot==length:
         #    #fig.tight_layout()
@@ -573,12 +605,14 @@ class Plotter(object):
         f = None
         figSize=(8 if numCols <= 3 else 16,14 if numRows > 3 else 6)
         result = dict()
+        self.pyplot_memcheck(nPlt)
         for j in range(0,nPlt):
             key = keys[j]
-            f = self._return_histogram(dataDic[key],name+" "+key,j+1,numCols,numRows,xlabel, nPlt, f, displayMiddlePercentile, figSize)
+            f = self._return_histogram(dataDic[key],name+" "+key,j+1,numRows,numCols,xlabel, nPlt, f, displayMiddlePercentile, figSize)
             result[key] = (mean(dataDic[key]), sd(dataDic[key]), np.fromiter(map(lambda p: np.percentile(dataDic[key],p),outPercentiles),dtype=np.float))
         ##plt.tight_layout()
-        plt.subplots_adjust(hspace=1.0,wspace=0.2)
+        plt.subplots_adjust(hspace=1.0,wspace=0.4)
+        self.save_all_figs()
         return result
 
 
@@ -618,11 +652,13 @@ class Plotter(object):
 
     def _return_lineChart(self,x,arrLines,name,numberPlot=1,noOfPlotsW=1, noOfPlotsH=1,xlabel = "",ylabel="",legend=[], xticks=[], yticks=[], trimTrailingZeros=False):
         ''' Plots all lines on the same chart against x.'''
-        self.pyplot_memcheck()
+        self.pyplot_memcheck(max([numberPlot,noOfPlotsW*noOfPlotsH]))
         if numberPlot==1:
             fig = plt.figure(figsize=(10, 6))
             fig.canvas.set_window_title(name)
             fig.canvas.figure.set_label(name)
+            if noOfPlotsW*noOfPlotsH>1:
+                plt.subplots_adjust(hspace=1.0,wspace=0.4)
         plt.subplot(noOfPlotsW,noOfPlotsH,numberPlot)
         xLin = np.linspace(min(x), max(x), 100)
         #y = dN(x, np.mean(x), np.std(x))
@@ -639,20 +675,25 @@ class Plotter(object):
             plt.xticks(xticks)
         if(len(yticks)>0):
             plt.yticks(yticks)
-        plt.title(name[:70] + '\n' + name[70:])
+        char_width = int(60/noOfPlotsW)-5
+        plt.title('\n'.join([name[i:i+char_width] for i in range(0, len(name), char_width)]))
         if len(legend) > 0:
-            plt.legend(legend,loc='best')
+            plt.legend(legend,loc='upper right',fontsize="xx-small")
         ##plt.tight_layout()
         plt.grid(True)
+        if(numberPlot == noOfPlotsH * noOfPlotsW):
+            self.save_all_figs()
 
 
     def _return_lineChart_dates(self,x,arrLines,name,numberPlot=1,noOfPlotsW=1, noOfPlotsH=1,xlabel = "",ylabel="",legend=[], yticks=[]):
         ''' Plots all lines on the same chart against x.'''
-        self.pyplot_memcheck()
+        self.pyplot_memcheck(max([numberPlot,noOfPlotsW*noOfPlotsH]))
         if numberPlot==1:
             fig = plt.figure(figsize=(10, 6))
             fig.canvas.set_window_title(name)
             fig.canvas.figure.set_label(name)
+            if noOfPlotsW*noOfPlotsH>1:
+                plt.subplots_adjust(hspace=1.0,wspace=0.4)
         plt.subplot(noOfPlotsW,noOfPlotsH,numberPlot)
         xLin = np.linspace(pd.Timestamp(x[0]).value, pd.Timestamp(x[-1]).value, 100)
         #y = dN(x, np.mean(x), np.std(x))
@@ -662,11 +703,13 @@ class Plotter(object):
         plt.ylabel(ylabel)
         if(len(yticks)>0):
             plt.yticks(yticks)
-        plt.title(name[:70] + '\n' + name[70:])
+        char_width = int(60/noOfPlotsW)-5
+        plt.title('\n'.join([name[i:i+char_width] for i in range(0, len(name), char_width)]))
         if len(legend) > 0:
-            plt.legend(legend,loc='best')
+            plt.legend(legend, loc='upper right',fontsize="xx-small")
         plt.grid(True)
-
+        if(numberPlot == noOfPlotsH * noOfPlotsW):
+            self.save_all_figs()
 
     
 
@@ -798,3 +841,85 @@ class Plotter(object):
         plt.title(name[:70] + '\n' + name[70:])
 
         #https://matplotlib.org/gallery/misc/table_demo.html#sphx-glr-gallery-misc-table-demo-py
+
+    def _PlotSemiParametricFitResults(self,c1,u,r1c,r2c,r3c,r4c, bwArr_Cdf,r1p,r2p,r3p,r4p, bwArr_pdf, plotvsc1=False,name="Semi-Parametric Fit",xlabel="",ylabel=""):
+        '''
+        Wrapper to plot the results of SemiParametricCDFFit
+        returns void
+        '''
+        x = np.linspace(min(c1), max(c1),1000) if plotvsc1 == False else c1
+
+    
+        us = list([u])
+        fig, ax = plt.subplots(3, len(us), sharey=True,
+                               figsize=(7, 7*len(us)))
+        fig.subplots_adjust(wspace=0)
+        fig.canvas.set_window_title(name)
+        fig.canvas.figure.set_label(name)
+        result = dict()
+        i = 1
+        for u in us:
+            exceedances = list()
+            internals = list()
+            for rvs in c1:
+                if abs(rvs) > u:
+                    exceedances.append(abs(rvs) - u)
+                else:
+                    internals.append(rvs)
+            fits = None
+            while fits == None:
+                with warnings.catch_warnings():
+                    warnings.filterwarnings('ignore')
+                    try:
+                        fits = genpareto.fit(exceedances)
+                    except Warning as e:
+                        print('error found:', e)
+                    warnings.filterwarnings('default')
+            internals = np.array(internals).reshape((len(internals),1))
+            #c1s = np.array(c1).reshape((len(c1),1))
+            #cdf_smoother = kde_statsmodels_m_cdf(internals,x,bandwidth=0.2)
+            #pdf_smoother = kde_statsmodels_m_pdf(internals,x,bandwidth=0.2)
+            #plt.subplot(2,len(us),i)
+            #plt.plot(x, HybridNormalGPDCDF(x,u,mean(c1),sd(c1),fits[0],loc=fits[1],scale=fits[2]), linewidth=2)
+            #plt.plot(x, norm.cdf(x,mean(c1),sd(c1)), linewidth=2)
+            #plt.plot(x, HybridNormalGPDPDF(x,u,mean(c1),sd(c1),fits[0],loc=fits[1],scale=fits[2]), linewidth=2)
+            #plt.plot(x, norm.pdf(x,mean(c1),sd(c1)), linewidth=2)
+            #plt.hist(np.array(c1), bins=15, normed=True)
+            #plt.xlabel(xlabel)
+            #plt.ylabel(ylabel)
+            #plt.title("Generalised Pareto Tails on Gaussian Fitted Center")
+            #plt.legend(["Fitted_HybridCDF", "Fitted_Normal_CDF", "Fitted_HybridPDF", "Fitted_Normal_PDF", "Data Histogram"],loc='best')
+            plt.subplot(2,len(us),i)
+        
+            emp = pd.Series(r1c).apply(Empirical_StepWise_CDF(sorted(c1)))
+            r1s,r2cs = DualSortByL1(r1c,r2c)
+            plt.plot(r3c, r4c, linewidth=2)
+            plt.plot(r1c, emp, linewidth=2)
+            plt.plot(r1s, r2cs, linewidth=2)
+            #plt.plot(r1, norm.cdf(r1,mean(c1),sd(c1)), linewidth=2)
+            plt.xlabel(xlabel)
+            plt.ylabel(ylabel)
+            plt.title("Semi Parametric CDF with BandWidth {0}".format(bwArr_Cdf).replace('[ ',"list_").replace(']',"_"))
+            #plt.legend(["Fitted_HybridCDF", "ECDF Comparison", "CDF_Smoother", "Fitted_NormalCDF", "Fitted_HybridPDF", "PDF_Smoother", "Fitted_Normal_PDF", "Student_T Hist"],loc='best')
+            plt.legend(["Fitted_HybridCDF", "ECDF Comparison", "CDF_Smoother"],loc='best')
+
+            plt.subplot(2,len(us),i+1)
+    
+            r1s,r2ps = DualSortByL1(r1p,r2p)
+            plt.plot(r3p, r4p, linewidth=2)
+            plt.plot(r1s, r2ps, linewidth=2)
+            #plt.plot(r1, norm.pdf(r1,mean(c1),sd(c1)), linewidth=2)
+            plt.hist(np.array(c1), bins=15, normed=True)
+            plt.xlabel(xlabel)
+            plt.ylabel(ylabel)
+            plt.title("Semi Parametric PDF with BandWidth {0}".format(bwArr_pdf).replace('[ ',"list_").replace(']',"_"))
+            plt.legend(["Fitted_HybridPDF", "PDF_Smoother", "Data Histogram"],loc='best')
+
+            result['%.10f'%(u)] = (r2c,r2p)
+            i += 3
+
+            plt.subplots_adjust(hspace=0.48)
+
+
+def DualSortByL1(L1,L2):
+    return (list(t) for t in zip(*sorted(zip(L1,L2))))
